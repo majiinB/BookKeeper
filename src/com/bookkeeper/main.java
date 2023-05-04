@@ -8,64 +8,69 @@ import java.util.Scanner;
 public class main {
 
 	public static void main(String[] args) {
-        /*Connection conn = null;
-        String url = "jdbc:mysql://localhost/library_management";
-        String user = "root";
-        String password = "";
-        try {
-        	Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(url, user, password);
-            System.out.println("Connected to the database");
-        } catch (SQLException e) {
-            System.out.println("Error connecting to the database: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.out.println("JDBC driver not found");
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                    System.out.println("Disconnected from database");
-                }
-            } catch (SQLException ex) {
-                System.out.println("Error closing connection: " + ex.getMessage());
-            }
-        }*/
-		loginMethod();
+		boolean loginCondition = false;
+		loginCondition = loginMethod();
+		
+		if(loginCondition) {
+			System.out.println("true");
+		}
+		else {
+			System.out.println("false");
+		}
     }
-	
-	public static void loginMethod() {
-		 	String url = "jdbc:mysql://localhost:3306/library_management";
-	        String user = "root";
-	        String password = "";
-	        
-	        try {
-	            Connection con = DriverManager.getConnection(url, user, password);
-	            
-	            Scanner sc = new Scanner(System.in);
-	            System.out.print("Enter username: ");
-	            String username = sc.nextLine();
-	            System.out.print("Enter password: ");
-	            int pwd = sc.nextInt();
-	            
-	            String query = "SELECT * FROM user WHERE User_name=? AND User_pass=?";
-	            PreparedStatement stmt = con.prepareStatement(query);
-	            stmt.setString(1, username);
-	            stmt.setLong(2, pwd);
-	            
-	            ResultSet rs = stmt.executeQuery();
-	            
-	            if (rs.next()) {
-	                System.out.println("Login successful!");
-	            } else {
-	                System.out.println("Invalid username or password.");
-	            }
-	            
-	            con.close();
-	            
-	        } catch (SQLException e) {
-	            System.out.println("An error occurred: " + e.getMessage());
-	            e.printStackTrace();
-	        }
+	//LoginMethod
+	public static boolean loginMethod(){
+		 //Declare variables
+		 boolean loginCondition = true;
+		 boolean forReturn = false;
+		 Connection conn = null;
+	     String url = "jdbc:mysql://localhost/library_management";
+	     String user = "root";
+	     String password = "";
+	     String username ="", pwd ="";
+	     Scanner sc = new Scanner(System.in);
+	     
+	     //Loop for input verification with database connection exception handling
+	     while(loginCondition){
+	    	 try {
+	    		 //Connect to Library management Database
+	   	      	 Class.forName("com.mysql.cj.jdbc.Driver");
+	   	         conn = DriverManager.getConnection(url, user, password);
+	   	         //System.out.println("Connected to the database");
+	   	         
+	   	         //User input
+	   	         System.out.print("Enter username: ");
+	   	         username = sc.nextLine();
+	   	         System.out.print("Enter password: ");
+	   	         pwd = sc.nextLine();
+	   	         
+	   	         //prepare query
+	   	         String query = "SELECT * FROM user WHERE BINARY User_name=? AND User_pass=?";
+	   	         PreparedStatement stmt = conn.prepareStatement(query);
+	   	         stmt.setString(1, username);
+	   	         stmt.setString(2, pwd);
+	   	         ResultSet rs = stmt.executeQuery();
+	   	         
+	   	         //Condition for return and loop continuation
+	   	         if (rs.next()) {
+	   	             System.out.println("Login successful!");
+	   	         	 sc.close();
+	   	             conn.close();
+	   	             forReturn = true;
+	   	             loginCondition = false;
+	   	         } else {
+	   	             System.out.println("Invalid username or password.");
+	   	             
+	   	             loginCondition = true;
+	   	         }
+	   	     //Exception Handling
+	   	     } catch (SQLException e) {
+	   	         System.out.println("Error connecting to the database: " + e.getMessage());
+	   	     } catch (ClassNotFoundException e) {
+	   	         System.out.println("JDBC driver not found");
+	   	     } 
+	     }
+		return forReturn;
 		
 	}
 	
