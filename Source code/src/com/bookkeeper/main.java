@@ -28,7 +28,7 @@ public class main {
 	     String user = "root";
 	     String password = "";
 	     String username ="", pwd ="";
-	     Scanner sc = new Scanner(System.in);
+	     Scanner scan = new Scanner(System.in);
 	     
 	     //Loop for input verification with database connection exception handling
 	     while(loginCondition){
@@ -40,9 +40,9 @@ public class main {
 	   	         
 	   	         //User input
 	   	         System.out.print("Enter username: ");
-	   	         username = sc.nextLine();
+	   	         username = scan.nextLine();
 	   	         System.out.print("Enter password: ");
-	   	         pwd = sc.nextLine();
+	   	         pwd = scan.nextLine();
 	   	         
 	   	         //prepare query
 	   	         String query = "SELECT * FROM user WHERE BINARY User_name=? AND User_pass=?";
@@ -54,7 +54,7 @@ public class main {
 	   	         //Condition for return and loop continuation
 	   	         if (rs.next()) {
 	   	             System.out.println("Login successful!");
-	   	         	 sc.close();
+	   	         	 scan.close();
 	   	             conn.close();
 	   	             forReturn = true;
 	   	             loginCondition = false;
