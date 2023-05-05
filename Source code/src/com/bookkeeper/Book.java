@@ -3,10 +3,10 @@ package com.bookkeeper;
 public class Book {
 	private int Book_id;
 	private String Book_title;
-	private int Genre_id;
-	private int Author_id;
+	private int Book_genre_id;
+	private int Book_author_id;
 	private String Book_publication_date;
-	private int publisher_id;
+	private int Book_publisher_id;
 	private String Book_ISBN;
 	
 	//Constructor
@@ -26,17 +26,17 @@ public class Book {
 	public void setBook_title(String book_title) {
 		Book_title = book_title;
 	}
-	public int getGenre_id() {
-		return Genre_id;
+	public int getBookGenre_id() {
+		return Book_genre_id;
 	}
-	public void setGenre_id(int genre_id) {
-		Genre_id = genre_id;
+	public void setBookGenre_id(int genre_id) {
+		Book_genre_id = genre_id;
 	}
-	public int getAuthor_id() {
-		return Author_id;
+	public int getBookAuthor_id() {
+		return Book_author_id;
 	}
-	public void setAuthor_id(int author_id) {
-		Author_id = author_id;
+	public void setBookAuthor_id(int author_id) {
+		Book_author_id = author_id;
 	}
 	public String getBook_publication_date() {
 		return Book_publication_date;
@@ -44,11 +44,11 @@ public class Book {
 	public void setBook_publication_date(String book_publication_date) {
 		Book_publication_date = book_publication_date;
 	}
-	public int getPublisher_id() {
-		return publisher_id;
+	public int getBookPublisher_id() {
+		return Book_publisher_id;
 	}
-	public void setPublisher_id(int publisher_id) {
-		this.publisher_id = publisher_id;
+	public void setBookPublisher_id(int publisher_id) {
+		this.Book_publisher_id = publisher_id;
 	}
 	public String getBook_ISBN() {
 		return Book_ISBN;

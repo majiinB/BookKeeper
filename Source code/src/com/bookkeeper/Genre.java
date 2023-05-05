@@ -2,7 +2,7 @@ package com.bookkeeper;
 
 public class Genre {
 	private int Genre_id;
-	private String Name;
+	private String Genre_name;
 	private String Desc;
 	
 	public Genre() {
@@ -17,12 +17,12 @@ public class Genre {
 		Genre_id = genre_id;
 	}
 
-	public String getName() {
-		return Name;
+	public String getGenreName() {
+		return Genre_name;
 	}
 
-	public void setName(String name) {
-		Name = name;
+	public void setGenreName(String name) {
+		Genre_name = name;
 	}
 
 	public String getDesc() {

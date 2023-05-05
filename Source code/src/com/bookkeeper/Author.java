@@ -2,7 +2,7 @@ package com.bookkeeper;
 
 public class Author {
 	private int Author_id;
-	private String Name;
+	private String Author_name;
 	private String Biography;
 	
 	//Constructor
@@ -20,11 +20,11 @@ public class Author {
 	}
 
 	public String getName() {
-		return Name;
+		return Author_name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		Author_name = name;
 	}
 
 	public String getBiography() {
