@@ -54,6 +54,14 @@ public class main {
 	   	         //Condition for return and loop continuation
 	   	         if (rs.next()) {
 	   	             System.out.println("Login successful!");
+	   	             int userID = rs.getInt("user_id");
+	   	             String userName = rs.getString("User_name");
+	   	             String userEmail = rs.getString("User_email");
+	   	             String userContact = rs.getString("User_contact");
+	   	             String userAddress = rs.getString("User_address");
+	   	             String userPass = rs.getString("User_pass");
+	   	             
+	   	             User user = new User(userID, userName, userEmail, userContact, userAddress, userPass);
 	   	         	 scan.close();
 	   	             conn.close();
 	   	             forReturn = true;

@@ -9,8 +9,12 @@ public class User {
 	private String User_pass;
 	
 	//Mutators and accessor 
-	public User() {
-		// TODO Auto-generated constructor stub
+	public User(int User_id, String User_name, String User_email, String User_contact, String User_address, String User_pass) {
+		this.User_id = User_id;
+		this.User_name = User_name;
+		this.User_contact = User_contact;
+		this.User_address = User_address;
+		this.User_pass = User_pass;
 	}
 
 	public int getUser_id() {
