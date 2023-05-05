@@ -65,4 +65,7 @@ public class Book {
 	public void deleteBooks() {
 		
 	}
+	public void editBooks() {
+		
+	}
 }
