@@ -6,10 +6,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 public class main {
-	private static User onlineUser;
 
 	public static void main(String[] args) {
+		User newUser;
+		newUser = loginMethod();
+		System.out.println(newUser.toString());
+		
+		
+
+    }
+	//LoginMethod
+	public static User loginMethod(){
 		 //Declare variables
+		 int tries = 0;
 		 boolean loginCondition = true;
 		 boolean forReturn = false;
 		 Connection conn = null;
@@ -49,15 +58,19 @@ public class main {
 	   	             String userContact = rs.getString("User_contact");
 	   	             String userAddress = rs.getString("User_address");
 	   	             String userPass = rs.getString("User_pass");
-	   	             onlineUser = new User(userID, userName, userEmail, userContact, userAddress, userPass);
-	   	             System.out.println(onlineUser.toString());
+	   	             User onlineUser = new User(userID, userName, userEmail, userContact, userAddress, userPass);
+	   	         	 
 	   	             scan.close();
 	   	             conn.close();
 	   	             forReturn = true;
-	   	             loginCondition = false;
+	   	             return onlineUser;
 	   	         } else {
 	   	             System.out.println("Invalid username or password.");
-	   	             
+	   	             tries++;
+	   	             if(tries>=3) {
+		   	        	 System.out.println("Login limit reached! Will now exit program");
+		   	        	 System.exit(0);
+		   	         }
 	   	             loginCondition = true;
 	   	         }
 	   	     //Exception Handling
@@ -67,5 +80,8 @@ public class main {
 	   	         System.out.println("JDBC driver not found");
 	   	     } 
 	     }
+		return null;
+		
 	}
+	
 }
