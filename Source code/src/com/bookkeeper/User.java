@@ -72,4 +72,10 @@ public class User {
 	public void disableUser() {
 		
 	}
+	
+	public String toString() {
+		String str = "User ID: " + User_id + "\nUser Name: " + User_name + "\nUser contact: " + User_contact + "\nUser address: " + User_address;
+		return str;
+		
+	}
 }

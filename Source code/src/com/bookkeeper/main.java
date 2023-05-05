@@ -6,20 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 public class main {
+	private static User onlineUser;
 
 	public static void main(String[] args) {
-		boolean loginCondition = false;
-		loginCondition = loginMethod();
-		
-		if(loginCondition) {
-			System.out.println("true");
-		}
-		else {
-			System.out.println("false");
-		}
-    }
-	//LoginMethod
-	public static boolean loginMethod(){
 		 //Declare variables
 		 boolean loginCondition = true;
 		 boolean forReturn = false;
@@ -60,9 +49,9 @@ public class main {
 	   	             String userContact = rs.getString("User_contact");
 	   	             String userAddress = rs.getString("User_address");
 	   	             String userPass = rs.getString("User_pass");
-	   	             
-	   	             User user = new User(userID, userName, userEmail, userContact, userAddress, userPass);
-	   	         	 scan.close();
+	   	             onlineUser = new User(userID, userName, userEmail, userContact, userAddress, userPass);
+	   	             System.out.println(onlineUser.toString());
+	   	             scan.close();
 	   	             conn.close();
 	   	             forReturn = true;
 	   	             loginCondition = false;
@@ -78,8 +67,5 @@ public class main {
 	   	         System.out.println("JDBC driver not found");
 	   	     } 
 	     }
-		return forReturn;
-		
 	}
-	
 }
