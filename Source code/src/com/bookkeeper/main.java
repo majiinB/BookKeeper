@@ -1,13 +1,14 @@
 package com.bookkeeper;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Scanner;
+import java.awt.*;
+import javax.swing.*;
+
 public class main {
 
 	public static void main(String[] args) {
+		
+		
 		User newUser;
 		newUser = loginMethod();
 		System.out.println(newUser.toString());
@@ -15,6 +16,16 @@ public class main {
 		
 
     }
+	public void signUp() {
+		Connection conn = null;
+	    String url = "jdbc:mysql://localhost/library_management";
+	    String user = "root";
+	    String password = "";
+	    String username ="", pwd ="";
+	    Scanner scan = new Scanner(System.in);
+	    
+	    
+	}
 	//LoginMethod
 	public static User loginMethod(){
 		 //Declare variables
@@ -43,7 +54,7 @@ public class main {
 	   	         pwd = scan.nextLine();
 	   	         
 	   	         //prepare query
-	   	         String query = "SELECT * FROM user WHERE BINARY User_name=? AND User_pass=?";
+	   	         String query = "SELECT * FROM user WHERE BINARY User_name=? AND BINARY User_pass=?";
 	   	         PreparedStatement stmt = conn.prepareStatement(query);
 	   	         stmt.setString(1, username);
 	   	         stmt.setString(2, pwd);
@@ -81,7 +92,6 @@ public class main {
 	   	     } 
 	     }
 		return null;
-		
 	}
 	
 }
