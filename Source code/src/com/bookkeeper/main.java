@@ -8,13 +8,16 @@ public class main {
 
 	public static void main(String[] args) {
 		
-		
 		User newUser;
 		newUser = loginMethod();
 		System.out.println(newUser.toString());
 		
+		String name = "John";
+		int age = 35;
+		String message = String.format("My name is %s and I am %d years old", name, age);
+		System.out.println(message);
 		
-
+		
     }
 	public void signUp() {
 		Connection conn = null;
@@ -92,6 +95,7 @@ public class main {
 	   	     } 
 	     }
 		return null;
+		
 	}
 	
 }
