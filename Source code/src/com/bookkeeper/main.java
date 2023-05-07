@@ -4,11 +4,9 @@ import java.util.Scanner;
 import java.awt.*;
 import javax.swing.*;
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -25,8 +23,6 @@ public class main {
 			e.printStackTrace();
 		}
 		System.out.println(newUser.toString());
-		
-		
 		
     }
 	
@@ -55,9 +51,49 @@ public class main {
         String encryptedMessage = Base64.getEncoder().encodeToString(ivAndCiphertext);
 		return encryptedMessage;
 	}
+	
+	public static boolean checkEmailExistence(String userEmail) {
+		Connection conn = null;
+		String url = "jdbc:mysql://localhost/book_keeper";
+	    String user = "root";
+	    String password = "";
+	    String username ="", pwd ="";
+	    boolean forReturn = false;
+	    Scanner scan = new Scanner(System.in);
+	    
+	    try {
+   		 	//Connect to book_keeper Database
+  	      	 Class.forName("com.mysql.cj.jdbc.Driver");
+  	         conn = DriverManager.getConnection(url, user, password);
+  	         //System.out.println("Connected to the database");
+  	         
+  	         //prepare query
+  	         String query = "SELECT * FROM patron WHERE BINARY patron_email=?";
+  	         PreparedStatement stmt = conn.prepareStatement(query);
+  	         
+			 stmt.setString(1, userEmail);
+  	         ResultSet rs = stmt.executeQuery();
+  	         
+  	         //Condition for return and loop continuation
+  	         if (rs.next()) {
+  	        	 forReturn = true;
+  	             conn.close();
+  	         } 
+  	         else {
+  	            forReturn = false;
+  	            conn.close();
+  	         }
+  	     //Exception Handling
+  	     } catch (SQLException e) {
+  	         System.out.println("Error connecting to the database: " + e.getMessage());
+  	     } catch (ClassNotFoundException e) {
+  	         System.out.println("JDBC driver not found");
+  	     } 
+		return forReturn;
+	}
 	public void signUp() {
 		Connection conn = null;
-	    String url = "jdbc:mysql://localhost/library_management";
+	    String url = "jdbc:mysql://localhost/book_keeper";
 	    String user = "root";
 	    String password = "";
 	    String username ="", pwd ="";
