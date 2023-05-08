@@ -1,8 +1,12 @@
 package com.bookkeeper;
+
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import java.sql.*;
 import java.util.Scanner;
 import java.awt.*;
-import javax.swing.*;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -10,22 +14,39 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
 
+public class Book_keeper_main_interface extends JFrame {
 
-public class main {
+	private JPanel contentPane;
 
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
-		
-		User newUser = null;
-		try {
-			newUser = loginMethod();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(newUser.toString());
-		
-    }
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Book_keeper_main_interface frame = new Book_keeper_main_interface();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Book_keeper_main_interface() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+	}
 	
+	//Methods
 	public static String encryption(String pass) throws Exception{
 		String UserPass = pass;
         String passphrase = "Book_KeeperSecretPassphrase";
@@ -57,9 +78,7 @@ public class main {
 		String url = "jdbc:mysql://localhost/book_keeper";
 	    String user = "root";
 	    String password = "";
-	    String username ="", pwd ="";
 	    boolean forReturn = false;
-	    Scanner scan = new Scanner(System.in);
 	    
 	    try {
    		 	//Connect to book_keeper Database
@@ -182,7 +201,5 @@ public class main {
 	   	     } 
 	     }
 		return null;
-		
 	}
-	
 }
