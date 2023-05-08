@@ -13,10 +13,20 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
+import javax.swing.JLabel;
+import javax.swing.JSplitPane;
+import javax.swing.JInternalFrame;
+import javax.swing.JButton;
+import javax.swing.border.LineBorder;
+import javax.swing.BoxLayout;
+import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
 
 public class Book_keeper_main_interface extends JFrame {
 
-	private JPanel contentPane;
+	private JPanel mainPanel;
 
 	/**
 	 * Launch the application.
@@ -34,16 +44,53 @@ public class Book_keeper_main_interface extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+
+	//Create the frame.
 	public Book_keeper_main_interface() {
+		setTitle("Book keeper");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		mainPanel = new JPanel();
+		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
+		setContentPane(mainPanel);
+		mainPanel.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panelForLabel = new JPanel();
+		mainPanel.add(panelForLabel, BorderLayout.NORTH);
+		
+		JLabel roleLabel = new JLabel("Choose Role");
+		roleLabel.setVerticalAlignment(SwingConstants.BOTTOM);
+		roleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		panelForLabel.add(roleLabel);
+		
+		JPanel paneForButton = new JPanel();
+		roleLabel.setLabelFor(paneForButton);
+		mainPanel.add(paneForButton, BorderLayout.CENTER);
+		paneForButton.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JButton buttonPatron = new JButton("PATRON");
+	
+		buttonPatron.setMnemonic(KeyEvent.VK_P);
+		paneForButton.add(buttonPatron);
+		
+		JButton buttonAdmin = new JButton("ADMIN");
+	
+		buttonAdmin.setMnemonic(KeyEvent.VK_A);
+		paneForButton.add(buttonAdmin);
+		
+		//ACTION LISTENERS
+		buttonPatron.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		buttonAdmin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 	}
 	
 	//Methods
