@@ -1,1 +1,2 @@
-copy mo yung nasa loob ng xampp mo xampp>mysql>data
+copy mo yung nasa loob ng database sa xampp mo 
+eto location: xampp>mysql>data
