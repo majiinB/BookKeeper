@@ -1,0 +1,1 @@
+copy mo yung nasa loob ng xampp mo xampp>mysql>data

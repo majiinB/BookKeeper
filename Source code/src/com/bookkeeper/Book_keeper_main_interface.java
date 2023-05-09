@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JButton;
@@ -23,10 +24,13 @@ import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 public class Book_keeper_main_interface extends JFrame {
 
 	private JPanel mainPanel;
+	loginPanel loginPane;
 
 	/**
 	 * Launch the application.
@@ -55,40 +59,28 @@ public class Book_keeper_main_interface extends JFrame {
 		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(mainPanel);
-		mainPanel.setLayout(new BorderLayout(0, 0));
+		mainPanel.setLayout(null);
 		
-		JPanel panelForLabel = new JPanel();
-		mainPanel.add(panelForLabel, BorderLayout.NORTH);
+		JLabel RoleLabel = new JLabel("Choose Role");
+		RoleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		RoleLabel.setBounds(183, 43, 82, 29);
+		mainPanel.add(RoleLabel);
 		
-		JLabel roleLabel = new JLabel("Choose Role");
-		roleLabel.setVerticalAlignment(SwingConstants.BOTTOM);
-		roleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		panelForLabel.add(roleLabel);
+		JButton PatronButton = new JButton("Patron");
+		PatronButton.setBounds(79, 103, 126, 77);
+		mainPanel.add(PatronButton);
 		
-		JPanel paneForButton = new JPanel();
-		roleLabel.setLabelFor(paneForButton);
-		mainPanel.add(paneForButton, BorderLayout.CENTER);
-		paneForButton.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		JButton buttonPatron = new JButton("PATRON");
-	
-		buttonPatron.setMnemonic(KeyEvent.VK_P);
-		paneForButton.add(buttonPatron);
-		
-		JButton buttonAdmin = new JButton("ADMIN");
-	
-		buttonAdmin.setMnemonic(KeyEvent.VK_A);
-		paneForButton.add(buttonAdmin);
-		
-		//ACTION LISTENERS
-		buttonPatron.addActionListener(new ActionListener() {
+		JButton AdminButton_1 = new JButton("Admin");
+		AdminButton_1.setBounds(239, 103, 126, 77);
+		mainPanel.add(AdminButton_1);
+		AdminButton_1.addActionListener(new ActionListener() {
+			 @Override
 			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		buttonAdmin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+				loginPane = new loginPanel();
+				remove(mainPanel);
+				setContentPane(loginPane);
+				revalidate();
+				repaint();
 			}
 		});
 	}
@@ -182,11 +174,8 @@ public class Book_keeper_main_interface extends JFrame {
 	    System.out.println("Confirm Password: ");  
 	}
 	//LoginMethod
-	public static User loginMethod() throws Exception{
+	public User loginMethod(String email, String pass) throws Exception{
 		 //Declare variables
-		 int tries = 0;
-		 boolean loginCondition = true;
-		 boolean forReturn = false;
 		 Connection conn = null;
 	     String url = "jdbc:mysql://localhost/book_keeper";
 	     String user = "root";
@@ -195,7 +184,7 @@ public class Book_keeper_main_interface extends JFrame {
 	     Scanner scan = new Scanner(System.in);
 	     
 	     //Loop for input verification with database connection exception handling
-	     while(loginCondition){
+	     
 	    	 try {
 	    		 //Connect to Library management Database
 	   	      	 Class.forName("com.mysql.cj.jdbc.Driver");
@@ -203,10 +192,8 @@ public class Book_keeper_main_interface extends JFrame {
 	   	         //System.out.println("Connected to the database");
 	   	         
 	   	         //User input
-	   	         System.out.print("Enter User email: ");
-	   	         userEmail = scan.nextLine();
-	   	         System.out.print("Enter password: ");
-	   	         pwd = scan.nextLine();
+	   	         userEmail = email;
+	   	         pwd = pass;
 	   	         encryptedpass = encryption(pwd);
 	   	         //prepare query
 	   	         String query = "SELECT * FROM patron WHERE BINARY patron_email=? AND BINARY patron_password=?";
@@ -226,19 +213,12 @@ public class Book_keeper_main_interface extends JFrame {
 	   	             String userAddress = rs.getString("patron_address");
 	   	             String userPass = rs.getString("patron_password");
 	   	             User onlineUser = new User(userID, userFname, userLname, userEmail1, userContact, userAddress, userPass);
-	   	         	 
-	   	             scan.close();
+	   	             //Close database
 	   	             conn.close();
-	   	             forReturn = true;
 	   	             return onlineUser;
-	   	         } else {
-	   	             System.out.println("Invalid username or password.");
-	   	             tries++;
-	   	             if(tries>=3) {
-		   	        	 System.out.println("Login limit reached! Will now exit program");
-		   	        	 System.exit(0);
-		   	         }
-	   	             loginCondition = true;
+	   	         } else {	
+	   	        	 conn.close();
+	   	        	 return null;
 	   	         }
 	   	     //Exception Handling
 	   	     } catch (SQLException e) {
@@ -246,7 +226,7 @@ public class Book_keeper_main_interface extends JFrame {
 	   	     } catch (ClassNotFoundException e) {
 	   	         System.out.println("JDBC driver not found");
 	   	     } 
-	     }
+	     
 		return null;
 	}
 }
