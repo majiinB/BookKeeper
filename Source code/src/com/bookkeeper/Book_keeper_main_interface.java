@@ -67,6 +67,15 @@ public class Book_keeper_main_interface extends JFrame {
 		mainPanel.add(RoleLabel);
 		
 		JButton PatronButton = new JButton("Patron");
+		PatronButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loginPane = new loginPanel();
+				remove(mainPanel);
+				setContentPane(loginPane);
+				revalidate();
+				repaint();
+			}
+		});
 		PatronButton.setBounds(79, 103, 126, 77);
 		mainPanel.add(PatronButton);
 		
@@ -74,13 +83,8 @@ public class Book_keeper_main_interface extends JFrame {
 		AdminButton_1.setBounds(239, 103, 126, 77);
 		mainPanel.add(AdminButton_1);
 		AdminButton_1.addActionListener(new ActionListener() {
-			 @Override
 			public void actionPerformed(ActionEvent e) {
-				loginPane = new loginPanel();
-				remove(mainPanel);
-				setContentPane(loginPane);
-				revalidate();
-				repaint();
+			//Wala pa
 			}
 		});
 	}
@@ -174,7 +178,7 @@ public class Book_keeper_main_interface extends JFrame {
 	    System.out.println("Confirm Password: ");  
 	}
 	//LoginMethod
-	public User loginMethod(String email, String pass) throws Exception{
+	public User loginMethod(String email, String pass, String table, String colEmail, String colPass) throws Exception{
 		 //Declare variables
 		 Connection conn = null;
 	     String url = "jdbc:mysql://localhost/book_keeper";
@@ -196,7 +200,7 @@ public class Book_keeper_main_interface extends JFrame {
 	   	         pwd = pass;
 	   	         encryptedpass = encryption(pwd);
 	   	         //prepare query
-	   	         String query = "SELECT * FROM patron WHERE BINARY patron_email=? AND BINARY patron_password=?";
+	   	         String query = "SELECT * FROM " + table + " WHERE BINARY " + colEmail +"=? AND BINARY " + colPass + "=?";
 	   	         PreparedStatement stmt = conn.prepareStatement(query);
 	   	         stmt.setString(1, userEmail);
 	   	         stmt.setString(2, encryptedpass);

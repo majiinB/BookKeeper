@@ -51,9 +51,12 @@ public class loginPanel extends JPanel {
 					try {
 						String email = "";
 						email = textField.getText();
+						String table = "patron";
+						String colemail = "patron_email";
+						String colpass = "patron_password";
 						char[] pass = passwordField.getPassword();
 						String password = new String(pass);
-						newUser = main.loginMethod(email, password);
+						newUser = main.loginMethod(email, password, table, colemail, colpass);
 						if (newUser == null && numTries<3) {
 							// Show error message if login failed
 							JOptionPane.showMessageDialog(loginPanel.this, "Invalid email or password" + "\nRemaining Attempts:" + remain, "Error", JOptionPane.ERROR_MESSAGE);
@@ -76,11 +79,18 @@ public class loginPanel extends JPanel {
 				
 			}
 		});
-		loginButton.setBounds(195, 214, 89, 23);
+		loginButton.setBounds(73, 220, 89, 23);
 		add(loginButton);
+		
+		JButton signUpButton = new JButton("Signup");
+		signUpButton.setBounds(193, 220, 89, 23);
+		add(signUpButton);
+		
+		JButton backButton = new JButton("Back");
+		backButton.setBounds(310, 220, 89, 23);
+		add(backButton);
 	}
 	public User getUser() {
 		return newUser;
 	}
-
 }
