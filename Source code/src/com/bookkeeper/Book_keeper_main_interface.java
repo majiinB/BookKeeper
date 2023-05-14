@@ -36,6 +36,12 @@ public class Book_keeper_main_interface extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			signUp();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -153,29 +159,86 @@ public class Book_keeper_main_interface extends JFrame {
   	     } 
 		return forReturn;
 	}
-	public void signUp() {
+	public static void signUp() throws Exception {
 		Connection conn = null;
 	    String url = "jdbc:mysql://localhost/book_keeper";
 	    String user = "root";
 	    String password = "";
-	    String username ="", pwd ="";
 	    Scanner scan = new Scanner(System.in);
+	    boolean condition = true;
+	    boolean conditionPass = true;
 	    
-	    String userName;
+	    String fName;
+	    String lName;
 	    String userEmail;
 	    String userContact;
 	    String userAddress;
 	    String userPass;
 	    String userPassConfirm;
-	    String query;
+	    String encrypted = ""; 
 	    
-	    System.out.println("Enter User First Name: ");
-	    System.out.println("Enter User Last Name: ");
-	    System.out.println("Enter User name");
-	    System.out.println("Enter User Email");
-	    System.out.println("Enter User Address");
-	    System.out.println("Enter User Password");
-	    System.out.println("Confirm Password: ");  
+	    PreparedStatement stmt = null;
+	    try {
+   		 	//Connect to book_keeper Database
+  	      	 Class.forName("com.mysql.cj.jdbc.Driver");
+  	         conn = DriverManager.getConnection(url, user, password);
+  	         //System.out.println("Connected to the database");
+  	         System.out.print("Enter User First Name: ");
+  	         fName = scan.nextLine();
+  	         System.out.print("Enter User Last Name: ");
+  	         lName = scan.nextLine();	
+  	         
+			do {
+  	        	 System.out.print("Enter User Email");
+  	        	 userEmail = scan.nextLine();
+  	        	 condition = checkEmailExistence(userEmail);
+  	        	 if(condition)
+  	        		 System.out.println("Email Account already exists try again");
+  	         }while(condition);
+  	         System.out.print("Enter User Contact");
+  	         userContact = scan.nextLine();
+  	         System.out.print("Enter User Address");
+	         userAddress = scan.nextLine();
+  	         do {
+  	        	 System.out.print("Enter User Password");
+  	        	 userPass = scan.nextLine();
+  	        	 System.out.print("Confirm Password: ");  
+  	        	 userPassConfirm = scan.nextLine();
+  	        	 if(userPass.equals(userPassConfirm)) {
+  	        		 encrypted = encryption(userPass);
+  	        		 conditionPass = false; 
+  	        	 }
+  	        	 else {
+  	        		 conditionPass = true;
+  	         		System.out.println("Password does not match!");
+  	        	 }
+  	         }while(conditionPass);
+  	         //prepare query
+  	         String query = "INSERT INTO patron VALUES (NULL, ?, ?, ?, ?, ?, ?)";
+  	         stmt = conn.prepareStatement(query);
+  	         
+			 stmt.setString(1, fName);
+			 stmt.setString(2, lName); 
+			 stmt.setString(3, userEmail); 
+			 stmt.setString(4, userContact); 
+			 stmt.setString(5, userAddress); 
+			 stmt.setString(6, encrypted); 
+  	         stmt.executeUpdate();
+  	         
+  	         System.out.println("Record inserted successfully!");
+        	 } catch (ClassNotFoundException | SQLException e) {
+        		 e.printStackTrace();
+        	 } finally {
+             // Close the resources
+             try {
+				if (stmt != null)
+                    stmt.close();
+                if (conn != null)
+                    conn.close();
+             } catch (SQLException se) {
+                se.printStackTrace();
+             }
+        	 }
 	}
 	//LoginMethod
 	public User loginMethod(String email, String pass, String table, String colEmail, String colPass) throws Exception{
