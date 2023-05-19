@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
 import java.awt.Font;
 
 public class loginPanel extends JPanel {
@@ -60,7 +62,7 @@ public class loginPanel extends JPanel {
 			loginButton.addActionListener(new ActionListener() {
 				private int numTries = 1;
 				public void actionPerformed(ActionEvent e) {
-					Book_keeper_main_interface main = new Book_keeper_main_interface();
+					MainFrame main = (MainFrame) SwingUtilities.getWindowAncestor(loginPanel.this);
 					int remain = 3 - numTries;
 					
 						try {
@@ -110,6 +112,11 @@ public class loginPanel extends JPanel {
 			panel.add(signUpButton);
 			
 			JButton backButton = new JButton("Back");
+			backButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+				}
+			});
 			backButton.setFont(new Font("Verdana", Font.BOLD, 11));
 			backButton.setForeground(new Color(255, 255, 255));
 			backButton.setBackground(new Color(18, 57, 150));
