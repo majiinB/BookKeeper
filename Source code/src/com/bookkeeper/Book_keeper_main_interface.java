@@ -62,7 +62,7 @@ public class Book_keeper_main_interface extends JFrame {
 		setTitle("Book keeper");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 547, 361);
+		setBounds(100, 100, 550, 366);
 		mainPanel = new JPanel();
 		mainPanel.setBackground(new Color(18, 57, 150));
 		mainPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
