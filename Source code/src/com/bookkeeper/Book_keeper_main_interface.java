@@ -26,6 +26,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 
 public class Book_keeper_main_interface extends JFrame {
 
@@ -37,7 +39,7 @@ public class Book_keeper_main_interface extends JFrame {
 	 */
 	public static void main(String[] args) {
 		try {
-			signUp();
+			//signUp();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -60,19 +62,31 @@ public class Book_keeper_main_interface extends JFrame {
 		setTitle("Book keeper");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 547, 361);
 		mainPanel = new JPanel();
-		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		mainPanel.setBackground(new Color(18, 57, 150));
+		mainPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 
 		setContentPane(mainPanel);
 		mainPanel.setLayout(null);
+		setLocationRelativeTo(null);
 		
 		JLabel RoleLabel = new JLabel("Choose Role");
+		RoleLabel.setFont(new Font("Verdana", Font.BOLD, 24));
+		RoleLabel.setForeground(Color.WHITE);
 		RoleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		RoleLabel.setBounds(183, 43, 82, 29);
+		RoleLabel.setBounds(80, 42, 374, 56);
 		mainPanel.add(RoleLabel);
 		
-		JButton PatronButton = new JButton("Patron");
+		JButton PatronButton = new JButton("");
+		PatronButton.setSelected(false);
+		ImageIcon icon = new ImageIcon("D:\\documents\\Final_Project\\img\\patronIcon.png");
+		Image image = icon.getImage();
+		Image resizedImage = image.getScaledInstance(115, 100, Image.SCALE_SMOOTH);
+		PatronButton.setIcon(new ImageIcon(resizedImage));
+		PatronButton.setSelectedIcon(new ImageIcon(resizedImage));
+
+		
 		PatronButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				loginPane = new loginPanel();
@@ -82,13 +96,36 @@ public class Book_keeper_main_interface extends JFrame {
 				repaint();
 			}
 		});
-		PatronButton.setBounds(79, 103, 126, 77);
+		PatronButton.setBounds(80, 109, 161, 140);
 		mainPanel.add(PatronButton);
 		
-		JButton AdminButton_1 = new JButton("Admin");
-		AdminButton_1.setBounds(239, 103, 126, 77);
-		mainPanel.add(AdminButton_1);
-		AdminButton_1.addActionListener(new ActionListener() {
+		JButton adminButton = new JButton("");
+		adminButton.setSelected(false);
+		ImageIcon icon1 = new ImageIcon("D:\\documents\\Final_Project\\img\\adminIcon.png");
+		Image image1 = icon1.getImage();
+		Image resizedImage1 = image1.getScaledInstance(105, 105, Image.SCALE_SMOOTH);
+		adminButton.setIcon(new ImageIcon(resizedImage1));
+		adminButton.setSelectedIcon(new ImageIcon(resizedImage1));
+		adminButton.setBounds(293, 109, 161, 140);
+		mainPanel.add(adminButton);
+		
+		JLabel patronLabel = new JLabel("Patron");
+		patronLabel.setLabelFor(PatronButton);
+		patronLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		patronLabel.setForeground(Color.WHITE);
+		patronLabel.setFont(new Font("Verdana", Font.BOLD, 20));
+		patronLabel.setBounds(80, 249, 161, 33);
+		mainPanel.add(patronLabel);
+		
+		JLabel adminLabel = new JLabel("Admin");
+		adminLabel.setLabelFor(adminButton);
+		adminLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		adminLabel.setForeground(Color.WHITE);
+		adminLabel.setFont(new Font("Verdana", Font.BOLD, 20));
+		adminLabel.setBounds(293, 249, 161, 33);
+		mainPanel.add(adminLabel);
+		
+		adminButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			//Wala pa
 			}
@@ -189,18 +226,18 @@ public class Book_keeper_main_interface extends JFrame {
   	         lName = scan.nextLine();	
   	         
 			do {
-  	        	 System.out.print("Enter User Email");
+  	        	 System.out.print("Enter User Email: ");
   	        	 userEmail = scan.nextLine();
   	        	 condition = checkEmailExistence(userEmail);
   	        	 if(condition)
   	        		 System.out.println("Email Account already exists try again");
   	         }while(condition);
-  	         System.out.print("Enter User Contact");
+  	         System.out.print("Enter User Contact: ");
   	         userContact = scan.nextLine();
-  	         System.out.print("Enter User Address");
+  	         System.out.print("Enter User Address: ");
 	         userAddress = scan.nextLine();
   	         do {
-  	        	 System.out.print("Enter User Password");
+  	        	 System.out.print("Enter User Password: ");
   	        	 userPass = scan.nextLine();
   	        	 System.out.print("Confirm Password: ");  
   	        	 userPassConfirm = scan.nextLine();
@@ -224,7 +261,7 @@ public class Book_keeper_main_interface extends JFrame {
 			 stmt.setString(5, userAddress); 
 			 stmt.setString(6, encrypted); 
   	         stmt.executeUpdate();
-  	         
+  	         scan.close();
   	         System.out.println("Record inserted successfully!");
         	 } catch (ClassNotFoundException | SQLException e) {
         		 e.printStackTrace();
