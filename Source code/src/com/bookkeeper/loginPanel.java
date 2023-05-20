@@ -70,12 +70,15 @@ public class loginPanel extends JPanel {
 						try {
 							String email = "";
 							email = emailField.getText();
+							String trimed = email.trim();
 							String table = "patron";
 							String colemail = "patron_email";
 							String colpass = "patron_password";
+							String colStatus ="patron_status";
 							char[] pass = passwordField.getPassword();
 							String password = new String(pass);
-							newUser = main.loginMethod(email, password, table, colemail, colpass);
+							String status = "active";
+							newUser = main.loginMethod(trimed, password, table, colemail, colpass, colStatus, status);
 							if (newUser == null && numTries<3) {
 								// Show error message if login failed
 								JOptionPane.showMessageDialog(loginPanel.this, "Invalid email or password" + "\nRemaining Attempts:" + remain, "Error", JOptionPane.ERROR_MESSAGE);

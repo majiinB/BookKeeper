@@ -1,7 +1,7 @@
 package com.bookkeeper;
 
 public class User {
-	private int User_id;
+	private String User_id;
 	private String User_fname;
 	private String User_lname;
 	private String User_email;
@@ -10,7 +10,7 @@ public class User {
 	private String User_pass;
 	
 	//Mutators and accessor 
-	public User(int User_id, String User_fname,String User_lname, String User_email, String User_contact, String User_address, String User_pass) {
+	public User(String User_id, String User_fname,String User_lname, String User_email, String User_contact, String User_address, String User_pass) {
 		this.User_id = User_id;
 		this.setUser_fname(User_fname);
 		this.setUser_lname(User_lname);
@@ -19,11 +19,11 @@ public class User {
 		this.User_pass = User_pass;
 	}
 
-	public int getUser_id() {
+	public String getUser_id() {
 		return User_id;
 	}
 
-	public void setUser_id(int user_id) {
+	public void setUser_id(String user_id) {
 		User_id = user_id;
 	}
 

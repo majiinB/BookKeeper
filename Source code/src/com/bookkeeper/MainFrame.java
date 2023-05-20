@@ -29,6 +29,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import java.util.Random;
 
 public class MainFrame extends JFrame {
 
@@ -186,7 +187,14 @@ public class MainFrame extends JFrame {
 		    String password = "";
 		    Scanner scan = new Scanner(System.in);
 		    boolean condition = true;
+		    boolean con1 = true;
 		    String encrypted = ""; 
+		    String status = "active";
+		    String id ="";
+		    do {
+		    	id = generateRandomID();
+		    	con1 = checkId(id);
+		    }while(con1);
 		    
 		    PreparedStatement stmt = null;
 		    try {
@@ -202,15 +210,16 @@ public class MainFrame extends JFrame {
 	  	        	if(userPass.equals(userPassConfirm)) {
 		  	        	 encrypted = encryption(userPass);
 		  	        	//prepare query
-			  	         String query = "INSERT INTO patron VALUES (NULL, ?, ?, ?, ?, ?, ?)";
+			  	         String query = "INSERT INTO patron VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			  	         stmt = conn.prepareStatement(query);
-			  	         
-						 stmt.setString(1, fName);
-						 stmt.setString(2, lName); 
-						 stmt.setString(3, userEmail); 
-						 stmt.setString(4, userContact); 
-						 stmt.setString(5, userAddress); 
-						 stmt.setString(6, encrypted); 
+			  	         stmt.setString(1, id);
+						 stmt.setString(2, fName);
+						 stmt.setString(3, lName); 
+						 stmt.setString(4, userEmail); 
+						 stmt.setString(5, userContact); 
+						 stmt.setString(6, userAddress); 
+						 stmt.setString(7, encrypted); 
+						 stmt.setString(8, status); 
 			  	         stmt.executeUpdate();
 			  	         scan.close();
 
@@ -237,13 +246,14 @@ public class MainFrame extends JFrame {
 	       }
 		}
 		//LoginMethod
-		public User loginMethod(String email, String pass, String table, String colEmail, String colPass) throws Exception{
+		public User loginMethod(String email, String pass, String table, String colEmail, String colPass, String colStatus, String status) throws Exception{
 			 //Declare variables
 			 Connection conn = null;
 		     String url = "jdbc:mysql://localhost/book_keeper";
 		     String user = "root";
 		     String password = "";
 		     String userEmail ="", pwd ="", encryptedpass = "";
+		
 		     
 		     //Loop for input verification with database connection exception handling
 		     
@@ -258,22 +268,24 @@ public class MainFrame extends JFrame {
 		   	         pwd = pass;
 		   	         encryptedpass = encryption(pwd);
 		   	         //prepare query
-		   	         String query = "SELECT * FROM " + table + " WHERE BINARY " + colEmail +"=? AND BINARY " + colPass + "=?";
+		   	         String query = "SELECT * FROM " + table + " WHERE BINARY " + colEmail +"=? AND BINARY " + colPass + "=? AND " + colStatus + "=?";
 		   	         PreparedStatement stmt = conn.prepareStatement(query);
 		   	         stmt.setString(1, userEmail);
 		   	         stmt.setString(2, encryptedpass);
+		   	         stmt.setString(3, status);
 		   	         ResultSet rs = stmt.executeQuery();
 		   	         
 		   	         //Condition for return and loop continuation
 		   	         if (rs.next()) {
 		   	             System.out.println("Login successful!");
-		   	             int userID = rs.getInt("patron_id");
+		   	             String userID = rs.getString("patron_id");
 		   	             String userFname = rs.getString("patron_fname");
 		   	             String userLname = rs.getString("patron_lname");
 		   	             String userEmail1 = rs.getString("patron_email");
 		   	             String userContact = rs.getString("patron_contact");
 		   	             String userAddress = rs.getString("patron_address");
 		   	             String userPass = rs.getString("patron_password");
+		   	             
 		   	             User onlineUser = new User(userID, userFname, userLname, userEmail1, userContact, userAddress, userPass);
 		   	             //Close database
 		   	             conn.close();
@@ -291,4 +303,59 @@ public class MainFrame extends JFrame {
 		     
 			return null;
 		}
+		
+		//create random id
+		    public static String generateRandomID() {
+		    	final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			    final int ID_LENGTH = 8;
+		    	StringBuilder sb = new StringBuilder();
+		        Random random = new Random();
+
+		        for (int i = 0; i < ID_LENGTH; i++) {
+		            int randomIndex = random.nextInt(CHARACTERS.length());
+		            char randomChar = CHARACTERS.charAt(randomIndex);
+		            sb.append(randomChar);
+		        }
+
+		        return sb.toString();
+		    }
+		public boolean checkId(String id) {
+			Connection conn = null;
+			String url = "jdbc:mysql://localhost/book_keeper";
+		    String user = "root";
+		    String password = "";
+		    boolean forReturn = false;
+		    
+		    try {
+	   		 	//Connect to book_keeper Database
+	  	      	 Class.forName("com.mysql.cj.jdbc.Driver");
+	  	         conn = DriverManager.getConnection(url, user, password);
+	  	         //System.out.println("Connected to the database");
+	  	         
+	  	         //prepare query
+	  	         String query = "SELECT * FROM patron WHERE BINARY patron_id=?";
+	  	         PreparedStatement stmt = conn.prepareStatement(query);
+	  	         
+				 stmt.setString(1, id);
+	  	         ResultSet rs = stmt.executeQuery();
+	  	         
+	  	         //Condition for return and loop continuation
+	  	         if (rs.next()) {
+	  	        	 forReturn = true;
+	  	             conn.close();
+	  	         } 
+	  	         else {
+	  	            forReturn = false;
+	  	            conn.close();
+	  	         }
+	  	     //Exception Handling
+	  	     } catch (SQLException e) {
+	  	         System.out.println("Error connecting to the database: " + e.getMessage());
+	  	     } catch (ClassNotFoundException e) {
+	  	         System.out.println("JDBC driver not found");
+	  	     } 
+			return forReturn;
+			
+		}
+		    
 }
