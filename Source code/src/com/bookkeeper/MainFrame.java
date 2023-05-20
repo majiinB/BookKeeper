@@ -35,6 +35,7 @@ public class MainFrame extends JFrame {
 	private JPanel mainPane;
 	private loginPanel loginPanel;
 	private choosePanel choose;
+	private signUpPanel signUp;
 
 	/**
 	 * Launch the application.
@@ -65,12 +66,19 @@ public class MainFrame extends JFrame {
         mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         CardLayout cardLayout = new CardLayout();
         mainPane.setLayout(cardLayout);
+        
+        //Create panels
         choose = new choosePanel();
         loginPanel = new loginPanel();
-
+        signUp = new signUpPanel();
+        
+        //Add panels to main panel
         mainPane.add(choose, "panel1");
         mainPane.add(loginPanel, "panel2");
+        mainPane.add(signUp,"panel3");
         cardLayout.show(mainPane, "panel1");
+        
+        //set what will be shown
         getContentPane().add(mainPane);
         pack();
         setSize(560, 365); // Set the size of the frame
@@ -80,6 +88,21 @@ public class MainFrame extends JFrame {
         choose.getButtonPatron().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardLayout.show(mainPane, "panel2");
+			}
+		});
+        
+        //action listener for back button login
+        loginPanel.getBackButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(mainPane, "panel1");
+			}
+		});
+        
+        
+        //action listener for login panel signup
+        loginPanel.getSignUpButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(mainPane, "panel3");
 			}
 		});
         
@@ -273,8 +296,6 @@ public class MainFrame extends JFrame {
 		   	             conn.close();
 		   	             return onlineUser;
 		   	         } else {	
-		   	        	JOptionPane.showMessageDialog(this, "Invalid email or password. Please try again.", "Login Failed",
-		   	                    JOptionPane.ERROR_MESSAGE);
 		   	        	 conn.close();
 		   	        	 return null;
 		   	         }

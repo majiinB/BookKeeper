@@ -24,6 +24,8 @@ public class loginPanel extends JPanel {
 	private JButton loginButton;
 	public User newUser;
 	private JLabel loginPaneLabel;
+	private JButton backButton;
+	JButton signUpButton;
 	
 	public loginPanel() {
 		setBackground(new Color(18, 57, 150));
@@ -99,24 +101,17 @@ public class loginPanel extends JPanel {
 			loginButton.setBounds(46, 152, 82, 29);
 			panel.add(loginButton);
 			
-			JButton signUpButton = new JButton("Signup");
+			signUpButton = new JButton("Signup");
 			signUpButton.setFont(new Font("Verdana", Font.BOLD, 11));
 			signUpButton.setForeground(new Color(255, 255, 255));
 			signUpButton.setBackground(new Color(18, 57, 150));
 			signUpButton.setBorderPainted(false);
-			signUpButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-				}
-			});
+			
 			signUpButton.setBounds(161, 152, 82, 29);
 			panel.add(signUpButton);
 			
-			JButton backButton = new JButton("Back");
-			backButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					
-				}
-			});
+			backButton = new JButton("Back");
+			
 			backButton.setFont(new Font("Verdana", Font.BOLD, 11));
 			backButton.setForeground(new Color(255, 255, 255));
 			backButton.setBackground(new Color(18, 57, 150));
@@ -139,5 +134,12 @@ public class loginPanel extends JPanel {
 	
 	public User getUser() {
 		return newUser;
+	}
+	public JButton getBackButton() {
+		return backButton;
+	}
+	public JButton getSignUpButton() {
+		return signUpButton;
+		
 	}
 }
