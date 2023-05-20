@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -19,6 +20,8 @@ public class signUpPanel extends JPanel {
 	private JTextField contactNumField;
 	private JTextField passField;
 	private JTextField retypePassField;
+	private JButton btnBack;
+	
 
 	/**
 	 * Create the panel.
@@ -78,6 +81,21 @@ public class signUpPanel extends JPanel {
 		JButton createAccField = new JButton("Create Account");
 		createAccField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				MainFrame main = (MainFrame) SwingUtilities.getWindowAncestor(signUpPanel.this);
+				String fname = firstNameField.getText();
+				String lname = lastNameField.getText();
+				String userEmail = emailField.getText();
+				String trimmedInput = userEmail.trim();
+				String userContact = contactNumField.getText();
+				String userAddress = homeAddField.getText();
+				String userPass = passField.getText();
+				String userPassConfirm = retypePassField.getText();
+				try {
+					main.signUp(fname, lname, trimmedInput, userContact, userAddress, userPass, userPassConfirm);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		createAccField.setBorderPainted(false);
@@ -88,6 +106,17 @@ public class signUpPanel extends JPanel {
 		panel.add(createAccField);
 		
 		JButton btnClear = new JButton("Clear");
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				firstNameField.clearInputAndGetPlaceholder();
+				lastNameField.clearInputAndGetPlaceholder();
+				emailField.clearInputAndGetPlaceholder();
+				contactNumField.clearInputAndGetPlaceholder();
+				homeAddField.clearInputAndGetPlaceholder();
+				passField.clearInputAndGetPlaceholder();
+				retypePassField.clearInputAndGetPlaceholder();
+			}
+		});
 		btnClear.setForeground(Color.WHITE);
 		btnClear.setFont(new Font("Verdana", Font.BOLD, 9));
 		btnClear.setBorderPainted(false);
@@ -95,7 +124,8 @@ public class signUpPanel extends JPanel {
 		btnClear.setBounds(230, 248, 73, 23);
 		panel.add(btnClear);
 		
-		JButton btnBack = new JButton("Back");
+		btnBack = new JButton("Back");
+		
 		btnBack.setForeground(Color.WHITE);
 		btnBack.setFont(new Font("Verdana", Font.BOLD, 9));
 		btnBack.setBorderPainted(false);
@@ -103,5 +133,8 @@ public class signUpPanel extends JPanel {
 		btnBack.setBounds(313, 248, 73, 23);
 		panel.add(btnBack);
 
+	}
+	public JButton getBackBtn() {
+		return btnBack;
 	}
 }

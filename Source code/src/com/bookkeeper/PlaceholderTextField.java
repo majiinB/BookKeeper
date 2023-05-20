@@ -48,5 +48,12 @@ public class PlaceholderTextField extends JTextField{
         this.placeholder = placeholder;
         setText(placeholder);
     }
+    public String clearInputAndGetPlaceholder() {
+        String input = getText();
+        setText(placeholder);
+        setFont(getFont().deriveFont(Font.ITALIC));
+        setForeground(Color.GRAY);
+        return input;
+    }
 
 }

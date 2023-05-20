@@ -18,7 +18,7 @@ import java.awt.Font;
 public class loginPanel extends JPanel {
 	
 	private JLabel emailLabel;
-	private JTextField textField;
+	private JTextField emailField;
 	private JLabel passLabel;
 	private JPasswordField passwordField;
 	private JButton loginButton;
@@ -43,10 +43,10 @@ public class loginPanel extends JPanel {
 			emailLabel.setBounds(69, 71, 42, 14);
 			panel.add(emailLabel);
 			
-			textField = new JTextField();
-			textField.setBounds(121, 67, 228, 23);
-			panel.add(textField);
-			textField.setColumns(10);
+			emailField = new JTextField();
+			emailField.setBounds(121, 67, 228, 23);
+			panel.add(emailField);
+			emailField.setColumns(10);
 			
 			passLabel = new JLabel("Password:");
 			passLabel.setBounds(46, 109, 65, 14);
@@ -69,7 +69,7 @@ public class loginPanel extends JPanel {
 					
 						try {
 							String email = "";
-							email = textField.getText();
+							email = emailField.getText();
 							String table = "patron";
 							String colemail = "patron_email";
 							String colpass = "patron_password";
@@ -141,5 +141,9 @@ public class loginPanel extends JPanel {
 	public JButton getSignUpButton() {
 		return signUpButton;
 		
+	}
+	public void clear() {
+		emailField.setText("");
+		passwordField.setText("");
 	}
 }

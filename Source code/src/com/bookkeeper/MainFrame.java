@@ -94,6 +94,7 @@ public class MainFrame extends JFrame {
         //action listener for back button login
         loginPanel.getBackButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				loginPanel.clear();
 				cardLayout.show(mainPane, "panel1");
 			}
 		});
@@ -103,6 +104,13 @@ public class MainFrame extends JFrame {
         loginPanel.getSignUpButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardLayout.show(mainPane, "panel3");
+			}
+		});
+        
+        //action listener for signup back button
+        signUp.getBackBtn().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(mainPane, "panel2");
 			}
 		});
         
@@ -171,22 +179,13 @@ public class MainFrame extends JFrame {
 	  	     } 
 			return forReturn;
 		}
-		public static void signUp() throws Exception {
+		public void signUp(String fName, String lName, String userEmail, String userContact, String userAddress, String userPass, String userPassConfirm) throws Exception {
 			Connection conn = null;
 		    String url = "jdbc:mysql://localhost/book_keeper";
 		    String user = "root";
 		    String password = "";
 		    Scanner scan = new Scanner(System.in);
 		    boolean condition = true;
-		    boolean conditionPass = true;
-		    
-		    String fName;
-		    String lName;
-		    String userEmail;
-		    String userContact;
-		    String userAddress;
-		    String userPass;
-		    String userPassConfirm;
 		    String encrypted = ""; 
 		    
 		    PreparedStatement stmt = null;
@@ -194,53 +193,38 @@ public class MainFrame extends JFrame {
 	   		 	//Connect to book_keeper Database
 	  	      	 Class.forName("com.mysql.cj.jdbc.Driver");
 	  	         conn = DriverManager.getConnection(url, user, password);
-	  	         //System.out.println("Connected to the database");
-	  	         System.out.print("Enter User First Name: ");
-	  	         fName = scan.nextLine();
-	  	         System.out.print("Enter User Last Name: ");
-	  	         lName = scan.nextLine();	
 	  	         
-				do {
-	  	        	 System.out.print("Enter User Email: ");
-	  	        	 userEmail = scan.nextLine();
-	  	        	 condition = checkEmailExistence(userEmail);
-	  	        	 if(condition)
-	  	        		 System.out.println("Email Account already exists try again");
-	  	         }while(condition);
-	  	         System.out.print("Enter User Contact: ");
-	  	         userContact = scan.nextLine();
-	  	         System.out.print("Enter User Address: ");
-		         userAddress = scan.nextLine();
-	  	         do {
-	  	        	 System.out.print("Enter User Password: ");
-	  	        	 userPass = scan.nextLine();
-	  	        	 System.out.print("Confirm Password: ");  
-	  	        	 userPassConfirm = scan.nextLine();
-	  	        	 if(userPass.equals(userPassConfirm)) {
-	  	        		 encrypted = encryption(userPass);
-	  	        		 conditionPass = false; 
-	  	        	 }
-	  	        	 else {
-	  	        		 conditionPass = true;
-	  	         		System.out.println("Password does not match!");
-	  	        	 }
-	  	         }while(conditionPass);
-	  	         //prepare query
-	  	         String query = "INSERT INTO patron VALUES (NULL, ?, ?, ?, ?, ?, ?)";
-	  	         stmt = conn.prepareStatement(query);
-	  	         
-				 stmt.setString(1, fName);
-				 stmt.setString(2, lName); 
-				 stmt.setString(3, userEmail); 
-				 stmt.setString(4, userContact); 
-				 stmt.setString(5, userAddress); 
-				 stmt.setString(6, encrypted); 
-	  	         stmt.executeUpdate();
-	  	         scan.close();
-	  	         System.out.println("Record inserted successfully!");
-	        	 } catch (ClassNotFoundException | SQLException e) {
-	        		 e.printStackTrace();
-	        	 } finally {
+	  	         //Check email Existence
+	  	         condition = checkEmailExistence(userEmail);
+	  	         if(condition)
+	  	        	 JOptionPane.showMessageDialog(null, "Email Already taken", "Error", JOptionPane.ERROR_MESSAGE);
+	  	         else {
+	  	        	if(userPass.equals(userPassConfirm)) {
+		  	        	 encrypted = encryption(userPass);
+		  	        	//prepare query
+			  	         String query = "INSERT INTO patron VALUES (NULL, ?, ?, ?, ?, ?, ?)";
+			  	         stmt = conn.prepareStatement(query);
+			  	         
+						 stmt.setString(1, fName);
+						 stmt.setString(2, lName); 
+						 stmt.setString(3, userEmail); 
+						 stmt.setString(4, userContact); 
+						 stmt.setString(5, userAddress); 
+						 stmt.setString(6, encrypted); 
+			  	         stmt.executeUpdate();
+			  	         scan.close();
+
+			  	         JOptionPane.showMessageDialog(null, "Signup successfull!", "Signup", JOptionPane.PLAIN_MESSAGE);
+			  	         
+		  	         }
+		  	         else {
+		  	     
+		  	        	 JOptionPane.showMessageDialog(null, "Password did not match", "Error", JOptionPane.ERROR_MESSAGE);
+		  	         }
+	  	         }
+	        } catch (ClassNotFoundException | SQLException e) {
+	        	e.printStackTrace();
+	        } finally {
 	             // Close the resources
 	             try {
 					if (stmt != null)
@@ -249,8 +233,8 @@ public class MainFrame extends JFrame {
 	                    conn.close();
 	             } catch (SQLException se) {
 	                se.printStackTrace();
-	             }
-	        	 }
+	         }
+	       }
 		}
 		//LoginMethod
 		public User loginMethod(String email, String pass, String table, String colEmail, String colPass) throws Exception{
@@ -260,7 +244,6 @@ public class MainFrame extends JFrame {
 		     String user = "root";
 		     String password = "";
 		     String userEmail ="", pwd ="", encryptedpass = "";
-		     Scanner scan = new Scanner(System.in);
 		     
 		     //Loop for input verification with database connection exception handling
 		     
