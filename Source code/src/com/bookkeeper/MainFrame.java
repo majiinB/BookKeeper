@@ -37,6 +37,7 @@ public class MainFrame extends JFrame {
 	private loginPanel loginPanel;
 	private choosePanel choose;
 	private signUpPanel signUp;
+	private loginAdmin adminLog;
 
 	/**
 	 * Launch the application.
@@ -72,11 +73,13 @@ public class MainFrame extends JFrame {
         choose = new choosePanel();
         loginPanel = new loginPanel();
         signUp = new signUpPanel();
+        adminLog = new loginAdmin();
         
         //Add panels to main panel
         mainPane.add(choose, "panel1");
         mainPane.add(loginPanel, "panel2");
         mainPane.add(signUp,"panel3");
+        mainPane.add(adminLog,"panel4");
         cardLayout.show(mainPane, "panel1");
         
         //set what will be shown
@@ -89,6 +92,11 @@ public class MainFrame extends JFrame {
         choose.getButtonPatron().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardLayout.show(mainPane, "panel2");
+			}
+		});
+        choose.getButtonAdmin().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(mainPane, "panel4");
 			}
 		});
         
@@ -112,6 +120,14 @@ public class MainFrame extends JFrame {
         signUp.getBackBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardLayout.show(mainPane, "panel2");
+			}
+		});
+        
+        
+        adminLog.getBackButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				adminLog.clear();
+				cardLayout.show(mainPane, "panel1");
 			}
 		});
         
@@ -278,18 +294,34 @@ public class MainFrame extends JFrame {
 		   	         //Condition for return and loop continuation
 		   	         if (rs.next()) {
 		   	             System.out.println("Login successful!");
-		   	             String userID = rs.getString("patron_id");
-		   	             String userFname = rs.getString("patron_fname");
-		   	             String userLname = rs.getString("patron_lname");
-		   	             String userEmail1 = rs.getString("patron_email");
-		   	             String userContact = rs.getString("patron_contact");
-		   	             String userAddress = rs.getString("patron_address");
-		   	             String userPass = rs.getString("patron_password");
+		   	             if(table.equals("patron")) {
+		   	            	 String userID = rs.getString("patron_id");
+			   	             String userFname = rs.getString("patron_fname");
+			   	             String userLname = rs.getString("patron_lname");
+			   	             String userEmail1 = rs.getString("patron_email");
+			   	             String userContact = rs.getString("patron_contact");
+			   	             String userAddress = rs.getString("patron_address");
+			   	             String userPass = rs.getString("patron_password");
+			   	             
+			   	             User onlineUser = new User(userID, userFname, userLname, userEmail1, userContact, userAddress, userPass);
+			   	             //Close database
+			   	             conn.close();
+			   	             return onlineUser;
+		   	             }else {
+		   	            	 String userID = rs.getString("admin_id");
+			   	             String userFname = rs.getString("admin_fname");
+			   	             String userLname = rs.getString("admin_lname");
+			   	             String userEmail1 = rs.getString("admin_email");
+			   	             String userContact = "N/A";
+			   	             String userAddress = "N/A";
+			   	             String userPass = rs.getString("admin_password");
+			   	             
+			   	             User onlineUser = new User(userID, userFname, userLname, userEmail1, userContact, userAddress, userPass);
+			   	             //Close database
+			   	             conn.close();
+			   	             return onlineUser;
+		   	             }
 		   	             
-		   	             User onlineUser = new User(userID, userFname, userLname, userEmail1, userContact, userAddress, userPass);
-		   	             //Close database
-		   	             conn.close();
-		   	             return onlineUser;
 		   	         } else {	
 		   	        	 conn.close();
 		   	        	 return null;

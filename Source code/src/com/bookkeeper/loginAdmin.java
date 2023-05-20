@@ -1,0 +1,133 @@
+package com.bookkeeper;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+public class loginAdmin extends JPanel {
+
+	private JLabel emailLabel;
+	private JTextField emailField;
+	private JLabel passLabel;
+	private JPasswordField passwordField;
+	private JButton loginButton;
+	public User newUser;
+	private JLabel loginPaneLabel;
+	private JButton backButton;
+	JButton signUpButton;
+	
+	
+		
+	public loginAdmin() {
+		setBackground(new Color(18, 57, 150));
+		setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBounds(68, 68, 401, 207);
+		add(panel);
+		
+			setLayout(null);
+			panel.setLayout(null);
+			
+			emailLabel = new JLabel("Email:");
+			emailLabel.setBounds(69, 71, 42, 14);
+			panel.add(emailLabel);
+			
+			emailField = new JTextField();
+			emailField.setBounds(121, 67, 228, 23);
+			panel.add(emailField);
+			emailField.setColumns(10);
+			
+			passLabel = new JLabel("Password:");
+			passLabel.setBounds(46, 109, 65, 14);
+			panel.add(passLabel);
+			
+			passwordField = new JPasswordField();
+			passwordField.setBounds(121, 105, 228, 23);
+			panel.add(passwordField);
+			
+			loginButton = new JButton("Login");
+			loginButton.setFont(new Font("Verdana", Font.BOLD, 11));
+			loginButton.setForeground(new Color(255, 255, 255));
+			loginButton.setBorderPainted(false);
+			loginButton.setBackground(new Color(18, 57, 150));
+			loginButton.addActionListener(new ActionListener() {
+				private int numTries = 1;
+				public void actionPerformed(ActionEvent e) {
+					MainFrame main = (MainFrame) SwingUtilities.getWindowAncestor(loginAdmin.this);
+					int remain = 3 - numTries;
+					
+						try {
+							String email = "";
+							email = emailField.getText();
+							String trimed = email.trim();
+							String table = "admin";
+							String colemail = "admin_email";
+							String colpass = "admin_password";
+							String colStatus ="admin_status";
+							char[] pass = passwordField.getPassword();
+							String password = new String(pass);
+							String status = "active";
+							newUser = main.loginMethod(trimed, password, table, colemail, colpass, colStatus, status);
+							if (newUser == null && numTries<3) {
+								// Show error message if login failed
+								JOptionPane.showMessageDialog(loginAdmin.this, "Invalid email or password" + "\nRemaining Attempts:" + remain, "Error", JOptionPane.ERROR_MESSAGE);
+								numTries++;
+								
+							} else {
+								if(numTries>=3) {
+									JOptionPane.showMessageDialog(loginAdmin.this, "Limit Reached! Program will now close", "Error", JOptionPane.ERROR_MESSAGE);
+									System.exit(0);
+								}
+								// Hide the login panel and show the main interface
+								JOptionPane.showMessageDialog(loginAdmin.this, "Welcome,\n" + newUser.toString() + " !", "\nSuccess", JOptionPane.INFORMATION_MESSAGE);
+								//setVisible(false); nextTime na to wala pa next panel eh
+								//Book_keeper_main_interface.showInterface(newUser);
+							}
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					
+				}
+			});
+			loginButton.setBounds(46, 152, 154, 29);
+			panel.add(loginButton);
+			backButton = new JButton("Back");
+			
+			backButton.setFont(new Font("Verdana", Font.BOLD, 11));
+			backButton.setForeground(new Color(255, 255, 255));
+			backButton.setBackground(new Color(18, 57, 150));
+			backButton.setBorderPainted(false);
+			backButton.setBounds(210, 152, 139, 29);
+			panel.add(backButton);
+			
+			loginPaneLabel = new JLabel("Admin Login");
+			loginPaneLabel.setBackground(new Color(9, 3, 105));
+			loginPaneLabel.setFont(new Font("Verdana", Font.BOLD, 15));
+			loginPaneLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			loginPaneLabel.setBounds(10, 11, 381, 34);
+			panel.add(loginPaneLabel);
+	}
+	public JButton getBackButton() {
+		return backButton;
+	}
+	public JButton getSignUpButton() {
+		return signUpButton;
+		
+	}
+	public void clear() {
+		emailField.setText("");
+		passwordField.setText("");
+	}
+}

@@ -2,7 +2,8 @@ package com.bookkeeper;
 
 public class Employee {
 	private int Employee_id;
-	private String Employee_name;
+	private String fname;
+	private String lname;
 	private String Position;
 	private String Email;
 	private String Employee_pass;
@@ -19,13 +20,6 @@ public class Employee {
 		Employee_id = employee_id;
 	}
 
-	public String getEmployee_name() {
-		return Employee_name;
-	}
-
-	public void setEmployee_name(String employee_name) {
-		Employee_name = employee_name;
-	}
 
 	public String getPosition() {
 		return Position;
@@ -49,6 +43,22 @@ public class Employee {
 
 	public void setEmployee_pass(String employee_pass) {
 		Employee_pass = employee_pass;
+	}
+
+	public String getLname() {
+		return lname;
+	}
+
+	public void setLname(String lname) {
+		this.lname = lname;
+	}
+
+	public String getFname() {
+		return fname;
+	}
+
+	public void setFname(String fname) {
+		this.fname = fname;
 	}
 
 }

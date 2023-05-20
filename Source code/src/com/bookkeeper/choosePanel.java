@@ -20,6 +20,8 @@ public class choosePanel extends JPanel {
 	 * Create the panel.
 	 */
 	private JButton PatronButton;
+	private JButton adminButton;
+	
 	public choosePanel() {
 		setBackground(new Color(18, 57, 150));
 		setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -45,7 +47,7 @@ public class choosePanel extends JPanel {
 		PatronButton.setBounds(80, 109, 161, 140);
 		add(PatronButton);
 		
-		JButton adminButton = new JButton("");
+		adminButton = new JButton("");
 		adminButton.setSelected(false);
 		ImageIcon icon1 = new ImageIcon("D:\\documents\\Final_Project\\img\\adminIcon.png");
 		Image image1 = icon1.getImage();
@@ -74,5 +76,8 @@ public class choosePanel extends JPanel {
 	}
 	public JButton getButtonPatron() {
 		return PatronButton;
+	}
+	public JButton getButtonAdmin() {
+		return adminButton;
 	}
 }
