@@ -32,7 +32,7 @@ public class choosePanel extends JPanel {
 		RoleLabel.setFont(new Font("Verdana", Font.BOLD, 24));
 		RoleLabel.setForeground(Color.WHITE);
 		RoleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		RoleLabel.setBounds(80, 42, 374, 56);
+		RoleLabel.setBounds(208, 76, 374, 56);
 		add(RoleLabel);
 		
 		PatronButton = new JButton("");
@@ -44,7 +44,7 @@ public class choosePanel extends JPanel {
 		PatronButton.setIcon(new ImageIcon(resizedImage));
 		PatronButton.setSelectedIcon(new ImageIcon(resizedImage));
 
-		PatronButton.setBounds(80, 109, 161, 140);
+		PatronButton.setBounds(208, 143, 161, 140);
 		add(PatronButton);
 		
 		adminButton = new JButton("");
@@ -54,7 +54,7 @@ public class choosePanel extends JPanel {
 		Image resizedImage1 = image1.getScaledInstance(105, 105, Image.SCALE_SMOOTH);
 		adminButton.setIcon(new ImageIcon(resizedImage1));
 		adminButton.setSelectedIcon(new ImageIcon(resizedImage1));
-		adminButton.setBounds(293, 109, 161, 140);
+		adminButton.setBounds(421, 143, 161, 140);
 		add(adminButton);
 		
 		JLabel patronLabel = new JLabel("Patron");
@@ -62,7 +62,7 @@ public class choosePanel extends JPanel {
 		patronLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		patronLabel.setForeground(Color.WHITE);
 		patronLabel.setFont(new Font("Verdana", Font.BOLD, 20));
-		patronLabel.setBounds(80, 249, 161, 33);
+		patronLabel.setBounds(208, 283, 161, 33);
 		add(patronLabel);
 		
 		JLabel adminLabel = new JLabel("Admin");
@@ -70,7 +70,7 @@ public class choosePanel extends JPanel {
 		adminLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		adminLabel.setForeground(Color.WHITE);
 		adminLabel.setFont(new Font("Verdana", Font.BOLD, 20));
-		adminLabel.setBounds(293, 249, 161, 33);
+		adminLabel.setBounds(421, 283, 161, 33);
 		add(adminLabel);
 		
 	}

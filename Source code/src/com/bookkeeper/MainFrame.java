@@ -84,8 +84,8 @@ public class MainFrame extends JFrame {
         
         //set what will be shown
         getContentPane().add(mainPane);
-        pack();
-        setSize(560, 365); // Set the size of the frame
+        //pack();
+        setSize(819, 436); // Set the size of the frame
         setVisible(true);
         
         //action Listener For choosePanel
@@ -196,6 +196,7 @@ public class MainFrame extends JFrame {
 	  	     } 
 			return forReturn;
 		}
+		@SuppressWarnings("resource")
 		public void signUp(String fName, String lName, String userEmail, String userContact, String userAddress, String userPass, String userPassConfirm) throws Exception {
 			Connection conn = null;
 		    String url = "jdbc:mysql://localhost/book_keeper";
@@ -220,6 +221,9 @@ public class MainFrame extends JFrame {
 	  	         
 	  	         //Check email Existence
 	  	         condition = checkEmailExistence(userEmail);
+	  	         
+	  	         //
+	  	         //Check
 	  	         if(condition)
 	  	        	 JOptionPane.showMessageDialog(null, "Email Already taken", "Error", JOptionPane.ERROR_MESSAGE);
 	  	         else {

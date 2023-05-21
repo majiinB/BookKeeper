@@ -3,6 +3,8 @@ package com.bookkeeper;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -32,7 +34,7 @@ public class signUpPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(68, 11, 408, 289);
+		panel.setBounds(209, 53, 408, 289);
 		add(panel);
 		panel.setLayout(null);
 		
@@ -90,8 +92,57 @@ public class signUpPanel extends JPanel {
 				String userAddress = homeAddField.getText();
 				String userPass = passField.getText();
 				String userPassConfirm = retypePassField.getText();
+				//String errors
+				String errorFname = "", errorLname = "", errorEmail = "", errorContact = "", errorAdd = "";
+				boolean condition = true;
+				//Check fname input
+				String errorMessage = "";
+				// Check fname input
+				if (fname.trim().isEmpty() || fname.length() < 3 || fname.trim().length() < 3 || fname.equals("First name")) {
+				    errorFname = " First Name";
+				    condition = false;
+				    errorMessage += errorFname + ",";
+				}
+
+				// Check lname input
+				if (lname.trim().isEmpty() || lname.length() < 3 || lname.trim().length() < 3 || lname.equals("Last name")) {
+				    errorLname = " Last Name";
+				    condition = false;
+				    errorMessage += errorLname + ",";
+				}
+
+				// Check email input
+				if (userEmail.equals("") || userEmail.length() < 10 || userEmail.equals("Email address")) {
+				    errorEmail = " Email";
+				    condition = false;
+				    errorMessage += errorEmail + ",";
+				}
+
+				// Check contact input
+				if (userContact.equals("") || userContact.length() < 10 || userContact.length() > 11 || userContact.equals("Contact number")) {
+				    errorContact = " Contact no.";
+				    condition = false;
+				    errorMessage += errorContact + ",";
+				}
+
+				// Check address input
+				if (userAddress.equals("") || userAddress.length() < 10 || userAddress.equals("Home address")) {
+				    errorAdd = " Address";
+				    condition = false;
+				    errorMessage += errorAdd + ",";
+				}
+
+				// Remove the trailing comma from the error message
+				if (!errorMessage.isEmpty()) {
+				    errorMessage = errorMessage.substring(0, errorMessage.length() - 1);
+				    JOptionPane.showMessageDialog(null, "Invalid input for" + errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+				}
+		
 				try {
-					main.signUp(fname, lname, trimmedInput, userContact, userAddress, userPass, userPassConfirm);
+					if(condition) {
+						main.signUp(fname, lname, trimmedInput, userContact, userAddress, userPass, userPassConfirm);
+					}
+					
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

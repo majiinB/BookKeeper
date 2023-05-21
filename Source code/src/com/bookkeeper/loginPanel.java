@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import java.awt.Font;
+import javax.swing.JTable;
 
 public class loginPanel extends JPanel {
 	
