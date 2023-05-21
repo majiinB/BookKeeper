@@ -119,6 +119,7 @@ public class MainFrame extends JFrame {
         //action listener for signup back button
         signUp.getBackBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				signUp.clearAll();
 				cardLayout.show(mainPane, "panel2");
 			}
 		});

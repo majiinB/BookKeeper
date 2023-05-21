@@ -16,12 +16,13 @@ import java.awt.event.ActionEvent;
 
 public class signUpPanel extends JPanel {
 	private JTextField textField;
-	private JTextField firstNameField;
-	private JTextField emailField;
-	private JTextField homeAddField;
-	private JTextField contactNumField;
-	private JTextField passField;
-	private JTextField retypePassField;
+	private PlaceholderTextField firstNameField;
+	private PlaceholderTextField emailField;
+	private PlaceholderTextField homeAddField;
+	private PlaceholderTextField contactNumField;
+	private PlaceholderTextField passField;
+	private PlaceholderTextField retypePassField;
+	private PlaceholderTextField lastNameField;
 	private JButton btnBack;
 	
 
@@ -45,37 +46,37 @@ public class signUpPanel extends JPanel {
 		lblNewLabel.setFont(new Font("Verdana", Font.BOLD, 20));
 		panel.add(lblNewLabel);
 		
-		PlaceholderTextField lastNameField = new PlaceholderTextField("Last name");
+		lastNameField = new PlaceholderTextField("Last name");
 		lastNameField.setBounds(209, 62, 177, 20);
 		panel.add(lastNameField);
 		lastNameField.setColumns(10);
 		
-		PlaceholderTextField firstNameField = new PlaceholderTextField("First name");
+		firstNameField = new PlaceholderTextField("First name");
 		firstNameField.setColumns(10);
 		firstNameField.setBounds(20, 62, 179, 20);
 		panel.add(firstNameField);
 		
-		PlaceholderTextField emailField = new PlaceholderTextField("Email address");
+		emailField = new PlaceholderTextField("Email address");
 		emailField.setBounds(20, 93, 366, 20);
 		panel.add(emailField);
 		emailField.setColumns(10);
 		
-		PlaceholderTextField homeAddField = new PlaceholderTextField("Home address");
+		homeAddField = new PlaceholderTextField("Home address");
 		homeAddField.setColumns(10);
 		homeAddField.setBounds(20, 124, 366, 20);
 		panel.add(homeAddField);
 		
-		PlaceholderTextField contactNumField = new PlaceholderTextField("Contact number");
+		contactNumField = new PlaceholderTextField("Contact number");
 		contactNumField.setColumns(10);
 		contactNumField.setBounds(20, 155, 366, 20);
 		panel.add(contactNumField);
 		
-		PlaceholderTextField passField = new PlaceholderTextField("Password");
+		passField = new PlaceholderTextField("Password");
 		passField.setColumns(10);
 		passField.setBounds(20, 186, 366, 20);
 		panel.add(passField);
 		
-		PlaceholderTextField retypePassField = new PlaceholderTextField("Re-type your password");
+		retypePassField = new PlaceholderTextField("Re-type your password");
 		retypePassField.setColumns(10);
 		retypePassField.setBounds(20, 217, 366, 20);
 		panel.add(retypePassField);
@@ -159,13 +160,7 @@ public class signUpPanel extends JPanel {
 		JButton btnClear = new JButton("Clear");
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				firstNameField.clearInputAndGetPlaceholder();
-				lastNameField.clearInputAndGetPlaceholder();
-				emailField.clearInputAndGetPlaceholder();
-				contactNumField.clearInputAndGetPlaceholder();
-				homeAddField.clearInputAndGetPlaceholder();
-				passField.clearInputAndGetPlaceholder();
-				retypePassField.clearInputAndGetPlaceholder();
+				clearAll();
 			}
 		});
 		btnClear.setForeground(Color.WHITE);
@@ -187,5 +182,14 @@ public class signUpPanel extends JPanel {
 	}
 	public JButton getBackBtn() {
 		return btnBack;
+	}
+	public void clearAll() {
+		firstNameField.clearInputAndGetPlaceholder();
+		lastNameField.clearInputAndGetPlaceholder();
+		emailField.clearInputAndGetPlaceholder();
+		contactNumField.clearInputAndGetPlaceholder();
+		homeAddField.clearInputAndGetPlaceholder();
+		passField.clearInputAndGetPlaceholder();
+		retypePassField.clearInputAndGetPlaceholder();
 	}
 }
