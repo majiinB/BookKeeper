@@ -75,29 +75,27 @@ public class pnlLibraryAdmin extends JPanel {
                 return false;
             }
         };
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Get the selected row and column
+                int selectedRow = table.getSelectedRow();
+                int selectedColumn = table.getSelectedColumn();
+
+                // Get the value from the selected cell
+                Object selectedValue = table.getValueAt(selectedRow, selectedColumn);
+
+                // Display the selected value
+                int option = JOptionPane.showOptionDialog(pnlLibraryAdmin.this,"Selected Value: " + selectedValue, "Cell Value", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[] {"Exit"}, "Exit");
+                if (option == 0) {
+                    // User clicked "Exit"
+                    JOptionPane.getRootFrame().dispose(); // Close the JOptionPane dialog
+                }
+            }
+        });
         btnSearch.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		tableModel.setRowCount(0);
-        		table.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        // Get the selected row and column
-                        int selectedRow = table.getSelectedRow();
-                        int selectedColumn = table.getSelectedColumn();
-
-                        // Get the value from the selected cell
-                        Object selectedValue = table.getValueAt(selectedRow, selectedColumn);
-
-                        // Display the selected value
-                        int option = JOptionPane.showOptionDialog(pnlLibraryAdmin.this,"Selected Value: " + selectedValue, "Cell Value", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[] {"Exit"}, "Exit");
-                        if (option == 0) {
-                            // User clicked "Exit"
-                            JOptionPane.getRootFrame().dispose(); // Close the JOptionPane dialog
-                        }
-                    }
-                });
-                
-                //add table to scroll
                 scrollPane.setViewportView(table);
                 
                 try {
@@ -106,11 +104,17 @@ public class pnlLibraryAdmin extends JPanel {
                 	Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
                 	String getQuery = searchQuery(getSearch);
                     // Execute the SQL query
+                	if (searchBar.getText().equals("")) {
+                        getQuery = "SELECT * FROM book ORDER BY book_title ASC;";
+                    }
+                	else {
+                		getQuery = searchQuery(getSearch);
+                	}
+
+                    // Execute the SQL query
                     Statement statement = connection.createStatement();
                     ResultSet resultSet = statement.executeQuery(getQuery);
-                    if(getQuery.equals("")) {
-                    	getQuery = "SELECT * FROM book ORDER BY book_title ASC;";
-                    }
+                    
                     // Get the metadata for column information
                     ResultSetMetaData metaData = resultSet.getMetaData();
                     int columnCount = metaData.getColumnCount();
@@ -139,8 +143,7 @@ public class pnlLibraryAdmin extends JPanel {
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                
-        	}
+            }
         });
     }
 
