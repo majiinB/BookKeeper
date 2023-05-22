@@ -34,7 +34,7 @@ public class loginPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(64, 70, 401, 207);
+		panel.setBounds(64, 70, 410, 207);
 		add(panel);
 		
 			setLayout(null);
@@ -45,7 +45,7 @@ public class loginPanel extends JPanel {
 			panel.add(emailLabel);
 			
 			emailField = new JTextField();
-			emailField.setBounds(121, 67, 228, 23);
+			emailField.setBounds(121, 67, 244, 23);
 			panel.add(emailField);
 			emailField.setColumns(10);
 			
@@ -54,10 +54,11 @@ public class loginPanel extends JPanel {
 			panel.add(passLabel);
 			
 			passwordField = new JPasswordField();
-			passwordField.setBounds(121, 105, 228, 23);
+			passwordField.setBounds(121, 105, 244, 23);
 			panel.add(passwordField);
 			
-			loginButton = new JButton("Login");
+			loginButton = new JButton("Log-In");
+			loginButton.setOpaque(true);
 			loginButton.setFont(new Font("Verdana", Font.BOLD, 11));
 			loginButton.setForeground(new Color(255, 255, 255));
 			loginButton.setBorderPainted(false);
@@ -92,9 +93,13 @@ public class loginPanel extends JPanel {
 								}
 								// Hide the login panel and show the main interface
 								JOptionPane.showMessageDialog(loginPanel.this, "Welcome,\n" + newUser.toString() + " !", "\nSuccess", JOptionPane.INFORMATION_MESSAGE);
-								//setVisible(false); nextTime na to wala pa next panel eh
-								
-								//Book_keeper_main_interface.showInterface(newUser);
+								MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(loginButton);
+								frame.dispose();
+
+								// Create and show the DashboardFrame
+				                DashboardFrame DashboardFrame = new DashboardFrame();
+				                DashboardFrame.setVisible(true);
+				                
 							}
 						} catch (Exception e1) {
 							e1.printStackTrace();
@@ -102,25 +107,27 @@ public class loginPanel extends JPanel {
 					
 				}
 			});
-			loginButton.setBounds(46, 152, 82, 29);
+			loginButton.setBounds(46, 152, 100, 29);
 			panel.add(loginButton);
 			
-			signUpButton = new JButton("Signup");
+			signUpButton = new JButton("Sign-Up");
+			signUpButton.setOpaque(true);
 			signUpButton.setFont(new Font("Verdana", Font.BOLD, 11));
 			signUpButton.setForeground(new Color(255, 255, 255));
 			signUpButton.setBackground(new Color(18, 57, 150));
 			signUpButton.setBorderPainted(false);
 			
-			signUpButton.setBounds(161, 152, 82, 29);
+			signUpButton.setBounds(158, 152, 116, 29);
 			panel.add(signUpButton);
 			
 			backButton = new JButton("Back");
+			backButton.setOpaque(true);
 			
 			backButton.setFont(new Font("Verdana", Font.BOLD, 11));
 			backButton.setForeground(new Color(255, 255, 255));
 			backButton.setBackground(new Color(18, 57, 150));
 			backButton.setBorderPainted(false);
-			backButton.setBounds(267, 152, 82, 29);
+			backButton.setBounds(283, 152, 82, 29);
 			panel.add(backButton);
 			
 			loginPaneLabel = new JLabel("Log-in to your account");

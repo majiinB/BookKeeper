@@ -28,6 +28,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import java.util.Random;
 
@@ -47,7 +48,6 @@ public class MainFrame extends JFrame {
 			public void run() {
 				try {
 					MainFrame frame = new MainFrame();
-					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					
 				} catch (Exception e) {
@@ -61,13 +61,15 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
     public MainFrame() {
-		setResizable(false);
-    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Book Keeper");
+        setResizable(false);
+        setSize(900,300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        
         mainPane = new JPanel();
         mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        CardLayout cardLayout = new CardLayout();
-        mainPane.setLayout(cardLayout);
+        mainPane.setLayout(new CardLayout());    
         
         //Create panels
         choose = new choosePanel();
@@ -80,12 +82,17 @@ public class MainFrame extends JFrame {
         mainPane.add(loginPanel, "panel2");
         mainPane.add(signUp,"panel3");
         mainPane.add(adminLog,"panel4");
-        cardLayout.show(mainPane, "panel1");
+        CardLayout cardLayout = (CardLayout) mainPane.getLayout();
+        cardLayout.show(mainPane, "panel1");        
         
         //set what will be shown
-        getContentPane().add(mainPane);
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(mainPane, BorderLayout.CENTER);
+        
+
         //pack();
-        setSize(819, 436); // Set the size of the frame
+        
+        setSize(552, 382); // Set the size of the frame
         setVisible(true);
         
         //action Listener For choosePanel
@@ -119,7 +126,6 @@ public class MainFrame extends JFrame {
         //action listener for signup back button
         signUp.getBackBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				signUp.clearAll();
 				cardLayout.show(mainPane, "panel2");
 			}
 		});
@@ -197,13 +203,11 @@ public class MainFrame extends JFrame {
 	  	     } 
 			return forReturn;
 		}
-		@SuppressWarnings("resource")
 		public void signUp(String fName, String lName, String userEmail, String userContact, String userAddress, String userPass, String userPassConfirm) throws Exception {
 			Connection conn = null;
 		    String url = "jdbc:mysql://localhost/book_keeper";
 		    String user = "root";
 		    String password = "";
-		    Scanner scan = new Scanner(System.in);
 		    boolean condition = true;
 		    boolean con1 = true;
 		    String encrypted = ""; 
@@ -222,9 +226,6 @@ public class MainFrame extends JFrame {
 	  	         
 	  	         //Check email Existence
 	  	         condition = checkEmailExistence(userEmail);
-	  	         
-	  	         //
-	  	         //Check
 	  	         if(condition)
 	  	        	 JOptionPane.showMessageDialog(null, "Email Already taken", "Error", JOptionPane.ERROR_MESSAGE);
 	  	         else {
@@ -242,7 +243,6 @@ public class MainFrame extends JFrame {
 						 stmt.setString(7, encrypted); 
 						 stmt.setString(8, status); 
 			  	         stmt.executeUpdate();
-			  	         scan.close();
 
 			  	         JOptionPane.showMessageDialog(null, "Signup successfull!", "Signup", JOptionPane.PLAIN_MESSAGE);
 			  	         

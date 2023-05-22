@@ -13,7 +13,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.JTable;
 
 public class loginAdmin extends JPanel {
 
@@ -25,7 +24,7 @@ public class loginAdmin extends JPanel {
 	public User newUser;
 	private JLabel loginPaneLabel;
 	private JButton backButton;
-	JButton signUpButton;
+
 	
 	
 		
@@ -35,7 +34,8 @@ public class loginAdmin extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(68, 68, 401, 207);
+        panel.setSize(545,300);
+        panel.setBounds(68, 68, 401, 207);
 		add(panel);
 		
 			setLayout(null);
@@ -58,7 +58,8 @@ public class loginAdmin extends JPanel {
 			passwordField.setBounds(121, 105, 228, 23);
 			panel.add(passwordField);
 			
-			loginButton = new JButton("Login");
+			loginButton = new JButton("Log-In");
+			loginButton.setOpaque(true);
 			loginButton.setFont(new Font("Verdana", Font.BOLD, 11));
 			loginButton.setForeground(new Color(255, 255, 255));
 			loginButton.setBorderPainted(false);
@@ -93,8 +94,13 @@ public class loginAdmin extends JPanel {
 								}
 								// Hide the login panel and show the main interface
 								JOptionPane.showMessageDialog(loginAdmin.this, "Welcome,\n" + newUser.toString() + " !", "\nSuccess", JOptionPane.INFORMATION_MESSAGE);
-								//setVisible(false); nextTime na to wala pa next panel eh
-								//Book_keeper_main_interface.showInterface(newUser);
+								MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(loginButton);
+								frame.dispose();
+								
+								// Create and show the DashboardFrame
+								DashboardFrame DashboardFrame = new DashboardFrame();
+				                DashboardFrame.setVisible(true);
+								
 							}
 						} catch (Exception e1) {
 							e1.printStackTrace();
@@ -105,6 +111,7 @@ public class loginAdmin extends JPanel {
 			loginButton.setBounds(46, 152, 154, 29);
 			panel.add(loginButton);
 			backButton = new JButton("Back");
+			backButton.setOpaque(true);
 			
 			backButton.setFont(new Font("Verdana", Font.BOLD, 11));
 			backButton.setForeground(new Color(255, 255, 255));
@@ -123,10 +130,7 @@ public class loginAdmin extends JPanel {
 	public JButton getBackButton() {
 		return backButton;
 	}
-	public JButton getSignUpButton() {
-		return signUpButton;
-		
-	}
+
 	public void clear() {
 		emailField.setText("");
 		passwordField.setText("");

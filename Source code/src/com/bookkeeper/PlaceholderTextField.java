@@ -3,12 +3,18 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+
+import javax.swing.BorderFactory;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 public class PlaceholderTextField extends JTextField{
 	private String placeholder;
+	private Border border;
 	
 	public PlaceholderTextField(String placeholder) {
+		setOpaque(true);
 		this.placeholder = placeholder;
 
         // Set the initial font and foreground color
@@ -23,6 +29,7 @@ public class PlaceholderTextField extends JTextField{
                     setText("");
                     setFont(getFont().deriveFont(Font.PLAIN));
                     setForeground(Color.BLACK);
+
                 }
             }
 
@@ -32,6 +39,7 @@ public class PlaceholderTextField extends JTextField{
                     setText(placeholder);
                     setFont(getFont().deriveFont(Font.ITALIC));
                     setForeground(Color.GRAY);
+
                 }
             }
         });
