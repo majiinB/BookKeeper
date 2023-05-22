@@ -89,8 +89,11 @@ public class pnlLibraryAdmin extends JPanel {
                         Object selectedValue = table.getValueAt(selectedRow, selectedColumn);
 
                         // Display the selected value
-                        JOptionPane.showMessageDialog(pnlLibraryAdmin.this,
-                                "Selected Value: " + selectedValue);
+                        int option = JOptionPane.showOptionDialog(pnlLibraryAdmin.this,"Selected Value: " + selectedValue, "Cell Value", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[] {"Exit"}, "Exit");
+                        if (option == 0) {
+                            // User clicked "Exit"
+                            JOptionPane.getRootFrame().dispose(); // Close the JOptionPane dialog
+                        }
                     }
                 });
                 
@@ -105,7 +108,9 @@ public class pnlLibraryAdmin extends JPanel {
                     // Execute the SQL query
                     Statement statement = connection.createStatement();
                     ResultSet resultSet = statement.executeQuery(getQuery);
-                    // WHERE author_name LIKE '%j.K. rOWLING%' OR genre_name LIKE 'J%'
+                    if(getQuery.equals("")) {
+                    	getQuery = "SELECT * FROM book ORDER BY book_title ASC;";
+                    }
                     // Get the metadata for column information
                     ResultSetMetaData metaData = resultSet.getMetaData();
                     int columnCount = metaData.getColumnCount();
@@ -137,16 +142,6 @@ public class pnlLibraryAdmin extends JPanel {
                 
         	}
         });
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
     }
 
     /*public void displaySearchResults() {
@@ -186,7 +181,7 @@ public class pnlLibraryAdmin extends JPanel {
         return resultPanel;
     }*/
     public String searchQuery(String search) {
-       String query = "SELECT * FROM book WHERE book_title LIKE '%" + search + "%' OR author_name LIKE '%" + search + "%' OR genre_name LIKE '%" + search + "%' OR book_publisher LIKE '%" + search + "%'" ;
+       String query = "SELECT * FROM book WHERE book_title LIKE '" + search + "%' OR author_name LIKE '" + search + "' OR genre_name LIKE '" + search + "%' OR book_publisher LIKE '" + search + "%'" ;
        return query;
     }
     
