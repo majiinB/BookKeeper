@@ -21,7 +21,7 @@ public class loginAdmin extends JPanel {
 	private JLabel passLabel;
 	private JPasswordField passwordField;
 	private JButton loginButton;
-	public User newUser;
+	public Object newUser;
 	private JLabel loginPaneLabel;
 	private JButton backButton;
 

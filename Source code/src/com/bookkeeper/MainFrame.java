@@ -267,7 +267,7 @@ public class MainFrame extends JFrame {
 	       }
 		}
 		//LoginMethod
-		public User loginMethod(String email, String pass, String table, String colEmail, String colPass, String colStatus, String status) throws Exception{
+		public Object loginMethod(String email, String pass, String table, String colEmail, String colPass, String colStatus, String status) throws Exception{
 			 //Declare variables
 			 Connection conn = null;
 		     String url = "jdbc:mysql://localhost/book_keeper";
@@ -313,15 +313,14 @@ public class MainFrame extends JFrame {
 			   	             conn.close();
 			   	             return onlineUser;
 		   	             }else {
-		   	            	 String userID = rs.getString("admin_id");
+		   	            	 int userID = rs.getInt("admin_id");
 			   	             String userFname = rs.getString("admin_fname");
 			   	             String userLname = rs.getString("admin_lname");
 			   	             String userEmail1 = rs.getString("admin_email");
-			   	             String userContact = "N/A";
-			   	             String userAddress = "N/A";
+			   	             String userContact = rs.getString("admin_position");
 			   	             String userPass = rs.getString("admin_password");
 			   	             
-			   	             User onlineUser = new User(userID, userFname, userLname, userEmail1, userContact, userAddress, userPass);
+			   	             Employee onlineUser = new Employee(userID, userFname, userLname, userEmail1, userContact, userPass);
 			   	             //Close database
 			   	             conn.close();
 			   	             return onlineUser;

@@ -8,8 +8,13 @@ public class Employee {
 	private String Email;
 	private String Employee_pass;
 	
-	public Employee() {
-		// TODO Auto-generated constructor stub
+	public Employee(int Employee_id, String fname, String lname,String Position, String Email, String Employee_pass ) {
+		this.Employee_id = Employee_id;
+		this.fname = fname;
+		this.lname = lname;
+		this.Position = Position;
+		this.Email = Email;
+		this.Employee_pass = Employee_pass;
 	}
 
 	public int getEmployee_id() {
