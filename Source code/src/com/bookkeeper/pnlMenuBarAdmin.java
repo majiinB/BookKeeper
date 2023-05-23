@@ -14,23 +14,23 @@ import java.awt.event.ActionEvent;
 public class pnlMenuBarAdmin extends JPanel {
 
 	public  pnlMenuBarAdmin() {
-		setSize(new Dimension(200, 900));
+		setSize(new Dimension(200, 579));
 		setBorder(null);
 		setBackground(new Color(26, 24, 87));
 
 
-	JButton btnLibrary = new JButton("Library");
+	JButton btnLibrary = new JButton("  Library");
 		ImageIcon icnLibrary = new ImageIcon("/Users/PANPAN/Desktop/Bookkeeeper/Final_Project/img/libraryIcon.png");//files are in desktop
 		Image imgLibrary = icnLibrary.getImage();
 		Image rsdImgLibrary = imgLibrary.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
 		setLayout(null);
-		btnLibrary.setIcon(new ImageIcon(rsdImgLibrary));
+		btnLibrary.setIcon(new ImageIcon("D:\\documents\\Final_Project\\img\\libraryIcon.png"));
 		btnLibrary.setSelectedIcon(new ImageIcon(rsdImgLibrary));  
 		btnLibrary.setForeground(new Color(255, 255, 255));
 		btnLibrary.setContentAreaFilled(false);
 	    btnLibrary.setOpaque(false);
 	    btnLibrary.setBorderPainted(false);        
-	    btnLibrary.setBounds(0, 75, 200, 37);
+	    btnLibrary.setBounds(0, 75, 150, 37);
 	    btnLibrary.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		//panel Library
@@ -39,12 +39,12 @@ public class pnlMenuBarAdmin extends JPanel {
 		    });
 	    add(btnLibrary);
     
-    JButton btnReport = new JButton("Reports");
-	    btnReport.setBounds(0, 137, 200, 37);
+    JButton btnReport = new JButton("   Reports");
+	    btnReport.setBounds(0, 137, 150, 37);
 		ImageIcon icnReport = new ImageIcon("/Users/PANPAN/Desktop/Bookkeeeper/Final_Project/img/reportsIcon.png");//files are in desktop
 		Image imgReport = icnReport.getImage();
 		Image rsdImgReport = imgReport.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
-		btnReport.setIcon(new ImageIcon(rsdImgReport));
+		btnReport.setIcon(new ImageIcon("D:\\documents\\Final_Project\\img\\statisticsIcon.png"));
 		btnReport.setSelectedIcon(new ImageIcon(rsdImgReport));        
 		btnReport.setForeground(new Color(255, 255, 255));
 		btnReport.setContentAreaFilled(false);
@@ -58,43 +58,35 @@ public class pnlMenuBarAdmin extends JPanel {
 		    });
 	    add(btnReport);
     
-    JButton btnUsers = new JButton("Manage Users");
+    JButton btnUsers = new JButton("  Manage Users");
 		ImageIcon icnUsers = new ImageIcon("/Users/PANPAN/Desktop/Bookkeeeper/Final_Project/img/userManagementIcont.png");//files are in desktop
 		Image imgUsers = icnUsers.getImage();
 		Image rsdImgUsers = imgUsers.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
-		btnUsers.setIcon(new ImageIcon(rsdImgUsers));
+		btnUsers.setIcon(new ImageIcon("D:\\documents\\Final_Project\\img\\userManagementIcont.png"));
 		btnUsers.setSelectedIcon(new ImageIcon(rsdImgUsers));        
 		btnUsers.setForeground(new Color(255, 255, 255));
 		btnUsers.setContentAreaFilled(false);
 	    btnUsers.setOpaque(false);
 	    btnUsers.setBorderPainted(false);        
-	    btnUsers.setBounds(0, 202, 200, 37);
+	    btnUsers.setBounds(0, 202, 150, 37);
 		    btnUsers.addActionListener(new ActionListener() {
 		    	public void actionPerformed(ActionEvent e) {
 		    		//panel Users
 	
 		    	}
 		    });
-	    add(btnUsers);     
-    
-    JButton btnLogOut = new JButton("Log-Out");
+	    add(btnUsers);
+	    
+	    JButton btnLogOut = new JButton("  Log out");
+	    btnLogOut.setForeground(new Color(255, 255, 255));
+	    btnLogOut.setIcon(new ImageIcon("D:\\documents\\Final_Project\\img\\logOutIcon.png"));
+	    btnLogOut.setContentAreaFilled(false);
+	    btnLogOut.setBorderPainted(false);
+	    btnLogOut.setBounds(0, 486, 143, 37);
+	    add(btnLogOut);
 		ImageIcon icnLogOut = new ImageIcon("/Users/PANPAN/Desktop/Bookkeeeper/Final_Project/img/logOutIcon.png");//files are in desktop
 		Image imgLogOut = icnLogOut.getImage();
 		Image rsdImgLogOut = imgLogOut.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
-		btnLogOut.setIcon(new ImageIcon(rsdImgLogOut));
-		btnLogOut.setSelectedIcon(new ImageIcon(rsdImgLogOut));        
-		
-		btnLogOut.setForeground(new Color(255, 255, 255));
-	    btnLogOut.setContentAreaFilled(false);
-	    btnLogOut.setOpaque(false);
-	    btnLogOut.setBorderPainted(false);
-	    btnLogOut.setBounds(6, 857, 188, 37);
-	    btnLogOut.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	    		//back to main frame choose role
-	
-	    		}
-	    	});
-	    add(btnLogOut);
     
-}}
+}	
+}

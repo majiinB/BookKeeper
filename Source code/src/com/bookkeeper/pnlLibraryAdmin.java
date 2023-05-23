@@ -49,8 +49,12 @@ public class pnlLibraryAdmin extends JPanel {
 
         JButton btnSearch = new JButton("");
         btnSearch.setBounds(0, 0, 40, 38);
-        btnSearch.setIcon(new ImageIcon(rsdImgSearch));
-        btnSearch.setSelectedIcon(new ImageIcon(rsdImgSearch));
+        String imagePath = "D:\\documents\\Final_Project\\img\\searchIcon.png";
+        ImageIcon icon = new ImageIcon(imagePath);
+        Image image = icon.getImage();
+        Image resizedImage = image.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        btnSearch.setIcon(new ImageIcon(resizedImage));
+
         btnSearch.setContentAreaFilled(false);
         btnSearch.setOpaque(false);
         btnSearch.setBorderPainted(false);
@@ -171,7 +175,7 @@ public class pnlLibraryAdmin extends JPanel {
         try {
             // Establish database connection
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
-            String getQuery = "SELECT b.book_id, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
+            String getQuery = "SELECT b.book_id, b.book_title, b.author_name, b.book_publisher, b.genre_name,  b.book_status, l.aisle_number, l.shelf_number FROM book b " +
                     "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
 
             // Execute the SQL query

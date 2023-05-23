@@ -98,7 +98,8 @@ public class loginAdmin extends JPanel {
 								frame.dispose();
 								
 								// Create and show the DashboardFrame
-								DashboardFrame DashboardFrame = new DashboardFrame();
+								//Pass value 1 for the condition inside the dash board
+								DashboardFrame DashboardFrame = new DashboardFrame(1);
 				                DashboardFrame.setVisible(true);
 								
 							}

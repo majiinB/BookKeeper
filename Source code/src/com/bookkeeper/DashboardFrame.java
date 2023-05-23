@@ -1,4 +1,5 @@
 package com.bookkeeper;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -15,7 +16,7 @@ public class DashboardFrame extends JFrame {
     private CardLayout cardLayout;
     private JPanel pnlDashboardDisplay;
 
-    public DashboardFrame() {
+    public DashboardFrame(int toKnowPanel) {
         setResizable(false);
         setTitle("Book Keeper");
         setSize(1000, 600);
@@ -23,71 +24,64 @@ public class DashboardFrame extends JFrame {
         setLocationRelativeTo(null);
         getContentPane().setLayout(null);
 
-        cardLayout = new CardLayout(); // Create a CardLayout 
-        
+        cardLayout = new CardLayout(); // Create a CardLayout
+
         // Create menu bar panel
         pnlMenuBar = new JPanel();
         pnlMenuBar.setBounds(0, 0, 149, 578);
         pnlMenuBar.setLayout(new CardLayout(0, 0));
 
-
-        getContentPane().add(pnlMenuBar);
-        
-     	// Create Card Layout panels of the menu bar
+        // Create Card Layout panels of the menu bar
         pnlMenuBarPatron = new pnlMenuBarPatron();
-        pnlMenuBar.add(pnlMenuBarPatron, "panel1");
         pnlMenuBarAdmin = new pnlMenuBarAdmin();
-        pnlMenuBar.add(pnlMenuBarAdmin, "panel2");
-                
-        pnlMenuBarPatron.setLayout(null);                
+
+        pnlMenuBarPatron.setLayout(null);
         pnlMenuBarAdmin.setLayout(null);
-                
-                
+
+        pnlMenuBar.add(pnlMenuBarPatron, "panel1");
+        pnlMenuBar.add(pnlMenuBarAdmin, "panel2");
+
         pnlUser = new pnlUser();
-        pnlHome = new pnlHome(); 
+        pnlHome = new pnlHome();
         pnlReports = new pnlReports();
         pnlLibraryAdmin = new pnlLibraryAdmin();
         pnlLibraryUser = new pnlLibraryUser();
         pnlAccount = new pnlAccount();
-
 
         // Create dashboard panel
         pnlDashboardDisplay = new JPanel();
         pnlDashboardDisplay.setBorder(null);
         pnlDashboardDisplay.setBounds(148, 0, 989, 578);
         pnlDashboardDisplay.setLayout(new CardLayout(0, 0));
-        
+
         pnlDashboardDisplay.add(pnlLibraryAdmin, "panel3");
         pnlDashboardDisplay.add(pnlReports, "panel4");
         pnlDashboardDisplay.add(pnlUser, "panel5");
-        
-        
         pnlDashboardDisplay.add(pnlHome, "panel6");
-        pnlDashboardDisplay.add(pnlLibraryUser, "oanel7");
+        pnlDashboardDisplay.add(pnlLibraryUser, "panel7");
         pnlDashboardDisplay.add(pnlAccount, "panel8");
-        
-
-        getContentPane().add(pnlDashboardDisplay);
 
         // Show the appropriate panel based on user type
-        //showAdminPanel();
-        //showPatronPanel();
+        if (toKnowPanel == 1) {
+        	cardLayout = (CardLayout) pnlMenuBar.getLayout();
+            cardLayout.show(pnlMenuBar, "panel2");
 
-        setVisible(true);
-    }
+            cardLayout = (CardLayout) pnlDashboardDisplay.getLayout();
+            cardLayout.show(pnlDashboardDisplay, "panel3");
 
-    private void showAdminPanel() {
-    	//paayos nlng
+            getContentPane().add(pnlMenuBar);
+            getContentPane().add(pnlDashboardDisplay);
+        } else {
+        	cardLayout = (CardLayout) pnlMenuBar.getLayout();
+            cardLayout.show(pnlMenuBar, "panel1");
 
-    	// Show the patron-specific panel
-    	cardLayout.show(pnlMenuBar, "panel2");
-        cardLayout.show(pnlDashboardDisplay, "panel3");
-    }
+            cardLayout = (CardLayout) pnlDashboardDisplay.getLayout();
+            cardLayout.show(pnlDashboardDisplay, "panel6");
 
-    private void showPatronPanel() {
-    	//paayos nlng
-    	// Show the patron-specific panel
-        cardLayout.show(pnlMenuBar, "panel1");
-        cardLayout.show(pnlDashboardDisplay, "panel6");
+            getContentPane().add(pnlMenuBar);
+            getContentPane().add(pnlDashboardDisplay);
+        }
+
+        
     }
 }
