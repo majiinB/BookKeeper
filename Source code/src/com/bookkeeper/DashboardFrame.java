@@ -18,7 +18,7 @@ public class DashboardFrame extends JFrame {
     private CardLayout cardLayout;
     private JPanel pnlDashboardDisplay;
  
-    public DashboardFrame(int toKnowPanel) {
+    public DashboardFrame(int toKnowPanel) { 
         setResizable(false);
         setTitle("Book Keeper");
         setSize(1000, 600);
@@ -51,7 +51,7 @@ public class DashboardFrame extends JFrame {
         pnlAccount = new pnlAccount();
 
         // Create dash board panel
-        pnlDashboardDisplay = new JPanel();
+        pnlDashboardDisplay = new JPanel(); 
         pnlDashboardDisplay.setBorder(null);
         pnlDashboardDisplay.setBounds(148, 0, 989, 578);
         pnlDashboardDisplay.setLayout(new CardLayout(0, 0));
@@ -59,7 +59,6 @@ public class DashboardFrame extends JFrame {
         pnlDashboardDisplay.add(pnlLibraryAdmin, "panel3");
         pnlDashboardDisplay.add(pnlReports, "panel4");
         pnlDashboardDisplay.add(pnlUser, "panel5");
-        pnlDashboardDisplay.add(pnlHome, "panel6");
         pnlDashboardDisplay.add(pnlLibraryUser, "panel7");
         pnlDashboardDisplay.add(pnlAccount, "panel8");
 
@@ -78,13 +77,14 @@ public class DashboardFrame extends JFrame {
             cardLayout.show(pnlMenuBar, "panel1");
  
             cardLayout = (CardLayout) pnlDashboardDisplay.getLayout();
-            cardLayout.show(pnlDashboardDisplay, "panel6");
+            cardLayout.show(pnlDashboardDisplay, "panel7");
 
             getContentPane().add(pnlMenuBar);
             getContentPane().add(pnlDashboardDisplay);
         }
 
         //Event listeners
+        //Menu bar admin buttons
         pnlMenuBarAdmin.getLibraryBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 	            cardLayout.show(pnlDashboardDisplay, "panel3");
@@ -110,5 +110,26 @@ public class DashboardFrame extends JFrame {
 				mainFrame.setVisible(true);
 	    	}
 	    });
+        //Menu bar for patron
+        pnlMenuBarPatron.getLibraryBtn().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cardLayout.show(pnlDashboardDisplay, "panel7");
+        	}
+        });
+        pnlMenuBarPatron.getUsersBtn().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cardLayout.show(pnlDashboardDisplay, "panel8");
+        	}
+        });
+        pnlMenuBarPatron.getLogOut().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		DashboardFrame frame_1 = (DashboardFrame) SwingUtilities.getWindowAncestor(pnlMenuBarPatron);
+	    		frame_1.dispose();
+	    	
+	    		MainFrame mainFrame = new MainFrame();
+	    		mainFrame.setLocationRelativeTo(null);
+				mainFrame.setVisible(true);
+        	}
+        });
     }
 }

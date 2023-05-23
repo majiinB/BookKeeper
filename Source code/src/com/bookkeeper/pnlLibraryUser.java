@@ -81,19 +81,8 @@ public class pnlLibraryUser extends JPanel {
 		        table.addMouseListener(new MouseAdapter() {
 		            @Override
 		            public void mouseClicked(MouseEvent e) {
-		                // Get the selected row and column
-		                int selectedRow = table.getSelectedRow();
-		                int selectedColumn = table.getSelectedColumn();
-
-		                // Get the value from the selected cell
-		                Object selectedValue = table.getValueAt(selectedRow, selectedColumn);
-
-		                // Display the selected value
-		                int option = JOptionPane.showOptionDialog(pnlLibraryUser.this,"Selected Value: " + selectedValue, "Cell Value", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[] {"Exit"}, "Exit");
-		                if (option == 0) {
-		                    // User clicked "Exit"
-		                    JOptionPane.getRootFrame().dispose(); // Close the JOptionPane dialog
-		                }
+		            	BookInfoFrame frame = new BookInfoFrame(3);
+		        		frame.setVisible(true);
 		            }
 		        });
 		        scrollPane.setViewportView(table);

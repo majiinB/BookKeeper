@@ -4,9 +4,6 @@ import java.awt.Color;
 import java.awt.Image;
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -23,8 +20,21 @@ public class pnlMenuBarAdmin extends JPanel {
 		setBackground(new Color(26, 24, 87));
 		setLayout(null);
 		
+		JLabel lblLogo = new JLabel(" ");
+		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLogo.setBounds(-19, 45, 180, 124);
+		add(lblLogo);
+		ImageIcon icnLogo = new ImageIcon("D:\\documents\\Final_Project\\img\\bookKeeperLogo.png");//files are in desktop
+		Image imgLogos = icnLogo.getImage();
+		Image rsdImgLogo = imgLogos.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+		lblLogo.setIcon(new ImageIcon(rsdImgLogo));
+		
 		//Library
 		btnLibrary = new JButton("  Library");
+		btnLibrary.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		ImageIcon icnLibrary = new ImageIcon("D:\\documents\\Final_Project\\img\\libraryIcon.png");//files are in desktop
 		Image imgLibrary = icnLibrary.getImage();
 		Image rsdImgLibrary = imgLibrary.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
@@ -34,7 +44,7 @@ public class pnlMenuBarAdmin extends JPanel {
 		btnLibrary.setContentAreaFilled(false);
 	    btnLibrary.setOpaque(false);
 	    btnLibrary.setBorderPainted(false);        
-	    btnLibrary.setBounds(0, 75, 150, 37);
+	    btnLibrary.setBounds(-11, 207, 150, 37);
 	    add(btnLibrary);
 	    
 	    //Reports
@@ -48,11 +58,15 @@ public class pnlMenuBarAdmin extends JPanel {
 		btnReport.setContentAreaFilled(false);
 		btnReport.setOpaque(false);
 		btnReport.setBorderPainted(false);   
-		btnReport.setBounds(0, 137, 150, 37);
+		btnReport.setBounds(-11, 268, 150, 37);
 	    add(btnReport);
 	    
 	    //User management 
 	    btnUsers = new JButton(" Manage Users");
+	    btnUsers.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    	}
+	    });
 		ImageIcon icnUsers = new ImageIcon("D:\\documents\\Final_Project\\img\\userManagementIcont.png");//files are in desktop
 		Image imgUsers = icnUsers.getImage();
 		Image rsdImgUsers = imgUsers.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
@@ -62,7 +76,7 @@ public class pnlMenuBarAdmin extends JPanel {
 		btnUsers.setContentAreaFilled(false);
 	    btnUsers.setOpaque(false);
 	    btnUsers.setBorderPainted(false);        
-	    btnUsers.setBounds(0, 202, 150, 37);
+	    btnUsers.setBounds(-11, 331, 172, 37);
 	    add(btnUsers);
 	    
 	    //Logout button
@@ -76,7 +90,7 @@ public class pnlMenuBarAdmin extends JPanel {
 	    btnLogOut.setContentAreaFilled(false);
 	    btnLogOut.setOpaque(false);
 	    btnLogOut.setBorderPainted(false);
-	    btnLogOut.setBounds(0, 486, 143, 37);
+	    btnLogOut.setBounds(-11, 508, 143, 37);
 	    add(btnLogOut);
     
 	}	

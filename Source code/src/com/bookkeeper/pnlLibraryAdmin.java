@@ -17,6 +17,7 @@ public class pnlLibraryAdmin extends JPanel {
     private JTable table;
     private DefaultTableModel tableModel;
     private JScrollPane scrollPane;
+    private BookInfoFrame frame;
     public pnlLibraryAdmin() {
         setLayout(null);
 
@@ -83,22 +84,17 @@ public class pnlLibraryAdmin extends JPanel {
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Get the selected row and column
-                int selectedRow = table.getSelectedRow();
-                int selectedColumn = table.getSelectedColumn();
-
-                // Get the value from the selected cell
-                Object selectedValue = table.getValueAt(selectedRow, selectedColumn);
-
-                // Display the selected value
-                int option = JOptionPane.showOptionDialog(pnlLibraryAdmin.this,"Selected Value: " + selectedValue, "Cell Value", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[] {"Exit"}, "Exit");
-                if (option == 0) {
-                    // User clicked "Exit"
-                    JOptionPane.getRootFrame().dispose(); // Close the JOptionPane dialog
-                }
+            	BookInfoFrame frame = new BookInfoFrame(2);
+        		frame.setVisible(true);  
             }
         });
         JButton btnAddBook = new JButton("Add Book");
+        btnAddBook.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		BookInfoFrame frame = new BookInfoFrame(1);
+        		frame.setVisible(true);
+        	}
+        });
         
         //set what's inside the scroll pane
         scrollPane.setViewportView(table);

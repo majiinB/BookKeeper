@@ -12,9 +12,9 @@ public class pnlHome extends JPanel {
 		//logo
 		JLabel lblLogo = new JLabel(" ");
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLogo.setBounds(85, 52, 764, 322);
+		lblLogo.setBounds(85, 52, 678, 322);
 		add(lblLogo);
-		ImageIcon icnLogo = new ImageIcon("D:\\documents\\Final_Project\\bookKeeperLogo.png");//files are in desktop
+		ImageIcon icnLogo = new ImageIcon("D:\\documents\\Final_Project\\img\\bookKeeperLogo.png");//files are in desktop
 		Image imgLogos = icnLogo.getImage();
 		Image rsdImgLogo = imgLogos.getScaledInstance(320, 320, Image.SCALE_SMOOTH);
 		lblLogo.setIcon(new ImageIcon(rsdImgLogo));
@@ -35,13 +35,13 @@ public class pnlHome extends JPanel {
 		txtSearchBar.setColumns(10);
 		txtSearchBar.setBorder(new LineBorder(new Color(26, 24, 87), 1, true));
 		txtSearchBar.setBackground(Color.WHITE);
-		txtSearchBar.setBounds(222, 396, 587, 38);
+		txtSearchBar.setBounds(222, 396, 501, 38);
 		add(txtSearchBar);
 		
 		JPanel pnlSearchBtn = new JPanel();
 		pnlSearchBtn.setBorder(new LineBorder(new Color(0, 0, 0)));
 		pnlSearchBtn.setBackground(Color.WHITE);
-		pnlSearchBtn.setBounds(808, 396, 41, 38);
+		pnlSearchBtn.setBounds(722, 396, 41, 38);
 		add(pnlSearchBtn);
 		
 		JButton btnSearch = new JButton("");
@@ -53,7 +53,7 @@ public class pnlHome extends JPanel {
 		btnSearch.setOpaque(false);
 		btnSearch.setContentAreaFilled(false);
 		btnSearch.setBorderPainted(false);
-        ImageIcon icnSearch = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/searchIcon.png");
+        ImageIcon icnSearch = new ImageIcon("D:\\documents\\Final_Project\\img\\searchIcon.png");
         Image imgSearch = icnSearch.getImage();
         Image rsdImgSearch = imgSearch.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         btnSearch.setIcon(new ImageIcon(rsdImgSearch));

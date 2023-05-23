@@ -26,9 +26,6 @@ public class loginAdmin extends JPanel {
 	private JButton backButton; 
 	private Employee employee;
 
-	
-	
-		
 	public loginAdmin() {
 		setBackground(new Color(18, 57, 150));
 		setLayout(null);
