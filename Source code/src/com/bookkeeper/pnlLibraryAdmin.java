@@ -12,14 +12,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class pnlLibraryAdmin extends JPanel {
-    private JTextField searchBar;
+    private JTextField txtSearchBar;
     private JPanel pnlSearchResults;
     private JTable table;
     private DefaultTableModel tableModel;
-    private JTable table_1;
+    private JScrollPane scrollPane;
     public pnlLibraryAdmin() {
         setLayout(null);
 
+        //Create main panel that will contain library panel
         JLabel lblBookKeeper = new JLabel("Book Keeper");
         lblBookKeeper.setBorder(new LineBorder(new Color(26, 24, 87), 1, true));
         lblBookKeeper.setOpaque(true);
@@ -29,45 +30,43 @@ public class pnlLibraryAdmin extends JPanel {
         lblBookKeeper.setBackground(new Color(26, 24, 87));
         lblBookKeeper.setForeground(new Color(232, 246, 239));
         add(lblBookKeeper);
-
-        searchBar = new JTextField();
-        lblBookKeeper.setLabelFor(searchBar);
-        searchBar.setBorder(new LineBorder(new Color(26, 24, 87), 1, true));
-        searchBar.setBackground(new Color(255, 255, 255));
-        searchBar.setBounds(192, 46, 587, 38);
-        add(searchBar);
-        searchBar.setColumns(10);
-
+        
+        //Search bar
+        txtSearchBar = new JTextField();
+        lblBookKeeper.setLabelFor(txtSearchBar);
+        txtSearchBar.setBorder(new LineBorder(new Color(26, 24, 87), 1, true));
+        txtSearchBar.setBackground(new Color(255, 255, 255));
+        txtSearchBar.setBounds(192, 46, 587, 38);
+        txtSearchBar.setColumns(10);
+        add(txtSearchBar);
+        
+        //Search button
+        //create panel for button
         JPanel pnlSearchBtn = new JPanel();
         pnlSearchBtn.setBackground(new Color(255, 255, 255));
         pnlSearchBtn.setBorder(new LineBorder(new Color(0, 0, 0)));
         pnlSearchBtn.setBounds(778, 46, 41, 38);
-
-        ImageIcon icnSearch = new ImageIcon("/Users/PANPAN/Desktop/Bookkeeeper/Final_Project/img/searchIcon.png");
-        Image imgSearch = icnSearch.getImage();
-        Image rsdImgSearch = imgSearch.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-
+        //create button
         JButton btnSearch = new JButton("");
         btnSearch.setBounds(0, 0, 40, 38);
-        String imagePath = "D:\\documents\\Final_Project\\img\\searchIcon.png";
-        ImageIcon icon = new ImageIcon(imagePath);
-        Image image = icon.getImage();
-        Image resizedImage = image.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        btnSearch.setIcon(new ImageIcon(resizedImage));
-
+        ImageIcon icnSearch = new ImageIcon("D:\\documents\\Final_Project\\img\\searchIcon.png");
+        Image imgSearch = icnSearch.getImage();
+        Image rsdImgSearch = imgSearch.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        btnSearch.setIcon(new ImageIcon(rsdImgSearch));
         btnSearch.setContentAreaFilled(false);
         btnSearch.setOpaque(false);
         btnSearch.setBorderPainted(false);
         pnlSearchBtn.add(btnSearch);
         add(pnlSearchBtn);
 
+        //Create panel for result table
         pnlSearchResults = new JPanel();
-        pnlSearchResults.setBounds(55, 123, 764, 400);
+        pnlSearchResults.setBounds(55, 123, 764, 356);
         pnlSearchResults.setLayout(new GridLayout(0, 1, 0, 5));
         add(pnlSearchResults);
         
         //add scroll pane
-        JScrollPane scrollPane = new JScrollPane();
+        scrollPane = new JScrollPane();
         pnlSearchResults.add(scrollPane);
         
         //add table
@@ -76,11 +75,11 @@ public class pnlLibraryAdmin extends JPanel {
             // Override isCellEditable method to make cells not editable
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+                return false; 
             }
         };
         
-       
+       //listener for clicking cells in table
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -99,9 +98,23 @@ public class pnlLibraryAdmin extends JPanel {
                 }
             }
         });
+        JButton btnAddBook = new JButton("Add Book");
+        
+        //set what's inside the scroll pane
         scrollPane.setViewportView(table);
+        
+        //Create button for adding books
+        btnAddBook.setOpaque(true);
+		btnAddBook.setBorderPainted(false);
+        btnAddBook.setForeground(new Color(255, 255, 255));
+        btnAddBook.setBackground(new Color(26, 24, 87));
+        btnAddBook.setBounds(55, 495, 764, 29);
+        add(btnAddBook);
+        
+        //method to display books prior to displaying the library admin panel
         displayAllBooks();
         
+        //Action listener for search button
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tableModel.setRowCount(0);
@@ -109,7 +122,7 @@ public class pnlLibraryAdmin extends JPanel {
 
                 try {
                     // Establish database connection
-                    String getSearch = searchBar.getText().trim();
+                    String getSearch = txtSearchBar.getText().trim();
                     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
                     String getQuery = "";
                     
@@ -156,9 +169,9 @@ public class pnlLibraryAdmin extends JPanel {
             }
         });
     }
-   
     
-    //Methods na dito
+    
+    //Methods
     public String searchQuery(String search) {
        String query = "SELECT b.book_id, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
                "JOIN location l ON b.location_id = l.location_id " +
@@ -174,13 +187,14 @@ public class pnlLibraryAdmin extends JPanel {
     private void displayAllBooks() {
         try {
             // Establish database connection
+        	//Rekta na kasi tinamad mag assign pa ng variables same lang naman kasi db na gagamitin HAHAHAHAA
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
-            String getQuery = "SELECT b.book_id, b.book_title, b.author_name, b.book_publisher, b.genre_name,  b.book_status, l.aisle_number, l.shelf_number FROM book b " +
+            String getQuery = "SELECT b.book_id, b.book_title, b.author_name, b.book_publisher, b.genre_name, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
                     "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
 
             // Execute the SQL query
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(getQuery);
+            ResultSet resultSet = statement.executeQuery(getQuery); 
 
             // Get the metadata for column information
             ResultSetMetaData metaData = resultSet.getMetaData();
@@ -194,7 +208,8 @@ public class pnlLibraryAdmin extends JPanel {
 
             // Set the column names in the table model
             tableModel.setColumnIdentifiers(columnNames);
-
+            
+            //Retrieve all row data
             while (resultSet.next()) {
                 Object[] rowData = new Object[columnCount];
                 for (int i = 1; i <= columnCount; i++) {

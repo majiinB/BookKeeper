@@ -21,9 +21,10 @@ public class loginAdmin extends JPanel {
 	private JLabel passLabel;
 	private JPasswordField passwordField;
 	private JButton loginButton;
-	public Object newUser;
+	private Object newUser;
 	private JLabel loginPaneLabel;
-	private JButton backButton;
+	private JButton backButton; 
+	private Employee employee;
 
 	
 	
@@ -56,7 +57,7 @@ public class loginAdmin extends JPanel {
 			
 			passwordField = new JPasswordField();
 			passwordField.setBounds(121, 105, 228, 23);
-			panel.add(passwordField);
+			panel.add(passwordField); 
 			
 			loginButton = new JButton("Log-In");
 			loginButton.setOpaque(true);
@@ -92,8 +93,9 @@ public class loginAdmin extends JPanel {
 									JOptionPane.showMessageDialog(loginAdmin.this, "Limit Reached! Program will now close", "Error", JOptionPane.ERROR_MESSAGE);
 									System.exit(0);
 								}
+								employee = (Employee) newUser;
 								// Hide the login panel and show the main interface
-								JOptionPane.showMessageDialog(loginAdmin.this, "Welcome,\n" + newUser.toString() + " !", "\nSuccess", JOptionPane.INFORMATION_MESSAGE);
+								JOptionPane.showMessageDialog(loginAdmin.this, "Sucessful Admin Login", "\nSuccess", JOptionPane.INFORMATION_MESSAGE);
 								MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(loginButton);
 								frame.dispose();
 								
@@ -135,5 +137,8 @@ public class loginAdmin extends JPanel {
 	public void clear() {
 		emailField.setText("");
 		passwordField.setText("");
+	}
+	public Employee getAdmin() {
+		return employee;
 	}
 }

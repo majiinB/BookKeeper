@@ -51,7 +51,7 @@ public class MainFrame extends JFrame {
 					frame.setLocationRelativeTo(null);
 					
 				} catch (Exception e) {
-					e.printStackTrace();
+					e.printStackTrace(); 
 				}
 			}
 		});
@@ -258,7 +258,7 @@ public class MainFrame extends JFrame {
 	             // Close the resources
 	             try {
 					if (stmt != null)
-	                    stmt.close();
+	                    stmt.close(); 
 	                if (conn != null)
 	                    conn.close();
 	             } catch (SQLException se) {
