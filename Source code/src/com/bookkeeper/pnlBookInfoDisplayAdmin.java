@@ -28,15 +28,17 @@ public class pnlBookInfoDisplayAdmin extends JPanel{
 	private JTextField txtContactNumberAdmin;
 	private JTextField txtEmailAddressAdmin;
 	private JTextField txtAddressAdmin;
-public pnlBookInfoDisplayAdmin() {
+	private JTextField txtGenre;
+	private JTextField textField_Avail;
+public pnlBookInfoDisplayAdmin(Book book) {
 	setLayout(null);
 	
 	
 	txtTitleAdmin = new JTextField();
 	txtTitleAdmin.setForeground(new Color(23, 21, 77));
 	txtTitleAdmin.setEditable(false);
-	txtTitleAdmin.setText("Book Title Book Title Book ");
-	txtTitleAdmin.setOpaque(false);
+	txtTitleAdmin.setText(book.getBook_title());
+	txtTitleAdmin.setOpaque(true);
 	txtTitleAdmin.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 30));
 	txtTitleAdmin.setColumns(10);
 	txtTitleAdmin.setBorder(null);
@@ -62,7 +64,7 @@ public pnlBookInfoDisplayAdmin() {
 	txtAuthorAdmin.setEditable(false);
 	txtAuthorAdmin.setBounds(128, 1, 400, 30);
 	pnlAuthorAdmin.add(txtAuthorAdmin);
-	txtAuthorAdmin.setText("Book Author");
+	txtAuthorAdmin.setText(book.getBook_author());
 	txtAuthorAdmin.setOpaque(false);
 	txtAuthorAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtAuthorAdmin.setColumns(10);
@@ -80,7 +82,7 @@ public pnlBookInfoDisplayAdmin() {
 	
 	txtBookPublisherAdmin = new JTextField();
 	txtBookPublisherAdmin.setEditable(false);
-	txtBookPublisherAdmin.setText("Book Publisher");
+	txtBookPublisherAdmin.setText(book.getBook_publisher());
 	txtBookPublisherAdmin.setOpaque(false);
 	txtBookPublisherAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtBookPublisherAdmin.setColumns(10);
@@ -100,7 +102,7 @@ public pnlBookInfoDisplayAdmin() {
 	
 	txtPublicationDateAdmin = new JTextField();
 	txtPublicationDateAdmin.setEditable(false);
-	txtPublicationDateAdmin.setText("Publication Date");
+	txtPublicationDateAdmin.setText(book.getBook_publication_date());
 	txtPublicationDateAdmin.setOpaque(false);
 	txtPublicationDateAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtPublicationDateAdmin.setColumns(10);
@@ -112,21 +114,6 @@ public pnlBookInfoDisplayAdmin() {
 	pnlISBNAdmin.setBounds(0, 100, 528, 30);
 	pnlBookDetailsAdmin.add(pnlISBNAdmin);
 	pnlISBNAdmin.setLayout(null);
-	
-	JLabel lblISBNAdmin = new JLabel("ISBN:");
-	lblISBNAdmin.setFont(new Font("Verdana", Font.PLAIN, 13));
-	lblISBNAdmin.setBounds(0, 0, 117, 30);
-	pnlISBNAdmin.add(lblISBNAdmin);
-	
-	txtIsbnAdmin = new JTextField();
-	txtIsbnAdmin.setEditable(false);
-	txtIsbnAdmin.setText("ISBN");
-	txtIsbnAdmin.setOpaque(false);
-	txtIsbnAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
-	txtIsbnAdmin.setColumns(10);
-	txtIsbnAdmin.setBorder(null);
-	txtIsbnAdmin.setBounds(128, 1, 400, 30);
-	pnlISBNAdmin.add(txtIsbnAdmin);
 	
 	JPanel pnlShelfNumberAdmin = new JPanel();
 	pnlShelfNumberAdmin.setBounds(0, 134, 528, 30);
@@ -140,7 +127,7 @@ public pnlBookInfoDisplayAdmin() {
 	
 	txtShelfNumberAdmin = new JTextField();
 	txtShelfNumberAdmin.setEditable(false);
-	txtShelfNumberAdmin.setText("Shelf Number");
+	txtShelfNumberAdmin.setText(book.getShelf());
 	txtShelfNumberAdmin.setOpaque(false);
 	txtShelfNumberAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtShelfNumberAdmin.setColumns(10);
@@ -160,7 +147,7 @@ public pnlBookInfoDisplayAdmin() {
 	
 	txtAisleNumberAdmin = new JTextField();
 	txtAisleNumberAdmin.setEditable(false);
-	txtAisleNumberAdmin.setText("Aisle Number");
+	txtAisleNumberAdmin.setText(book.getAisle());
 	txtAisleNumberAdmin.setOpaque(false);
 	txtAisleNumberAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtAisleNumberAdmin.setColumns(10);
@@ -168,42 +155,51 @@ public pnlBookInfoDisplayAdmin() {
 	txtAisleNumberAdmin.setBounds(128, 1, 400, 30);
 	pnlAisleNumberAdmin.add(txtAisleNumberAdmin);
 	
-	JPanel pnlAvailabilityAdmin = new JPanel();
-	pnlAvailabilityAdmin.setLayout(null);
-	pnlAvailabilityAdmin.setBounds(0, 205, 528, 36);
-	pnlBookDetailsAdmin.add(pnlAvailabilityAdmin);
+	JPanel pnlGenreAdmin = new JPanel();
+	pnlGenreAdmin.setLayout(null);
+	pnlGenreAdmin.setBounds(0, 209, 528, 30);
+	pnlBookDetailsAdmin.add(pnlGenreAdmin);
 	
-	JLabel lblAvailabilityAdmin = new JLabel("Availability:");
-	lblAvailabilityAdmin.setFont(new Font("Verdana", Font.PLAIN, 13));
-	lblAvailabilityAdmin.setBounds(0, 0, 117, 30);
-	pnlAvailabilityAdmin.add(lblAvailabilityAdmin);
+	JLabel lblGenre = new JLabel("Genre:");
+	lblGenre.setFont(new Font("Verdana", Font.PLAIN, 13));
+	lblGenre.setBounds(0, 0, 117, 30);
+	pnlGenreAdmin.add(lblGenre);
 	
-	JComboBox cmbAvailabilityAdmin = new JComboBox();
-	cmbAvailabilityAdmin.setBounds(120, 4, 158, 27);
-	cmbAvailabilityAdmin.addItem("Reserved");
-	cmbAvailabilityAdmin.addItem("Available");
-	cmbAvailabilityAdmin.addItem("Unavailable");
+	txtGenre = new JTextField();
+	txtGenre.setText(book.getBook_genre());
+	txtGenre.setOpaque(false);
+	txtGenre.setFont(new Font("Verdana", Font.ITALIC, 13));
+	txtGenre.setEditable(false);
+	txtGenre.setColumns(10);
+	txtGenre.setBorder(null);
+	txtGenre.setBounds(128, 1, 400, 30);
+	pnlGenreAdmin.add(txtGenre);
+	
+	JPanel pnlAvailabilityAdmin_1 = new JPanel();
+	pnlAvailabilityAdmin_1.setLayout(null);
+	pnlAvailabilityAdmin_1.setBounds(0, 250, 528, 30);
+	pnlBookDetailsAdmin.add(pnlAvailabilityAdmin_1);
+	
+	JLabel lblAvailability = new JLabel("Availability:");
+	lblAvailability.setFont(new Font("Verdana", Font.PLAIN, 13));
+	lblAvailability.setBounds(0, 0, 117, 30);
+	pnlAvailabilityAdmin_1.add(lblAvailability);
+	
+	textField_Avail = new JTextField();
+	textField_Avail.setText(book.getBook_status());
+	textField_Avail.setOpaque(false);
+	textField_Avail.setFont(new Font("Verdana", Font.ITALIC, 13));
+	textField_Avail.setEditable(false);
+	textField_Avail.setColumns(10);
+	textField_Avail.setBorder(null);
+	textField_Avail.setBounds(128, 1, 400, 30);
+	pnlAvailabilityAdmin_1.add(textField_Avail);
     
     JSeparator separator2User = new JSeparator();
     separator2User.setOpaque(true);
     separator2User.setBackground(new Color(23, 21, 77));
     separator2User.setBounds(0, 113, 528, 12);
     add(separator2User);
-	pnlAvailabilityAdmin.add(cmbAvailabilityAdmin);
-	
-	JPanel pnlGenreAdmin = new JPanel();
-	pnlGenreAdmin.setLayout(null);
-	pnlGenreAdmin.setBounds(0, 245, 528, 89);
-	pnlBookDetailsAdmin.add(pnlGenreAdmin);
-	
-	JLabel lblGenreAdmin = new JLabel("Genre:");
-	lblGenreAdmin.setFont(new Font("Verdana", Font.PLAIN, 13));
-	lblGenreAdmin.setBounds(0, 0, 117, 30);
-	pnlGenreAdmin.add(lblGenreAdmin);
-	
-	JList lstGenreAdmin = new JList();
-	lstGenreAdmin.setBounds(10, 30, 512, 50);
-	pnlGenreAdmin.add(lstGenreAdmin);
 	
 	
 	JSeparator separator = new JSeparator();

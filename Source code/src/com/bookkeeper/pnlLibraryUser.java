@@ -146,12 +146,12 @@ public class pnlLibraryUser extends JPanel {
 		    
 		    //Methods na dito
 		    public String searchQuery(String search) {
-		       String query = "SELECT b.book_id, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
-		               "JOIN location l ON b.location_id = l.location_id " +
-		               "WHERE b.book_title LIKE '" + search + "%' OR " +
-		               "b.author_name LIKE '" + search + "%' OR " +
-		               "b.genre_name LIKE '" + search + "%' OR " +
-		               "b.book_publisher LIKE '" + search + "%'";
+		    	 String query = "SELECT b.book_id, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
+		                 "JOIN location l ON b.location_id = l.location_id " +
+		                 "WHERE b.book_title LIKE '" + search + "%' OR " +
+		                 "b.author_name LIKE '" + search + "%' OR " +
+		                 "b.genre_name LIKE '" + search + "%' OR " +
+		                 "b.book_publisher LIKE '" + search + "%'";
 		       return query;
 		    }
 		    public void addBook() {
