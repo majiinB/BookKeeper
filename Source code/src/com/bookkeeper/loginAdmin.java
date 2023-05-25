@@ -33,7 +33,7 @@ public class loginAdmin extends JPanel {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
         panel.setSize(545,300);
-        panel.setBounds(68, 68, 401, 207);
+        panel.setBounds(190, 175, 401, 207);
 		add(panel);
 		
 			setLayout(null);

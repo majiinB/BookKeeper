@@ -14,11 +14,12 @@ import java.sql.Statement;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 public class pnlAccount extends JPanel {
-    private JTable table;
+	private JTable table;
     private DefaultTableModel tableModel;
     private JTable table_1;
+    private User logUser;
     
-	public pnlAccount() {
+    public pnlAccount(User user) {
 	setBackground(new Color(255, 255, 255));
 	setLayout(null);
 	
@@ -43,7 +44,7 @@ public class pnlAccount extends JPanel {
 	JPanel column1 = new JPanel(new GridLayout(0, 1));
 	pnlinformation.add(column1);
 
-	JLabel lblName = new JLabel("  Name:");
+	JLabel lblName = new JLabel("  Name:  ");
 	column1.add(lblName);
 
 	JLabel lblID = new JLabel("  ID:");

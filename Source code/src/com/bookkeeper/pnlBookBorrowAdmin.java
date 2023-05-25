@@ -1,22 +1,13 @@
 package com.bookkeeper;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import java.sql.Connection;
@@ -24,7 +15,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
-
+import java.time.LocalDate;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 public class pnlBookBorrowAdmin extends JPanel {
 	private JPanel pnlButtons;
 	private JPanel  pnlPatron;
@@ -53,7 +46,7 @@ public class pnlBookBorrowAdmin extends JPanel {
 	private PlaceholderTextField txtGenre;
 	private PlaceholderTextField txtAvail;
 	
-	public pnlBookBorrowAdmin() {
+	public pnlBookBorrowAdmin(Book book) {
 		setBorder(new EmptyBorder(20, 20, 20, 60));
 
 		pnlBorrowerInfo = new JPanel();
@@ -73,7 +66,7 @@ public class pnlBookBorrowAdmin extends JPanel {
 		lblBorrow.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 40));
 		lblBorrow.setBounds(0, 0, 116, 30);
 		
-		txtTitle = new PlaceholderTextField("");
+		txtTitle = new PlaceholderTextField(book.getBook_title());
 		txtTitle.setEditable(false);
 		txtTitle.setOpaque(true);
 		txtTitle.setColumns(10);
@@ -96,9 +89,9 @@ public class pnlBookBorrowAdmin extends JPanel {
 		lblAuthor.setBounds(0, 0, 116, 30);
 		lblAuthor.setFont(new Font("Verdana", Font.PLAIN, 13));
 		
-		txtAuthor = new PlaceholderTextField("");
+		txtAuthor = new PlaceholderTextField(book.getBook_author());
 		txtAuthor.setEditable(false);
-		txtAuthor.setBounds(128, 1, 400, 30);
+		txtAuthor.setBounds(92, 1, 167, 30);
 		txtAuthor.setOpaque(false);
 		txtAuthor.setColumns(10);
 		txtAuthor.setBorder(null);
@@ -109,7 +102,7 @@ public class pnlBookBorrowAdmin extends JPanel {
 		lblPublisher.setFont(new Font("Verdana", Font.PLAIN, 13));
 		lblPublisher.setBounds(0, 0, 116, 30);
 		
-		txtBookPublisher = new PlaceholderTextField("");
+		txtBookPublisher = new PlaceholderTextField(book.getBook_publisher());
 		txtBookPublisher.setEditable(false);
 		txtBookPublisher.setOpaque(false);
 		txtBookPublisher.setColumns(10);
@@ -123,7 +116,7 @@ public class pnlBookBorrowAdmin extends JPanel {
 		lblPublicationDate.setFont(new Font("Verdana", Font.PLAIN, 13));
 		lblPublicationDate.setBounds(0, 0, 117, 30);
 		
-		txtPublicationDate = new PlaceholderTextField("");
+		txtPublicationDate = new PlaceholderTextField(book.getBook_publication_date());
 		txtPublicationDate.setOpaque(false);
 		txtPublicationDate.setEditable(false);
 		txtPublicationDate.setColumns(10);
@@ -139,12 +132,12 @@ public class pnlBookBorrowAdmin extends JPanel {
 		lblGenre.setBounds(0, 0, 117, 30);
 		
 		txtGenre = new PlaceholderTextField("");
-		txtGenre.setText("");
+		txtGenre.setText(book.getBook_genre());
 		txtGenre.setOpaque(false);
 		txtGenre.setEditable(false);
 		txtGenre.setColumns(10);
 		txtGenre.setBorder(null);
-		txtGenre.setBounds(128, 1, 400, 30);
+		txtGenre.setBounds(62, 2, 197, 38);
 		
 		pnlAvailability.setLayout(null);
 		pnlAvailability.setBounds(0, 250, 528, 30);
@@ -156,20 +149,12 @@ public class pnlBookBorrowAdmin extends JPanel {
 
 		
 		txtAvail = new PlaceholderTextField("");
-		txtAvail.setText("");
+		txtAvail.setText(book.getBook_status());
 		txtAvail.setOpaque(false);
 		txtAvail.setEditable(false);
 		txtAvail.setColumns(10);
 		txtAvail.setBorder(null);
-		txtAvail.setBounds(128, 1, 400, 30);
-		
-		txtPublicationDate = new PlaceholderTextField("");
-		txtPublicationDate.setBounds(128, 93, 400, 30);
-		txtPublicationDate.setText("");
-		txtPublicationDate.setEditable(false);
-		txtPublicationDate.setOpaque(false);
-		txtPublicationDate.setColumns(10);
-		txtPublicationDate.setBorder(null);
+		txtAvail.setBounds(82, 2, 177, 38);
 		
 		btnSaveChangesEdit = new JButton("Save Changes");
 		btnSaveChangesEdit.setOpaque(true);
@@ -204,7 +189,6 @@ public class pnlBookBorrowAdmin extends JPanel {
 		pnlPublisher.add(lblPublisher);
 		pnlPublisher.add(txtBookPublisher);
 		pnlPublicationDate.add(lblPublicationDate);
-		pnlPublicationDate.add(txtPublicationDate);
 		pnlGenreAdmin.add(lblGenre);
 		pnlGenreAdmin.add(txtGenre);
 		pnlAvailability.add(lblAvailability);
@@ -213,6 +197,15 @@ public class pnlBookBorrowAdmin extends JPanel {
 		pnlBorrowBook.add(pnlBorrowerInfo);
 		pnlBorrowBook.add(pnlAuthor);
 		pnlBorrowBook.add(pnlPublicationDate);
+		
+		PlaceholderTextField txtPublication = new PlaceholderTextField((String) null);
+		txtPublication.setText(book.getBook_publication_date());
+		txtPublication.setOpaque(false);
+		txtPublication.setEditable(false);
+		txtPublication.setColumns(10);
+		txtPublication.setBorder(null);
+		txtPublication.setBounds(114, 0, 145, 37);
+		pnlPublicationDate.add(txtPublication);
 		pnlBorrowBook.add(pnlGenreAdmin);
 		pnlBorrowBook.add(pnlAvailability);
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -222,5 +215,82 @@ public class pnlBookBorrowAdmin extends JPanel {
 		add(pnlHeader);
 		add(pnlBorrowBook);
 		add(pnlButtons);
+		
+		//Listeners
+		btnSaveChangesEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String patronID = txtEnterPatronID.getText();
+				int bookID = book.getBook_id();
+				if(checkUserExistence(patronID)) {
+					insertBorrowedBook(bookID, patronID);
+					JOptionPane.showMessageDialog(pnlBookBorrowAdmin.this, "Successfully borrowed", "Success", JOptionPane.PLAIN_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(pnlBookBorrowAdmin.this, "Patron ID does not exist", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 	}
+	//Methods
+	public boolean checkUserExistence(String patronId) {
+	    boolean userExists = false;
+
+	    try {
+	        // Establish database connection
+	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+	        // Prepare the SQL statement
+	        String query = "SELECT COUNT(*) FROM patron WHERE BINARY patron_id = ?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, patronId);
+
+	        // Execute the query and check the result
+	        ResultSet resultSet = statement.executeQuery();
+	        if (resultSet.next()) {
+	            int count = resultSet.getInt(1);
+	            userExists = (count > 0);
+	        }
+
+	        // Close the database connection
+	        resultSet.close();
+	        statement.close();
+	        connection.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return userExists;
+	}
+	public void insertBorrowedBook(int bookId, String patronId) {
+	    try {
+	        // Establish database connection
+	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+	        // Prepare the SQL statement
+	        String query = "INSERT INTO borrowed_book (book_id, patron_id, borrowed_date, borrowed_due_date) VALUES (?, ?, ?, ?)";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setInt(1, bookId);
+	        statement.setString(2, patronId);
+	        
+	        // Get the current date
+	        LocalDate currentDate = LocalDate.now();
+	        statement.setDate(3, java.sql.Date.valueOf(currentDate));
+
+	        // Calculate the due date (current date + 3 weeks)
+	        LocalDate dueDate = currentDate.plusWeeks(3);
+	        statement.setDate(4, java.sql.Date.valueOf(dueDate));
+
+	        // Execute the query
+	        statement.executeUpdate();
+
+	        // Close the database connection
+	        statement.close();
+	        connection.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	public JButton getCancelBorrow() {
+		return btnCancelEdit;
+	}
+	
 }

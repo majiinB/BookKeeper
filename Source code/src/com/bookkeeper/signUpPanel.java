@@ -34,7 +34,7 @@ public class signUpPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(61, 26, 408, 289);
+		panel.setBounds(191, 137, 408, 289);
 		add(panel);
 		panel.setLayout(null);
 		

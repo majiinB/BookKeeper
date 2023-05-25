@@ -23,6 +23,7 @@ public class BookInfoFrame extends JFrame {
 	private pnlBookInfoDisplayAdmin pnlBookInfoDisplayAdmin;
 	private CardLayout cardLayout;
 	private pnlEditBookInfo editBook;
+	private pnlBookBorrowAdmin pnlBorrow;
 	
 	/**
 	 * @wbp.parser.constructor
@@ -44,6 +45,9 @@ public class BookInfoFrame extends JFrame {
 	    
 	    editBook = new pnlEditBookInfo(book);
 	    getContentPane().add( editBook, "panel4");
+	    
+	    pnlBorrow = new pnlBookBorrowAdmin(book);
+	    getContentPane().add(pnlBorrow, "panel5");
 
 	    if (toKnow == 2) {
 	        cardLayout.show(getContentPane(), "panel2");
@@ -69,6 +73,24 @@ public class BookInfoFrame extends JFrame {
 	                frame_1.dispose();
 				}
 			});
+	        pnlBookInfoDisplayAdmin.getCancel().addActionListener(new ActionListener() {
+	    		public void actionPerformed(ActionEvent e) {
+	    			BookInfoFrame frame_1 = (BookInfoFrame) SwingUtilities.getWindowAncestor(pnlBookAddAdmin);
+	                frame_1.dispose();
+	    		}
+	    	});
+	        pnlBookInfoDisplayAdmin.getBorrowbtn().addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                cardLayout.show(getContentPane(), "panel5");
+	            }
+	        });
+	        pnlBorrow.getCancelBorrow().addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	            	BookInfoFrame frame_1 = (BookInfoFrame) SwingUtilities.getWindowAncestor(pnlBookInfoDisplayAdmin);
+	                frame_1.dispose();
+	            }
+	        });
+
 
 	    setVisible(true);
 	}
@@ -85,9 +107,11 @@ public class BookInfoFrame extends JFrame {
 		pnlBookInfoDisplayUser = new pnlBookInfoDisplayUser();
 		getContentPane().add(pnlBookInfoDisplayUser, "panel1");
 		
+		//Add panel that shows where you input book info
 		pnlBookAddAdmin = new pnlBookAddAdmin();
 		getContentPane().add(pnlBookAddAdmin, "panel3");
 		
+		//condition for initial show
 		if (toKnow == 1) {
 			cardLayout.show(getContentPane(), "panel3");
 		} 
@@ -104,4 +128,5 @@ public class BookInfoFrame extends JFrame {
 		
 		setVisible(true);
 	}
+	
 }

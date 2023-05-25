@@ -26,7 +26,8 @@ public class loginPanel extends JPanel {
 	public Object newUser;
 	private JLabel loginPaneLabel;
 	private JButton backButton;
-	JButton signUpButton;
+	private JButton signUpButton;
+	private User user;
 	
 	public loginPanel() {
 		setBackground(new Color(18, 57, 150));
@@ -34,7 +35,7 @@ public class loginPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(64, 70, 410, 207);
+		panel.setBounds(185, 182, 410, 207);
 		add(panel);
 		
 			setLayout(null);
@@ -92,6 +93,7 @@ public class loginPanel extends JPanel {
 									System.exit(0);
 								}
 								// Hide the login panel and show the main interface
+								user = (User) newUser;
 								JOptionPane.showMessageDialog(loginPanel.this, "Welcome,\n" + newUser.toString() + " !", "\nSuccess", JOptionPane.INFORMATION_MESSAGE);
 								MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(loginButton);
 								frame.dispose();
@@ -143,9 +145,9 @@ public class loginPanel extends JPanel {
 	 * Create the panel.
 	 */
 	
-	/*public User getUser() {
-		return newUser;
-	}*/
+	public User getUser() {
+		return user;
+	}
 	public JButton getBackButton() {
 		return backButton;
 	}
@@ -157,4 +159,5 @@ public class loginPanel extends JPanel {
 		emailField.setText("");
 		passwordField.setText("");
 	}
+
 }

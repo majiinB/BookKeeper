@@ -21,7 +21,6 @@ public class pnlBookInfoDisplayAdmin extends JPanel{
 	private JButton btnEditInfoAdmin;
 	private JTextField txtBookPublisherAdmin;
 	private JTextField txtPublicationDateAdmin;
-	private JTextField txtIsbnAdmin;
 	private JTextField txtShelfNumberAdmin;
 	private JTextField txtAisleNumberAdmin;
 	private JTextField txtNameOfBorrowerAdmin;
@@ -33,6 +32,7 @@ public class pnlBookInfoDisplayAdmin extends JPanel{
 	private JTextField txtGenre;
 	private JTextField textField_Avail;
 	private JTextField txtPublicationDate;
+	private JButton btnBorrowBook;
 	
 public pnlBookInfoDisplayAdmin(Book book) {
 	setLayout(null);
@@ -205,7 +205,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
     JSeparator separator2User = new JSeparator();
     separator2User.setOpaque(true);
     separator2User.setBackground(new Color(23, 21, 77));
-    separator2User.setBounds(0, 357, 528, 12);
+    separator2User.setBounds(30, 358, 528, 12);
     add(separator2User);
 	
 	
@@ -354,7 +354,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	btnCancelAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	btnCancelAdmin.setBorderPainted(false);
 	btnCancelAdmin.setBackground(new Color(23, 22, 77));
-	btnCancelAdmin.setBounds(308, 612, 250, 29);
+	btnCancelAdmin.setBounds(380, 612, 178, 29);
 	add(btnCancelAdmin);
 	
 	btnEditInfoAdmin = new JButton("Edit Info");
@@ -363,11 +363,26 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	btnEditInfoAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	btnEditInfoAdmin.setBorderPainted(false);
 	btnEditInfoAdmin.setBackground(new Color(23, 22, 77));
-	btnEditInfoAdmin.setBounds(30, 612, 250, 29); 
+	btnEditInfoAdmin.setBounds(206, 612, 162, 29); 
 	add(btnEditInfoAdmin);
+	
+	btnBorrowBook = new JButton("Borrow Book");
+	btnBorrowBook.setOpaque(true);
+	btnBorrowBook.setForeground(Color.WHITE);
+	btnBorrowBook.setFont(new Font("Verdana", Font.ITALIC, 13));
+	btnBorrowBook.setBorderPainted(false);
+	btnBorrowBook.setBackground(new Color(23, 22, 77));
+	btnBorrowBook.setBounds(30, 612, 170, 29);
+	add(btnBorrowBook);
 	}
 	//Method
 	public JButton getEditbtn() {
 		return btnEditInfoAdmin;
+	}
+	public JButton getCancel() {
+		return btnCancelAdmin;
+	}
+	public JButton getBorrowbtn() {
+		return btnBorrowBook;
 	}
 }
