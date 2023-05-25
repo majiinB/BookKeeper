@@ -13,6 +13,7 @@ public class Book {
 	
 	//Constructor
 	public Book(int Book_id, String Book_title, String Book_genre, String Book_author, String Book_publication_date, String Book_publisher, String Book_status, int aisle, int shelf ) {
+		this.Book_title = Book_title;
 		this.Book_id = Book_id;
 		this.Book_genre = Book_genre;
 		this.Book_author = Book_author;

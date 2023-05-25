@@ -96,8 +96,8 @@ public class signUpPanel extends JPanel {
 				//String errors
 				String errorFname = "", errorLname = "", errorEmail = "", errorContact = "", errorAdd = "";
 				boolean condition = true;
-				//Check fname input
 				String errorMessage = "";
+				
 				// Check fname input
 				if (fname.trim().isEmpty() || fname.length() < 3 || fname.trim().length() < 3 || fname.equals("First name")) {
 				    errorFname = " First Name";
@@ -142,12 +142,15 @@ public class signUpPanel extends JPanel {
 				try {
 					if(condition) {
 						main.signUp(fname, lname, trimmedInput, userContact, userAddress, userPass, userPassConfirm);
+						main.getLayout().show(main.getPanel(), "panel2");
 					}
 					
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				
+				
 			}
 		});
 		createAccField.setBorderPainted(false);

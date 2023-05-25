@@ -39,6 +39,7 @@ public class MainFrame extends JFrame {
 	private choosePanel choose;
 	private signUpPanel signUp;
 	private loginAdmin adminLog;
+	private CardLayout cardLayout;
 
 	/**
 	 * Launch the application.
@@ -63,11 +64,17 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         setTitle("Book Keeper");
         setResizable(false);
-        setSize(900,300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setSize(800, 600);
+        setVisible(true);
         
+        
+        ImageIcon icon = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/bookKeeperLogo.png");
+        Image image = icon.getImage();
+        setIconImage(image);
         mainPane = new JPanel();
+        mainPane.setBackground(new Color(26, 25, 86));
         mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         mainPane.setLayout(new CardLayout());    
         
@@ -82,7 +89,7 @@ public class MainFrame extends JFrame {
         mainPane.add(loginPanel, "panel2");
         mainPane.add(signUp,"panel3");
         mainPane.add(adminLog,"panel4");
-        CardLayout cardLayout = (CardLayout) mainPane.getLayout();
+        cardLayout = (CardLayout) mainPane.getLayout();
         cardLayout.show(mainPane, "panel1");        
         
         //set what will be shown
@@ -90,10 +97,6 @@ public class MainFrame extends JFrame {
         getContentPane().add(mainPane, BorderLayout.CENTER);
         
 
-        //pack();
-        
-        setSize(552, 382); // Set the size of the frame
-        setVisible(true);
         
         //action Listener For choosePanel
         choose.getButtonPatron().addActionListener(new ActionListener() {
@@ -393,5 +396,11 @@ public class MainFrame extends JFrame {
 			return forReturn;
 			
 		}
-		    
+//Methods
+	public CardLayout getLayout() {
+		return cardLayout;
+	}
+	public JPanel getPanel() {
+		return mainPane;
+	}
 }

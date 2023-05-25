@@ -2,7 +2,7 @@ package com.bookkeeper;
 
 import java.awt.Color;
 import java.awt.Font;
-
+import java.util.*;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -30,28 +30,30 @@ public class pnlBookInfoDisplayAdmin extends JPanel{
 	private JTextField txtAddressAdmin;
 	private JTextField txtGenre;
 	private JTextField textField_Avail;
+	private JTextField txtPublicationDate;
+	
 public pnlBookInfoDisplayAdmin(Book book) {
 	setLayout(null);
-	
 	
 	txtTitleAdmin = new JTextField();
 	txtTitleAdmin.setForeground(new Color(23, 21, 77));
 	txtTitleAdmin.setEditable(false);
 	txtTitleAdmin.setText(book.getBook_title());
 	txtTitleAdmin.setOpaque(true);
-	txtTitleAdmin.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 30));
+	txtTitleAdmin.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 20));
 	txtTitleAdmin.setColumns(10);
 	txtTitleAdmin.setBorder(null);
-	txtTitleAdmin.setBounds(30, 6, 528, 46);
+	txtTitleAdmin.setBounds(30, 43, 528, 46);
 	add(txtTitleAdmin);
 	
+	System.out.print(book.getBook_title());
 	JPanel pnlBookDetailsAdmin = new JPanel();
-	pnlBookDetailsAdmin.setBounds(30, 49, 528, 334);
+	pnlBookDetailsAdmin.setBounds(30, 76, 528, 282);
 	add(pnlBookDetailsAdmin);
 	pnlBookDetailsAdmin.setLayout(null);
 	
 	JPanel pnlAuthorAdmin = new JPanel();
-	pnlAuthorAdmin.setBounds(0, 0, 528, 30);
+	pnlAuthorAdmin.setBounds(0, 11, 528, 30);
 	pnlBookDetailsAdmin.add(pnlAuthorAdmin);
 	pnlAuthorAdmin.setLayout(null);
 	
@@ -71,7 +73,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	txtAuthorAdmin.setBorder(null);
 	
 	JPanel pnlPublisherAdmin = new JPanel();
-	pnlPublisherAdmin.setBounds(0, 34, 528, 30);
+	pnlPublisherAdmin.setBounds(0, 52, 528, 30);
 	pnlBookDetailsAdmin.add(pnlPublisherAdmin);
 	pnlPublisherAdmin.setLayout(null);
 	
@@ -91,7 +93,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	pnlPublisherAdmin.add(txtBookPublisherAdmin);
 	
 	JPanel pnlPublicationDateAdmin = new JPanel();
-	pnlPublicationDateAdmin.setBounds(0, 67, 528, 30);
+	pnlPublicationDateAdmin.setBounds(0, 93, 528, 30);
 	pnlBookDetailsAdmin.add(pnlPublicationDateAdmin);
 	pnlPublicationDateAdmin.setLayout(null);
 	
@@ -100,20 +102,15 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	lblPublicationDateAdmin.setBounds(0, 0, 117, 30);
 	pnlPublicationDateAdmin.add(lblPublicationDateAdmin);
 	
-	txtPublicationDateAdmin = new JTextField();
-	txtPublicationDateAdmin.setEditable(false);
-	txtPublicationDateAdmin.setText(book.getBook_publication_date());
-	txtPublicationDateAdmin.setOpaque(false);
-	txtPublicationDateAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
-	txtPublicationDateAdmin.setColumns(10);
-	txtPublicationDateAdmin.setBorder(null);
-	txtPublicationDateAdmin.setBounds(128, 1, 400, 30);
-	pnlPublicationDateAdmin.add(txtPublicationDateAdmin);
-	
-	JPanel pnlISBNAdmin = new JPanel();
-	pnlISBNAdmin.setBounds(0, 100, 528, 30);
-	pnlBookDetailsAdmin.add(pnlISBNAdmin);
-	pnlISBNAdmin.setLayout(null);
+	txtPublicationDate = new JTextField();
+	txtPublicationDate.setText(book.getBook_publication_date());
+	txtPublicationDate.setOpaque(false);
+	txtPublicationDate.setFont(new Font("Verdana", Font.ITALIC, 13));
+	txtPublicationDate.setEditable(false);
+	txtPublicationDate.setColumns(10);
+	txtPublicationDate.setBorder(null);
+	txtPublicationDate.setBounds(128, 0, 400, 30);
+	pnlPublicationDateAdmin.add(txtPublicationDate);
 	
 	JPanel pnlShelfNumberAdmin = new JPanel();
 	pnlShelfNumberAdmin.setBounds(0, 134, 528, 30);
@@ -194,11 +191,20 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	textField_Avail.setBorder(null);
 	textField_Avail.setBounds(128, 1, 400, 30);
 	pnlAvailabilityAdmin_1.add(textField_Avail);
+	
+	txtPublicationDateAdmin = new JTextField();
+	txtPublicationDateAdmin.setBounds(128, 93, 400, 30);
+	txtPublicationDateAdmin.setText(book.getBook_publication_date());
+	txtPublicationDateAdmin.setEditable(false);
+	txtPublicationDateAdmin.setOpaque(false);
+	txtPublicationDateAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
+	txtPublicationDateAdmin.setColumns(10);
+	txtPublicationDateAdmin.setBorder(null);
     
     JSeparator separator2User = new JSeparator();
     separator2User.setOpaque(true);
     separator2User.setBackground(new Color(23, 21, 77));
-    separator2User.setBounds(0, 113, 528, 12);
+    separator2User.setBounds(0, 357, 528, 12);
     add(separator2User);
 	
 	
@@ -211,7 +217,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	
 	JPanel pnlBorrowerDetailsAdmin = new JPanel();
 	pnlBorrowerDetailsAdmin.setLayout(null);
-	pnlBorrowerDetailsAdmin.setBounds(30, 384, 528, 239);
+	pnlBorrowerDetailsAdmin.setBounds(30, 373, 528, 239);
 	add(pnlBorrowerDetailsAdmin);
 	
 	JLabel lblBorrowersInformationAdmin = new JLabel("Borrower's Information");
@@ -347,7 +353,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	btnCancelAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	btnCancelAdmin.setBorderPainted(false);
 	btnCancelAdmin.setBackground(new Color(23, 22, 77));
-	btnCancelAdmin.setBounds(308, 624, 250, 29);
+	btnCancelAdmin.setBounds(308, 612, 250, 29);
 	add(btnCancelAdmin);
 	
 	btnEditInfoAdmin = new JButton("Edit Info");
@@ -356,7 +362,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	btnEditInfoAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	btnEditInfoAdmin.setBorderPainted(false);
 	btnEditInfoAdmin.setBackground(new Color(23, 22, 77));
-	btnEditInfoAdmin.setBounds(30, 624, 250, 29);
+	btnEditInfoAdmin.setBounds(30, 612, 250, 29);
 	add(btnEditInfoAdmin);
 }
 }

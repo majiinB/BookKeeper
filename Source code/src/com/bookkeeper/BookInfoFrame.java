@@ -25,7 +25,7 @@ public class BookInfoFrame extends JFrame {
 	
 	public BookInfoFrame(int toKnow, Book book) {
 	    setTitle("Book Keeper");
-	    setSize(587, 690);
+	    setSize(590, 690);
 	    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    setLocationRelativeTo(null);
 
