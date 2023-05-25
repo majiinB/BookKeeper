@@ -19,10 +19,14 @@ import javax.swing.JComboBox;
 public class BookInfoFrame extends JFrame {
 	
 	private pnlBookInfoDisplayUser pnlBookInfoDisplayUser;
-	private pnlBookInfoEditAdmin pnlBookInfoEditAdmin;
+	private pnlBookAddAdmin pnlBookAddAdmin;
 	private pnlBookInfoDisplayAdmin pnlBookInfoDisplayAdmin;
 	private CardLayout cardLayout;
+	private pnlEditBookInfo editBook;
 	
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public BookInfoFrame(int toKnow, Book book) {
 	    setTitle("Book Keeper");
 	    setSize(590, 690);
@@ -35,22 +39,36 @@ public class BookInfoFrame extends JFrame {
 	    pnlBookInfoDisplayAdmin = new pnlBookInfoDisplayAdmin(book);
 	    getContentPane().add(pnlBookInfoDisplayAdmin, "panel2");
 
-	    pnlBookInfoEditAdmin = new pnlBookInfoEditAdmin();
-	    getContentPane().add(pnlBookInfoEditAdmin, "panel3");
+	    pnlBookAddAdmin = new pnlBookAddAdmin();
+	    getContentPane().add(pnlBookAddAdmin, "panel3");
+	    
+	    editBook = new pnlEditBookInfo(book);
+	    getContentPane().add( editBook, "panel4");
 
 	    if (toKnow == 2) {
 	        cardLayout.show(getContentPane(), "panel2");
 	    }
 
 	    // Event
-	    if (pnlBookInfoEditAdmin != null) {
-	        pnlBookInfoEditAdmin.getCancel().addActionListener(new ActionListener() {
+	    if (pnlBookAddAdmin != null) {
+	        pnlBookAddAdmin.getCancel().addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
-	                BookInfoFrame frame_1 = (BookInfoFrame) SwingUtilities.getWindowAncestor(pnlBookInfoEditAdmin);
+	                BookInfoFrame frame_1 = (BookInfoFrame) SwingUtilities.getWindowAncestor(pnlBookAddAdmin);
 	                frame_1.dispose();
 	            }
 	        });
-	    }
+	   }
+	        pnlBookInfoDisplayAdmin.getEditbtn().addActionListener(new ActionListener() {
+	    		public void actionPerformed(ActionEvent e) {
+	    			 cardLayout.show(getContentPane(), "panel4");
+	    		}
+	    	});
+	        editBook.getCancelBtn().addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					BookInfoFrame frame_1 = (BookInfoFrame) SwingUtilities.getWindowAncestor(pnlBookAddAdmin);
+	                frame_1.dispose();
+				}
+			});
 
 	    setVisible(true);
 	}
@@ -67,8 +85,8 @@ public class BookInfoFrame extends JFrame {
 		pnlBookInfoDisplayUser = new pnlBookInfoDisplayUser();
 		getContentPane().add(pnlBookInfoDisplayUser, "panel1");
 		
-		pnlBookInfoEditAdmin = new pnlBookInfoEditAdmin();
-		getContentPane().add(pnlBookInfoEditAdmin, "panel3");
+		pnlBookAddAdmin = new pnlBookAddAdmin();
+		getContentPane().add(pnlBookAddAdmin, "panel3");
 		
 		if (toKnow == 1) {
 			cardLayout.show(getContentPane(), "panel3");
@@ -77,12 +95,17 @@ public class BookInfoFrame extends JFrame {
 			cardLayout.show(getContentPane(), "panel1");
 		}
 		//Event
-		pnlBookInfoEditAdmin.getCancel().addActionListener(new ActionListener() {
+		pnlBookAddAdmin.getCancel().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BookInfoFrame frame_1 = (BookInfoFrame) SwingUtilities.getWindowAncestor(pnlBookInfoEditAdmin);
+				BookInfoFrame frame_1 = (BookInfoFrame) SwingUtilities.getWindowAncestor(pnlBookAddAdmin);
 	    		frame_1.dispose();
 			}
 		});
+		pnlBookInfoDisplayAdmin.getEditbtn().addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			 cardLayout.show(getContentPane(), "panel4");
+    		}
+    	});
 		setVisible(true);
 	}
 }

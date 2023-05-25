@@ -10,6 +10,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class pnlBookInfoDisplayAdmin extends JPanel{
 	private JTextField txtTitleAdmin;
@@ -46,7 +48,6 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	txtTitleAdmin.setBounds(30, 43, 528, 46);
 	add(txtTitleAdmin);
 	
-	System.out.print(book.getBook_title());
 	JPanel pnlBookDetailsAdmin = new JPanel();
 	pnlBookDetailsAdmin.setBounds(30, 76, 528, 282);
 	add(pnlBookDetailsAdmin);
@@ -362,7 +363,11 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	btnEditInfoAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	btnEditInfoAdmin.setBorderPainted(false);
 	btnEditInfoAdmin.setBackground(new Color(23, 22, 77));
-	btnEditInfoAdmin.setBounds(30, 612, 250, 29);
+	btnEditInfoAdmin.setBounds(30, 612, 250, 29); 
 	add(btnEditInfoAdmin);
-}
+	}
+	//Method
+	public JButton getEditbtn() {
+		return btnEditInfoAdmin;
+	}
 }

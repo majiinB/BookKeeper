@@ -17,7 +17,7 @@ import java.sql.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class pnlBookInfoEditAdmin extends JPanel {
+public class pnlBookAddAdmin extends JPanel {
 	private JTextField txtAuthorEdit;
 	private JTextField txtPublisherEdit;
 	private JTextField txtPublicationDateEdit;
@@ -27,7 +27,7 @@ public class pnlBookInfoEditAdmin extends JPanel {
 	private JTextField txtTitleEdit;
 	private JTextField txtAvailability;
 	JButton btnCancelEdit;
-	public  pnlBookInfoEditAdmin() {
+	public  pnlBookAddAdmin() {
 setLayout(null);
 		
 		JLabel lblLogo = new JLabel(" ");
@@ -43,7 +43,7 @@ setLayout(null);
 		txtTitleEdit.setText("Enter Book Title:");
 		txtTitleEdit.setOpaque(false);
 		txtTitleEdit.setForeground(new Color(23, 21, 77));
-		txtTitleEdit.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 30));
+		txtTitleEdit.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 20));
 		txtTitleEdit.setEditable(true);
 		txtTitleEdit.setColumns(10);
 		txtTitleEdit.setBorder(null);
@@ -195,7 +195,7 @@ setLayout(null);
 		btnCancelEdit.setBounds(309, 470, 250, 29);
 		add(btnCancelEdit);
 		
-		JButton btnSaveChangesEdit = new JButton("Save Changes");
+		JButton btnSaveChangesEdit = new JButton("Add Book");
 		btnSaveChangesEdit.setOpaque(true);
 		btnSaveChangesEdit.setForeground(Color.WHITE);
 		btnSaveChangesEdit.setFont(new Font("Verdana", Font.ITALIC, 13));
@@ -214,14 +214,14 @@ setLayout(null);
 				String shelf = txtShelfNumberEdit.getText();
 				String aisle = txtAisleNumberEdit.getText();
 				if (shelf.isEmpty() || aisle.isEmpty()) {
-		            JOptionPane.showMessageDialog(pnlBookInfoEditAdmin.this, "Shelf Number and Aisle Number cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+		            JOptionPane.showMessageDialog(pnlBookAddAdmin.this, "Shelf Number and Aisle Number cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
 		        } else {
 		            try {
 		            	int aisleNum = Integer.parseInt(aisle);
 						int shelfNum = Integer.parseInt(shelf);
 						addBook(title, author, genre, publicationDate, publisher, status, shelfNum, aisleNum);
 		            } catch (NumberFormatException ex) {
-		                JOptionPane.showMessageDialog(pnlBookInfoEditAdmin.this, "Invalid Shelf Number or Aisle Number", "Error", JOptionPane.ERROR_MESSAGE);
+		                JOptionPane.showMessageDialog(pnlBookAddAdmin.this, "Invalid Shelf Number or Aisle Number", "Error", JOptionPane.ERROR_MESSAGE);
 		            }
 		        }
 				
@@ -297,14 +297,14 @@ setLayout(null);
         int locId = getLocationID(shelf, aisle);
         
         if(locId == -1) {
-        	JOptionPane.showMessageDialog(pnlBookInfoEditAdmin.this, "No id is found", "Error", JOptionPane.ERROR_MESSAGE);
+        	JOptionPane.showMessageDialog(pnlBookAddAdmin.this, "No id is found", "Error", JOptionPane.ERROR_MESSAGE);
         }else {
         	if(title.isBlank() || title.equals("Book Author") || author.isBlank() || author.equals("Book Publiser") ||
             		genre.isBlank() || genre.equals("Genre") || publicationDate.isBlank() || publicationDate.equals("Publication Date")
             		|| publisher.isBlank() || publisher.equals("Book Publisher") || status.isBlank() || status.equals("Availability")) {
-            	JOptionPane.showMessageDialog(pnlBookInfoEditAdmin.this, "Cannot have blank values", "Error", JOptionPane.ERROR_MESSAGE);
+            	JOptionPane.showMessageDialog(pnlBookAddAdmin.this, "Cannot have blank values", "Error", JOptionPane.ERROR_MESSAGE);
             }else {
-            	JOptionPane.showMessageDialog(pnlBookInfoEditAdmin.this, "Book sucessfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
+            	JOptionPane.showMessageDialog(pnlBookAddAdmin.this, "Book sucessfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
             	try {
                     // Register JDBC driver
                     Class.forName(JDBC_DRIVER);
@@ -321,7 +321,7 @@ setLayout(null);
 
                     // Set the parameter values
                     pstmt.setString(1, title);
-                    pstmt.setString(2, author);
+                    pstmt.setString(2, author); 
                     pstmt.setString(3, genre);
                     pstmt.setString(4, publicationDate);
                     pstmt.setString(5, publisher);
