@@ -101,11 +101,7 @@ public class BookInfoFrame extends JFrame {
 	    		frame_1.dispose();
 			}
 		});
-		pnlBookInfoDisplayAdmin.getEditbtn().addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
-    			 cardLayout.show(getContentPane(), "panel4");
-    		}
-    	});
+		
 		setVisible(true);
 	}
 }

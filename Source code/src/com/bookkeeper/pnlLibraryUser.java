@@ -25,7 +25,7 @@ public class pnlLibraryUser extends JPanel {
 		lblBookKeeper.setOpaque(true);
 		lblBookKeeper.setHorizontalTextPosition(SwingConstants.CENTER);
 		        lblBookKeeper.setHorizontalAlignment(SwingConstants.CENTER);
-		        lblBookKeeper.setBounds(55, 46, 125, 38);
+		        lblBookKeeper.setBounds(55, 46, 125, 38); 
 		        lblBookKeeper.setBackground(new Color(26, 24, 87));
 		        lblBookKeeper.setForeground(new Color(232, 246, 239));
 		        add(lblBookKeeper);
@@ -101,7 +101,7 @@ public class pnlLibraryUser extends JPanel {
 		                    
 		                    // Check for empty search
 		                    if (getSearch.isEmpty()) {
-		                        getQuery = "SELECT b.book_id, b.book_title, b.author_name, b.book_publisher, b.genre_name, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
+		                        getQuery = "SELECT b.book_title, b.author_name, b.book_publisher, b.genre_name, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
 		                                "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
 		                    } else {
 		                        getQuery = searchQuery(getSearch);

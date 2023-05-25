@@ -161,7 +161,7 @@ public class pnlLibraryAdmin extends JPanel {
                     ResultSet resultSet = statement.executeQuery(getQuery);
 
                     // Get the metadata for column information
-                    ResultSetMetaData metaData = resultSet.getMetaData();
+                    ResultSetMetaData metaData = resultSet.getMetaData(); 
                     int columnCount = metaData.getColumnCount();
 
                     // Create an array to store column names
@@ -199,7 +199,7 @@ public class pnlLibraryAdmin extends JPanel {
                  "JOIN location l ON b.location_id = l.location_id " +
                  "WHERE b.book_title LIKE '" + search + "%' OR " +
                  "b.author_name LIKE '" + search + "%' OR " +
-                 "b.genre_name LIKE '" + search + "%' OR " +
+                 "b.genre_name LIKE '%" + search + "%' OR " +
                  "b.book_publisher LIKE '" + search + "%'";      
     	return query;
     }
