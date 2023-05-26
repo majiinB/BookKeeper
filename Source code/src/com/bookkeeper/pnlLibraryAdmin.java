@@ -134,7 +134,7 @@ public class pnlLibraryAdmin extends JPanel {
         add(btnAddBook);
         
         //method to display books prior to displaying the library admin panel
-        displayAllBooks();
+        displayAllBooks(); 
         
         //Action listener for search button
         btnSearch.addActionListener(new ActionListener() {

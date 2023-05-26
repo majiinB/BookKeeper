@@ -12,13 +12,14 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.border.TitledBorder;
 public class pnlAccount extends JPanel {
 	private JTable table;
-    private DefaultTableModel tableModel;
-    private JTable table_1;
-    private User logUser;
-    
+	private DefaultTableModel tableModel;
+
     public pnlAccount(User user) {
 	setBackground(new Color(255, 255, 255));
 	setLayout(null);
@@ -44,16 +45,16 @@ public class pnlAccount extends JPanel {
 	JPanel column1 = new JPanel(new GridLayout(0, 1));
 	pnlinformation.add(column1);
 
-	JLabel lblName = new JLabel("  Name:  ");
+	JLabel lblName = new JLabel("  Name:       " + user.getUser_fname() + " " + user.getUser_lname());
 	column1.add(lblName);
 
-	JLabel lblID = new JLabel("  ID:");
+	JLabel lblID = new JLabel("  ID:       " + user.getUser_id());
 	column1.add(lblID);
 
-	JLabel lblContactNumber = new JLabel("  Contact Number:");
+	JLabel lblContactNumber = new JLabel("  Contact Number:       " + user.getUser_contact());
 	column1.add(lblContactNumber);
 	
-	JLabel lblAddress = new JLabel("  Address:");
+	JLabel lblAddress = new JLabel("  Address:       " + user.getUser_address());
 	column1.add(lblAddress);
 
 	// Second column
@@ -72,11 +73,6 @@ public class pnlAccount extends JPanel {
 	JTextField txtEmail = new JTextField("  Patron Address");
 	column2.add(txtEmail);
 
-	
-	
-	JScrollPane scrBookHistory = new JScrollPane();
-	scrBookHistory.setBounds(31, 274, 779, 222);
-	add(scrBookHistory);
 	
 	JButton btnEditInfo = new JButton("Edit Info");
 	btnEditInfo.setForeground(new Color(255, 255, 255));
@@ -100,27 +96,64 @@ public class pnlAccount extends JPanel {
 		});
 	add(btnEditInfo);
 	
-
-	// Add table to display book  history
+	JPanel panel = new JPanel();
+	panel.setBounds(31, 273, 779, 201);
+	add(panel);
+	panel.setLayout(null);
 	
-	 //add table
-    tableModel = new DefaultTableModel();
-    table = new JTable(tableModel) {
-        // Override isCellEditable method to make cells not editable
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return false;
+	JScrollPane scrollPane = new JScrollPane();
+	scrollPane.setBounds(10, 11, 759, 179);
+	panel.add(scrollPane);
+	
+	tableModel = new DefaultTableModel();
+	table = new JTable(tableModel);
+	scrollPane.setViewportView(table);
+	String ID = user.getUser_id();
+	displayAllBooks(ID); 
+
+    }
+    private void displayAllBooks(String id) {
+        try {
+            // Establish database connection
+        	//Rekta na kasi tinamad mag assign pa ng variables same lang naman kasi db na gagamitin HAHAHAHAA
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+            String getQuery = "SELECT b.book_title, bb.borrowed_date" +
+                    " FROM book AS b " +
+                    "JOIN borrowed_book AS bb ON b.book_id = bb.book_id" +
+                    " WHERE bb.patron_id = '" + id + "'";
+
+            // Execute the SQL query
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(getQuery); 
+
+            // Get the metadata for column information
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int columnCount = metaData.getColumnCount();
+
+            // Create an array to store column names
+            String[] columnNames = new String[columnCount];
+            for (int i = 1; i <= columnCount; i++) {
+                columnNames[i - 1] = metaData.getColumnName(i);
+            }
+
+            // Set the column names in the table model
+            tableModel.setColumnIdentifiers(columnNames);
+            
+            //Retrieve all row data
+            while (resultSet.next()) {
+                Object[] rowData = new Object[columnCount];
+                for (int i = 1; i <= columnCount; i++) {
+                    rowData[i - 1] = resultSet.getObject(i);
+                }
+                tableModel.addRow(rowData);
+            }
+
+            // Close the database connection
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    };
-    
-    
-	JTable tblBookHistory = new JTable();
-	tblBookHistory.setBounds(64, 236, 700, 231);
-	scrBookHistory.setViewportView(tblBookHistory);
-	
-	
-	
-
-	}
-}	
-
+    }
+ }

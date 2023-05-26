@@ -99,7 +99,7 @@ public class loginPanel extends JPanel {
 								frame.dispose();
 
 								// Create and show the DashboardFrame
-				                DashboardFrame DashboardFrame = new DashboardFrame(0);
+				                DashboardFrame DashboardFrame = new DashboardFrame(0, user);
 				                DashboardFrame.setVisible(true);
 				                
 							}
