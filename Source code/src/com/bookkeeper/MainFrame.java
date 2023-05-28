@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.Scanner;
 import java.awt.*;
 import javax.crypto.Cipher;
@@ -45,6 +46,7 @@ public class MainFrame extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		updateOverdueBooks();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -310,8 +312,9 @@ public class MainFrame extends JFrame {
 			   	             String userContact = rs.getString("patron_contact");
 			   	             String userAddress = rs.getString("patron_address");
 			   	             String userPass = rs.getString("patron_password");
+			   	             String userStatus = rs.getString("patron_status");
 			   	             
-			   	             User onlineUser = new User(userID, userFname, userLname, userEmail1, userContact, userAddress, userPass);
+			   	             User onlineUser = new User(userID, userFname, userLname, userEmail1, userContact, userAddress, userPass, userStatus);
 			   	             //Close database
 			   	             conn.close();
 			   	             return onlineUser;
@@ -396,7 +399,42 @@ public class MainFrame extends JFrame {
 			return forReturn;
 			
 		}
-//Methods
+		public static void updateOverdueBooks() {
+	        try {
+	            // Establish database connection
+	            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+	            // Get the current date
+	            LocalDate currentDate = LocalDate.now();
+
+	            // Prepare the SQL statement
+	            String query = "UPDATE book " +
+	                           "SET book_status = 'Overdue' " +
+	                           "WHERE book_status = 'Checked out' " +
+	                           "AND book_id IN ( " +
+	                           "    SELECT book_id " +
+	                           "    FROM borrowed_book " +
+	                           "    WHERE borrowed_due_date < ? " +
+	                           ")";
+
+	            // Prepare the statement
+	            PreparedStatement statement = connection.prepareStatement(query);
+	            statement.setDate(1, java.sql.Date.valueOf(currentDate));
+
+	            // Execute the query
+	            statement.executeUpdate();
+
+	            // Close the database connection
+	            statement.close();
+	            connection.close();
+
+	            System.out.println("Updated overdue books successfully.");
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	//Methods to get layout and panel
 	public CardLayout getLayout() {
 		return cardLayout;
 	}

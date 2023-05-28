@@ -221,9 +221,17 @@ public class pnlBookBorrowAdmin extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String patronID = txtEnterPatronID.getText();
 				int bookID = book.getBook_id();
+				
+				//Check if the user ID entered exists
 				if(checkUserExistence(patronID)) {
-					insertBorrowedBook(bookID, patronID);
-					JOptionPane.showMessageDialog(pnlBookBorrowAdmin.this, "Successfully borrowed", "Success", JOptionPane.PLAIN_MESSAGE);
+					//Check if the book is Available 
+					if(isBookAvailable(bookID)) {
+						insertBorrowedBook(bookID, patronID);
+						JOptionPane.showMessageDialog(pnlBookBorrowAdmin.this, "Successfully borrowed", "Success", JOptionPane.PLAIN_MESSAGE);
+					}
+					else {
+						JOptionPane.showMessageDialog(pnlBookBorrowAdmin.this, "The book is still unavailable for borrow", "Fail", JOptionPane.ERROR_MESSAGE);
+					}
 				}else {
 					JOptionPane.showMessageDialog(pnlBookBorrowAdmin.this, "Patron ID does not exist", "Error", JOptionPane.ERROR_MESSAGE);
 				}
@@ -260,37 +268,90 @@ public class pnlBookBorrowAdmin extends JPanel {
 
 	    return userExists;
 	}
+	
+	//Method to insert the borrowed books info in the database
 	public void insertBorrowedBook(int bookId, String patronId) {
 	    try {
 	        // Establish database connection
 	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
 
-	        // Prepare the SQL statement
-	        String query = "INSERT INTO borrowed_book (book_id, patron_id, borrowed_date, borrowed_due_date) VALUES (?, ?, ?, ?)";
-	        PreparedStatement statement = connection.prepareStatement(query);
-	        statement.setInt(1, bookId);
-	        statement.setString(2, patronId);
+	        // Prepare the SQL statement for inserting the borrowed book
+	        String insertQuery = "INSERT INTO borrowed_book (book_id, patron_id, borrowed_date, borrowed_due_date) VALUES (?, ?, ?, ?)";
+	        PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+	        insertStatement.setInt(1, bookId); 
+	        insertStatement.setString(2, patronId);
 	        
 	        // Get the current date
 	        LocalDate currentDate = LocalDate.now();
-	        statement.setDate(3, java.sql.Date.valueOf(currentDate));
+	        insertStatement.setDate(3, java.sql.Date.valueOf(currentDate));
 
 	        // Calculate the due date (current date + 3 weeks)
 	        LocalDate dueDate = currentDate.plusWeeks(3);
-	        statement.setDate(4, java.sql.Date.valueOf(dueDate));
+	        insertStatement.setDate(4, java.sql.Date.valueOf(dueDate));
 
-	        // Execute the query
-	        statement.executeUpdate();
+	        // Execute the insert query
+	        insertStatement.executeUpdate();
 
-	        // Close the database connection
-	        statement.close();
+	        // Prepare the SQL statement for updating the book status
+	        String updateQuery = "UPDATE book SET book_status = 'Checked out' WHERE book_id = ?";
+	        PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+	        updateStatement.setInt(1, bookId);
+
+	        // Execute the update query
+	        updateStatement.executeUpdate();
+
+	        // Close the database connection and statements
+	        updateStatement.close();
+	        insertStatement.close();
 	        connection.close();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
 	}
+
+	
+	//Method to get the cancel button
 	public JButton getCancelBorrow() {
 		return btnCancelEdit;
 	}
+	
+	//Book status checker method
+	    public boolean isBookAvailable(int bookId) {
+	        boolean isAvailable = false;
+	        
+	        try {
+	            // Establish the database connection
+	            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+	            
+	            // Create the SQL query
+	            String query = "SELECT book_status FROM book WHERE book_id = ?";
+	            
+	            // Prepare the statement
+	            PreparedStatement statement = conn.prepareStatement(query);
+	            
+	            // Set the parameter
+	            statement.setInt(1, bookId);
+	            
+	            // Execute the query
+	            ResultSet resultSet = statement.executeQuery();
+	            
+	            // Check if the book status is "Available"
+	            if (resultSet.next()) {
+	                String bookStatus = resultSet.getString("book_status");
+	                if (bookStatus.equals("Available")) {
+	                    isAvailable = true;
+	                }
+	            }
+	            
+	            // Close the resources
+	            resultSet.close();
+	            statement.close();
+	            conn.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        
+	        return isAvailable;
+	    }
 	
 }

@@ -2,16 +2,16 @@ package com.bookkeeper;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.util.*;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class pnlBookInfoDisplayAdmin extends JPanel{
 	private JTextField txtTitleAdmin;
@@ -36,6 +36,26 @@ public class pnlBookInfoDisplayAdmin extends JPanel{
 	
 public pnlBookInfoDisplayAdmin(Book book) {
 	setLayout(null);
+	String name = "User name";
+	String contactNum = "Contact Number";
+	String address = "Address";
+	String emailAdd = "Email Address";
+	String due = "Due Date";
+	String borrowDate = "Borrowed Date";
+	
+	if (book.getBook_status().trim().equals("Checked Out") || book.getBook_status().trim().equals("Overdue")) {
+	    User borrower = getRecentBorrowedPatron(book.getBook_id());
+	    if (borrower != null) {
+	        name = borrower.getUser_fname() + " " + borrower.getUser_lname();
+	        contactNum = borrower.getUser_contact();
+	        address = borrower.getUser_address();
+	        emailAdd = borrower.getUser_email(); 
+	        due = getMostRecentDueDate(book.getBook_id());
+	        borrowDate = getMostRecentBorrowedDate(book.getBook_id());
+	    } else {
+	        System.out.print("User is null");
+	    }
+	}
 	
 	txtTitleAdmin = new JTextField();
 	txtTitleAdmin.setForeground(new Color(23, 21, 77));
@@ -221,6 +241,8 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	pnlBorrowerDetailsAdmin.setBounds(30, 373, 528, 239);
 	add(pnlBorrowerDetailsAdmin);
 	
+	
+	
 	JLabel lblBorrowersInformationAdmin = new JLabel("Borrower's Information");
 	lblBorrowersInformationAdmin.setForeground(new Color(23, 21, 77));
 	lblBorrowersInformationAdmin.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 14));
@@ -239,7 +261,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	
 	txtNameOfBorrowerAdmin = new JTextField();
 	txtNameOfBorrowerAdmin.setEditable(false);
-	txtNameOfBorrowerAdmin.setText("Name of borrower");
+	txtNameOfBorrowerAdmin.setText(name);
 	txtNameOfBorrowerAdmin.setOpaque(false);
 	txtNameOfBorrowerAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtNameOfBorrowerAdmin.setBorder(null);
@@ -258,7 +280,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	pnlDateLoanedAdmin.add(lblDateLoanedAdmin);
 	
 	txtDateLoanedAdmin = new JTextField();
-	txtDateLoanedAdmin.setText("Date Loaned");
+	txtDateLoanedAdmin.setText(borrowDate);
 	txtDateLoanedAdmin.setOpaque(false);
 	txtDateLoanedAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtDateLoanedAdmin.setEditable(false);
@@ -279,7 +301,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	
 	txtDueDateAdmin = new JTextField();
 	txtDueDateAdmin.setEditable(false);
-	txtDueDateAdmin.setText("Due Date");
+	txtDueDateAdmin.setText(due);
 	txtDueDateAdmin.setOpaque(false);
 	txtDueDateAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtDueDateAdmin.setColumns(10);
@@ -299,7 +321,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	
 	txtContactNumberAdmin = new JTextField();
 	txtContactNumberAdmin.setEditable(false);
-	txtContactNumberAdmin.setText("Contact Number");
+	txtContactNumberAdmin.setText(contactNum);
 	txtContactNumberAdmin.setOpaque(false);
 	txtContactNumberAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtContactNumberAdmin.setBorder(null);
@@ -319,7 +341,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	
 	txtEmailAddressAdmin = new JTextField();
 	txtEmailAddressAdmin.setEditable(false);
-	txtEmailAddressAdmin.setText("Email Address");
+	txtEmailAddressAdmin.setText(emailAdd);
 	txtEmailAddressAdmin.setOpaque(false);
 	txtEmailAddressAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtEmailAddressAdmin.setColumns(10);
@@ -339,7 +361,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	
 	txtAddressAdmin = new JTextField();
 	txtAddressAdmin.setEditable(false);
-	txtAddressAdmin.setText("Address");
+	txtAddressAdmin.setText(address);
 	txtAddressAdmin.setOpaque(false);
 	txtAddressAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtAddressAdmin.setColumns(10);
@@ -374,6 +396,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	btnBorrowBook.setBackground(new Color(23, 22, 77));
 	btnBorrowBook.setBounds(30, 612, 170, 29);
 	add(btnBorrowBook);
+	
 	}
 	//Method
 	public JButton getEditbtn() {
@@ -385,4 +408,198 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	public JButton getBorrowbtn() {
 		return btnBorrowBook;
 	}
+	public User getRecentBorrowedPatron(int bookId) {
+	    User patron = null;
+	    Connection conn = null;
+	    PreparedStatement stmt1 = null;
+	    PreparedStatement stmt2 = null;
+	    ResultSet rs1 = null;
+	    ResultSet rs2 = null;
+
+	    try {
+	        // Connect to the MySQL database
+	        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+	        // Query to retrieve the most recent record from borrowed_book table for the given bookId
+	        String query1 = "SELECT patron_id FROM borrowed_book WHERE book_id = ? ORDER BY borrowed_date DESC LIMIT 1";
+
+	        // Create a prepared statement with the query
+	        stmt1 = conn.prepareStatement(query1);
+	        stmt1.setInt(1, bookId);
+
+	        // Execute the query
+	        rs1 = stmt1.executeQuery();
+
+	        // Check if a patronId was found
+	        if (rs1.next()) {
+	            String patronId = rs1.getString("patron_id");
+	            System.out.println("patronId: " + patronId);
+
+	            // Query to retrieve the patron details based on the patronId
+	            String query2 = "SELECT * FROM patron WHERE patron_id = ?";
+
+	            // Create a new prepared statement with the patron query
+	            stmt2 = conn.prepareStatement(query2);
+	            stmt2.setString(1, patronId);
+
+	            // Execute the patron query
+	            rs2 = stmt2.executeQuery();
+
+	            // Fetch the patron details
+	            if (rs2.next()) {
+	                String patronId1 = rs2.getString("patron_id");
+	                String firstName = rs2.getString("patron_fname");
+	                String lastName = rs2.getString("patron_lname");
+	                String email = rs2.getString("patron_email");
+	                String contact = rs2.getString("patron_contact");
+	                String address = rs2.getString("patron_address");
+	                String password = rs2.getString("patron_password");
+	                String status = rs2.getString("patron_status");
+
+	                System.out.println("patronId1: " + patronId1);
+	                System.out.println("firstName: " + firstName);
+	                System.out.println("lastName: " + lastName);
+	                System.out.println("email: " + email);
+	                System.out.println("contact: " + contact);
+	                System.out.println("address: " + address);
+	                System.out.println("password: " + password);
+	                System.out.println("status: " + status);
+
+	                // Create a new User object
+	                patron = new User(patronId1, firstName, lastName, email, contact, address, password, status);
+	               
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            // Close the result sets and statements
+	            if (rs1 != null) {
+	                rs1.close();
+	            }
+	            if (rs2 != null) {
+	                rs2.close();
+	            }
+	            if (stmt1 != null) {
+	                stmt1.close();
+	            }
+	            if (stmt2 != null) {
+	                stmt2.close();
+	            }
+	            if (conn != null) {
+	                conn.close();
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return patron;
+	}
+
+	public String getMostRecentDueDate(int bookId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        String mostRecentDueDate = null;
+
+        try {
+            // Establish a connection to the database
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+            // Prepare the SQL query
+            String query = "SELECT borrowed_due_date FROM borrowed_book WHERE book_id = ? ORDER BY borrowed_date DESC LIMIT 1";
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, bookId);
+
+            // Execute the query
+            resultSet = statement.executeQuery();
+
+            // Retrieve the result
+            if (resultSet.next()) {
+                mostRecentDueDate = resultSet.getString("borrowed_due_date");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close the result set, statement, and connection
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return mostRecentDueDate;
+    }
+
+	public String getMostRecentBorrowedDate(int bookId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        String mostRecentBorrowDate = null;
+
+        try {
+            // Establish a connection to the database
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+            // Prepare the SQL query
+            String query = "SELECT borrowed_date FROM borrowed_book WHERE book_id = ? ORDER BY borrowed_date DESC LIMIT 1";
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, bookId);
+
+            // Execute the query
+            resultSet = statement.executeQuery();
+
+            // Retrieve the result
+            if (resultSet.next()) {
+                mostRecentBorrowDate = resultSet.getString("borrowed_date");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close the result set, statement, and connection
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return mostRecentBorrowDate;
+    }
+
 }

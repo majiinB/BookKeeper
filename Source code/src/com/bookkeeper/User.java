@@ -8,15 +8,19 @@ public class User {
 	private String User_contact;
 	private String User_address;
 	private String User_pass;
+	private String User_status;
 	
 	//Mutators and accessor 
-	public User(String User_id, String User_fname,String User_lname, String User_email, String User_contact, String User_address, String User_pass) {
+	public User(String User_id, String User_fname,String User_lname, String User_email, String User_contact, String User_address, String User_pass, String User_status) {
 		this.User_id = User_id;
-		this.setUser_fname(User_fname);
-		this.setUser_lname(User_lname);
+		this.User_fname = User_fname;
+		this.User_lname = User_lname;
 		this.User_contact = User_contact;
 		this.User_address = User_address;
 		this.User_pass = User_pass;
+		this.User_status = User_status; 
+		this.User_email = User_email;
+		
 	}
 
 	public String getUser_id() {
@@ -87,5 +91,13 @@ public class User {
 
 	public void setUser_lname(String user_lname) {
 		User_lname = user_lname;
+	}
+
+	public String getUser_status() {
+		return User_status;
+	}
+
+	public void setUser_status(String user_status) {
+		User_status = user_status;
 	}
 }
