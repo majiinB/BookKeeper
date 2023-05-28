@@ -120,7 +120,7 @@ public class pnlAccount extends JPanel {
             String getQuery = "SELECT b.book_title, bb.borrowed_date" +
                     " FROM book AS b " +
                     "JOIN borrowed_book AS bb ON b.book_id = bb.book_id" +
-                    " WHERE bb.patron_id = '" + id + "'";
+                    " WHERE bb.patron_id = '" + id + "' ORDER BY bb.borrowed_date DESC";
 
             // Execute the SQL query
             Statement statement = connection.createStatement();

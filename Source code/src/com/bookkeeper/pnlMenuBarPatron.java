@@ -83,7 +83,7 @@ public class pnlMenuBarPatron extends JPanel {
     btnLogOut.setBounds(-11, 490, 159, 55);
     btnLogOut.setFocusPainted(false); 
     add(btnLogOut);
-    
+     
 	}
 	public JButton getLibraryBtn() {
 		return btnLibrary;

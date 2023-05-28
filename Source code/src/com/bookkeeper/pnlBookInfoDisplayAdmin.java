@@ -456,15 +456,6 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	                String password = rs2.getString("patron_password");
 	                String status = rs2.getString("patron_status");
 
-	                System.out.println("patronId1: " + patronId1);
-	                System.out.println("firstName: " + firstName);
-	                System.out.println("lastName: " + lastName);
-	                System.out.println("email: " + email);
-	                System.out.println("contact: " + contact);
-	                System.out.println("address: " + address);
-	                System.out.println("password: " + password);
-	                System.out.println("status: " + status);
-
 	                // Create a new User object
 	                patron = new User(patronId1, firstName, lastName, email, contact, address, password, status);
 	               

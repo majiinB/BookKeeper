@@ -36,6 +36,8 @@ public class BookInfoFrame extends JFrame {
 
 	    cardLayout = new CardLayout();
 	    getContentPane().setLayout(cardLayout);
+	    pnlBookInfoDisplayUser = new pnlBookInfoDisplayUser(book);
+		getContentPane().add(pnlBookInfoDisplayUser, "panel1");
 
 	    pnlBookInfoDisplayAdmin = new pnlBookInfoDisplayAdmin(book);
 	    getContentPane().add(pnlBookInfoDisplayAdmin, "panel2");
@@ -48,10 +50,17 @@ public class BookInfoFrame extends JFrame {
 	    
 	    pnlBorrow = new pnlBookBorrowAdmin(book);
 	    getContentPane().add(pnlBorrow, "panel5");
+	    
 
 	    if (toKnow == 2) {
 	        cardLayout.show(getContentPane(), "panel2");
 	    }
+	    else if (toKnow == 1) {
+	  		cardLayout.show(getContentPane(), "panel3");
+	  	} 
+	  	else if(toKnow == 3){
+	  		cardLayout.show(getContentPane(), "panel1");
+	  	}
 
 	    // Event
 	    if (pnlBookAddAdmin != null) {
@@ -90,6 +99,18 @@ public class BookInfoFrame extends JFrame {
 	                frame_1.dispose();
 	            }
 	        });
+	        pnlBookAddAdmin.getCancel().addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					BookInfoFrame frame_1 = (BookInfoFrame) SwingUtilities.getWindowAncestor(pnlBookAddAdmin);
+		    		frame_1.dispose();
+				}
+			});
+	        pnlBookInfoDisplayUser.getCancelPatronDisplay().addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					BookInfoFrame frame_1 = (BookInfoFrame) SwingUtilities.getWindowAncestor(pnlBookAddAdmin);
+		    		frame_1.dispose();
+				}
+			});
 
 
 	    setVisible(true);
@@ -101,11 +122,9 @@ public class BookInfoFrame extends JFrame {
 	    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    setLocationRelativeTo(null);
 		
-		cardLayout = new CardLayout();
+ 		cardLayout = new CardLayout();
 		getContentPane().setLayout(cardLayout);
 		
-		pnlBookInfoDisplayUser = new pnlBookInfoDisplayUser();
-		getContentPane().add(pnlBookInfoDisplayUser, "panel1");
 		
 		//Add panel that shows where you input book info
 		pnlBookAddAdmin = new pnlBookAddAdmin();
@@ -115,9 +134,6 @@ public class BookInfoFrame extends JFrame {
 		if (toKnow == 1) {
 			cardLayout.show(getContentPane(), "panel3");
 		} 
-		else if(toKnow == 3){
-			cardLayout.show(getContentPane(), "panel1");
-		}
 		//Event
 		pnlBookAddAdmin.getCancel().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

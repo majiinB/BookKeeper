@@ -6,38 +6,45 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class pnlBookInfoDisplayUser extends JPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtAuthorUser;
 	private JTextField txtPublisherUser;
 	private JTextField txtPublicationDateUser;
-	private JTextField tstISBNUser;
+	private JTextField txtGenre;
 	private JTextField txtShelfNumberUser;
 	private JTextField txtAisleNumberUser;
 	private JTextField txtTitleUser;
+	private JTextField txtAvail;
+	private JButton btnCancelUser;
 	
-public pnlBookInfoDisplayUser() {
+public pnlBookInfoDisplayUser(Book book) {
 	setLayout(null);
 	txtTitleUser = new JTextField();
-	txtTitleUser.setText("Book Title Book Title Book ");
+	txtTitleUser.setText(book.getBook_title());
 	txtTitleUser.setOpaque(false);
 	txtTitleUser.setForeground(new Color(23, 21, 77));
 	txtTitleUser.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 30));
 	txtTitleUser.setEditable(false);
 	txtTitleUser.setColumns(10);
 	txtTitleUser.setBorder(null);
-	txtTitleUser.setBounds(28, 18, 528, 52);
+	txtTitleUser.setBounds(28, 85, 528, 52);
 	add(txtTitleUser);
 	
 	
 	JPanel pnlBookDetailsUser = new JPanel();
 	pnlBookDetailsUser.setLayout(null);
-	pnlBookDetailsUser.setBounds(28, 79, 528, 247);
+	pnlBookDetailsUser.setBounds(28, 164, 528, 147);
 	add(pnlBookDetailsUser);
 	
 	JPanel pnlAuthorUser = new JPanel();
@@ -51,7 +58,7 @@ public pnlBookInfoDisplayUser() {
 	pnlAuthorUser.add(lblAuthorUser);
 	
 	txtAuthorUser = new JTextField();
-	txtAuthorUser.setText("Book Author");
+	txtAuthorUser.setText(book.getBook_author());
 	txtAuthorUser.setOpaque(false);
 	txtAuthorUser.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtAuthorUser.setEditable(false);
@@ -71,7 +78,7 @@ public pnlBookInfoDisplayUser() {
 	pnlPublisherUser.add(lblPublisherUser);
 	
 	txtPublisherUser = new JTextField();
-	txtPublisherUser.setText("Book Publisher");
+	txtPublisherUser.setText(book.getBook_publisher());
 	txtPublisherUser.setOpaque(false);
 	txtPublisherUser.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtPublisherUser.setEditable(false);
@@ -91,7 +98,7 @@ public pnlBookInfoDisplayUser() {
 	pnlPublicationDateUser.add(lblPublicationDateUser);
 	
 	txtPublicationDateUser = new JTextField();
-	txtPublicationDateUser.setText("Publication Date");
+	txtPublicationDateUser.setText(book.getBook_publication_date());
 	txtPublicationDateUser.setOpaque(false);
 	txtPublicationDateUser.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtPublicationDateUser.setEditable(false);
@@ -105,34 +112,20 @@ public pnlBookInfoDisplayUser() {
 	pnlISBNUser.setBounds(0, 100, 528, 30);
 	pnlBookDetailsUser.add(pnlISBNUser);
 	
-	JLabel lblISBNUser = new JLabel("ISBN:");
-	lblISBNUser.setFont(new Font("Verdana", Font.PLAIN, 13));
-	lblISBNUser.setBounds(0, 0, 117, 30);
-	pnlISBNUser.add(lblISBNUser);
+	JLabel lblGenre = new JLabel("Genre:");
+	lblGenre.setFont(new Font("Verdana", Font.PLAIN, 13));
+	lblGenre.setBounds(0, 0, 117, 30);
+	pnlISBNUser.add(lblGenre);
 	
-	tstISBNUser = new JTextField();
-	tstISBNUser.setText("ISBN");
-	tstISBNUser.setOpaque(false);
-	tstISBNUser.setFont(new Font("Verdana", Font.ITALIC, 13));
-	tstISBNUser.setEditable(false);
-	tstISBNUser.setColumns(10);
-	tstISBNUser.setBorder(null);
-	tstISBNUser.setBounds(128, 1, 400, 30);
-	pnlISBNUser.add(tstISBNUser);
-	
-	JPanel pnlGenreUser = new JPanel();
-	pnlGenreUser.setLayout(null);
-	pnlGenreUser.setBounds(0, 134, 528, 113);
-	pnlBookDetailsUser.add(pnlGenreUser);
-	
-	JLabel lblGenreUser = new JLabel("Genre:");
-	lblGenreUser.setFont(new Font("Verdana", Font.PLAIN, 13));
-	lblGenreUser.setBounds(0, 0, 117, 30);
-	pnlGenreUser.add(lblGenreUser);
-	
-	JList lstGenreUser = new JList();
-	lstGenreUser.setBounds(10, 30, 512, 77);
-	pnlGenreUser.add(lstGenreUser);
+	txtGenre = new JTextField();
+	txtGenre.setText(book.getBook_genre());
+	txtGenre.setOpaque(false);
+	txtGenre.setFont(new Font("Verdana", Font.ITALIC, 13));
+	txtGenre.setEditable(false);
+	txtGenre.setColumns(10);
+	txtGenre.setBorder(null);
+	txtGenre.setBounds(128, 1, 400, 30);
+	pnlISBNUser.add(txtGenre);
 	
 
 	JSeparator separatorUser = new JSeparator();
@@ -164,7 +157,7 @@ public pnlBookInfoDisplayUser() {
 	pnlShelfNumberUser.add(lblShelfNumberUser);
 	
 	txtShelfNumberUser = new JTextField();
-	txtShelfNumberUser.setText("Shelf Number");
+	txtShelfNumberUser.setText(book.getShelf());
 	txtShelfNumberUser.setOpaque(false);
 	txtShelfNumberUser.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtShelfNumberUser.setEditable(false);
@@ -184,7 +177,7 @@ public pnlBookInfoDisplayUser() {
 	pnlAisleNumberUSer.add(lblAisleNumberUser);
 	
 	txtAisleNumberUser = new JTextField();
-	txtAisleNumberUser.setText("Aisle Number");
+	txtAisleNumberUser.setText(book.getAisle());
 	txtAisleNumberUser.setOpaque(false);
 	txtAisleNumberUser.setFont(new Font("Verdana", Font.ITALIC, 13));
 	txtAisleNumberUser.setEditable(false);
@@ -203,12 +196,15 @@ public pnlBookInfoDisplayUser() {
 	lblBookAvailableStatusUser.setBounds(0, 0, 117, 30);
 	pnlAvailabilityUser.add(lblBookAvailableStatusUser);
 	
-	JComboBox cmbAvailability = new JComboBox();
-	cmbAvailability.setBounds(129, 4, 149, 27);
-    cmbAvailability.addItem("Reserved");
-    cmbAvailability.addItem("Available");
-    cmbAvailability.addItem("Unavailable");
-	pnlAvailabilityUser.add(cmbAvailability);
+	txtAvail = new JTextField();
+	txtAvail.setEditable(false);
+	txtAvail.setText(book.getBook_status());
+	txtAvail.setOpaque(false);
+	txtAvail.setFont(new Font("Verdana", Font.ITALIC, 13));
+	txtAvail.setColumns(10);
+	txtAvail.setBorder(null);
+	txtAvail.setBounds(128, 0, 400, 30);
+	pnlAvailabilityUser.add(txtAvail);
 	
 	JLabel lblAvailabilityUser = new JLabel("Availability");
 	lblAvailabilityUser.setBounds(0, 142, 120, 30);
@@ -224,7 +220,8 @@ public pnlBookInfoDisplayUser() {
 	
 	
 	
-	JButton btnCancelUser = new JButton("Cancel");
+	btnCancelUser = new JButton("Cancel");
+
 	btnCancelUser.setOpaque(true);
 	btnCancelUser.setForeground(Color.WHITE);
 	btnCancelUser.setFont(new Font("Verdana", Font.ITALIC, 13));
@@ -242,6 +239,8 @@ public pnlBookInfoDisplayUser() {
 	btnReserveUser.setBounds(26, 617, 250, 29);
 	add(btnReserveUser);
 	
-	
+	}
+public JButton getCancelPatronDisplay() {
+	return btnCancelUser;
 }
 }

@@ -130,7 +130,7 @@ public class pnlLibraryAdmin extends JPanel {
 		btnAddBook.setBorderPainted(false);
         btnAddBook.setForeground(new Color(255, 255, 255));
         btnAddBook.setBackground(new Color(26, 24, 87));
-        btnAddBook.setBounds(55, 495, 764, 29);
+        btnAddBook.setBounds(55, 495, 764, 29); 
         add(btnAddBook);
         
         //method to display books prior to displaying the library admin panel
