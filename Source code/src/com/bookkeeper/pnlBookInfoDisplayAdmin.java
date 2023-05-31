@@ -43,7 +43,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	String due = "Due Date";
 	String borrowDate = "Borrowed Date";
 	
-	if (book.getBook_status().trim().equals("Checked Out") || book.getBook_status().trim().equals("Overdue")) {
+	if (book.getBook_status().trim().equals("Checked out") || book.getBook_status().trim().equals("Overdue")) {
 	    User borrower = getRecentBorrowedPatron(book.getBook_id());
 	    if (borrower != null) {
 	        name = borrower.getUser_fname() + " " + borrower.getUser_lname();
