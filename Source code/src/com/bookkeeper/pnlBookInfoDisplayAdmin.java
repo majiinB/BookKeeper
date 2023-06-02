@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -12,6 +13,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class pnlBookInfoDisplayAdmin extends JPanel{
 	private JTextField txtTitleAdmin;
@@ -406,6 +409,19 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	btnReturnBook.setBounds(302, 587, 256, 29);
 	add(btnReturnBook);
 	
+	//Action listener
+	btnReturnBook.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			if(book.getBook_status().equals("Checked out")) {
+				updateBookStatusAndBorrowStatus(book.getBook_id());
+				JOptionPane.showMessageDialog(pnlBookInfoDisplayAdmin.this, "Book successfully returned", "Success", JOptionPane.PLAIN_MESSAGE);
+			}
+			else {
+				JOptionPane.showMessageDialog(pnlBookInfoDisplayAdmin.this, "Book is still available", "Fail to return", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	});
+	
 	}
 	//Method
 	public JButton getEditbtn() {
@@ -417,6 +433,30 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	public JButton getBorrowbtn() {
 		return btnBorrowBook;
 	}
+	public void updateBookStatusAndBorrowStatus(int bookId) {
+		Connection conn = null;
+        try {
+        	conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+            // Update book_status in the book table
+            String updateBookStatusQuery = "UPDATE book SET book_status = 'Available' WHERE book_id = ?";
+            PreparedStatement updateBookStatusStmt = conn.prepareStatement(updateBookStatusQuery);
+            updateBookStatusStmt.setInt(1, bookId);
+            updateBookStatusStmt.executeUpdate();
+
+            // Update borrow_status in the borrowed_book table for the latest borrowed record with the given book_id
+            String updateBorrowStatusQuery = "UPDATE borrowed_book SET borrow_status = 'returned' WHERE book_id = ? " +
+                                             "AND borrow_id = (SELECT borrow_id FROM borrowed_book WHERE book_id = ? ORDER BY borrowed_date DESC LIMIT 1)";
+            PreparedStatement updateBorrowStatusStmt = conn.prepareStatement(updateBorrowStatusQuery);
+            updateBorrowStatusStmt.setInt(1, bookId);
+            updateBorrowStatusStmt.setInt(2, bookId);
+            updateBorrowStatusStmt.executeUpdate();
+
+            System.out.println("Book status and borrow status updated successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 	public User getRecentBorrowedPatron(int bookId) {
 	    User patron = null;
 	    Connection conn = null;
