@@ -1,6 +1,8 @@
 package com.bookkeeper;
 import javax.swing.*;
 import java.sql.*;
+
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -11,100 +13,76 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class pnlUser extends JPanel {
-	private JTextField txtSearchBar;
     private JPanel pnlSearchResults;
+    private JPanel pnlSearchBtn;
+    private JPanel pnlSearchBar;
+    private JPanel pnlAddUser;
+    private JPanel pnlWholeDisplay;
+    private JLabel lblBookKeeper;
+    private PlaceholderTextField txtSearchBar;
+    private JButton btnSearch ;
+    private JButton btnAddUser;
     private JTable table;
+    private ImageIcon icnSearch;
+    private Image imgSearch;
+    private Image rsdImgSearch;
     private DefaultTableModel tableModel;
-    private JScrollPane scrollPane;
+    private JScrollPane scrlSearchResults;
+    private GridBagLayout gbl_pnlWholeDisplay;
+    private GridBagConstraints gbc_pnlAddUser;
+    private GridBagConstraints gbc_pnlSearchBar;
+    private GridBagConstraints gbc_pnlSearchResults;
     
 	//USERMANAGEMENT
 	public pnlUser() {
-        setLayout(null);
-        
-        JLabel lblBookKeeper = new JLabel("Book Keeper");
-        lblBookKeeper.setOpaque(true);
-        lblBookKeeper.setHorizontalTextPosition(SwingConstants.CENTER);
-        lblBookKeeper.setHorizontalAlignment(SwingConstants.CENTER);
-        lblBookKeeper.setForeground(new Color(232, 246, 239));
-        lblBookKeeper.setBorder(new LineBorder(new Color(26, 24, 87), 1, true));
-        lblBookKeeper.setBackground(new Color(26, 24, 87));
-        lblBookKeeper.setBounds(55, 46, 125, 38);
-        add(lblBookKeeper);
-        
-        txtSearchBar = new JTextField();
-        txtSearchBar.setColumns(10);
-        txtSearchBar.setBorder(new LineBorder(new Color(26, 24, 87), 1, true));
-        txtSearchBar.setBackground(Color.WHITE);
+        setLayout(new BorderLayout(0, 0));
+
+        // panels
+        pnlWholeDisplay= new JPanel();     //create panel to display whole dashboard
+        pnlAddUser = new JPanel();		//create panel for add user button
+        pnlSearchBar = new JPanel();	//create panel for search bar
+        pnlSearchBtn = new JPanel(); //create panel for button
+        pnlSearchResults = new JPanel(); //Create panel for result table
+                              
+        //Create main panel that will contain library panel
+        lblBookKeeper = new JLabel("Book Keeper");    
+        lblBookKeeper.setBorder(new EmptyBorder(15, 15, 15, 15));     
+        lblBookKeeper.setOpaque(true);       
+        lblBookKeeper.setHorizontalTextPosition(SwingConstants.CENTER);           
+        lblBookKeeper.setHorizontalAlignment(SwingConstants.CENTER);            
+        lblBookKeeper.setBounds(55, 46, 125, 38);              
+        lblBookKeeper.setBackground(new Color(26, 24, 87));           
+        lblBookKeeper.setForeground(new Color(232, 246, 239));            
+        lblBookKeeper.setLabelFor(txtSearchBar);            
+
+        //Search bar
+        txtSearchBar = new PlaceholderTextField("Search User  ");
+        txtSearchBar.setPreferredSize(new Dimension(109, 45));
+        txtSearchBar.setHorizontalAlignment(SwingConstants.RIGHT);        
+        txtSearchBar.setBorder(new LineBorder(new Color(26, 24, 87)));
+        txtSearchBar.setBackground(new Color(255, 255, 255));
         txtSearchBar.setBounds(192, 46, 587, 38);
-        add(txtSearchBar);
-        
-        JPanel pnlSearchBtn = new JPanel();
-        pnlSearchBtn.setBorder(new LineBorder(new Color(0, 0, 0)));
-        pnlSearchBtn.setBackground(Color.WHITE);
-        pnlSearchBtn.setBounds(778, 46, 41, 38);
-        add(pnlSearchBtn);
-        
-        JButton btnSearch = new JButton("");
-        btnSearch.setOpaque(false);
+        txtSearchBar.setColumns(50);
+         
+        //icon of search button
+        icnSearch = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/searchIcon.png");//insert nyo path file nyo papuntang image
+        //ImageIcon icnSearch = new ImageIcon("D:\\documents\\Final_Project\\img\\searchIcon.png");
+        imgSearch = icnSearch.getImage();
+        rsdImgSearch = imgSearch.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+      
+        //create button
+        btnSearch = new JButton("");
+        btnSearch.setBounds(0, 0, 40, 38);
+        btnSearch.setIcon(new ImageIcon(rsdImgSearch));
         btnSearch.setContentAreaFilled(false);
+        btnSearch.setOpaque(false);
         btnSearch.setBorderPainted(false);
-        ImageIcon icnSearch = new ImageIcon("D:\\documents\\Final_Project\\img\\searchIcon.png");
-        Image imgSearch = icnSearch.getImage();
-        Image rsdImgSearch = imgSearch.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        btnSearch.setIcon(new ImageIcon(rsdImgSearch));                                   
-        pnlSearchBtn.add(btnSearch);
-        
-        JPanel pnlSearchResults = new JPanel();
-        pnlSearchResults.setBounds(55, 123, 764, 356);
-        add(pnlSearchResults);
-        pnlSearchResults.setLayout(null);
-        
-        scrollPane = new JScrollPane();
-        scrollPane.setBounds(0, 0, 764, 356);
-        pnlSearchResults.add(scrollPane);
-        
-        tableModel = new DefaultTableModel();
-        scrollPane.setViewportView(table);
-
-        table = new JTable(tableModel) {
-            // Override isCellEditable method to make cells not editable
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; 
-            }
-        };
-        
-       //listener for clicking cells in table
-        table.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Get the selected row and column
-                int selectedRow = table.getSelectedRow();
-                int selectedColumn = table.getSelectedColumn();
-
-                // Get the value from the selected cell
-                Object selectedValue = table.getValueAt(selectedRow, selectedColumn);
-
-                // Display the selected value
-                int option = JOptionPane.showOptionDialog(pnlUser.this,"Selected Value: " + selectedValue, "Cell Value", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[] {"Exit"}, "Exit");
-                if (option == 0) {
-                    // User clicked "Exit"
-                    JOptionPane.getRootFrame().dispose(); // Close the JOptionPane dialog
-                }
-            }
-        });
-        
-        //set what's inside the scroll pane
-        scrollPane.setViewportView(table);
-        
-        //method to display books prior to displaying the library admin panel
-        displayAllBooks();
-        
+                                       
         //Action listener for search button
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tableModel.setRowCount(0);
-                scrollPane.setViewportView(table);
+                scrlSearchResults.setViewportView(table);
 
                 try {
                     // Establish database connection
@@ -113,7 +91,7 @@ public class pnlUser extends JPanel {
                     String getQuery = "";
                     
                     // Check for empty search
-                    if (getSearch.isEmpty()) {
+                    if (getSearch.isEmpty()||getSearch.equals("Search User  ") ) {
                         getQuery = "SELECT patron_id, patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_status "
         	            		+ "FROM patron "
         	            		+ "ORDER BY patron_lname ASC";
@@ -155,7 +133,115 @@ public class pnlUser extends JPanel {
                 }
             }
         });
-    }
+        
+        
+        scrlSearchResults = new JScrollPane();//add scroll pane
+      
+        tableModel = new DefaultTableModel();     //add table           
+        table = new JTable(tableModel) {
+            // Override isCellEditable method to make cells not editable
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
+        
+       //listener for clicking cells in table
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Get the selected row and column
+                int selectedRow = table.getSelectedRow();
+                int selectedColumn = table.getSelectedColumn();
+
+                // Get the value from the selected cell
+                Object selectedValue = table.getValueAt(selectedRow, selectedColumn);
+
+                // Display the selected value
+                int option = JOptionPane.showOptionDialog(pnlUser.this,"Selected Value: " + selectedValue, "Cell Value", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[] {"Exit"}, "Exit");
+                if (option == 0) {
+                    // User clicked "Exit"
+                    JOptionPane.getRootFrame().dispose(); // Close the JOptionPane dialog
+                }
+            }
+        });
+		//set what's inside the scroll pane
+		scrlSearchResults.setViewportView(table);
+		
+        //Create button for adding User
+        btnAddUser = new JButton("Add User");
+        btnAddUser.setBorder(new EmptyBorder(5, 5, 5, 5));
+        btnAddUser.setOpaque(true);
+        btnAddUser.setBorderPainted(false);
+        btnAddUser.setForeground(new Color(255, 255, 255));
+        btnAddUser.setBackground(new Color(26, 24, 87));
+        btnAddUser.setBounds(55, 495, 764, 29); 
+        
+        //Action listener for add book to show pop up
+        btnAddUser.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+               BookInfoFrame frame = new BookInfoFrame(1);
+               frame.setVisible(true);
+        	}
+        });
+ 
+        //method to display books prior to displaying the library admin panel
+        displayAllBooks();
+        
+        //layout of dashboard
+        gbl_pnlWholeDisplay = new GridBagLayout();
+        gbl_pnlWholeDisplay.columnWidths = new int[]{475};
+        gbl_pnlWholeDisplay.rowHeights = new int[]{90, 331, 30};
+        gbl_pnlWholeDisplay.columnWeights = new double[]{1.0};
+        gbl_pnlWholeDisplay.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+        
+        
+        gbc_pnlSearchBar = new GridBagConstraints();
+        gbc_pnlSearchBar.fill = GridBagConstraints.HORIZONTAL;
+        gbc_pnlSearchBar.insets = new Insets(0, 0, 5, 5);
+        gbc_pnlSearchBar.gridx = 0;
+        gbc_pnlSearchBar.gridy = 0;
+
+
+
+        gbc_pnlSearchResults = new GridBagConstraints();
+        gbc_pnlSearchResults.fill = GridBagConstraints.BOTH;
+        gbc_pnlSearchResults.insets = new Insets(0, 0, 5, 0);
+        gbc_pnlSearchResults.gridx = 0;
+        gbc_pnlSearchResults.gridy = 1;
+
+        
+        gbc_pnlAddUser = new GridBagConstraints();
+        gbc_pnlAddUser.fill = GridBagConstraints.BOTH;
+        gbc_pnlAddUser.insets = new Insets(0, 0, 0, 5);
+        gbc_pnlAddUser.gridx = 0;
+        gbc_pnlAddUser.gridy = 2;
+         
+        //panel layout details?
+
+        pnlWholeDisplay.setBorder(new EmptyBorder(20, 20, 20, 20));
+        pnlWholeDisplay.setLayout(gbl_pnlWholeDisplay);
+        pnlAddUser.setLayout(new BorderLayout(0, 0)); 
+        pnlSearchBtn.setBackground(new Color(255, 255, 255));
+        pnlSearchBtn.setBorder(new LineBorder(new Color(0, 0, 0)));
+        pnlSearchBtn.setBounds(778, 46, 41, 38);
+        pnlSearchBar.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
+        pnlSearchResults.setLayout(new BorderLayout(0, 0));
+
+        //add panels
+        pnlSearchBar.add(lblBookKeeper);
+        pnlSearchBar.add(txtSearchBar);  
+        pnlSearchBtn.add(btnSearch);
+        pnlSearchBar.add(pnlSearchBtn);    
+        pnlWholeDisplay.add(pnlSearchBar, gbc_pnlSearchBar);
+        pnlSearchResults.add(scrlSearchResults);
+        pnlWholeDisplay.add(pnlSearchResults, gbc_pnlSearchResults);
+        pnlAddUser.add(btnAddUser);
+        pnlWholeDisplay.add(pnlAddUser, gbc_pnlAddUser);
+        add(pnlWholeDisplay, BorderLayout.CENTER);
+         
+ 
+     }
 	//Methods
 	 public String searchQuery(String search) {
 	       String query = "SELECT patron_id, patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_status "

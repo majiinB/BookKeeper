@@ -6,79 +6,94 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 
 import java.awt.Font;
 import javax.swing.JTable;
+import java.awt.FlowLayout;
+import java.awt.Dimension;
 
 public class loginPanel extends JPanel {
-	
-	private JLabel emailLabel;
-	private JTextField emailField;
-	private JLabel passLabel;
-	private JPasswordField passwordField;
-	private JButton loginButton;
+	private JPanel pnlLogIn;
+	private JPanel pnlEmail;
+	private JPanel pnlPassword;
+	private JPanel pnlButtons;
+	private JPanel pnlInput;
+	private JLabel lblEmail;
+	private JLabel lblPassword;
+	private JLabel lblLogIn;
+	private PlaceholderTextField txtEmail;
+	private PlaceholderPassword pssPassword;
+	private JButton btnLogIn;
+	private JButton btnBack;
 	public Object newUser;
-	private JLabel loginPaneLabel;
-	private JButton backButton;
-	private JButton signUpButton;
-	private User user;
+	private User user; 
 	
 	public loginPanel() {
-		setBackground(new Color(18, 57, 150));
-		setLayout(null);
+		setBackground(new Color(23, 21, 77));
+		setLayout(new BorderLayout(0, 0));        
+		setBorder(new EmptyBorder(130, 60, 130, 60));
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(185, 182, 410, 207);
-		add(panel);
+		//create Panels	
+		pnlEmail = new JPanel();
+		pnlPassword = new JPanel();
+		pnlButtons = new JPanel();		
+	    pnlLogIn = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+	    pnlInput= new JPanel();
+	    
+		lblLogIn = new JLabel("Log-in to your account.");
+		lblLogIn.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblLogIn.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLogIn.setForeground(new Color(23, 22, 77));
+		lblLogIn.setFont(new Font("Verdana", Font.BOLD, 50));
 		
-			setLayout(null);
-			panel.setLayout(null);
+		//email Panel
+		lblEmail = new JLabel("Email:");
+		lblEmail.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblEmail.setFont(new Font("Verdana", Font.PLAIN, 13));
 			
-			emailLabel = new JLabel("Email:");
-			emailLabel.setBounds(69, 71, 42, 14);
-			panel.add(emailLabel);
+		txtEmail = new PlaceholderTextField("Email Address");
+		txtEmail.setColumns(25);
+		
+		//pass Panel
+		lblPassword = new JLabel("Password:");
+		lblPassword.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPassword.setFont(new Font("Verdana", Font.PLAIN, 13));
 			
-			emailField = new JTextField();
-			emailField.setBounds(121, 67, 244, 23);
-			panel.add(emailField);
-			emailField.setColumns(10);
-			
-			passLabel = new JLabel("Password:");
-			passLabel.setBounds(46, 109, 65, 14);
-			panel.add(passLabel);
-			
-			passwordField = new JPasswordField();
-			passwordField.setBounds(121, 105, 244, 23);
-			panel.add(passwordField);
-			
-			loginButton = new JButton("Log-In");
-			loginButton.setOpaque(true);
-			loginButton.setFont(new Font("Verdana", Font.BOLD, 11));
-			loginButton.setForeground(new Color(255, 255, 255));
-			loginButton.setBorderPainted(false);
-			loginButton.setBackground(new Color(18, 57, 150));
-			loginButton.addActionListener(new ActionListener() {
-				private int numTries = 1;
-				public void actionPerformed(ActionEvent e) {
-					MainFrame main = (MainFrame) SwingUtilities.getWindowAncestor(loginPanel.this);
-					int remain = 3 - numTries;
-					
+		pssPassword = new PlaceholderPassword("");
+		pssPassword.setColumns(20);
+
+		//btns
+		btnLogIn = new JButton("Log-In");
+		btnLogIn.setOpaque(true);
+		btnLogIn.setFont(new Font("Verdana", Font.BOLD, 11));
+		btnLogIn.setForeground(new Color(255, 255, 255));
+		btnLogIn.setBorderPainted(false);
+		btnLogIn.setBackground(new Color(26, 25, 87));
+		btnLogIn.addActionListener(new ActionListener() {
+			private int numTries = 1;
+			public void actionPerformed(ActionEvent e) {
+				MainFrame main = (MainFrame) SwingUtilities.getWindowAncestor(loginPanel.this);
+				int remain = 3 - numTries;				
 						try {
 							String email = "";
-							email = emailField.getText();
+							email = txtEmail.getText();
 							String trimed = email.trim();
 							String table = "patron";
 							String colemail = "patron_email";
 							String colpass = "patron_password";
 							String colStatus ="patron_status";
-							char[] pass = passwordField.getPassword();
+							char[] pass = pssPassword.getPassword();
 							String password = new String(pass);
 							String status = "active";
 							newUser = main.loginMethod(trimed, password, table, colemail, colpass, colStatus, status);
@@ -92,13 +107,12 @@ public class loginPanel extends JPanel {
 									JOptionPane.showMessageDialog(loginPanel.this, "Limit Reached! Program will now close", "Error", JOptionPane.ERROR_MESSAGE);
 									System.exit(0);
 								}
-								// Hide the login panel and show the main interface
 								user = (User) newUser;
+								// Hide the login panel and show the main interface
 								JOptionPane.showMessageDialog(loginPanel.this, "Welcome,\n" + newUser.toString() + " !", "\nSuccess", JOptionPane.INFORMATION_MESSAGE);
-								MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(loginButton);
+								MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(btnLogIn);
 								frame.dispose();
 
-								// Create and show the DashboardFrame
 				                DashboardFrame DashboardFrame = new DashboardFrame(0, user);
 				                DashboardFrame.setVisible(true);
 				                
@@ -109,55 +123,59 @@ public class loginPanel extends JPanel {
 					
 				}
 			});
-			loginButton.setBounds(46, 152, 100, 29);
-			panel.add(loginButton);
 			
-			signUpButton = new JButton("Sign-Up");
-			signUpButton.setOpaque(true);
-			signUpButton.setFont(new Font("Verdana", Font.BOLD, 11));
-			signUpButton.setForeground(new Color(255, 255, 255));
-			signUpButton.setBackground(new Color(18, 57, 150));
-			signUpButton.setBorderPainted(false);
+			btnBack = new JButton("Back");
+			btnBack.setOpaque(true);
+			btnBack.setFont(new Font("Verdana", Font.BOLD, 11));
+			btnBack.setForeground(new Color(255, 255, 255));
+			btnBack.setBackground(new Color(26, 25, 87));
+			btnBack.setBorderPainted(false);
 			
-			signUpButton.setBounds(158, 152, 116, 29);
-			panel.add(signUpButton);
-			
-			backButton = new JButton("Back");
-			backButton.setOpaque(true);
-			
-			backButton.setFont(new Font("Verdana", Font.BOLD, 11));
-			backButton.setForeground(new Color(255, 255, 255));
-			backButton.setBackground(new Color(18, 57, 150));
-			backButton.setBorderPainted(false);
-			backButton.setBounds(283, 152, 82, 29);
-			panel.add(backButton);
-			
-			loginPaneLabel = new JLabel("Log-in to your account");
-			loginPaneLabel.setBackground(new Color(9, 3, 105));
-			loginPaneLabel.setFont(new Font("Verdana", Font.BOLD, 15));
-			loginPaneLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			loginPaneLabel.setBounds(10, 11, 381, 34);
-			panel.add(loginPaneLabel);
-		
+			pnlPassword.setBorder(null);
+			pnlButtons.setBorder(null);
+			pnlEmail.setOpaque(false);
+			pnlPassword.setOpaque(false);
+			pnlButtons.setOpaque(false);
+		    pnlInput.setOpaque(false);
+		    pnlInput.setBorder(null);
+		    pnlLogIn.setBorder(null);
+			pnlLogIn.setBackground(new Color(255, 255, 255));
+			pnlLogIn.setLayout(new GridLayout(3, 1, 15, 15));
+
+
+			pnlEmail.add(lblEmail);
+			pnlEmail.add(txtEmail);
+			pnlPassword.add(lblPassword);
+			pnlPassword.add(pssPassword);
+			pnlButtons.add(btnLogIn);
+			pnlButtons.add(btnBack);
+
+			pnlInput.add(pnlEmail);
+			pnlInput.add(pnlPassword);
+			pnlLogIn.add(lblLogIn);
+			pnlLogIn.add(pnlInput);
+			pnlLogIn.add(pnlButtons);
+			add(pnlLogIn);
+
 	}
 
 	/**
 	 * Create the panel.
 	 */
 	
-	public User getUser() {
-		return user;
-	}
+	/*public User getUser() {
+		return newUser;
+	}*/
 	public JButton getBackButton() {
-		return backButton;
+		return btnBack;
 	}
+	/*
 	public JButton getSignUpButton() {
-		return signUpButton;
+		return btnSignUp;
 		
-	}
+	}*/
 	public void clear() {
-		emailField.setText("");
-		passwordField.setText("");
+		txtEmail.setText("");
+		pssPassword.setText("");
 	}
-
 }

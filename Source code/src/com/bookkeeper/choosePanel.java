@@ -62,6 +62,7 @@ public class choosePanel extends JPanel {
 		btnPatron = new JButton("");
 			btnPatron.setSelected(false);
 			ImageIcon icon = new ImageIcon("D:\\documents\\Final_Project\\img\\patronIcon.png");//files are in desktop
+			//ImageIcon icon = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/patronIcon.png");//files are in desktop
 			Image image = icon.getImage();
 			Image resizedImage = image.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
 			btnPatron.setIcon(new ImageIcon(resizedImage));
@@ -80,6 +81,7 @@ public class choosePanel extends JPanel {
 		btnAdmin.setOpaque(false);
 			btnAdmin.setSelected(false);
 			ImageIcon icon1 = new ImageIcon("D:\\documents\\Final_Project\\img\\AdminIcon.png"); //files are in desktop
+			//ImageIcon icon1 = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/AdminIcon.png"); //files are in desktop
 			Image image1 = icon1.getImage();
 			Image resizedImage1 = image1.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
 			btnAdmin.setIcon(new ImageIcon(resizedImage1));

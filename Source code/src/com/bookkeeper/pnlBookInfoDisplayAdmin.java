@@ -65,11 +65,11 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	txtTitleAdmin.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 20));
 	txtTitleAdmin.setColumns(10);
 	txtTitleAdmin.setBorder(null);
-	txtTitleAdmin.setBounds(30, 43, 528, 46);
+	txtTitleAdmin.setBounds(30, 19, 528, 46);
 	add(txtTitleAdmin);
 	
 	JPanel pnlBookDetailsAdmin = new JPanel();
-	pnlBookDetailsAdmin.setBounds(30, 76, 528, 282);
+	pnlBookDetailsAdmin.setBounds(30, 55, 528, 281);
 	add(pnlBookDetailsAdmin);
 	pnlBookDetailsAdmin.setLayout(null);
 	
@@ -225,7 +225,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
     JSeparator separator2User = new JSeparator();
     separator2User.setOpaque(true);
     separator2User.setBackground(new Color(23, 21, 77));
-    separator2User.setBounds(30, 358, 528, 12);
+    separator2User.setBounds(30, 334, 528, 12);
     add(separator2User);
 	
 	
@@ -238,7 +238,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	
 	JPanel pnlBorrowerDetailsAdmin = new JPanel();
 	pnlBorrowerDetailsAdmin.setLayout(null);
-	pnlBorrowerDetailsAdmin.setBounds(30, 373, 528, 239);
+	pnlBorrowerDetailsAdmin.setBounds(30, 347, 528, 236);
 	add(pnlBorrowerDetailsAdmin);
 	
 	
@@ -376,7 +376,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	btnCancelAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	btnCancelAdmin.setBorderPainted(false);
 	btnCancelAdmin.setBackground(new Color(23, 22, 77));
-	btnCancelAdmin.setBounds(380, 612, 178, 29);
+	btnCancelAdmin.setBounds(302, 619, 256, 29);
 	add(btnCancelAdmin);
 	
 	btnEditInfoAdmin = new JButton("Edit Info");
@@ -385,7 +385,7 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	btnEditInfoAdmin.setFont(new Font("Verdana", Font.ITALIC, 13));
 	btnEditInfoAdmin.setBorderPainted(false);
 	btnEditInfoAdmin.setBackground(new Color(23, 22, 77));
-	btnEditInfoAdmin.setBounds(206, 612, 162, 29); 
+	btnEditInfoAdmin.setBounds(30, 619, 256, 29); 
 	add(btnEditInfoAdmin);
 	
 	btnBorrowBook = new JButton("Borrow Book");
@@ -394,8 +394,17 @@ public pnlBookInfoDisplayAdmin(Book book) {
 	btnBorrowBook.setFont(new Font("Verdana", Font.ITALIC, 13));
 	btnBorrowBook.setBorderPainted(false);
 	btnBorrowBook.setBackground(new Color(23, 22, 77));
-	btnBorrowBook.setBounds(30, 612, 170, 29);
+	btnBorrowBook.setBounds(30, 587, 256, 29);
 	add(btnBorrowBook);
+	
+	JButton btnReturnBook = new JButton("Return Book");
+	btnReturnBook.setOpaque(true);
+	btnReturnBook.setForeground(Color.WHITE);
+	btnReturnBook.setFont(new Font("Verdana", Font.ITALIC, 13));
+	btnReturnBook.setBorderPainted(false);
+	btnReturnBook.setBackground(new Color(23, 22, 77));
+	btnReturnBook.setBounds(302, 587, 256, 29);
+	add(btnReturnBook);
 	
 	}
 	//Method
@@ -592,5 +601,4 @@ public pnlBookInfoDisplayAdmin(Book book) {
 
         return mostRecentBorrowDate;
     }
-
 }

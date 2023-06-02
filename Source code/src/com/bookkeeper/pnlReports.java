@@ -16,20 +16,19 @@ public class pnlReports extends JPanel {
 	private JScrollPane scrollPane;
 	private JTable table_1;
 	private JScrollPane scrollPane_1;
+	private JLabel lblReporT;
 	
 	
 	public pnlReports() {
-		setLayout(null);
+		setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblReport = new JLabel("Library Report");
 		lblReport.setForeground(new Color(26, 24, 87));
-		lblReport.setFont(new Font("Lucida Grande", Font.BOLD, 40)); 
-		lblReport.setBounds(21, 17, 341, 58);
+		lblReport.setFont(new Font("Lucida Grande", Font.BOLD, 54));
 		add(lblReport);
 		
 		JTabbedPane tbdReports = new JTabbedPane(JTabbedPane.LEFT);
 		tbdReports.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-		tbdReports.setBounds(21, 125, 890, 385); 
 		add(tbdReports);
 		
 		//create panels for each report category 
@@ -99,7 +98,6 @@ public class pnlReports extends JPanel {
 
 	}
 }
-
 
 
 

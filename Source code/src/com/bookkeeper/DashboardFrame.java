@@ -20,7 +20,7 @@ public class DashboardFrame extends JFrame {
     public DashboardFrame(int toKnowPanel) { 
         setResizable(false);
         setTitle("Book Keeper");
-        setSize(1000, 600);
+        setSize(1075, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         getContentPane().setLayout(null);
@@ -29,12 +29,11 @@ public class DashboardFrame extends JFrame {
 
         // Create menu bar panel
         pnlMenuBar = new JPanel();
-        pnlMenuBar.setBounds(0, 0, 149, 578);
+        pnlMenuBar.setBounds(0, 0, 190, 578);
         pnlMenuBar.setLayout(new CardLayout(0, 0));
 
         // Create Card Layout panels of the menu bar
         pnlMenuBarAdmin = new pnlMenuBarAdmin();
-        pnlMenuBarAdmin.setLayout(null);
         
         //Add Menu bar panel
         pnlMenuBar.add(pnlMenuBarAdmin, "panel2");
@@ -46,7 +45,7 @@ public class DashboardFrame extends JFrame {
         // Create dash board panel
         pnlDashboardDisplay = new JPanel(); 
         pnlDashboardDisplay.setBorder(null);
-        pnlDashboardDisplay.setBounds(148, 0, 989, 578);
+        pnlDashboardDisplay.setBounds(186, 0, 889, 578);
         pnlDashboardDisplay.setLayout(new CardLayout(0, 0));
         
         //Add panels that will show on menu bar action listener
@@ -55,16 +54,17 @@ public class DashboardFrame extends JFrame {
         pnlDashboardDisplay.add(pnlUser, "panel5");
 
         // Show the appropriate panel based on user type
-        if (toKnowPanel == 1) {
-        	cardLayout = (CardLayout) pnlMenuBar.getLayout();
-            cardLayout.show(pnlMenuBar, "panel2");
+    	cardLayout = (CardLayout) pnlMenuBar.getLayout();
+        cardLayout.show(pnlMenuBar, "panel2");
 
-            cardLayout = (CardLayout) pnlDashboardDisplay.getLayout();
-            cardLayout.show(pnlDashboardDisplay, "panel3");
+        cardLayout = (CardLayout) pnlDashboardDisplay.getLayout();
+        cardLayout.show(pnlDashboardDisplay, "panel3");
 
-            getContentPane().add(pnlMenuBar);
-            getContentPane().add(pnlDashboardDisplay);
-        } 
+        getContentPane().add(pnlMenuBar);
+        getContentPane().add(pnlDashboardDisplay);
+        /*if (toKnowPanel == 1) {
+
+        } */
 
         //Event listeners
         //Menu bar admin buttons
@@ -96,6 +96,9 @@ public class DashboardFrame extends JFrame {
     }
     
     //Constructor with User class arguments
+    /**
+     * @wbp.parser.constructor
+     */
     public DashboardFrame(int toKnowPanel, User user) {
     	setResizable(false);
         setTitle("Book Keeper");

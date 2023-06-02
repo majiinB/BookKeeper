@@ -73,8 +73,9 @@ public class MainFrame extends JFrame {
         
         
         ImageIcon icon = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/bookKeeperLogo.png");
+        //ImageIcon icon = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/bookKeeperLogo.png");
         Image image = icon.getImage();
-        setIconImage(image);
+        setIconImage(image); 
         mainPane = new JPanel();
         mainPane.setBackground(new Color(26, 25, 86));
         mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -121,19 +122,19 @@ public class MainFrame extends JFrame {
 		});
         
         
-        //action listener for login panel signup
+        /*action listener for login panel signup
         loginPanel.getSignUpButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardLayout.show(mainPane, "panel3");
 			}
-		});
+		});*/
         
-        //action listener for signup back button
+        /*action listener for signup back button
         signUp.getBackBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardLayout.show(mainPane, "panel2");
 			}
-		});
+		});*/
         
         
         adminLog.getBackButton().addActionListener(new ActionListener() {

@@ -1,7 +1,9 @@
 package com.bookkeeper;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,56 +15,73 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 
 public class loginAdmin extends JPanel {
-
+	private JPanel pnlLogIn;
+	private JPanel pnlEmail;
+	private JPanel pnlPassword;
+	private JPanel pnlInput;
+	private JPanel pnlButtons;
 	private JLabel emailLabel;
-	private JTextField emailField;
 	private JLabel passLabel;
-	private JPasswordField passwordField;
+	private JLabel loginPaneLabel;
+	private PlaceholderTextField emailField;
+	private PlaceholderPassword passwordField;
 	private JButton loginButton;
 	private Object newUser;
-	private JLabel loginPaneLabel;
 	private JButton backButton; 
 	private Employee employee;
 
 	public loginAdmin() {
-		setBackground(new Color(18, 57, 150));
-		setLayout(null);
+		setBackground(new Color(23, 21, 77));
+		setLayout(new BorderLayout(0, 0));        
+		setBorder(new EmptyBorder(40, 60, 40, 60));
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(255, 255, 255));
-        panel.setSize(545,300);
-        panel.setBounds(190, 175, 401, 207);
-		add(panel);
+		//create panels
+		pnlLogIn = new JPanel();
+		pnlEmail = new JPanel();
+		pnlEmail.setBorder(null);
+		pnlEmail.setOpaque(false);
+		pnlPassword = new JPanel();
+		pnlPassword.setBorder(null);
+		pnlPassword.setOpaque(false);
+		pnlInput = new JPanel();
+		pnlButtons = new JPanel();
 		
-			setLayout(null);
-			panel.setLayout(null);
-			
-			emailLabel = new JLabel("Email:");
-			emailLabel.setBounds(69, 71, 42, 14);
-			panel.add(emailLabel);
-			
-			emailField = new JTextField();
-			emailField.setBounds(121, 67, 228, 23);
-			panel.add(emailField);
-			emailField.setColumns(10);
-			
-			passLabel = new JLabel("Password:");
-			passLabel.setBounds(46, 109, 65, 14);
-			panel.add(passLabel);
-			
-			passwordField = new JPasswordField();
-			passwordField.setBounds(121, 105, 228, 23);
-			panel.add(passwordField); 
-			
-			loginButton = new JButton("Log-In");
-			loginButton.setOpaque(true);
-			loginButton.setFont(new Font("Verdana", Font.BOLD, 11));
-			loginButton.setForeground(new Color(255, 255, 255));
-			loginButton.setBorderPainted(false);
-			loginButton.setBackground(new Color(18, 57, 150));
-			loginButton.addActionListener(new ActionListener() {
+		
+		
+		pnlButtons.setOpaque(false);
+		pnlInput.setOpaque(false);
+	    pnlInput.setBorder(null);
+	    pnlLogIn.setBackground(new Color(255, 255, 255));
+        pnlLogIn.setSize(545,300);
+        pnlLogIn.setBounds(68, 68, 401, 207);
+		pnlLogIn.setBackground(new Color(255, 255, 255));
+		pnlLogIn.setLayout(new GridLayout(3, 1, 10, 10));
+		
+        emailLabel = new JLabel("Email:");
+		emailLabel.setBounds(69, 71, 42, 14);
+		
+		emailField = new PlaceholderTextField("Enter Admin Email");
+		emailField.setBounds(121, 67, 228, 23);
+		emailField.setColumns(25);
+		
+		passLabel = new JLabel("Password:");
+		passLabel.setBounds(46, 109, 65, 14);
+		
+		passwordField = new PlaceholderPassword("");
+		passwordField.setBounds(121, 105, 228, 23);
+		passwordField.setColumns(20);
+
+		loginButton = new JButton("Log-In");
+		loginButton.setOpaque(true);
+		loginButton.setFont(new Font("Verdana", Font.BOLD, 11));
+		loginButton.setForeground(new Color(255, 255, 255));
+		loginButton.setBorderPainted(false);
+		loginButton.setBackground(new Color(23, 21, 77));
+		loginButton.setBounds(46, 152, 154, 29);
+		loginButton.addActionListener(new ActionListener() {
 				private int numTries = 1;
 				public void actionPerformed(ActionEvent e) {
 					MainFrame main = (MainFrame) SwingUtilities.getWindowAncestor(loginAdmin.this);
@@ -108,24 +127,36 @@ public class loginAdmin extends JPanel {
 					
 				}
 			});
-			loginButton.setBounds(46, 152, 154, 29);
-			panel.add(loginButton);
-			backButton = new JButton("Back");
-			backButton.setOpaque(true);
-			
-			backButton.setFont(new Font("Verdana", Font.BOLD, 11));
-			backButton.setForeground(new Color(255, 255, 255));
-			backButton.setBackground(new Color(18, 57, 150));
-			backButton.setBorderPainted(false);
-			backButton.setBounds(210, 152, 139, 29);
-			panel.add(backButton);
-			
-			loginPaneLabel = new JLabel("Admin Login");
-			loginPaneLabel.setBackground(new Color(9, 3, 105));
-			loginPaneLabel.setFont(new Font("Verdana", Font.BOLD, 15));
-			loginPaneLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			loginPaneLabel.setBounds(10, 11, 381, 34);
-			panel.add(loginPaneLabel);
+
+		backButton = new JButton("Back");
+		backButton.setOpaque(true);
+		backButton.setFont(new Font("Verdana", Font.BOLD, 11));
+		backButton.setForeground(new Color(255, 255, 255));
+		backButton.setBackground(new Color(23, 21, 77));
+		backButton.setBorderPainted(false);
+		backButton.setBounds(210, 152, 139, 29);
+		
+		loginPaneLabel = new JLabel("Admin Login");
+		loginPaneLabel.setBorder(null);
+		loginPaneLabel.setBackground(new Color(9, 3, 105));
+		loginPaneLabel.setFont(new Font("Verdana", Font.BOLD, 15));
+		loginPaneLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		loginPaneLabel.setBounds(10, 11, 381, 34);
+		
+
+		pnlEmail.add(emailLabel);
+		pnlEmail.add(emailField);
+		pnlPassword.add(passLabel);
+		pnlPassword.add(passwordField);
+		pnlButtons.add(loginButton);
+		pnlButtons.add(backButton);
+		pnlInput.add(pnlEmail);
+		pnlInput.add(pnlPassword);
+		
+		pnlLogIn.add(loginPaneLabel);
+		pnlLogIn.add(pnlInput);
+		pnlLogIn.add(pnlButtons);
+		add(pnlLogIn);
 	}
 	public JButton getBackButton() {
 		return backButton;

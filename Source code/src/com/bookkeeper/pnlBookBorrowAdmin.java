@@ -276,7 +276,7 @@ public class pnlBookBorrowAdmin extends JPanel {
 	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
 
 	        // Prepare the SQL statement for inserting the borrowed book
-	        String insertQuery = "INSERT INTO borrowed_book (book_id, patron_id, borrowed_date, borrowed_due_date) VALUES (?, ?, ?, ?)";
+	        String insertQuery = "INSERT INTO borrowed_book (book_id, patron_id, borrowed_date, borrowed_due_date, borrow_status) VALUES (?, ?, ?, ?, ?)";
 	        PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
 	        insertStatement.setInt(1, bookId); 
 	        insertStatement.setString(2, patronId);
@@ -288,6 +288,9 @@ public class pnlBookBorrowAdmin extends JPanel {
 	        // Calculate the due date (current date + 3 weeks)
 	        LocalDate dueDate = currentDate.plusWeeks(3);
 	        insertStatement.setDate(4, java.sql.Date.valueOf(dueDate));
+	        
+	        //Add borrow book status
+	        insertStatement.setString(5, "Out");
 
 	        // Execute the insert query
 	        insertStatement.executeUpdate();
