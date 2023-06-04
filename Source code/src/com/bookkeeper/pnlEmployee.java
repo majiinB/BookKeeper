@@ -34,7 +34,7 @@
      private GridBagConstraints gbc_pnlSearchBar;
      private GridBagConstraints gbc_pnlSearchResults;
      
- 	//USERMANAGEMENT
+ 	//EMPLOYEE MANAGEMENT
  	public pnlEmployee() {
          setLayout(new BorderLayout(0, 0));
 
@@ -181,7 +181,8 @@
          //Action listener for add book to show pop up
          btnAddEmployee.addActionListener(new ActionListener() {
          	public void actionPerformed(ActionEvent e) {
-                BookInfoFrame frame = new BookInfoFrame(1);
+                MainFrame frame = new MainFrame(1, 2);
+                frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
          	}
          });

@@ -180,7 +180,7 @@ public class pnlUser extends JPanel {
         //Action listener for add book to show pop up
         btnAddUser.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-               MainFrame frame = new MainFrame(1);
+               MainFrame frame = new MainFrame(1, 1);
                frame.setLocationRelativeTo(null);
                frame.setVisible(true);
         	}

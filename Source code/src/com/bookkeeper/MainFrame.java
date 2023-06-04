@@ -41,6 +41,7 @@ public class MainFrame extends JFrame {
 	private signUpPanel signUp;
 	private loginAdmin adminLog;
 	private CardLayout cardLayout;
+	private pnlUser user;
 
 	/**
 	 * Launch the application.
@@ -127,12 +128,11 @@ public class MainFrame extends JFrame {
 		});
         
     }
-    
-    
-    public MainFrame(int con) {
+     
+    public MainFrame(int con, int conditionForQuery) {
         setTitle("Book Keeper");
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setSize(800, 600);
         setVisible(true);
@@ -148,8 +148,8 @@ public class MainFrame extends JFrame {
         mainPane.setLayout(new CardLayout());    
         
         //Create panels
-        signUp = new signUpPanel();
-        pnlUser user = new pnlUser();
+        signUp = new signUpPanel(conditionForQuery);
+        user = new pnlUser();
         
         //Add panels to main panel
         mainPane.add(signUp,"panel3");
@@ -198,12 +198,13 @@ public class MainFrame extends JFrame {
 			return encryptedMessage;
 		}
 		
-		public static boolean checkEmailExistence(String userEmail) {
+		public static boolean checkEmailExistence(String userEmail, int con) {
 			Connection conn = null;
 			String url = "jdbc:mysql://localhost/book_keeper";
 		    String user = "root";
 		    String password = "";
 		    boolean forReturn = false;
+		    String query = "";
 		    
 		    try {
 	   		 	//Connect to book_keeper Database
@@ -212,7 +213,11 @@ public class MainFrame extends JFrame {
 	  	         //System.out.println("Connected to the database");
 	  	         
 	  	         //prepare query
-	  	         String query = "SELECT * FROM patron WHERE BINARY patron_email=?";
+	  	         if(con == 1) {
+	  	        	query = "SELECT * FROM patron WHERE BINARY patron_email=?";
+	  	         }else {
+	  	        	query = "SELECT * FROM admin WHERE BINARY admin_email=?";
+	  	         }
 	  	         PreparedStatement stmt = conn.prepareStatement(query);
 	  	         
 				 stmt.setString(1, userEmail);
@@ -235,7 +240,7 @@ public class MainFrame extends JFrame {
 	  	     } 
 			return forReturn;
 		}
-		public void signUp(String fName, String lName, String userEmail, String userContact, String userAddress) throws Exception {
+		public void signUp(String fName, String lName, String userEmail, String userContact, String userAddress, int forQuery) throws Exception {
 			Connection conn = null;
 		    String url = "jdbc:mysql://localhost/book_keeper";
 		    String user = "root";
@@ -245,6 +250,8 @@ public class MainFrame extends JFrame {
 		    String encrypted = ""; 
 		    String status = "active";
 		    String id ="";
+		    String position = "Employee";
+
 		    do {
 		    	id = generateRandomID();
 		    	con1 = checkId(id);
@@ -257,11 +264,12 @@ public class MainFrame extends JFrame {
 	  	         conn = DriverManager.getConnection(url, user, password);
 	  	         
 	  	         //Check email Existence
-	  	         condition = checkEmailExistence(userEmail);
+	  	         condition = checkEmailExistence(userEmail, forQuery);
 	  	         if(condition)
 	  	        	 JOptionPane.showMessageDialog(null, "Email Already taken", "Error", JOptionPane.ERROR_MESSAGE);
 	  	         else {
-		  	        	 encrypted = encryption(id);
+	  	        	 if(forQuery == 1) {
+	  	        		encrypted = encryption(id);
 		  	        	//prepare query
 			  	         String query = "INSERT INTO patron VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			  	         stmt = conn.prepareStatement(query);
@@ -276,7 +284,26 @@ public class MainFrame extends JFrame {
 			  	         stmt.executeUpdate();
 
 			  	         JOptionPane.showMessageDialog(null, "Signup successfull!", "Signup", JOptionPane.PLAIN_MESSAGE);
-	  	         }
+	  	        	 }
+	  	        	 else{
+	  	        		 encrypted = encryption(id);
+	  	        		 //prepare query
+	  	        		 String query = "INSERT INTO admin VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			  	         stmt = conn.prepareStatement(query);
+			  	         stmt.setString(1, id);
+						 stmt.setString(2, fName);
+						 stmt.setString(3, lName); 
+						 stmt.setString(4, userEmail); 
+						 stmt.setString(5, position); 
+						 stmt.setString(6, encrypted); 
+						 stmt.setString(7, status); 
+						 stmt.setString(8, userContact); 
+						 stmt.setString(9, userAddress); 
+			  	         stmt.executeUpdate();
+			  	         
+			  	         JOptionPane.showMessageDialog(null, "Signup successfull!", "Signup", JOptionPane.PLAIN_MESSAGE);
+	  	        	 }
+	  	         }  
 	        } catch (ClassNotFoundException | SQLException e) {
 	        	e.printStackTrace();
 	        } finally {
@@ -291,6 +318,8 @@ public class MainFrame extends JFrame {
 	         }
 	       }
 		}
+		
+		
 		//LoginMethod
 		public Object loginMethod(String email, String pass, String table, String colEmail, String colPass, String colStatus, String status) throws Exception{
 			 //Declare variables
@@ -339,7 +368,7 @@ public class MainFrame extends JFrame {
 			   	             conn.close();
 			   	             return onlineUser;
 		   	             }else {
-		   	            	 int userID = rs.getInt("admin_id");
+		   	            	 String userID = rs.getString("admin_id");
 			   	             String userFname = rs.getString("admin_fname");
 			   	             String userLname = rs.getString("admin_lname");
 			   	             String userEmail1 = rs.getString("admin_email");

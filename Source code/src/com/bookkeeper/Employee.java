@@ -1,14 +1,14 @@
 package com.bookkeeper;
 
 public class Employee {
-	private int Employee_id;
+	private String Employee_id;
 	private String fname;
 	private String lname;
 	private String Position;
 	private String Email;
 	private String Employee_pass;
 	
-	public Employee(int Employee_id, String fname, String lname,String Position, String Email, String Employee_pass ) {
+	public Employee(String Employee_id, String fname, String lname,String Position, String Email, String Employee_pass ) {
 		this.Employee_id = Employee_id;
 		this.fname = fname;
 		this.lname = lname;
@@ -17,11 +17,11 @@ public class Employee {
 		this.Employee_pass = Employee_pass;
 	}
 
-	public int getEmployee_id() {
+	public String getEmployee_id() {
 		return Employee_id;
 	}
 
-	public void setEmployee_id(int employee_id) {
+	public void setEmployee_id(String employee_id) {
 		Employee_id = employee_id;
 	}
 

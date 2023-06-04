@@ -15,20 +15,13 @@ import java.awt.event.ActionEvent;
 
 
 public class signUpPanel extends JPanel {
-	private JTextField textField;
-	private JTextField firstNameField;
-	private JTextField emailField;
-	private JTextField homeAddField;
-	private JTextField contactNumField;
-	private JTextField passField;
-	private JTextField retypePassField;
 	private JButton btnBack;
 	
 
 	/**
 	 * Create the panel.
 	 */
-	public signUpPanel() {
+	public signUpPanel(int conditionForQuery) {
 		setBackground(new Color(18, 57, 150));
 		setLayout(null);
 		
@@ -78,9 +71,10 @@ public class signUpPanel extends JPanel {
 				String fname = firstNameField.getText();
 				String lname = lastNameField.getText();
 				String userEmail = emailField.getText();
-				String trimmedInput = userEmail.trim();
+				String trimmedEmail = userEmail.trim();
 				String userContact = contactNumField.getText();
 				String userAddress = homeAddField.getText();
+			
 				//String errors
 				String errorFname = "", errorLname = "", errorEmail = "", errorContact = "", errorAdd = "";
 				boolean condition = true;
@@ -129,7 +123,8 @@ public class signUpPanel extends JPanel {
 		
 				try {
 					if(condition) {
-						main.signUp(fname, lname, trimmedInput, userContact, userAddress);
+						//Call signup method from the MainFrame
+						main.signUp(fname, lname, trimmedEmail, userContact, userAddress, conditionForQuery);
 						main.getLayout().show(main.getPanel(), "panel2");
 					}
 					
@@ -137,8 +132,6 @@ public class signUpPanel extends JPanel {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				
 			}
 		});
 		createAccField.setBorderPainted(false);
@@ -177,7 +170,9 @@ public class signUpPanel extends JPanel {
 		panel.add(btnBack);
 
 	}
+	
 	public JButton getBackBtn() {
 		return btnBack;
 	}
+	
 }
