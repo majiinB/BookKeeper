@@ -16,8 +16,10 @@ public class DashboardFrame extends JFrame {
     private pnlAccount pnlAccount;
     private CardLayout cardLayout;
     private JPanel pnlDashboardDisplay;
+    private pnlEmployee pnlEmploy;
  
-    public DashboardFrame(int toKnowPanel) { 
+    
+    public DashboardFrame(int toKnowPanel, Employee employee) { 
         setResizable(false);
         setTitle("Book Keeper");
         setSize(1075, 600);
@@ -42,6 +44,8 @@ public class DashboardFrame extends JFrame {
         pnlReports = new pnlReports();
         pnlLibraryAdmin = new pnlLibraryAdmin();
         pnlUser = new pnlUser();
+        pnlEmploy = new pnlEmployee();
+        
         // Create dash board panel
         pnlDashboardDisplay = new JPanel(); 
         pnlDashboardDisplay.setBorder(null);
@@ -52,6 +56,8 @@ public class DashboardFrame extends JFrame {
         pnlDashboardDisplay.add(pnlLibraryAdmin, "panel3");
         pnlDashboardDisplay.add(pnlReports, "panel4");
         pnlDashboardDisplay.add(pnlUser, "panel5");
+        pnlDashboardDisplay.add(pnlEmploy, "panel6");
+        
 
         // Show the appropriate panel based on user type
     	cardLayout = (CardLayout) pnlMenuBar.getLayout();
@@ -62,9 +68,7 @@ public class DashboardFrame extends JFrame {
 
         getContentPane().add(pnlMenuBar);
         getContentPane().add(pnlDashboardDisplay);
-        /*if (toKnowPanel == 1) {
-
-        } */
+        
 
         //Event listeners
         //Menu bar admin buttons
@@ -93,45 +97,54 @@ public class DashboardFrame extends JFrame {
 				mainFrame.setVisible(true);
 	    	}
 	    });
+        pnlMenuBarAdmin.getEmployeeBtn().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		cardLayout.show(pnlDashboardDisplay, "panel6");
+	    	}
+	    });
     }
     
     //Constructor with User class arguments
-    /**
-     * @wbp.parser.constructor
-     */
     public DashboardFrame(int toKnowPanel, User user) {
-    	setResizable(false);
+        setResizable(false);
         setTitle("Book Keeper");
-        setSize(1000, 600);
+        setSize(1075, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         getContentPane().setLayout(null);
 
         cardLayout = new CardLayout(); // Create a CardLayout
 
+        
         // Create menu bar panel
         pnlMenuBar = new JPanel();
-        pnlMenuBar.setBounds(0, 0, 149, 578);
+        pnlMenuBar.setBounds(0, 0, 190, 578);
         pnlMenuBar.setLayout(new CardLayout(0, 0));
 
         // Create Card Layout panels of the menu bar
         pnlMenuBarPatron = new pnlMenuBarPatron();
-        pnlMenuBarPatron.setLayout(null);
-
+        
+        //Add Menu bar panel
         pnlMenuBar.add(pnlMenuBarPatron, "panel1");
+        
+        //Initialize panels
         pnlLibraryUser = new pnlLibraryUser();
         pnlAccount = new pnlAccount(user);
-
+        
         // Create dash board panel
         pnlDashboardDisplay = new JPanel(); 
         pnlDashboardDisplay.setBorder(null);
-        pnlDashboardDisplay.setBounds(148, 0, 989, 578);
+        pnlDashboardDisplay.setBounds(186, 0, 889, 578);
         pnlDashboardDisplay.setLayout(new CardLayout(0, 0));
+        
+
+
         
         //Add panels that will be shown in menu bar listener
         pnlDashboardDisplay.add(pnlLibraryUser, "panel7");
         pnlDashboardDisplay.add(pnlAccount, "panel8");
 
+        
         // Show the appropriate panel based on user type
         cardLayout = (CardLayout) pnlMenuBar.getLayout();
         cardLayout.show(pnlMenuBar, "panel1");

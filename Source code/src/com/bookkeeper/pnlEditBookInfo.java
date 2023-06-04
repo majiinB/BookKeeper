@@ -32,7 +32,7 @@ public class pnlEditBookInfo extends JPanel {
 	private JTextField txtTitleEdit;
 	private JTextField txtAvailability;
 	private static pnlBookAddAdmin forCheck;
-	JButton btnCancelEdit;
+	private JButton btnCancelEdit;
 	
 	public pnlEditBookInfo(Book book) {
 		
@@ -198,6 +198,7 @@ public class pnlEditBookInfo extends JPanel {
 		add(separatorEdit);
 		
 		btnCancelEdit = new JButton("Cancel");
+		btnCancelEdit.setBorderPainted(false);
 		btnCancelEdit.setOpaque(true);
 		btnCancelEdit.setForeground(Color.WHITE);
 		btnCancelEdit.setFont(new Font("Verdana", Font.ITALIC, 13));
@@ -206,6 +207,7 @@ public class pnlEditBookInfo extends JPanel {
 		add(btnCancelEdit);
 		
 		JButton btnSaveChangesEdit = new JButton("Save Changes");
+		btnSaveChangesEdit.setBorderPainted(false);
 		btnSaveChangesEdit.setOpaque(true);
 		btnSaveChangesEdit.setForeground(Color.WHITE);
 		btnSaveChangesEdit.setFont(new Font("Verdana", Font.ITALIC, 13));

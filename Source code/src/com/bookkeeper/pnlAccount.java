@@ -19,6 +19,7 @@ import javax.swing.border.TitledBorder;
 public class pnlAccount extends JPanel {
 	private JTable table;
 	private DefaultTableModel tableModel;
+	private JTable tblReserve;
 
     public pnlAccount(User user) {
 	setBackground(new Color(255, 255, 255));
@@ -60,18 +61,12 @@ public class pnlAccount extends JPanel {
 	// Second column
 	JPanel column2 = new JPanel(new GridLayout(0, 1));
 	pnlinformation.add(column2);
-
-	JTextField txtName = new JTextField("  Patron Name");
-	column2.add(txtName);
-
-	JTextField txtID = new JTextField("  Patron ID");
-	column2.add(txtID);
 	
-	JTextField txtContactNumber = new JTextField("  Patron Number");
-	column2.add(txtContactNumber);
-
-	JTextField txtEmail = new JTextField("  Patron Address");
-	column2.add(txtEmail);
+	JScrollPane scrllReserve = new JScrollPane();
+	column2.add(scrllReserve);
+	
+	tblReserve = new JTable();
+	scrllReserve.setViewportView(tblReserve);
 
 	
 	JButton btnEditInfo = new JButton("Edit Info");
@@ -81,19 +76,6 @@ public class pnlAccount extends JPanel {
 	btnEditInfo.setBackground(new Color(24, 21, 79));
 	btnEditInfo.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 	btnEditInfo.setBounds(357, 47, 84, 25);
-		btnEditInfo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//logic to edit text fields tas may save changes button pa pala dpt
-				JButton btnSaveInfo = new JButton("Save Changes");
-				btnSaveInfo.setForeground(new Color(255, 255, 255));
-				btnSaveInfo.setOpaque(true);
-				btnSaveInfo.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
-				btnSaveInfo.setBorderPainted(false);
-				btnSaveInfo.setBackground(new Color(24, 21, 79));
-				btnSaveInfo.setBounds(384, 43, 101, 29);
-				add(btnSaveInfo);
-			}
-		});
 	add(btnEditInfo);
 	
 	JPanel panel = new JPanel();

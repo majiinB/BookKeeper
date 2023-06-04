@@ -232,4 +232,7 @@ public class pnlMenuBarAdmin extends JPanel {
 	public JButton getLogOutBtn() {
 		return btnLogOut;
 	}
+	public JButton getEmployeeBtn() {
+		return btnEmployee;
+	}
 }

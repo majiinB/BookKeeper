@@ -57,7 +57,7 @@
          lblBookKeeper.setLabelFor(txtSearchBar);            
 
          //Search bar
-         txtSearchBar = new PlaceholderTextField("Search Employee  ");
+         txtSearchBar = new PlaceholderTextField("Search Employee");
          txtSearchBar.setPreferredSize(new Dimension(109, 45));
          txtSearchBar.setHorizontalAlignment(SwingConstants.RIGHT);        
          txtSearchBar.setBorder(new LineBorder(new Color(26, 24, 87)));
@@ -92,10 +92,10 @@
                      String getQuery = "";
                      
                      // Check for empty search
-                     if (getSearch.isEmpty()||getSearch.equals("Search Employee  ") ) {
-                         getQuery = "SELECT patron_id, patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_status "
-         	            		+ "FROM patron "
-         	            		+ "ORDER BY patron_lname ASC";
+                     if (getSearch.isEmpty()||getSearch.equals("Search Employee") ) {
+                         getQuery = "SELECT admin_id, admin_fname, admin_lname, admin_email, admin_status "
+         	            		+ "FROM admin WHERE admin_status ='active' AND admin_position ='employee' "
+         	            		+ "ORDER BY admin_lname ASC";
                      } else {
                          getQuery = searchQuery(getSearch);
                      }
@@ -245,10 +245,10 @@
       }
  	//Methods
  	 public String searchQuery(String search) {
- 	       String query = "SELECT patron_id, patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_status "
- 	       		+ "FROM patron "
- 	       		+ "WHERE patron_id LIKE '" +search+"%' OR patron_fname LIKE '"+search+"%' OR patron_lname LIKE '"+search+"%' "
- 	       		+ "ORDER BY patron_lname ASC";
+ 	       String query = "SELECT admin_id, admin_fname, admin_lname, admin_email, admin_status "
+ 	       		+ "FROM admin "
+ 	       		+ "WHERE (admin_fname LIKE '"+search+"%' OR admin_lname LIKE '"+search+"%') AND (admin_status = 'active' AND admin_position = 'employee') "
+ 	       		+ "ORDER BY admin_lname ASC";
  	       return query;
  	    }
 
@@ -257,9 +257,9 @@
  	            // Establish database connection
  	        	//Rekta na kasi tinamad mag assign pa ng variables same lang naman kasi db na gagamitin HAHAHAHAA
  	            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
- 	            String getQuery = "SELECT patron_id, patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_status "
- 	            		+ "FROM patron "
- 	            		+ "ORDER BY patron_lname ASC";
+ 	            String getQuery = "SELECT admin_id, admin_fname, admin_lname, admin_email, admin_status "
+ 	            		+ "FROM admin WHERE admin_status ='active' AND admin_position ='employee' "
+ 	            		+ "ORDER BY admin_lname ASC";
 
  	            // Execute the SQL query
  	            Statement statement = connection.createStatement();

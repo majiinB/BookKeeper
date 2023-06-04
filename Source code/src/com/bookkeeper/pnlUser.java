@@ -91,7 +91,7 @@ public class pnlUser extends JPanel {
                     String getQuery = "";
                     
                     // Check for empty search
-                    if (getSearch.isEmpty()||getSearch.equals("Search User  ") ) {
+                    if (getSearch.isEmpty()||getSearch.equals("Search User") ) {
                         getQuery = "SELECT patron_id, patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_status "
         	            		+ "FROM patron "
         	            		+ "ORDER BY patron_lname ASC";

@@ -36,8 +36,8 @@ public class loginPanel extends JPanel {
 	private PlaceholderPassword pssPassword;
 	private JButton btnLogIn;
 	private JButton btnBack;
+	private User user;
 	public Object newUser;
-	private User user; 
 	
 	public loginPanel() {
 		setBackground(new Color(23, 21, 77));
@@ -84,45 +84,47 @@ public class loginPanel extends JPanel {
 			private int numTries = 1;
 			public void actionPerformed(ActionEvent e) {
 				MainFrame main = (MainFrame) SwingUtilities.getWindowAncestor(loginPanel.this);
-				int remain = 3 - numTries;				
-						try {
-							String email = "";
-							email = txtEmail.getText();
-							String trimed = email.trim();
-							String table = "patron";
-							String colemail = "patron_email";
-							String colpass = "patron_password";
-							String colStatus ="patron_status";
-							char[] pass = pssPassword.getPassword();
-							String password = new String(pass);
-							String status = "active";
-							newUser = main.loginMethod(trimed, password, table, colemail, colpass, colStatus, status);
-							if (newUser == null && numTries<3) {
-								// Show error message if login failed
-								JOptionPane.showMessageDialog(loginPanel.this, "Invalid email or password" + "\nRemaining Attempts:" + remain, "Error", JOptionPane.ERROR_MESSAGE);
-								numTries++;
-								
-							} else {
-								if(numTries>=3) {
-									JOptionPane.showMessageDialog(loginPanel.this, "Limit Reached! Program will now close", "Error", JOptionPane.ERROR_MESSAGE);
-									System.exit(0);
-								}
-								user = (User) newUser;
-								// Hide the login panel and show the main interface
-								JOptionPane.showMessageDialog(loginPanel.this, "Welcome,\n" + newUser.toString() + " !", "\nSuccess", JOptionPane.INFORMATION_MESSAGE);
-								MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(btnLogIn);
-								frame.dispose();
-
-				                DashboardFrame DashboardFrame = new DashboardFrame(0, user);
-				                DashboardFrame.setVisible(true);
-				                
+				int remain = 3 - numTries;
+				
+					try {
+						String email = "";
+						email = txtEmail.getText();
+						String trimed = email.trim();
+						String table = "patron";
+						String colemail = "patron_email";
+						String colpass = "patron_password";
+						String colStatus ="patron_status";
+						char[] pass = pssPassword.getPassword();
+						String password = new String(pass);
+						String status = "active";
+						newUser = main.loginMethod(trimed, password, table, colemail, colpass, colStatus, status);
+						if (newUser == null && numTries<3) {
+							// Show error message if login failed
+							JOptionPane.showMessageDialog(loginPanel.this, "Invalid email or password" + "\nRemaining Attempts:" + remain, "Error", JOptionPane.ERROR_MESSAGE);
+							numTries++;
+							
+						} else {
+							if(numTries>=3) {
+								JOptionPane.showMessageDialog(loginPanel.this, "Limit Reached! Program will now close", "Error", JOptionPane.ERROR_MESSAGE);
+								System.exit(0);
 							}
-						} catch (Exception e1) {
-							e1.printStackTrace();
+							// Hide the login panel and show the main interface
+							user = (User) newUser;
+							JOptionPane.showMessageDialog(loginPanel.this, "Welcome,\n" + newUser.toString() + " !", "\nSuccess", JOptionPane.INFORMATION_MESSAGE);
+							MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(btnLogIn);
+							frame.dispose();
+
+							// Create and show the DashboardFrame
+			                DashboardFrame DashboardFrame = new DashboardFrame(0, user);
+			                DashboardFrame.setVisible(true);
+			                
 						}
-					
-				}
-			});
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				
+			}
+		});
 			
 			btnBack = new JButton("Back");
 			btnBack.setOpaque(true);
@@ -163,9 +165,10 @@ public class loginPanel extends JPanel {
 	 * Create the panel.
 	 */
 	
-	/*public User getUser() {
-		return newUser;
-	}*/
+	public User getUser() {
+		return user;	
+	}
+	
 	public JButton getBackButton() {
 		return btnBack;
 	}

@@ -44,7 +44,7 @@ public class pnlLibraryAdmin extends JPanel {
         pnlSearchResults = new JPanel();//Create panel for result table
         pnlAddBook = new JPanel();
        
-      //Create main panel that will contain library panel
+
         lblBookKeeper = new JLabel("Book Keeper");    
         lblBookKeeper.setBorder(new EmptyBorder(15, 15, 15, 15));     
         lblBookKeeper.setOpaque(true);       
@@ -69,8 +69,8 @@ public class pnlLibraryAdmin extends JPanel {
         pnlSearchBtn = new JPanel();
 
         //icon of search button
-        //icnSearch = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/searchIcon.png");//insert nyo path file nyo papuntang image
-        ImageIcon icnSearch = new ImageIcon("D:\\documents\\Final_Project\\img\\searchIcon.png");
+        icnSearch = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/searchIcon.png");//insert nyo path file nyo papuntang image
+        //ImageIcon icnSearch = new ImageIcon("D:\\documents\\Final_Project\\img\\searchIcon.png");
         imgSearch = icnSearch.getImage();
         rsdImgSearch = imgSearch.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
                           

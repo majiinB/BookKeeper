@@ -25,6 +25,7 @@ import java.awt.BorderLayout;
 
 public class pnlBookAddAdmin extends JPanel {
 	private JPanel pnlBookAuthorEdit ;
+	private JPanel pnlBookDetailsEdit ;
 	private JPanel pnlPublisherEdit;
 	private JPanel pnlBookInformationEdit;
 	private JPanel pnlISBNEdit;
@@ -40,6 +41,7 @@ public class pnlBookAddAdmin extends JPanel {
 	private PlaceholderTextField txtShelfNumberEdit;
 	private PlaceholderTextField txtAisleNumberEdit;
 	private JTextField txtTitleEdit;
+	private PlaceholderTextField txtAvailability;
 	private JLabel lblAuthorEdit;
 	private JLabel lblPublicationDateEdit;
 	private JLabel lblPublisherEdit;
@@ -49,7 +51,7 @@ public class pnlBookAddAdmin extends JPanel {
 	private JLabel lblAvailabilityEdit;
 	private JButton btnCancelEdit;
 	private JButton btnSaveChangesEdit;
-	private JComboBox<String> cmbAvailability;
+	private JComboBox cmbAvailability;
 	private JSeparator sprtrLocAndDetails;
 
 
@@ -66,7 +68,7 @@ public class pnlBookAddAdmin extends JPanel {
 		txtTitleEdit.setColumns(15);
 		txtTitleEdit.setBorder(null);
 
-		new JPanel();
+		pnlBookDetailsEdit = new JPanel();
 		pnlBookAuthorEdit = new JPanel();
 		pnlPublisherEdit = new JPanel();
 		pnlISBNEdit = new JPanel();
@@ -287,9 +289,9 @@ public class pnlBookAddAdmin extends JPanel {
         if(locId == -1) {
         	JOptionPane.showMessageDialog(pnlBookAddAdmin.this, "No id is found", "Error", JOptionPane.ERROR_MESSAGE);
         }else {
-        	if(title.isBlank() || title.equals("Book Author") || author.isBlank() || author.equals("Book Publiser") ||
+        	if(title.isBlank() || title.equals("Enter Book Title") || author.isBlank() || author.equals("Book Author") ||
             		genre.isBlank() || genre.equals("Genre") || publicationDate.isBlank() || publicationDate.equals("Publication Date")
-            		|| publisher.isBlank() || publisher.equals("Book Publisher") || status.isBlank() || status.equals("Availability")) {
+            		|| publisher.isBlank() || publisher.equals("Book Publisher") || status.isBlank()) {
             	JOptionPane.showMessageDialog(pnlBookAddAdmin.this, "Cannot have blank values", "Error", JOptionPane.ERROR_MESSAGE);
             }else {
             	JOptionPane.showMessageDialog(pnlBookAddAdmin.this, "Book sucessfully added", "Success", JOptionPane.INFORMATION_MESSAGE);

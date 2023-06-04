@@ -289,8 +289,8 @@ public class pnlBookBorrowAdmin extends JPanel {
 	        LocalDate dueDate = currentDate.plusWeeks(3);
 	        insertStatement.setDate(4, java.sql.Date.valueOf(dueDate));
 	        
-	        //Add borrow book status
-	        insertStatement.setString(5, "Out");
+	        // Set status
+	        insertStatement.setString(5, "out");
 
 	        // Execute the insert query
 	        insertStatement.executeUpdate();
