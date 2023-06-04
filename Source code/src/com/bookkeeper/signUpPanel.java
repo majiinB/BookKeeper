@@ -46,39 +46,29 @@ public class signUpPanel extends JPanel {
 		panel.add(lblNewLabel);
 		
 		PlaceholderTextField lastNameField = new PlaceholderTextField("Last name");
-		lastNameField.setBounds(209, 62, 177, 20);
+		lastNameField.setBounds(209, 85, 177, 20);
 		panel.add(lastNameField);
 		lastNameField.setColumns(10);
 		
 		PlaceholderTextField firstNameField = new PlaceholderTextField("First name");
 		firstNameField.setColumns(10);
-		firstNameField.setBounds(20, 62, 179, 20);
+		firstNameField.setBounds(20, 85, 179, 20);
 		panel.add(firstNameField);
 		
 		PlaceholderTextField emailField = new PlaceholderTextField("Email address");
-		emailField.setBounds(20, 93, 366, 20);
+		emailField.setBounds(20, 116, 366, 20);
 		panel.add(emailField);
 		emailField.setColumns(10);
 		
 		PlaceholderTextField homeAddField = new PlaceholderTextField("Home address");
 		homeAddField.setColumns(10);
-		homeAddField.setBounds(20, 124, 366, 20);
+		homeAddField.setBounds(20, 160, 366, 20);
 		panel.add(homeAddField);
 		
 		PlaceholderTextField contactNumField = new PlaceholderTextField("Contact number");
 		contactNumField.setColumns(10);
-		contactNumField.setBounds(20, 155, 366, 20);
+		contactNumField.setBounds(20, 191, 366, 20);
 		panel.add(contactNumField);
-		
-		PlaceholderTextField passField = new PlaceholderTextField("Password");
-		passField.setColumns(10);
-		passField.setBounds(20, 186, 366, 20);
-		panel.add(passField);
-		
-		PlaceholderTextField retypePassField = new PlaceholderTextField("Re-type your password");
-		retypePassField.setColumns(10);
-		retypePassField.setBounds(20, 217, 366, 20);
-		panel.add(retypePassField);
 		
 		JButton createAccField = new JButton("Create Account");
 		createAccField.setOpaque(true);
@@ -91,8 +81,6 @@ public class signUpPanel extends JPanel {
 				String trimmedInput = userEmail.trim();
 				String userContact = contactNumField.getText();
 				String userAddress = homeAddField.getText();
-				String userPass = passField.getText();
-				String userPassConfirm = retypePassField.getText();
 				//String errors
 				String errorFname = "", errorLname = "", errorEmail = "", errorContact = "", errorAdd = "";
 				boolean condition = true;
@@ -141,7 +129,7 @@ public class signUpPanel extends JPanel {
 		
 				try {
 					if(condition) {
-						main.signUp(fname, lname, trimmedInput, userContact, userAddress, userPass, userPassConfirm);
+						main.signUp(fname, lname, trimmedInput, userContact, userAddress);
 						main.getLayout().show(main.getPanel(), "panel2");
 					}
 					
@@ -157,7 +145,7 @@ public class signUpPanel extends JPanel {
 		createAccField.setFont(new Font("Verdana", Font.BOLD, 9));
 		createAccField.setForeground(new Color(255, 255, 255));
 		createAccField.setBackground(new Color(0, 0, 160));
-		createAccField.setBounds(20, 248, 200, 23);
+		createAccField.setBounds(20, 231, 200, 23);
 		panel.add(createAccField);
 		
 		JButton btnClear = new JButton("Clear");
@@ -169,15 +157,13 @@ public class signUpPanel extends JPanel {
 				emailField.clearInputAndGetPlaceholder();
 				contactNumField.clearInputAndGetPlaceholder();
 				homeAddField.clearInputAndGetPlaceholder();
-				passField.clearInputAndGetPlaceholder();
-				retypePassField.clearInputAndGetPlaceholder();
 			}
 		});
 		btnClear.setForeground(Color.WHITE);
 		btnClear.setFont(new Font("Verdana", Font.BOLD, 9));
 		btnClear.setBorderPainted(false);
 		btnClear.setBackground(new Color(0, 0, 160));
-		btnClear.setBounds(230, 248, 73, 23);
+		btnClear.setBounds(230, 231, 73, 23);
 		panel.add(btnClear);
 		
 		btnBack = new JButton("Back");
@@ -187,7 +173,7 @@ public class signUpPanel extends JPanel {
 		btnBack.setFont(new Font("Verdana", Font.BOLD, 9));
 		btnBack.setBorderPainted(false);
 		btnBack.setBackground(new Color(0, 0, 160));
-		btnBack.setBounds(313, 248, 73, 23);
+		btnBack.setBounds(313, 231, 73, 23);
 		panel.add(btnBack);
 
 	}

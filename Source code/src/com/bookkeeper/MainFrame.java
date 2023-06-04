@@ -84,13 +84,11 @@ public class MainFrame extends JFrame {
         //Create panels
         choose = new choosePanel();
         loginPanel = new loginPanel();
-        signUp = new signUpPanel();
         adminLog = new loginAdmin();
         
         //Add panels to main panel
         mainPane.add(choose, "panel1");
         mainPane.add(loginPanel, "panel2");
-        mainPane.add(signUp,"panel3");
         mainPane.add(adminLog,"panel4");
         cardLayout = (CardLayout) mainPane.getLayout();
         cardLayout.show(mainPane, "panel1");        
@@ -121,22 +119,6 @@ public class MainFrame extends JFrame {
 			}
 		});
         
-        
-        /*action listener for login panel signup
-        loginPanel.getSignUpButton().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(mainPane, "panel3");
-			}
-		});*/
-        
-        /*action listener for signup back button
-        signUp.getBackBtn().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(mainPane, "panel2");
-			}
-		});*/
-        
-        
         adminLog.getBackButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				adminLog.clear();
@@ -145,6 +127,50 @@ public class MainFrame extends JFrame {
 		});
         
     }
+    
+    
+    public MainFrame(int con) {
+        setTitle("Book Keeper");
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setSize(800, 600);
+        setVisible(true);
+        
+        
+        ImageIcon icon = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/bookKeeperLogo.png");
+        //ImageIcon icon = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/bookKeeperLogo.png");
+        Image image = icon.getImage();
+        setIconImage(image); 
+        mainPane = new JPanel();
+        mainPane.setBackground(new Color(26, 25, 86));
+        mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        mainPane.setLayout(new CardLayout());    
+        
+        //Create panels
+        signUp = new signUpPanel();
+        pnlUser user = new pnlUser();
+        
+        //Add panels to main panel
+        mainPane.add(signUp,"panel3");
+        cardLayout = (CardLayout) mainPane.getLayout();
+        cardLayout.show(mainPane, "panel3");        
+        
+        //set what will be shown
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(mainPane, BorderLayout.CENTER);
+  
+        //action listener for signup back button
+        signUp.getBackBtn().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+        
+        
+    }
+    
+    
 	//Methods
 		public static String encryption(String pass) throws Exception{
 			String UserPass = pass;
@@ -209,7 +235,7 @@ public class MainFrame extends JFrame {
 	  	     } 
 			return forReturn;
 		}
-		public void signUp(String fName, String lName, String userEmail, String userContact, String userAddress, String userPass, String userPassConfirm) throws Exception {
+		public void signUp(String fName, String lName, String userEmail, String userContact, String userAddress) throws Exception {
 			Connection conn = null;
 		    String url = "jdbc:mysql://localhost/book_keeper";
 		    String user = "root";
@@ -235,8 +261,7 @@ public class MainFrame extends JFrame {
 	  	         if(condition)
 	  	        	 JOptionPane.showMessageDialog(null, "Email Already taken", "Error", JOptionPane.ERROR_MESSAGE);
 	  	         else {
-	  	        	if(userPass.equals(userPassConfirm)) {
-		  	        	 encrypted = encryption(userPass);
+		  	        	 encrypted = encryption(id);
 		  	        	//prepare query
 			  	         String query = "INSERT INTO patron VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			  	         stmt = conn.prepareStatement(query);
@@ -251,12 +276,6 @@ public class MainFrame extends JFrame {
 			  	         stmt.executeUpdate();
 
 			  	         JOptionPane.showMessageDialog(null, "Signup successfull!", "Signup", JOptionPane.PLAIN_MESSAGE);
-			  	         
-		  	         }
-		  	         else {
-		  	     
-		  	        	 JOptionPane.showMessageDialog(null, "Password did not match", "Error", JOptionPane.ERROR_MESSAGE);
-		  	         }
 	  	         }
 	        } catch (ClassNotFoundException | SQLException e) {
 	        	e.printStackTrace();
