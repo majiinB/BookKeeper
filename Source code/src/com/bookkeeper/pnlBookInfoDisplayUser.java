@@ -6,11 +6,18 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class pnlBookInfoDisplayUser extends JPanel{
 
@@ -28,7 +35,7 @@ public class pnlBookInfoDisplayUser extends JPanel{
 	private JTextField txtAvail;
 	private JButton btnCancelUser;
 	
-public pnlBookInfoDisplayUser(Book book) {
+public pnlBookInfoDisplayUser(Book book, User user) {
 	setLayout(null);
 	txtTitleUser = new JTextField();
 	txtTitleUser.setText(book.getBook_title());
@@ -239,7 +246,71 @@ public pnlBookInfoDisplayUser(Book book) {
 	btnReserveUser.setBounds(26, 617, 250, 29);
 	add(btnReserveUser);
 	
+	//ACTION LISTENER
+	btnReserveUser.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			int bookID = book.getBook_id();
+			String patronID = user.getUser_id();
+				
+			if(book.getBook_status().equals("Checked out") || book.getBook_status().equals("Unavailable")) {
+				updateReservation(bookID, patronID);
+			}
+			else {
+				JOptionPane.showMessageDialog(pnlBookInfoDisplayUser.this, "Book is still Available", "Reservation", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	});
+	
+}
+public pnlBookInfoDisplayUser() {
+	//Left empty to access methods
+}
+//Methods
+public void updateReservation(int bookId, String patronId) {
+	if(isReservationExisting(bookId, patronId)) {
+		JOptionPane.showMessageDialog(pnlBookInfoDisplayUser.this, "You Already reserved  this book", "Reservation", JOptionPane.ERROR_MESSAGE);
+	}else {
+		 try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "")) {
+		        // Check if the book_id already exists in the table
+		        
+		            // Insert or update the reservation record
+		                String query = "INSERT INTO reserved_book (book_id, patron_id, reservation_date, reservation_status) VALUES (?, ?, CURDATE(), ?)";
+		                try (PreparedStatement insertStmt = conn.prepareStatement(query)) {
+		                    insertStmt.setInt(1, bookId);
+		                    insertStmt.setString(2, patronId);
+		                    insertStmt.setString(3, "in que");
+		                    insertStmt.executeUpdate();
+		                    
+		                    JOptionPane.showMessageDialog(pnlBookInfoDisplayUser.this, "Reservation Successful", "Reservation", JOptionPane.PLAIN_MESSAGE);
+		                } 
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
 	}
+   
+}
+public boolean isReservationExisting(int bookId, String patronId) {
+	boolean isExisting = false;
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "")) {
+        String query = "SELECT COUNT(*) AS count FROM reserved_book WHERE book_id = ? AND patron_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, bookId);
+            stmt.setString(2, patronId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                if (count > 0) {
+                    isExisting = true;
+                }
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return isExisting;
+}
+
 public JButton getCancelPatronDisplay() {
 	return btnCancelUser;
 }

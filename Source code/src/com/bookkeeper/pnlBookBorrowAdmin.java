@@ -218,6 +218,7 @@ public class pnlBookBorrowAdmin extends JPanel {
 		
 		//Listeners
 		btnSaveChangesEdit.addActionListener(new ActionListener() {
+			pnlBookInfoDisplayUser bookInfoUser = new pnlBookInfoDisplayUser();
 			public void actionPerformed(ActionEvent e) {
 				String patronID = txtEnterPatronID.getText();
 				int bookID = book.getBook_id();
@@ -227,6 +228,11 @@ public class pnlBookBorrowAdmin extends JPanel {
 					//Check if the book is Available 
 					if(isBookAvailable(bookID)) {
 						insertBorrowedBook(bookID, patronID);
+						//Check if there is a reservation 
+						if(bookInfoUser.isReservationExisting(bookID, patronID)) {
+							updateReservationStatus(bookID, patronID);
+						}
+						//Prompt the successful borrowing
 						JOptionPane.showMessageDialog(pnlBookBorrowAdmin.this, "Successfully borrowed", "Success", JOptionPane.PLAIN_MESSAGE);
 					}
 					else {
@@ -356,5 +362,30 @@ public class pnlBookBorrowAdmin extends JPanel {
 	        
 	        return isAvailable;
 	    }
+	    public void updateReservationStatus(int bookId, String patronId) {
+	        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "")) {
+	            // Check if the reservation exists
+	            String selectQuery = "SELECT reservation_id FROM reserved_book WHERE book_id = ? AND patron_id = ?";
+	            try (PreparedStatement selectStmt = conn.prepareStatement(selectQuery)) {
+	                selectStmt.setInt(1, bookId);
+	                selectStmt.setString(2, patronId);
+	                ResultSet rs = selectStmt.executeQuery();
+
+	                if (rs.next()) {
+	                    int reservationId = rs.getInt("reservation_id");
+
+	                    // Update the reservation status to 'done'
+	                    String updateQuery = "UPDATE reserved_book SET reservation_status = 'done' WHERE reservation_id = ?";
+	                    try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
+	                        updateStmt.setInt(1, reservationId);
+	                        updateStmt.executeUpdate();
+	                    }
+	                }
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
 	
 }

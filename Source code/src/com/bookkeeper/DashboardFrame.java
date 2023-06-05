@@ -35,7 +35,7 @@ public class DashboardFrame extends JFrame {
         pnlMenuBar.setLayout(new CardLayout(0, 0));
 
         // Create Card Layout panels of the menu bar
-        pnlMenuBarAdmin = new pnlMenuBarAdmin();
+        pnlMenuBarAdmin = new pnlMenuBarAdmin(employee);
         
         //Add Menu bar panel
         pnlMenuBar.add(pnlMenuBarAdmin, "panel2");
@@ -99,7 +99,12 @@ public class DashboardFrame extends JFrame {
 	    });
         pnlMenuBarAdmin.getEmployeeBtn().addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		cardLayout.show(pnlDashboardDisplay, "panel6");
+	    		if(employee.getPosition().equals("Admin")) {
+	    			cardLayout.show(pnlDashboardDisplay, "panel6");
+	    		}
+	    		else {
+	    			JOptionPane.showMessageDialog(DashboardFrame.this, "You dont have permission to access this page", "Error", JOptionPane.ERROR_MESSAGE);
+	    		}
 	    	}
 	    });
     }
@@ -128,7 +133,7 @@ public class DashboardFrame extends JFrame {
         pnlMenuBar.add(pnlMenuBarPatron, "panel1");
         
         //Initialize panels
-        pnlLibraryUser = new pnlLibraryUser();
+        pnlLibraryUser = new pnlLibraryUser(user);
         pnlAccount = new pnlAccount(user);
         
         // Create dash board panel

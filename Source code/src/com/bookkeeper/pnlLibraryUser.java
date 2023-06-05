@@ -39,7 +39,7 @@ public class pnlLibraryUser extends JPanel {
     private Image imgSearch;
     private Image rsdImgSearch;
     
-	public pnlLibraryUser() {
+	public pnlLibraryUser(User user) {
         setLayout(new BorderLayout(0, 0));
 
         //panels
@@ -133,7 +133,7 @@ public class pnlLibraryUser extends JPanel {
 		    // ...
 
 		    // Open the BookInfoFrame with the selected book
-		    BookInfoFrame frame = new BookInfoFrame(3, selectedBook);
+		    BookInfoFrame frame = new BookInfoFrame(3, selectedBook, user);
 		    frame.setVisible(true);
 		    } 
 		    }
@@ -259,7 +259,7 @@ public class pnlLibraryUser extends JPanel {
 		            // Establish database connection
 		            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
 		            String getQuery = "SELECT b.book_id, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
-		                    "JOIN location l ON b.location_id = l.location_id WHERE book_status = 'Available' ORDER BY book_title ASC;";
+		                    "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
 
 		            // Execute the SQL query
 		            Statement statement = connection.createStatement();
