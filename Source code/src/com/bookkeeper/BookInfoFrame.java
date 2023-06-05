@@ -24,6 +24,7 @@ public class BookInfoFrame extends JFrame {
 	private CardLayout cardLayout;
 	private pnlEditBookInfo editBook;
 	private pnlBookBorrowAdmin pnlBorrow;
+	private pnlEditInfoUser editInfo;
 	
 	/**
 	 * @wbp.parser.constructor
@@ -219,5 +220,29 @@ public class BookInfoFrame extends JFrame {
 
 
 	    setVisible(true);
+	}
+	public BookInfoFrame(User user) {
+		setTitle("Book Keeper");
+	    setSize(587, 690);
+	    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    setLocationRelativeTo(null);
+		
+ 		cardLayout = new CardLayout();
+		getContentPane().setLayout(cardLayout);
+		
+		//Add panel that shows where you input book info
+		editInfo = new pnlEditInfoUser();
+		getContentPane().add(editInfo, "panel6");
+		
+		cardLayout.show(getContentPane(), "panel6");
+		
+		/*pnlBookAddAdmin.getCancel().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BookInfoFrame frame_1 = (BookInfoFrame) SwingUtilities.getWindowAncestor(pnlBookAddAdmin);
+	    		frame_1.dispose();
+			}
+		});*/
+		
+		setVisible(true);
 	}
 }

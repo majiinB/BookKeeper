@@ -292,7 +292,7 @@ public void updateReservation(int bookId, String patronId) {
 public boolean isReservationExisting(int bookId, String patronId) {
 	boolean isExisting = false;
     try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "")) {
-        String query = "SELECT COUNT(*) AS count FROM reserved_book WHERE book_id = ? AND patron_id = ?";
+        String query = "SELECT COUNT(*) AS count FROM reserved_book WHERE book_id = ? AND patron_id = ? AND reservation_status ='in que'";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, bookId);
             stmt.setString(2, patronId);

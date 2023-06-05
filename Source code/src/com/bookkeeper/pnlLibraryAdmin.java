@@ -95,10 +95,10 @@ public class pnlLibraryAdmin extends JPanel {
      			   // Check for empty search
      			   if (getSearch.isEmpty()||getSearch.equals("Search Book")) {
      				   getQuery = "SELECT b.book_id, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
-     			   "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
-     				   } else {
-     					   getQuery = searchQuery(getSearch);
-     					   }
+     				   "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
+     			   } else {
+     				   getQuery = searchQuery(getSearch);
+     			   }
 
      			   // Execute the SQL query
      			   Statement statement = connection.createStatement();
