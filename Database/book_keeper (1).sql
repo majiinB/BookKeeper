@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2023 at 04:18 AM
+-- Generation Time: Jun 06, 2023 at 04:41 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -45,6 +45,7 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`admin_id`, `admin_fname`, `admin_lname`, `admin_email`, `admin_position`, `admin_password`, `admin_status`, `admin_contact`, `admin_address`) VALUES
 ('1', 'Admin', 'Admin', 'Admin', 'Admin', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active', '09876532678', 'UNIVERSITY OF MAKATI'),
+('8NsSlWdM', 'Arthur', 'Artugue', 'arthur@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD9qmapRdVv7Q/Zy3bm9YEPQ=', 'active', '09374859438', 'San Pedro City'),
 ('fgcSNROn', 'Jude', 'Rey', 'jude@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD6qreBVEBxvztv2IlbZ4ZaI=', 'active', '09876543456', 'Taguig City'),
 ('Rv0oC86N', 'Mark', 'Toralde', 'mark@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD1klV0trngCbhAOKCO5gUxc=', 'active', '09876567898', 'Taguig City');
 
@@ -62,53 +63,54 @@ CREATE TABLE `book` (
   `book_publication_date` date NOT NULL,
   `book_publisher` varchar(50) NOT NULL,
   `book_status` varchar(50) NOT NULL,
-  `location_id` int(11) NOT NULL
+  `location_id` int(11) NOT NULL,
+  `ISBN` varchar(13) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `book`
 --
 
-INSERT INTO `book` (`book_id`, `book_title`, `author_name`, `genre_name`, `book_publication_date`, `book_publisher`, `book_status`, `location_id`) VALUES
-(4, 'Harry Potter and the Chamber of Secrets', 'J.K. Rowling', 'Fantasy', '1998-07-02', 'Bloomsbury Publishing', 'Available', 2),
-(5, 'Harry Potter and the Prisoner of Azkaban', 'J.K. Rowling', 'Fantasy', '1999-07-08', 'Bloomsbury Publishing', 'Available', 3),
-(6, 'Harry Potter and the Goblet of Fire', 'J.K. Rowling', 'Fantasy', '2000-07-08', 'Bloomsbury Publishing', 'Available', 7),
-(7, 'To Kill a Mockingbird', 'Harper Lee', 'Classic', '1960-07-11', 'J. B. Lippincott & Co.', 'Available', 3),
-(8, 'The Great Gatsby', 'F. Scott Fitzgerald', 'Classic', '1925-04-10', 'Charles Scribner\'s Sons', 'Available', 2),
-(9, 'Pride and Prejudice', 'Jane Austen', 'Classic', '1813-01-28', 'T. Egerton, Whitehall', 'Available', 3),
-(10, 'To the Lighthouse', 'Virginia Woolf', 'Fiction', '1927-05-05', 'Hogarth Press', 'Available', 4),
-(11, 'Brave New World', 'Aldous Huxley', 'Science Fiction', '1932-10-27', 'Chatto & Windus', 'Available', 3),
-(12, 'The Catcher in the Rye', 'J.D. Salinger', 'Fiction', '1951-07-16', 'Little, Brown and Company', 'Available', 2),
-(13, 'Moby-Dick', 'Herman Melville', 'Fiction', '1851-10-18', 'Harper & Brothers', 'Available', 1),
-(14, 'The Lord of the Rings', 'J.R.R. Tolkien', 'Fantasy', '1954-07-29', 'Allen & Unwin', 'Available', 3),
-(15, 'To the Lighthouse', 'Virginia Woolf', 'Fiction', '1927-05-05', 'Hogarth Press', 'Available', 4),
-(16, 'The Picture of Dorian Gray', 'Oscar Wilde', 'Fiction', '1890-07-01', 'Ward, Lock and Company', 'Available', 2),
-(17, 'The Odyssey', 'Homer', 'Epic Poetry', '1890-07-05', 'Unknown', 'Available', 1),
-(18, 'Frankenstein', 'Mary Shelley', 'Gothic Fiction', '1818-01-01', 'Lackington, Hughes, Harding, Mavor & Jones', 'Available', 3),
-(19, 'Don Quixote', 'Miguel de Cervantes', 'Novel', '1605-01-16', 'Francisco de Robles', 'Available', 4),
-(20, 'The Hobbit', 'J.R.R. Tolkien', 'Fantasy', '1937-09-21', 'George Allen & Unwin', 'Available', 2),
-(21, '1984', 'George Orwell', 'Dystopian', '1949-06-08', 'Secker & Warburg', 'Available', 3),
-(22, 'The Chronicles of Narnia', 'C.S. Lewis', 'Fantasy', '1950-10-16', 'Geoffrey Bles', 'Available', 1),
-(23, 'The Alchemist', 'Paulo Coelho', 'Fiction', '1988-01-01', 'HarperCollins', 'Available', 3),
-(24, 'The Da Vinci Code', 'Dan Brown', 'Thriller', '2003-03-18', 'Doubleday', 'Available', 4),
-(25, 'The Hunger Games', 'Suzanne Collins', 'Young Adult', '2008-09-14', 'Scholastic Corporation', 'Available', 2),
-(26, 'The Girl on the Train', 'Paula Hawkins', 'Mystery', '2015-01-15', 'Transworld Publishers', 'Available', 1),
-(27, 'Gone Girl', 'Gillian Flynn', 'Thriller', '2012-06-05', 'Crown Publishing Group', 'Available', 3),
-(28, 'The Fault in Our Stars', 'John Green', 'Young Adult', '2012-01-10', 'Dutton Books', 'Available', 4),
-(29, 'The Help', 'Kathryn Stockett', 'Historical Fiction', '2009-02-10', 'Penguin Group', 'Available', 2),
-(30, 'The Shining', 'Stephen King', 'Horror', '1977-01-28', 'Doubleday', 'Available', 13),
-(31, 'IT', 'Stephen King', 'Horror', '1986-09-15', 'Viking Press', 'Available', 12),
-(32, 'Test 4', 'Arthur', 'Classic', '2020-05-05', 'the publisher', 'Available', 15),
-(33, 'How to survive Second Sem', 'Leila Montemayor', 'Survival', '2023-05-25', 'Umak4', 'Available', 12),
-(34, 'Test 3', 'claire', 'Classic', '1998-07-02', 'ewan', 'Available', 16),
-(35, 'Snells', 'Efraem', 'Science', '2023-05-23', 'Efraem', 'Available', 9),
-(36, 'Test 6', 'Elgin', 'Fantasy', '2023-05-06', 'kahit sino', 'Available', 9),
-(37, 'Test 9', 'Book Author', 'Classic', '1949-06-08', 'Arthur', 'Checked out', 13),
-(38, 'Test 10', 'Arthur', 'Dystopian', '2023-01-01', 'Publisher', 'Available', 11),
-(39, 'Test 11', 'Faith', 'Classic', '2023-05-05', 'kahit sino', 'Available', 4),
-(40, 'Test 12', 'Arthur', 'Survival', '2023-05-25', 'jan lang', 'Available', 3),
-(41, 'Test 13', 'Test 13', 'Fiction', '2023-04-23', 'kahit sino', 'Available', 14),
-(42, 'test 14', 'Aaron ', 'Classic', '2003-05-05', 'Rekto', 'Checked out', 1);
+INSERT INTO `book` (`book_id`, `book_title`, `author_name`, `genre_name`, `book_publication_date`, `book_publisher`, `book_status`, `location_id`, `ISBN`) VALUES
+(4, 'Harry Potter and the Chamber of Secrets', 'J.K. Rowling', 'Fantasy', '1998-07-02', 'Bloomsbury Publishing', 'Available', 2, '9780747532743'),
+(5, 'Harry Potter and the Prisoner of Azkaban', 'J.K. Rowling', 'Fantasy', '1999-07-08', 'Bloomsbury Publishing', 'Available', 3, '9780747538493'),
+(6, 'Harry Potter and the Goblet of Fire', 'J.K. Rowling', 'Fantasy', '2000-07-08', 'Bloomsbury Publishing', 'Unavailable', 7, '9780747542155'),
+(7, 'To Kill a Mockingbird', 'Harper Lee', 'Classic', '1960-07-11', 'J. B. Lippincott & Co.', 'Available', 3, '9780061120084'),
+(8, 'The Great Gatsby', 'F. Scott Fitzgerald', 'Classic', '1925-04-10', 'Charles Scribner\'s Sons', 'Available', 2, '9780743273565'),
+(9, 'Pride and Prejudice', 'Jane Austen', 'Classic', '1813-01-28', 'T. Egerton, Whitehall', 'Available', 3, '9780141439518'),
+(10, 'To the Lighthouse', 'Virginia Woolf', 'Fiction', '1927-05-05', 'Hogarth Press', 'Available', 4, '9780156030471'),
+(11, 'Brave New World', 'Aldous Huxley', 'Science Fiction', '1932-10-27', 'Chatto & Windus', 'Available', 3, '9780060929879'),
+(12, 'The Catcher in the Rye', 'J.D. Salinger', 'Fiction', '1951-07-16', 'Little, Brown and Company', 'Available', 2, '9780316769174'),
+(13, 'Moby-Dick', 'Herman Melville', 'Fiction', '1851-10-18', 'Harper & Brothers', 'Available', 1, '9780060920081'),
+(14, 'The Lord of the Rings', 'J.R.R. Tolkien', 'Fantasy', '1954-07-29', 'Allen & Unwin', 'Available', 3, '9780618640157'),
+(15, 'To the Lighthouse', 'Virginia Woolf', 'Fiction', '1927-05-05', 'Hogarth Press', 'Available', 4, '9780156030471'),
+(16, 'The Picture of Dorian Gray', 'Oscar Wilde', 'Fiction', '1890-07-01', 'Ward, Lock and Company', 'Available', 2, '9780198189698'),
+(17, 'The Odyssey', 'Homer', 'Epic Poetry', '1890-07-05', 'Unknown', 'Available', 1, '9780199536788'),
+(18, 'Frankenstein', 'Mary Shelley', 'Gothic Fiction', '1818-01-01', 'Lackington, Hughes, Harding, Mavor & Jones', 'Available', 3, '9780199535774'),
+(19, 'Don Quixote', 'Miguel de Cervantes', 'Novel', '1605-01-16', 'Francisco de Robles', 'Available', 4, '9788420603699'),
+(20, 'The Hobbit', 'J.R.R. Tolkien', 'Fantasy', '1937-09-21', 'George Allen & Unwin', 'Available', 2, '9780547928227'),
+(21, '1984', 'George Orwell', 'Dystopian', '1949-06-08', 'Secker & Warburg', 'Available', 3, '9780452284234'),
+(22, 'The Chronicles of Narnia', 'C.S. Lewis', 'Fantasy', '1950-10-16', 'Geoffrey Bles', 'Available', 1, '9780007117307'),
+(23, 'The Alchemist', 'Paulo Coelho', 'Fiction', '1988-01-01', 'HarperCollins', 'Available', 3, '9780061122415'),
+(24, 'The Da Vinci Code', 'Dan Brown', 'Thriller', '2003-03-18', 'Doubleday', 'Available', 4, '9780385504201'),
+(25, 'The Hunger Games', 'Suzanne Collins', 'Young Adult', '2008-09-14', 'Scholastic Corporation', 'Available', 2, '9780439023528'),
+(26, 'The Girl on the Train', 'Paula Hawkins', 'Mystery', '2015-01-15', 'Transworld Publishers', 'Available', 1, '9781594634024'),
+(27, 'Gone Girl', 'Gillian Flynn', 'Thriller', '2012-06-05', 'Crown Publishing Group', 'Available', 3, '9780307588371'),
+(28, 'The Fault in Our Stars', 'John Green', 'Young Adult', '2012-01-10', 'Dutton Books', 'Available', 4, '9780525426004'),
+(29, 'The Help', 'Kathryn Stockett', 'Historical Fiction', '2009-02-10', 'Penguin Group', 'Available', 2, '9780399155345'),
+(30, 'The Shining', 'Stephen King', 'Horror', '1977-01-28', 'Doubleday', 'Available', 13, '9780385121675'),
+(31, 'IT', 'Stephen King', 'Horror', '1986-09-15', 'Viking Press', 'Available', 12, '9780670813025'),
+(32, 'Test 4', 'Arthur', 'Classic', '2020-05-05', 'the publisher', 'Available', 15, '9780000000001'),
+(33, 'How to survive Second Sem', 'Leila Montemayor', 'Survival', '2023-05-25', 'Umak4', 'Available', 12, '9780000000002'),
+(34, 'Test 3', 'claire', 'Classic', '1998-07-02', 'ewan', 'Available', 16, '9780000000003'),
+(35, 'Snells', 'Efraem', 'Science', '2023-05-23', 'Efraem', 'Available', 9, '9780000000004'),
+(36, 'Test 6', 'Elgin', 'Fantasy', '2023-05-06', 'kahit sino', 'Available', 9, '9780000000005'),
+(37, 'Test 9', 'Book Author', 'Classic', '1949-06-08', 'Arthur', 'Available', 13, '9780000000006'),
+(38, 'Test 10', 'Arthur', 'Dystopian', '2023-01-01', 'Publisher', 'Available', 11, '9780000000007'),
+(39, 'Test 11', 'Faith', 'Classic', '2023-05-05', 'kahit sino', 'Available', 4, '9780000000008'),
+(40, 'Test 12', 'Arthur', 'Survival', '2023-05-25', 'jan lang', 'Available', 3, '9780000000009'),
+(41, 'Test 13', 'Test 13', 'Fiction', '2023-04-23', 'kahit sino', 'Available', 14, '9780000000010'),
+(42, 'test 14', 'Aaron ', 'Classic', '2003-05-05', 'Rekto', 'Available', 1, '9780000000011');
 
 -- --------------------------------------------------------
 
@@ -131,13 +133,7 @@ CREATE TABLE `borrowed_book` (
 --
 
 INSERT INTO `borrowed_book` (`borrow_id`, `book_id`, `patron_id`, `borrowed_date`, `borrowed_due_date`, `borrow_status`, `returned_date`) VALUES
-(17, 5, 'j9u4voQL', '2023-06-04', '2023-06-25', 'returned', '2023-06-04'),
-(18, 37, 'sDnSithP', '2023-06-04', '2023-06-25', 'out', NULL),
-(19, 38, '1w3zbctC', '2023-06-05', '2023-06-26', 'returned', '2023-06-05'),
-(20, 21, 'sDnSithP', '2023-06-05', '2023-06-26', 'returned', '2023-06-05'),
-(21, 21, 'sDnSithP', '2023-06-05', '2023-06-26', 'out', NULL),
-(22, 21, 'j9u4voQL', '2023-06-05', '2023-06-26', 'returned', '2023-06-06'),
-(23, 42, 'G82NZx3v', '2023-06-06', '2023-06-27', 'out', NULL);
+(25, 4, 'OGVcK5xd', '2023-06-06', '2023-06-27', 'returned', '2023-06-06');
 
 -- --------------------------------------------------------
 
@@ -197,9 +193,10 @@ CREATE TABLE `patron` (
 --
 
 INSERT INTO `patron` (`patron_id`, `patron_fname`, `patron_lname`, `patron_email`, `patron_contact`, `patron_address`, `patron_password`, `patron_status`) VALUES
-('1w3zbctC', 'Aaron', 'Villamento', 'aaron@gmail.com', '09999887654', 'Taguig City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
+('1w3zbctC', 'Aaron', 'Villamento', 'aaron@gmail.com', '09999887654', 'Taguig City', 'AAECAwQFBgcICQoLDA0OD91dV3dOCI9ITuz0Zwv2PSM=', 'active'),
+('EtQjAYkw', 'Armin', 'De rosas', 'armin@gmail.com', '09385737584', 'San Pedro City', 'AAECAwQFBgcICQoLDA0OD1R/Dj3AAigp2tMm8vHafys=', 'active'),
 ('G82NZx3v', 'Elgin ', 'Sales', 'elgin@gmail.com', '09999900009', 'sa tabi lang', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
-('j9u4voQL', 'Arthur1', 'Artugue', 'arthur@gmail.com', '09953653123', 'San Pedro Laguna', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
+('j9u4voQL', 'Arthur', 'Artugue', 'arthur@gmail.com', '09953653122', 'San Pedro Laguna', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
 ('OGVcK5xd', 'Claire ', 'Estoque', 'claire@gmail.com', '09999999999', 'Makati City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
 ('prKdMYMb', 'Faith Ysabell', 'Del Rosario', 'faith@gmail.com', '09999999999', 'San Pedro Laguna', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
 ('sDnSithP', 'Leila', 'Montemayor', 'leila@gmail.com', '09999999999', 'Makati City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
@@ -224,8 +221,9 @@ CREATE TABLE `reserved_book` (
 --
 
 INSERT INTO `reserved_book` (`reservation_id`, `book_id`, `patron_id`, `reservation_date`, `reservation_status`) VALUES
-(16, 21, 'sDnSithP', '2023-06-06', 'in que'),
-(17, 21, 'G82NZx3v', '2023-06-06', 'in que');
+(20, 4, 'j9u4voQL', '2023-06-06', 'in que'),
+(21, 4, 'sDnSithP', '2023-06-06', 'in que'),
+(22, 6, 'j9u4voQL', '2023-06-06', 'in que');
 
 --
 -- Indexes for dumped tables
@@ -286,7 +284,7 @@ ALTER TABLE `book`
 -- AUTO_INCREMENT for table `borrowed_book`
 --
 ALTER TABLE `borrowed_book`
-  MODIFY `borrow_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `borrow_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `location`
@@ -298,7 +296,7 @@ ALTER TABLE `location`
 -- AUTO_INCREMENT for table `reserved_book`
 --
 ALTER TABLE `reserved_book`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Constraints for dumped tables
