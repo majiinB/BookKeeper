@@ -160,7 +160,10 @@ public class pnlEditInfoPassword extends JPanel {
 							if(newPassword.equals(confirmPassword)) {
 								String encryptPass = main.encryption(newPassword);
 								updateUserPass(encryptPass, user.getUser_id());
-								JOptionPane.showMessageDialog(pnlEditInfoPassword.this, "Password Successfully changed", "Success", JOptionPane.PLAIN_MESSAGE);
+								//JOptionPane.showMessageDialog(pnlEditInfoPassword.this, "Password Successfully changed", "Success", JOptionPane.PLAIN_MESSAGE);
+							}
+							else {
+								JOptionPane.showMessageDialog(pnlEditInfoPassword.this, "Password does not match", "Error", JOptionPane.ERROR_MESSAGE);
 							}
 						}
 					} catch (Exception e1) {
@@ -195,9 +198,9 @@ public class pnlEditInfoPassword extends JPanel {
                 int rowsUpdated = stmt.executeUpdate();
             	
                 if (rowsUpdated > 0) {
-                	JOptionPane.showMessageDialog(pnlEditInfoPassword.this, "Book Info Updated Successfully", "Success", JOptionPane.PLAIN_MESSAGE);
+                	JOptionPane.showMessageDialog(pnlEditInfoPassword.this, "Password Successfully changed", "Success", JOptionPane.PLAIN_MESSAGE);
                 } else {
-                	JOptionPane.showMessageDialog(pnlEditInfoPassword.this, "Book did not update", "Error", JOptionPane.ERROR_MESSAGE);
+                	JOptionPane.showMessageDialog(pnlEditInfoPassword.this, "Password did not update", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             
             
