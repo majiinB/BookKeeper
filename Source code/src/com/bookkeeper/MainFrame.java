@@ -169,6 +169,9 @@ public class MainFrame extends JFrame {
         
         
     }
+    public MainFrame(int num) {
+    	//No args
+    }
     
     
 	//Methods

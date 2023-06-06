@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 05, 2023 at 01:17 PM
+-- Generation Time: Jun 06, 2023 at 04:18 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -47,18 +47,6 @@ INSERT INTO `admin` (`admin_id`, `admin_fname`, `admin_lname`, `admin_email`, `a
 ('1', 'Admin', 'Admin', 'Admin', 'Admin', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active', '09876532678', 'UNIVERSITY OF MAKATI'),
 ('fgcSNROn', 'Jude', 'Rey', 'jude@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD6qreBVEBxvztv2IlbZ4ZaI=', 'active', '09876543456', 'Taguig City'),
 ('Rv0oC86N', 'Mark', 'Toralde', 'mark@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD1klV0trngCbhAOKCO5gUxc=', 'active', '09876567898', 'Taguig City');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `author`
---
-
-CREATE TABLE `author` (
-  `author_id` int(11) NOT NULL,
-  `author_name` varchar(50) NOT NULL,
-  `author_book` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -113,13 +101,14 @@ INSERT INTO `book` (`book_id`, `book_title`, `author_name`, `genre_name`, `book_
 (32, 'Test 4', 'Arthur', 'Classic', '2020-05-05', 'the publisher', 'Available', 15),
 (33, 'How to survive Second Sem', 'Leila Montemayor', 'Survival', '2023-05-25', 'Umak4', 'Available', 12),
 (34, 'Test 3', 'claire', 'Classic', '1998-07-02', 'ewan', 'Available', 16),
-(35, 'Snells', 'Efraem', 'Science', '2023-05-23', 'Efraem', 'Available', 15),
+(35, 'Snells', 'Efraem', 'Science', '2023-05-23', 'Efraem', 'Available', 9),
 (36, 'Test 6', 'Elgin', 'Fantasy', '2023-05-06', 'kahit sino', 'Available', 9),
 (37, 'Test 9', 'Book Author', 'Classic', '1949-06-08', 'Arthur', 'Checked out', 13),
 (38, 'Test 10', 'Arthur', 'Dystopian', '2023-01-01', 'Publisher', 'Available', 11),
 (39, 'Test 11', 'Faith', 'Classic', '2023-05-05', 'kahit sino', 'Available', 4),
 (40, 'Test 12', 'Arthur', 'Survival', '2023-05-25', 'jan lang', 'Available', 3),
-(41, 'Test 13', 'Test 13', 'Fiction', '2023-04-23', 'kahit sino', 'Available', 14);
+(41, 'Test 13', 'Test 13', 'Fiction', '2023-04-23', 'kahit sino', 'Available', 14),
+(42, 'test 14', 'Aaron ', 'Classic', '2003-05-05', 'Rekto', 'Checked out', 1);
 
 -- --------------------------------------------------------
 
@@ -146,18 +135,9 @@ INSERT INTO `borrowed_book` (`borrow_id`, `book_id`, `patron_id`, `borrowed_date
 (18, 37, 'sDnSithP', '2023-06-04', '2023-06-25', 'out', NULL),
 (19, 38, '1w3zbctC', '2023-06-05', '2023-06-26', 'returned', '2023-06-05'),
 (20, 21, 'sDnSithP', '2023-06-05', '2023-06-26', 'returned', '2023-06-05'),
-(21, 21, 'sDnSithP', '2023-06-05', '2023-06-26', 'out', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `genre`
---
-
-CREATE TABLE `genre` (
-  `genre_id` int(11) NOT NULL,
-  `genre_name` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(21, 21, 'sDnSithP', '2023-06-05', '2023-06-26', 'out', NULL),
+(22, 21, 'j9u4voQL', '2023-06-05', '2023-06-26', 'returned', '2023-06-06'),
+(23, 42, 'G82NZx3v', '2023-06-06', '2023-06-27', 'out', NULL);
 
 -- --------------------------------------------------------
 
@@ -217,9 +197,9 @@ CREATE TABLE `patron` (
 --
 
 INSERT INTO `patron` (`patron_id`, `patron_fname`, `patron_lname`, `patron_email`, `patron_contact`, `patron_address`, `patron_password`, `patron_status`) VALUES
-('1w3zbctC', 'Aaron', 'Villamento', 'aaron@gmail.com', '09999887654', 'Taguig City', 'AAECAwQFBgcICQoLDA0ODwL88q6vUXyiwDkpUwQD6tE=', 'active'),
+('1w3zbctC', 'Aaron', 'Villamento', 'aaron@gmail.com', '09999887654', 'Taguig City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
 ('G82NZx3v', 'Elgin ', 'Sales', 'elgin@gmail.com', '09999900009', 'sa tabi lang', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
-('j9u4voQL', 'Arthur', 'Artugue', 'arthur@gmail.com', '09159999000', 'San Pedro Laguna', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
+('j9u4voQL', 'Arthur1', 'Artugue', 'arthur@gmail.com', '09953653123', 'San Pedro Laguna', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
 ('OGVcK5xd', 'Claire ', 'Estoque', 'claire@gmail.com', '09999999999', 'Makati City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
 ('prKdMYMb', 'Faith Ysabell', 'Del Rosario', 'faith@gmail.com', '09999999999', 'San Pedro Laguna', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
 ('sDnSithP', 'Leila', 'Montemayor', 'leila@gmail.com', '09999999999', 'Makati City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
@@ -244,10 +224,8 @@ CREATE TABLE `reserved_book` (
 --
 
 INSERT INTO `reserved_book` (`reservation_id`, `book_id`, `patron_id`, `reservation_date`, `reservation_status`) VALUES
-(9, 21, 'sDnSithP', '2023-06-05', 'done'),
-(10, 21, 'G82NZx3v', '2023-06-05', 'in que'),
-(11, 21, 'OGVcK5xd', '2023-06-05', 'in que'),
-(12, 21, 'j9u4voQL', '2023-06-05', 'in que');
+(16, 21, 'sDnSithP', '2023-06-06', 'in que'),
+(17, 21, 'G82NZx3v', '2023-06-06', 'in que');
 
 --
 -- Indexes for dumped tables
@@ -258,12 +236,6 @@ INSERT INTO `reserved_book` (`reservation_id`, `book_id`, `patron_id`, `reservat
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`admin_id`);
-
---
--- Indexes for table `author`
---
-ALTER TABLE `author`
-  ADD PRIMARY KEY (`author_id`);
 
 --
 -- Indexes for table `book`
@@ -279,12 +251,6 @@ ALTER TABLE `borrowed_book`
   ADD PRIMARY KEY (`borrow_id`),
   ADD KEY `fk_book` (`book_id`),
   ADD KEY `fk_patron` (`patron_id`);
-
---
--- Indexes for table `genre`
---
-ALTER TABLE `genre`
-  ADD PRIMARY KEY (`genre_id`);
 
 --
 -- Indexes for table `location`
@@ -311,28 +277,16 @@ ALTER TABLE `reserved_book`
 --
 
 --
--- AUTO_INCREMENT for table `author`
---
-ALTER TABLE `author`
-  MODIFY `author_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `book`
 --
 ALTER TABLE `book`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `borrowed_book`
 --
 ALTER TABLE `borrowed_book`
-  MODIFY `borrow_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-
---
--- AUTO_INCREMENT for table `genre`
---
-ALTER TABLE `genre`
-  MODIFY `genre_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `borrow_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `location`
@@ -344,7 +298,7 @@ ALTER TABLE `location`
 -- AUTO_INCREMENT for table `reserved_book`
 --
 ALTER TABLE `reserved_book`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables

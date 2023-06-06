@@ -110,8 +110,8 @@ public class pnlAccount extends JPanel {
 	
 	String ID = user.getUser_id();
 	displayAllBooks(ID); 
-	JButton btnReload = new JButton("Reload?");
-	btnReload.setBounds(719, 49, 89, 23);
+	JButton btnReload = new JButton("Reload tables");
+	btnReload.setBounds(679, 49, 129, 23);
 	add(btnReload);
 	// Action listeners
 	btnEditInfo.addActionListener(new ActionListener() {

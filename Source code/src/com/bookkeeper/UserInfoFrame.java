@@ -43,6 +43,17 @@ public class UserInfoFrame extends JFrame {
 				cardLayout.show(getContentPane(), "panel2");
 			}
 		});
+		pnlEditInfoPassword.getCancelPass().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(getContentPane(), "panel1");
+			}
+		});
+		pnlEditInfoUser.getCancelEdit().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserInfoFrame frame_1 = (UserInfoFrame) SwingUtilities.getWindowAncestor(pnlEditInfoUser);
+                frame_1.dispose();
+			}
+		});
 	    setVisible(true);
 
 	}

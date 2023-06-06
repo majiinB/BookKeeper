@@ -136,23 +136,89 @@ public class pnlEditInfoPassword extends JPanel {
 		btnSaveChangesEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Initialize MainFrame to access its methods
-				MainFrame main = new MainFrame();
+				MainFrame main = new MainFrame(1);
 				
 				//Take inputs
-				String currentPass = txtCurrentPassword.getText().trim();
-				String newPass = txtNewPassword.getText().trim();
-				String confirmPass = txtConfirmNewPassword.getText().trim();
+				
+				char[] currentPass = txtCurrentPassword.getPassword();
+				String curPassword = new String(currentPass);
+				char[] newPass = txtNewPassword.getPassword();
+				String newPassword = new String(newPass);
+				char[] confirmPass = txtConfirmNewPassword.getPassword();
+				String confirmPassword = new String(confirmPass);
 				
 				//Apply condition incase of blank inputs
-				if(currentPass.isBlank()||newPass.isBlank()||confirmPass.isBlank()) {
+				if(curPassword.isBlank()||newPassword.isBlank()||confirmPassword.isBlank()) {
 					JOptionPane.showMessageDialog(pnlEditInfoPassword.this, "Cannot have blank inputs", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				else {
-					
+					try {
+						Object newUser = main.loginMethod(user.getUser_email(), curPassword, "patron", "patron_email", "patron_password", "patron_status", "Active");
+						if(newUser == null) {
+							JOptionPane.showMessageDialog(pnlEditInfoPassword.this, "Incorrect Password", "Error", JOptionPane.ERROR_MESSAGE);
+						}else {
+							if(newPassword.equals(confirmPassword)) {
+								String encryptPass = main.encryption(newPassword);
+								updateUserPass(encryptPass, user.getUser_id());
+								JOptionPane.showMessageDialog(pnlEditInfoPassword.this, "Password Successfully changed", "Success", JOptionPane.PLAIN_MESSAGE);
+							}
+						}
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
 	}
 
-    
+   //Methods //Update the User
+	public void updateUserPass(String password, String ID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        String DB_URL = "jdbc:mysql://localhost/book_keeper";
+		String USERNAME = "root";
+		String PASSWORD = "";
+        try {
+            // Establish the database connection
+            conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            
+           
+            	String sql = "UPDATE patron SET patron_password = ? WHERE patron_id = ?";
+
+                // Prepare the statement
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, password);
+                stmt.setString(2, ID);
+
+                // Execute the update
+                int rowsUpdated = stmt.executeUpdate();
+            	
+                if (rowsUpdated > 0) {
+                	JOptionPane.showMessageDialog(pnlEditInfoPassword.this, "Book Info Updated Successfully", "Success", JOptionPane.PLAIN_MESSAGE);
+                } else {
+                	JOptionPane.showMessageDialog(pnlEditInfoPassword.this, "Book did not update", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            
+            
+        } catch (SQLException e) {
+            System.err.println("Error updating row: " + e.getMessage());
+        } finally {
+            // Close the statement and connection
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                    System.out.println("Database connection closed.");
+                }
+            } catch (SQLException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+            }
+        }
+    } 
+	public JButton getCancelPass() {
+		return btnCancelEdit;
+	}
 }
