@@ -94,7 +94,7 @@ public class pnlLibraryAdmin extends JPanel {
                                              
      			   // Check for empty search
      			   if (getSearch.isEmpty()||getSearch.equals("Search Book")) {
-     				   getQuery = "SELECT b.book_id, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
+     				   getQuery = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
      				   "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
      			   } else {
      				   getQuery = searchQuery(getSearch);
@@ -108,10 +108,17 @@ public class pnlLibraryAdmin extends JPanel {
      			   ResultSetMetaData metaData = resultSet.getMetaData(); 
      			   int columnCount = metaData.getColumnCount();
      			   // Create an array to store column names
-     			   String[] columnNames = new String[columnCount];
-     			   for (int i = 1; i <= columnCount; i++) {
-     				   columnNames[i - 1] = metaData.getColumnName(i);
-     				   }
+     			  String[] columnNames = new String[10];
+     	            columnNames[0] = "Book ID";
+     	            columnNames[1] = "ISBN";
+     	            columnNames[2] = "Title";
+     	            columnNames[3] = "Author name";
+     	            columnNames[4] = "Genre";
+     	            columnNames[5] = "Publisher";
+     	            columnNames[6] = "Publication Date";
+     	            columnNames[7] = "Status";
+     	            columnNames[8] = "Aisle No.";
+     	            columnNames[9] = "Shelf No.";
 
      			   // Set the column names in the table model
      			   tableModel.setColumnIdentifiers(columnNames);
@@ -134,10 +141,6 @@ public class pnlLibraryAdmin extends JPanel {
      		   }
      	   });
         
-        
-
-                
-      
        scrlSearchResults = new JScrollPane(); //add scroll pane
        
        tableModel = new DefaultTableModel();//add table
@@ -158,17 +161,18 @@ public class pnlLibraryAdmin extends JPanel {
                  if (selectedRow != -1) {
                  // Get the values from the selected row
                  int bookId = (int) table.getValueAt(selectedRow, 0);
-                 String bookTitle = (String) table.getValueAt(selectedRow, 1);
-                 String authorName = (String) table.getValueAt(selectedRow, 2);
-                 String genreName = (String) table.getValueAt(selectedRow, 3);
-                 String bookPublisher = (String) table.getValueAt(selectedRow, 4);
-                 java.sql.Date date = (java.sql.Date) table.getValueAt(selectedRow, 5);
+                 String ISBN = (String) table.getValueAt(selectedRow, 1);
+                 String bookTitle = (String) table.getValueAt(selectedRow, 2);
+                 String authorName = (String) table.getValueAt(selectedRow, 3);
+                 String genreName = (String) table.getValueAt(selectedRow, 4);
+                 String bookPublisher = (String) table.getValueAt(selectedRow, 5);
+                 java.sql.Date date = (java.sql.Date) table.getValueAt(selectedRow, 6);
                  String bookPublishDate = date.toString();
-                 String bookStatus = (String) table.getValueAt(selectedRow, 6);
-                 int aisleNumber = (int) table.getValueAt(selectedRow, 7);
-                 int shelfNumber = (int) table.getValueAt(selectedRow, 8);
+                 String bookStatus = (String) table.getValueAt(selectedRow, 7);
+                 int aisleNumber = (int) table.getValueAt(selectedRow, 8);
+                 int shelfNumber = (int) table.getValueAt(selectedRow, 9);
                  //Create a Book object with the retrieved values
-                 selectedBook = new Book(bookId, bookTitle, genreName, authorName, bookPublishDate , bookPublisher, bookStatus, aisleNumber, shelfNumber);
+                 selectedBook = new Book(bookId, bookTitle, genreName, authorName, bookPublishDate , bookPublisher, bookStatus, aisleNumber, shelfNumber, ISBN);
                 
                  //Use the selectedBook object as needed
                  // ...
@@ -250,7 +254,7 @@ public class pnlLibraryAdmin extends JPanel {
     
     //Methods
     public String searchQuery(String search) {
-    	 String query = "SELECT b.book_id, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
+    	 String query = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
                  "JOIN location l ON b.location_id = l.location_id " +
                  "WHERE b.book_title LIKE '" + search + "%' OR " +
                  "b.author_name LIKE '" + search + "%' OR " +
@@ -266,7 +270,7 @@ public class pnlLibraryAdmin extends JPanel {
             // Establish database connection
         	//Rekta na kasi tinamad mag assign pa ng variables same lang naman kasi db na gagamitin HAHAHAHAA
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
-            String getQuery = "SELECT b.book_id, b.book_title, b.author_name, b.genre_name,b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
+            String getQuery = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name,b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
                     "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
 
             // Execute the SQL query
@@ -278,10 +282,17 @@ public class pnlLibraryAdmin extends JPanel {
             int columnCount = metaData.getColumnCount();
 
             // Create an array to store column names
-            String[] columnNames = new String[columnCount];
-            for (int i = 1; i <= columnCount; i++) {
-                columnNames[i - 1] = metaData.getColumnName(i);
-            }
+            String[] columnNames = new String[10];
+            columnNames[0] = "Book ID";
+            columnNames[1] = "ISBN";
+            columnNames[2] = "Title";
+            columnNames[3] = "Author name";
+            columnNames[4] = "Genre";
+            columnNames[5] = "Publisher";
+            columnNames[6] = "Publication Date";
+            columnNames[7] = "Status";
+            columnNames[8] = "Aisle No.";
+            columnNames[9] = "Shelf No.";
 
             // Set the column names in the table model
             tableModel.setColumnIdentifiers(columnNames);

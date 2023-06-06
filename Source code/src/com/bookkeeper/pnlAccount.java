@@ -21,6 +21,11 @@ public class pnlAccount extends JPanel {
 	private JTable table_1;
 	private DefaultTableModel tableModel;
 	private DefaultTableModel tableModel_1;
+	private JLabel lblName;
+	private JLabel lblID;
+	private JLabel lblContactNumber;
+	private JLabel lblAddress;
+	private JPanel column1;
 
     public pnlAccount(User user) {
 	setBackground(new Color(255, 255, 255));
@@ -51,19 +56,19 @@ public class pnlAccount extends JPanel {
 	pnlinformation.setLayout(new GridLayout(0, 2, 10, 10));
 
 	// First column
-	JPanel column1 = new JPanel(new GridLayout(0, 1));
+	column1 = new JPanel(new GridLayout(0, 1));
 	pnlinformation.add(column1);
 
-	JLabel lblName = new JLabel("  Name:       " + user.getUser_fname() + " " + user.getUser_lname());
+	lblName = new JLabel("  Name:       " + user.getUser_fname() + " " + user.getUser_lname());
 	column1.add(lblName);
 
-	JLabel lblID = new JLabel("  ID:       " + user.getUser_id());
+	lblID = new JLabel("  ID:       " + user.getUser_id());
 	column1.add(lblID);
 
-	JLabel lblContactNumber = new JLabel("  Contact Number:       " + user.getUser_contact());
+	lblContactNumber = new JLabel("  Contact Number:       " + user.getUser_contact());
 	column1.add(lblContactNumber);
 	
-	JLabel lblAddress = new JLabel("  Address:       " + user.getUser_address());
+	lblAddress = new JLabel("  Address:       " + user.getUser_address());
 	column1.add(lblAddress);
 	
 	// New Panel for reservationHistory table
@@ -144,6 +149,8 @@ public class pnlAccount extends JPanel {
         // Reload the book data
         displayAllBooks(userId);
     }
+    
+
     private void displayAllBooks(String id) {
         try {
             // Establish database connection

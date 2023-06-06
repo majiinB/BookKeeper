@@ -10,9 +10,10 @@ public class Book {
 	private String Book_status;
 	private int aisle;
 	private int shelf;
+	private String ISBN;
 	
 	//Constructor
-	public Book(int Book_id, String Book_title, String Book_genre, String Book_author, String Book_publication_date, String Book_publisher, String Book_status, int aisle, int shelf ) {
+	public Book(int Book_id, String Book_title, String Book_genre, String Book_author, String Book_publication_date, String Book_publisher, String Book_status, int aisle, int shelf, String ISBN ) {
 		this.Book_title = Book_title;
 		this.Book_id = Book_id;
 		this.Book_genre = Book_genre;
@@ -22,6 +23,7 @@ public class Book {
 		this.Book_status = Book_status;
 		this.aisle = aisle;
 		this.shelf = shelf;
+		this.ISBN = ISBN;
 	}
 	//Mutator and accessor
 	public int getBook_id() {
