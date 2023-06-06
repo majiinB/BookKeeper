@@ -39,12 +39,11 @@ public class pnlMenuBarAdmin extends JPanel {
 	private Image imgLogOut;
 	private Image rsdImgLogOut;
 	
-	public  pnlMenuBarAdmin() {
+	public  pnlMenuBarAdmin(Employee employee) {
 		setBackground(new Color(26, 24, 87));
 		setLayout(new BorderLayout(0, 0));
 		setBorder(new EmptyBorder(5, 5, 20, 2));
 
-		
 		pnlLibrary = new JPanel();
 		pnlLibrary.setBorder(new EmptyBorder(15, 0, 0, 5));
 		pnlLibrary.setOpaque(false);
@@ -103,39 +102,32 @@ public class pnlMenuBarAdmin extends JPanel {
 		gbc_lblDashboard.gridx = 0;
 		gbc_lblDashboard.gridy = 2;
 
-		
 		//icon for butttons 
 		icnLibrary = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/libraryIcon.png");//files are in desktop
 		//icnLibrary = new ImageIcon("D:\\documents\\Final_Project\\img\\libraryIcon.png");//files are in desktop
 		imgLibrary = icnLibrary.getImage();
 		rsdImgLibrary = imgLibrary.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 		
-		
 		icnReport = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/statisticsIcon.png");
 		//icnReport = new ImageIcon("D:\\documents\\Final_Project\\img\\statisticsIcon.png");
 		imgReport = icnReport.getImage();
 		rsdImgReport = imgReport.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-		
 		
 		icnEmployee = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/userManagementIcont.png");
 		//icnUsers = new ImageIcon("D:\\documents\\Final_Project\\img\\userManagementIcont.png");
 		imgEmployee = icnEmployee.getImage();
 		rsdImgEmployee = imgEmployee.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 		
-		
 		icnUsers = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/userManagementIcont.png");
 		//icnUsers = new ImageIcon("D:\\documents\\Final_Project\\img\\userManagementIcont.png");
 		imgUsers = icnUsers.getImage();
 		rsdImgUsers = imgUsers.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-		
 		
 		icnLogOut = new ImageIcon("/Users/PANPAN/eclipse-workspace/Book_Keeper/img/logOutIcon.png");
 		//icnLogOut = new ImageIcon("D:\\documents\\Final_Project\\img\\logOutIcon.png");
 		imgLogOut = icnLogOut.getImage();
 		rsdImgLogOut = imgLogOut.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 		
-		
-
 		//Library
 		btnLibrary = new JButton("  Library");
 		btnLibrary.setBorder(new EmptyBorder(15, 5, 5, 90));
@@ -150,8 +142,6 @@ public class pnlMenuBarAdmin extends JPanel {
 			}
 		});
 
-		
-	    
 	    //Reports
 	    btnReport = new JButton("   Reports");
 	    btnReport.setBorder(new EmptyBorder(15, 5, 5, 40));
@@ -162,8 +152,6 @@ public class pnlMenuBarAdmin extends JPanel {
 	    btnReport.setOpaque(false);
 	    btnReport.setBorderPainted(false);
 
-	    
-		
 		//Employee Management
 		btnEmployee = new JButton(" Manage Employees");
 		btnEmployee.setBorder(new EmptyBorder(15, 5, 5, 5));
@@ -174,8 +162,6 @@ public class pnlMenuBarAdmin extends JPanel {
 		btnEmployee.setOpaque(false);
 		btnEmployee.setBorderPainted(false);
 
-	    
-	    
 	    //Patron management 
 	    btnUsers = new JButton(" Manage Patron");
 	    btnUsers.setBorder(new EmptyBorder(15, 5, 5, 35));
@@ -190,7 +176,6 @@ public class pnlMenuBarAdmin extends JPanel {
 	    	}
 	    });
 
-	    
 	    //Logout button
 	    btnLogOut = new JButton(" Log out");
 	    btnLogOut.setBorder(new EmptyBorder(15, 5, 5, 90));
@@ -231,5 +216,8 @@ public class pnlMenuBarAdmin extends JPanel {
 	}
 	public JButton getLogOutBtn() {
 		return btnLogOut;
+	}
+	public JButton getEmployeeBtn() {
+		return btnEmployee;
 	}
 }
