@@ -32,6 +32,7 @@ public class pnlUser extends JPanel {
     private GridBagConstraints gbc_pnlAddUser;
     private GridBagConstraints gbc_pnlSearchBar;
     private GridBagConstraints gbc_pnlSearchResults;
+    private User selectedUser;
     
 	//USERMANAGEMENT
 	public pnlUser() {
@@ -150,19 +151,27 @@ public class pnlUser extends JPanel {
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Get the selected row and column
-                int selectedRow = table.getSelectedRow();
-                int selectedColumn = table.getSelectedColumn();
+            	int selectedRow = table.getSelectedRow();
+                if (selectedRow != -1) {
+                // Get the values from the selected row
+                String userID =  (String) table.getValueAt(selectedRow, 0);
+                String userFname = (String) table.getValueAt(selectedRow, 1);
+                String userLname = (String) table.getValueAt(selectedRow, 2);
+                String userEmail = (String) table.getValueAt(selectedRow, 3);
+                String userContact = (String) table.getValueAt(selectedRow, 4);
+                String userAddress = (String) table.getValueAt(selectedRow, 5);
+                String userStatus = (String) table.getValueAt(selectedRow, 6);
+               
+                //Create a Book object with the retrieved values
+                selectedUser = new User(userID, userFname, userLname, userEmail, userContact, userAddress, "n/a", userStatus);
+               
+                //Use the selectedBook object as needed
+                // ...
 
-                // Get the value from the selected cell
-                Object selectedValue = table.getValueAt(selectedRow, selectedColumn);
-
-                // Display the selected value
-                int option = JOptionPane.showOptionDialog(pnlUser.this,"Selected Value: " + selectedValue, "Cell Value", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[] {"Exit"}, "Exit");
-                if (option == 0) {
-                    // User clicked "Exit"
-                    JOptionPane.getRootFrame().dispose(); // Close the JOptionPane dialog
-                }
+                // Open the BookInfoFrame with the selected book
+                UserInfoFrame frame = new UserInfoFrame(1, selectedUser);
+                frame.setVisible(true);
+                } 
             }
         });
 		//set what's inside the scroll pane

@@ -33,6 +33,7 @@
      private GridBagConstraints gbc_pnlAddEmployee;
      private GridBagConstraints gbc_pnlSearchBar;
      private GridBagConstraints gbc_pnlSearchResults;
+     private Employee selectedEmployee;
      
  	//EMPLOYEE MANAGEMENT
  	public pnlEmployee() {
@@ -93,8 +94,8 @@
                      
                      // Check for empty search
                      if (getSearch.isEmpty()||getSearch.equals("Search Employee") ) {
-                         getQuery = "SELECT admin_id, admin_fname, admin_lname, admin_email, admin_status "
-         	            		+ "FROM admin WHERE admin_status ='active' AND admin_position ='employee' "
+                         getQuery = "SELECT admin_id, admin_fname, admin_lname, admin_email, admin_contact, admin_address, admin_status "
+         	            		+ "FROM admin WHERE admin_position ='employee' "
          	            		+ "ORDER BY admin_lname ASC";
                      } else {
                          getQuery = searchQuery(getSearch);
@@ -151,19 +152,27 @@
          table.addMouseListener(new MouseAdapter() {
              @Override
              public void mouseClicked(MouseEvent e) {
-                 // Get the selected row and column
-                 int selectedRow = table.getSelectedRow();
-                 int selectedColumn = table.getSelectedColumn();
+            	 int selectedRow = table.getSelectedRow();
+                 if (selectedRow != -1) {
+                 // Get the values from the selected row
+                 String userID =  (String) table.getValueAt(selectedRow, 0);
+                 String userFname = (String) table.getValueAt(selectedRow, 1);
+                 String userLname = (String) table.getValueAt(selectedRow, 2);
+                 String userEmail = (String) table.getValueAt(selectedRow, 3);
+                 String userContact = (String) table.getValueAt(selectedRow, 4);
+                 String userAddress = (String) table.getValueAt(selectedRow, 5);
+                 String userStatus = (String) table.getValueAt(selectedRow, 6);
+                
+                 //Create a Book object with the retrieved values
+                 selectedEmployee = new Employee(userID, userFname, userLname,"Employee", userEmail, "N/A", userStatus, userContact, userAddress );
+                
+                 //Use the selectedBook object as needed
+                 // ...
 
-                 // Get the value from the selected cell
-                 Object selectedValue = table.getValueAt(selectedRow, selectedColumn);
-
-                 // Display the selected value
-                 int option = JOptionPane.showOptionDialog(pnlEmployee.this,"Selected Value: " + selectedValue, "Cell Value", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[] {"Exit"}, "Exit");
-                 if (option == 0) {
-                     // User clicked "Exit"
-                     JOptionPane.getRootFrame().dispose(); // Close the JOptionPane dialog
-                 }
+                 // Open the BookInfoFrame with the selected book
+                 UserInfoFrame frame = new UserInfoFrame(selectedEmployee);
+                 frame.setVisible(true);
+                 } 
              }
          });
  		//set what's inside the scroll pane
@@ -246,9 +255,9 @@
       }
  	//Methods
  	 public String searchQuery(String search) {
- 	       String query = "SELECT admin_id, admin_fname, admin_lname, admin_email, admin_status "
+ 	       String query = "SELECT admin_id, admin_fname, admin_lname, admin_email, admin_contact, admin_address, admin_status "
  	       		+ "FROM admin "
- 	       		+ "WHERE (admin_fname LIKE '"+search+"%' OR admin_lname LIKE '"+search+"%') AND (admin_status = 'active' AND admin_position = 'employee') "
+ 	       		+ "WHERE (admin_fname LIKE '"+search+"%' OR admin_lname LIKE '"+search+"%') AND (admin_position = 'employee') "
  	       		+ "ORDER BY admin_lname ASC";
  	       return query;
  	    }
@@ -258,8 +267,8 @@
  	            // Establish database connection
  	        	//Rekta na kasi tinamad mag assign pa ng variables same lang naman kasi db na gagamitin HAHAHAHAA
  	            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
- 	            String getQuery = "SELECT admin_id, admin_fname, admin_lname, admin_email, admin_status "
- 	            		+ "FROM admin WHERE admin_status ='active' AND admin_position ='employee' "
+ 	            String getQuery = "SELECT admin_id, admin_fname, admin_lname, admin_email, admin_contact, admin_address, admin_status "
+ 	            		+ "FROM admin WHERE admin_position ='employee' "
  	            		+ "ORDER BY admin_lname ASC";
 
  	            // Execute the SQL query

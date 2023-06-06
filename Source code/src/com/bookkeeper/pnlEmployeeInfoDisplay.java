@@ -35,7 +35,7 @@ public class pnlEmployeeInfoDisplay extends JPanel {
 	private JButton btnRemoveEmployee;
 	private JButton btnCancel;
 	
-	public pnlEmployeeInfoDisplay() {
+	public pnlEmployeeInfoDisplay(Employee employee) {
 		setLayout(null);
 		
 		JLabel lblInfoEmployee = new JLabel("Employee Information");
@@ -62,7 +62,7 @@ public class pnlEmployeeInfoDisplay extends JPanel {
 		lblFirstName.setBounds(0, 0, 116, 30);
 		pnlFirstName.add(lblFirstName);
 		
-		txtFirstName = new PlaceholderTextField("");
+		txtFirstName = new PlaceholderTextField(employee.getFname());
 		txtFirstName.setEditable(false);
 		txtFirstName.setOpaque(false);
 		txtFirstName.setFont(new Font("Verdana", Font.ITALIC, 13));
@@ -80,7 +80,7 @@ public class pnlEmployeeInfoDisplay extends JPanel {
 		lblLastName.setBounds(0, 0, 116, 30);
 		pnlLastName.add(lblLastName);
 		
-		txtLastName = new PlaceholderTextField("");
+		txtLastName = new PlaceholderTextField(employee.getLname());
 		txtLastName.setEditable(false);
 		txtLastName.setOpaque(false);
 		txtLastName.setFont(new Font("Verdana", Font.ITALIC, 13));
@@ -98,7 +98,7 @@ public class pnlEmployeeInfoDisplay extends JPanel {
 		lblPatronID.setBounds(0, 0, 117, 30);
 		pnlEmployeeID.add(lblPatronID);
 		
-		txtEmployeeID = new PlaceholderTextField("");
+		txtEmployeeID = new PlaceholderTextField(employee.getEmployee_id());
 		txtEmployeeID.setEnabled(false);
 		txtEmployeeID.setEditable(false);
 		txtEmployeeID.setOpaque(false);
@@ -114,7 +114,7 @@ public class pnlEmployeeInfoDisplay extends JPanel {
 		pnlContactNumber.setBounds(0, 100, 528, 30);
 		pnlEmployeeDetails.add(pnlContactNumber);
 		
-		txtContactNumber = new PlaceholderTextField("");
+		txtContactNumber = new PlaceholderTextField(employee.getContactNum());
 		txtContactNumber.setEditable(false);
 		txtContactNumber.setOpaque(false);
 		txtContactNumber.setFont(new Font("Verdana", Font.ITALIC, 13));
@@ -137,7 +137,7 @@ public class pnlEmployeeInfoDisplay extends JPanel {
 		lblEmailAddress.setBounds(0, 0, 117, 30);
 		pnlEmailAddress.add(lblEmailAddress);
 		
-		txtEmailAddress = new PlaceholderTextField("");
+		txtEmailAddress = new PlaceholderTextField(employee.getEmail());
 		txtEmailAddress.setEditable(false);
 		txtEmailAddress.setOpaque(false);
 		txtEmailAddress.setFont(new Font("Verdana", Font.ITALIC, 13));
@@ -155,7 +155,7 @@ public class pnlEmployeeInfoDisplay extends JPanel {
 		lblAddress.setBounds(0, 0, 117, 30);
 		pnlAddress.add(lblAddress);
 		
-		txtAddress = new PlaceholderTextField("");
+		txtAddress = new PlaceholderTextField(employee.getAddress());
 		txtAddress.setEditable(false);
 		txtAddress.setOpaque(false);
 		txtAddress.setFont(new Font("Verdana", Font.ITALIC, 13));
@@ -173,7 +173,7 @@ public class pnlEmployeeInfoDisplay extends JPanel {
 		btnCancel.setFont(new Font("Verdana", Font.ITALIC, 13));
 		btnCancel.setBackground(new Color(23, 22, 77));
 		
-		btnRemoveEmployee = new JButton("Remove Employee");
+		btnRemoveEmployee = new JButton("Enable/Disable Employee");
 
 		btnRemoveEmployee.setBounds(0, 230, 250, 31);
 		pnlEmployeeDetails.add(btnRemoveEmployee);
@@ -183,8 +183,67 @@ public class pnlEmployeeInfoDisplay extends JPanel {
 		btnRemoveEmployee.setFont(new Font("Verdana", Font.ITALIC, 13));
 		btnRemoveEmployee.setBackground(new Color(23, 22, 77));
 
-
+		// Action Listener
+		btnRemoveEmployee.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String status = employee.getStatus();
+				String employeeId = employee.getEmployee_id();
+				
+				if(status.equals("active")) {
+					updatePatronStatus(employeeId, "inactive");
+				}
+				else {
+					updatePatronStatus(employeeId, "active");
+				}
+			}
+		});
+		
 	}
+	// Methods
+		public static void updatePatronStatus(String adminId, String status) {
+	        Connection conn = null;
+	        PreparedStatement stmt = null;
+	        String DB_URL = "jdbc:mysql://localhost/book_keeper";
+	        String USERNAME = "root";
+	        String PASSWORD = "";
 
-    
+	        try {
+	            // Establish the database connection
+	            conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+
+	            String sql = "UPDATE admin SET admin_status = ? WHERE admin_id = ?";
+
+	            // Prepare the statement
+	            stmt = conn.prepareStatement(sql);
+	            stmt.setString(1, status);
+	            stmt.setString(2, adminId);
+
+	            // Execute the update
+	            int rowsUpdated = stmt.executeUpdate();
+
+	            if (rowsUpdated > 0) {
+	            	JOptionPane.showMessageDialog(null, "Employee status successfuly updated", "Success", JOptionPane.PLAIN_MESSAGE);
+	            } else {
+	            	JOptionPane.showMessageDialog(null, "Employee status did not update", "Error", JOptionPane.ERROR_MESSAGE);
+	            }
+
+	        } catch (SQLException e) {
+	            System.err.println("Error updating patron status: " + e.getMessage());
+	        } finally {
+	            // Close the statement and connection
+	            try {
+	                if (stmt != null) {
+	                    stmt.close();
+	                }
+	                if (conn != null) {
+	                    conn.close();
+	                }
+	            } catch (SQLException e) {
+	                System.err.println("Error closing resources: " + e.getMessage());
+	            }
+	        }
+	    }
+		public JButton getCancel() {
+			return btnCancel;
+		}
 }

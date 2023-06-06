@@ -7,14 +7,20 @@ public class Employee {
 	private String Position;
 	private String Email;
 	private String Employee_pass;
+	private String status;
+	private String contactNum;
+	private String address;
 	
-	public Employee(String Employee_id, String fname, String lname,String Position, String Email, String Employee_pass ) {
+	public Employee(String Employee_id, String fname, String lname,String Position, String Email, String Employee_pass, String status, String contactNum, String address ) {
 		this.Employee_id = Employee_id;
 		this.fname = fname;
 		this.lname = lname;
 		this.Position = Position;
 		this.Email = Email;
 		this.Employee_pass = Employee_pass;
+		this.status = status;
+		this.contactNum = contactNum;
+		this.address = address;
 	}
 
 	public String getEmployee_id() {
@@ -64,6 +70,30 @@ public class Employee {
 
 	public void setFname(String fname) {
 		this.fname = fname;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getContactNum() {
+		return contactNum;
+	}
+
+	public void setContactNum(String contactNum) {
+		this.contactNum = contactNum;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }

@@ -21,6 +21,8 @@ public class UserInfoFrame extends JFrame {
 	private pnlEditInfoUser pnlEditInfoUser;
 	private pnlEditInfoPassword pnlEditInfoPassword;
 	private CardLayout cardLayout;
+	private pnlUserInfoDisplay userDisplay;
+	private pnlEmployeeInfoDisplay employeeDisplay;
 
 
 	public UserInfoFrame(User user) {
@@ -56,6 +58,48 @@ public class UserInfoFrame extends JFrame {
 		});
 	    setVisible(true);
 
+	}
+	public UserInfoFrame(int con, User user) {
+		setTitle("Book Keeper");
+	    setSize(590, 690);
+	    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    setLocationRelativeTo(null);
+	    
+	    cardLayout = new CardLayout();
+	    getContentPane().setLayout(cardLayout);
+	    userDisplay = new pnlUserInfoDisplay(user);
+	 
+		getContentPane().add(userDisplay, "panel1");
+		
+		userDisplay.getCancel().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserInfoFrame frame_1 = (UserInfoFrame) SwingUtilities.getWindowAncestor(userDisplay);
+	    		frame_1.dispose();
+			}
+		});
+		
+		setVisible(true);
+	}
+	public UserInfoFrame(Employee employee) {
+		setTitle("Book Keeper");
+	    setSize(590, 690);
+	    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    setLocationRelativeTo(null);
+	    
+	    cardLayout = new CardLayout();
+	    getContentPane().setLayout(cardLayout);
+	    employeeDisplay = new pnlEmployeeInfoDisplay(employee);
+	 
+		getContentPane().add(employeeDisplay, "panel1");
+		
+		employeeDisplay.getCancel().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserInfoFrame frame_1 = (UserInfoFrame) SwingUtilities.getWindowAncestor(employeeDisplay);
+	    		frame_1.dispose();
+			}
+		});
+		
+		setVisible(true);
 	}
 	
 }

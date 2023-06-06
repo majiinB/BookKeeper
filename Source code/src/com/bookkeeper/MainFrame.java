@@ -375,10 +375,14 @@ public class MainFrame extends JFrame {
 			   	             String userFname = rs.getString("admin_fname");
 			   	             String userLname = rs.getString("admin_lname");
 			   	             String userEmail1 = rs.getString("admin_email");
-			   	             String userContact = rs.getString("admin_position");
+			   	             String userPosition = rs.getString("admin_position");
 			   	             String userPass = rs.getString("admin_password");
+			   	             String userContact = rs.getString("admin_contact");
+			   	             String userAddress = rs.getString("admin_address");
+			   	             String userStatus = rs.getString("admin_status");
 			   	             
-			   	             Employee onlineUser = new Employee(userID, userFname, userLname, userEmail1, userContact, userPass);
+			   	             
+			   	             Employee onlineUser = new Employee(userID, userFname, userLname, userEmail1, userPosition, userPass, userStatus, userContact, userAddress);
 			   	             //Close database
 			   	             conn.close();
 			   	             return onlineUser;
