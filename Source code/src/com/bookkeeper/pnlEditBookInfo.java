@@ -286,7 +286,7 @@ public class pnlEditBookInfo extends JPanel {
                 int rowsUpdated = stmt.executeUpdate();
             	
                 if (rowsUpdated > 0) {
-                	JOptionPane.showMessageDialog(pnlEditBookInfo.this, "Book Info Updated Successfully", "Error", JOptionPane.PLAIN_MESSAGE);
+                	JOptionPane.showMessageDialog(pnlEditBookInfo.this, "Book Info Updated Successfully", "Success", JOptionPane.PLAIN_MESSAGE);
                 } else {
                 	JOptionPane.showMessageDialog(pnlEditBookInfo.this, "Book did not update", "Error", JOptionPane.ERROR_MESSAGE);
                 }

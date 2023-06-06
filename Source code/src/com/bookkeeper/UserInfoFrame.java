@@ -23,7 +23,7 @@ public class UserInfoFrame extends JFrame {
 	private CardLayout cardLayout;
 
 
-	public UserInfoFrame() {
+	public UserInfoFrame(User user) {
 	    setTitle("Book Keeper");
 	    setSize(590, 690);
 	    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -31,11 +31,18 @@ public class UserInfoFrame extends JFrame {
 	    
 	    cardLayout = new CardLayout();
 	    getContentPane().setLayout(cardLayout);
-	    pnlEditInfoUser = new pnlEditInfoUser();
-	    pnlEditInfoPassword = new pnlEditInfoPassword();
+	    pnlEditInfoUser = new pnlEditInfoUser(user);
+	    pnlEditInfoPassword = new pnlEditInfoPassword(user);
 	    
 		getContentPane().add(pnlEditInfoUser, "panel1");
 		getContentPane().add(pnlEditInfoPassword, "panel2");
+		
+		// Action Listeners
+		pnlEditInfoUser.getEditPassbtn().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(getContentPane(), "panel2");
+			}
+		});
 	    setVisible(true);
 
 	}

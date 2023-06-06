@@ -31,7 +31,7 @@ public class pnlEditInfoPassword extends JPanel {
 	private JButton btnPasswordEdit;
 	private JButton btnCancelEdit;
 	
-	public pnlEditInfoPassword() {
+	public pnlEditInfoPassword(User user) {
 		setLayout(null);
 		
 		JLabel lblLogo = new JLabel(" ");
@@ -132,7 +132,26 @@ public class pnlEditInfoPassword extends JPanel {
 		btnSaveChangesEdit.setBounds(31, 470, 250, 29);
 		add(btnSaveChangesEdit);
 
-
+		// Action listener
+		btnSaveChangesEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Initialize MainFrame to access its methods
+				MainFrame main = new MainFrame();
+				
+				//Take inputs
+				String currentPass = txtCurrentPassword.getText().trim();
+				String newPass = txtNewPassword.getText().trim();
+				String confirmPass = txtConfirmNewPassword.getText().trim();
+				
+				//Apply condition incase of blank inputs
+				if(currentPass.isBlank()||newPass.isBlank()||confirmPass.isBlank()) {
+					JOptionPane.showMessageDialog(pnlEditInfoPassword.this, "Cannot have blank inputs", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					
+				}
+			}
+		});
 	}
 
     

@@ -116,7 +116,7 @@ public class pnlAccount extends JPanel {
 	// Action listeners
 	btnEditInfo.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			BookInfoFrame frame = new BookInfoFrame(user);
+			UserInfoFrame frame = new UserInfoFrame(user);
 			frame.setLocationRelativeTo(null);
 			frame.setVisible(true);
 		}

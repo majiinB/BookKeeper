@@ -27,13 +27,11 @@ public class pnlEditInfoUser extends JPanel {
 	private PlaceholderTextField txtFirstNameEdit;
 	private PlaceholderTextField txtLastNameEdit;
 	private PlaceholderTextField txtContactNumberEdit;
-	private PlaceholderTextField txtEmailAddressEdit;
 	private PlaceholderTextField txtAddressEdit;
-	private PlaceholderTextField txtPatronID;
 	private JButton btnPasswordEdit;
 	private JButton btnCancelEdit;
 	
-	public pnlEditInfoUser() {
+	public pnlEditInfoUser(User user) {
 				setLayout(null);
 		
 		JLabel lblLogo = new JLabel(" ");
@@ -46,13 +44,13 @@ public class pnlEditInfoUser extends JPanel {
 		
 		lblLogo.setIcon(new ImageIcon(rsdImgLogo));
 		
-		JLabel lblInfoUserEdit = new JLabel("Patron Information");
+		JLabel lblInfoUserEdit = new JLabel("Edit Patron Information");
 		lblInfoUserEdit.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInfoUserEdit.setOpaque(false);
 		lblInfoUserEdit.setForeground(new Color(23, 21, 77));
 		lblInfoUserEdit.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 30));
 		lblInfoUserEdit.setBorder(null);
-		lblInfoUserEdit.setBounds(31, 83, 528, 52);
+		lblInfoUserEdit.setBounds(156, 83, 403, 52);
 		add(lblInfoUserEdit);
 
 		JPanel pnlUserDetailsEdit = new JPanel();
@@ -62,7 +60,7 @@ public class pnlEditInfoUser extends JPanel {
 		
 		JPanel pnlFirstNameEdit = new JPanel();
 		pnlFirstNameEdit.setLayout(null);
-		pnlFirstNameEdit.setBounds(0, 0, 528, 30);
+		pnlFirstNameEdit.setBounds(0, 18, 528, 30);
 		pnlUserDetailsEdit.add(pnlFirstNameEdit);
 		
 		JLabel lblFirstNameEdit = new JLabel("First Name:");//dating info nya pwede ilagay sa placeholder
@@ -70,7 +68,7 @@ public class pnlEditInfoUser extends JPanel {
 		lblFirstNameEdit.setBounds(0, 0, 116, 30);
 		pnlFirstNameEdit.add(lblFirstNameEdit);
 		
-		txtFirstNameEdit = new PlaceholderTextField("");//dating info nya pwede ilagay sa placeholder
+		txtFirstNameEdit = new PlaceholderTextField(user.getUser_fname());//dating info nya pwede ilagay sa placeholder
 		txtFirstNameEdit.setOpaque(false);
 		txtFirstNameEdit.setFont(new Font("Verdana", Font.ITALIC, 13));
 		txtFirstNameEdit.setColumns(10);
@@ -79,7 +77,7 @@ public class pnlEditInfoUser extends JPanel {
 		
 		JPanel pnlLastNameEdit = new JPanel();
 		pnlLastNameEdit.setLayout(null);
-		pnlLastNameEdit.setBounds(0, 34, 528, 30);
+		pnlLastNameEdit.setBounds(0, 59, 528, 30);
 		pnlUserDetailsEdit.add(pnlLastNameEdit);
 		
 		JLabel lblLastNameEdit = new JLabel("Last Name:");
@@ -87,37 +85,17 @@ public class pnlEditInfoUser extends JPanel {
 		lblLastNameEdit.setBounds(0, 0, 116, 30);
 		pnlLastNameEdit.add(lblLastNameEdit);
 		
-		txtLastNameEdit = new PlaceholderTextField("");//dating info nya pwede ilagay sa placeholder
+		txtLastNameEdit = new PlaceholderTextField(user.getUser_lname());//dating info nya pwede ilagay sa placeholder
 		txtLastNameEdit.setOpaque(false);
 		txtLastNameEdit.setFont(new Font("Verdana", Font.ITALIC, 13));
 		txtLastNameEdit.setColumns(10);
 		txtLastNameEdit.setBounds(128, 1, 400, 30);
 		pnlLastNameEdit.add(txtLastNameEdit);
 		
-		JPanel pnlPatronID = new JPanel();
-		pnlPatronID.setLayout(null);
-		pnlPatronID.setBounds(0, 67, 528, 30);
-		pnlUserDetailsEdit.add(pnlPatronID);
-		
-		JLabel lblPatronID = new JLabel("Patron ID:");
-		lblPatronID.setFont(new Font("Verdana", Font.PLAIN, 13));
-		lblPatronID.setBounds(0, 0, 117, 30);
-		pnlPatronID.add(lblPatronID);
-		
-		txtPatronID = new PlaceholderTextField("");//bawal mapalitan toh
-		txtPatronID.setEnabled(false);
-		txtPatronID.setEditable(false);
-		txtPatronID.setOpaque(false);
-		
-		txtPatronID.setFont(new Font("Verdana", Font.ITALIC, 13));
-		txtPatronID.setColumns(10);
-		txtPatronID.setBounds(128, 1, 400, 30);
-		pnlPatronID.add(txtPatronID);
-		
 		
 		JPanel pnlContactNumberEdit = new JPanel();
 		pnlContactNumberEdit.setLayout(null);
-		pnlContactNumberEdit.setBounds(0, 100, 528, 30);
+		pnlContactNumberEdit.setBounds(0, 120, 528, 30);
 		pnlUserDetailsEdit.add(pnlContactNumberEdit);
 		
 		JLabel lblContactNumberEdit = new JLabel("Contact Number:");
@@ -125,29 +103,12 @@ public class pnlEditInfoUser extends JPanel {
 		lblContactNumberEdit.setBounds(0, 0, 117, 30);
 		pnlContactNumberEdit.add(lblContactNumberEdit);
 		
-		txtContactNumberEdit = new PlaceholderTextField("");//dating info nya pwede ilagay sa placeholder
+		txtContactNumberEdit = new PlaceholderTextField(user.getUser_contact());//dating info nya pwede ilagay sa placeholder
 		txtContactNumberEdit.setOpaque(false);
 		txtContactNumberEdit.setFont(new Font("Verdana", Font.ITALIC, 13));
 		txtContactNumberEdit.setColumns(10);
 		txtContactNumberEdit.setBounds(128, 1, 400, 30);
 		pnlContactNumberEdit.add(txtContactNumberEdit);
-		
-		JPanel pnlEmailAddressEdit = new JPanel();
-		pnlEmailAddressEdit.setLayout(null);
-		pnlEmailAddressEdit.setBounds(0, 131, 528, 30);
-		pnlUserDetailsEdit.add(pnlEmailAddressEdit);
-		
-		JLabel lblEmailAddressEdit = new JLabel("Email Address:");
-		lblEmailAddressEdit.setFont(new Font("Verdana", Font.PLAIN, 13));
-		lblEmailAddressEdit.setBounds(0, 0, 117, 30);
-		pnlEmailAddressEdit.add(lblEmailAddressEdit);
-		
-		txtEmailAddressEdit = new PlaceholderTextField("");//dating info nya pwede ilagay sa placeholder
-		txtEmailAddressEdit.setOpaque(false);
-		txtEmailAddressEdit.setFont(new Font("Verdana", Font.ITALIC, 13));
-		txtEmailAddressEdit.setColumns(10);
-		txtEmailAddressEdit.setBounds(128, 1, 400, 30);
-		pnlEmailAddressEdit.add(txtEmailAddressEdit);
 		
 		JPanel pnlAddressEdit = new JPanel();
 		pnlAddressEdit.setLayout(null);
@@ -159,7 +120,7 @@ public class pnlEditInfoUser extends JPanel {
 		lblAddressEdit.setBounds(0, 0, 117, 30);
 		pnlAddressEdit.add(lblAddressEdit);
 		
-		txtAddressEdit = new PlaceholderTextField("");//dating info nya pwede ilagay sa placeholder
+		txtAddressEdit = new PlaceholderTextField(user.getUser_address());//dating info nya pwede ilagay sa placeholder
 		txtAddressEdit.setOpaque(false);
 		txtAddressEdit.setFont(new Font("Verdana", Font.ITALIC, 13));
 		txtAddressEdit.setColumns(10);
@@ -210,9 +171,78 @@ public class pnlEditInfoUser extends JPanel {
 		btnSaveChangesEdit.setBackground(new Color(23, 22, 77));
 		btnSaveChangesEdit.setBounds(31, 470, 250, 29);
 		add(btnSaveChangesEdit);
-
+		
+		// Action Listener
+		btnSaveChangesEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String fName = txtFirstNameEdit.getText();
+				String lName = txtLastNameEdit.getText();
+				String contactNum = txtContactNumberEdit.getText();
+				String address = txtAddressEdit.getText();
+				String userId = user.getUser_id();
+				updateUserInfo(fName, lName, contactNum, address, userId);
+			}
+		});
 
 	}
+	// Methods
+	public JButton getEditPassbtn() {
+		return btnPasswordEdit;
+	}
+	public JButton getCancelEdit() {
+		return btnCancelEdit;
+	}
+	//Update the User
+		public void updateUserInfo(String fname, String lname, String contactNum, String address, String ID) {
+	        Connection conn = null;
+	        PreparedStatement stmt = null;
+	        String DB_URL = "jdbc:mysql://localhost/book_keeper";
+			String USERNAME = "root";
+			String PASSWORD = "";
+	        try {
+	            // Establish the database connection
+	            conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+	            
+	            //Condition to handle blank values
+	            if(fname.isBlank()||lname.isBlank()||contactNum.isBlank()||address.isBlank()) {
+	            	JOptionPane.showMessageDialog(pnlEditInfoUser.this, "Cannot have blank values", "Error", JOptionPane.ERROR_MESSAGE);
+	            }else {
+	            	String sql = "UPDATE patron SET patron_fname = ?, patron_lname = ?, patron_contact = ?, patron_address = ? WHERE patron_id = ?";
 
+	                // Prepare the statement
+	                stmt = conn.prepareStatement(sql);
+	                stmt.setString(1, fname);
+	                stmt.setString(2, lname);
+	                stmt.setString(3, contactNum);
+	                stmt.setString(4, address);
+	                stmt.setString(5, ID);
+
+	                // Execute the update
+	                int rowsUpdated = stmt.executeUpdate();
+	            	
+	                if (rowsUpdated > 0) {
+	                	JOptionPane.showMessageDialog(pnlEditInfoUser.this, "Book Info Updated Successfully", "Error", JOptionPane.PLAIN_MESSAGE);
+	                } else {
+	                	JOptionPane.showMessageDialog(pnlEditInfoUser.this, "Book did not update", "Error", JOptionPane.ERROR_MESSAGE);
+	                }
+	            }
+	            
+	        } catch (SQLException e) {
+	            System.err.println("Error updating row: " + e.getMessage());
+	        } finally {
+	            // Close the statement and connection
+	            try {
+	                if (stmt != null) {
+	                    stmt.close();
+	                }
+	                if (conn != null) {
+	                    conn.close();
+	                    System.out.println("Database connection closed.");
+	                }
+	            } catch (SQLException e) {
+	                System.err.println("Error closing resources: " + e.getMessage());
+	            }
+	        }
+	    }
     
 }
