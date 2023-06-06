@@ -308,7 +308,9 @@ public class pnlReports extends JPanel {
 		//ISA PA YAWA
 
 		String[] columnNames = {"Book Title", "Author", "Genre", "Status"};
-        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
+        	
+        };
         JTable bookTable = new JTable(model);
         JScrollPane scrollPane1 = new JScrollPane(bookTable);
         pnlInventoryReports.add(scrollPane1, BorderLayout.CENTER);
