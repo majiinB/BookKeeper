@@ -17,7 +17,7 @@ public class PlaceholderPassword extends JPasswordField {
         this.placeholder = placeholder;
 
         // Set the initial font and foreground color
-        setFont(new Font("Verdana", Font.ITALIC, 15));
+        setFont(new Font("Montserrat", Font.ITALIC, 18));
         setForeground(Color.GRAY);
 
         // Add a focus listener to handle showing and hiding the placeholder text

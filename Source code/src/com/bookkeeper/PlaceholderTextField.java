@@ -18,7 +18,7 @@ public class PlaceholderTextField extends JTextField{
 		this.placeholder = placeholder;
 
         // Set the initial font and foreground color
-        setFont(new Font("Verdana", Font.ITALIC, 13));
+        setFont(new Font("Montserrat", Font.ITALIC, 18));
         setForeground(Color.GRAY);
 
         // Add a focus listener to handle showing and hiding the placeholder text
@@ -37,7 +37,6 @@ public class PlaceholderTextField extends JTextField{
             public void focusLost(FocusEvent e) {
                 if (getText().isEmpty()) {
                     setText(placeholder);
-                    setFont(new Font("Verdana", Font.ITALIC, 13));
                     setForeground(Color.GRAY);
 
                 }
@@ -59,7 +58,6 @@ public class PlaceholderTextField extends JTextField{
     public String clearInputAndGetPlaceholder() {
         String input = getText();
         setText(placeholder);
-        setFont(new Font("Verdana", Font.ITALIC, 13));
         setForeground(Color.GRAY);
         return input;
     }
