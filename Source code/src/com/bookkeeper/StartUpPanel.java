@@ -2,8 +2,12 @@ package com.bookkeeper;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class StartUpPanel extends JPanel {
+public class StartUpPanel extends JPanel{
     private BackgroundPanel mainPanel;
     private JPanel headingPanel;
 	private JPanel logoPanel;
@@ -55,7 +59,7 @@ public class StartUpPanel extends JPanel {
     
     icon = new ImageIcon("../img/Logo_Blue.png");
     image = icon.getImage();
-    scaledImage = image.getScaledInstance(300, 290, Image.SCALE_SMOOTH);
+    scaledImage = image.getScaledInstance(250, 240, Image.SCALE_SMOOTH);
     scaledIcon = new ImageIcon(scaledImage);
  
     lblLogo = new JLabel();
@@ -157,6 +161,14 @@ public class StartUpPanel extends JPanel {
     
     
     add(mainPanel);
+    
+    // Action listener
+    btnClose.addActionListener(new ActionListener() {
+    	public void actionPerformed(ActionEvent e) {
+    		System.exit(0);
+    	}
+    });
+  
 }
 	
 	//BACKGROUND NA TRIANGLES SHEESH DUNT TOUCH MALIBAN SA IMAGE PATH
@@ -165,7 +177,7 @@ public class StartUpPanel extends JPanel {
 
 	    public BackgroundPanel() {
 	    	//change the image path!!!
-	        backgroundImage = new ImageIcon("D://documents//Final_Project//img//Triangles_StartUpPage.png").getImage();
+	        backgroundImage = new ImageIcon("img/Triangles_StartUpPage.png").getImage();
 	    }
 	    
 	    //put image over panel
@@ -182,7 +194,11 @@ public class StartUpPanel extends JPanel {
 	         * hanggang sa ma-cover nya  buong panel
 	         */
 	    }
+	    
 	}
     
-    
+    //Methods 
+	public JButton getStart() {
+		return btnStart;
+	}
 }

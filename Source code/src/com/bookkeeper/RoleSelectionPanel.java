@@ -47,7 +47,7 @@ public  RoleSelectionPanel() {
     lblHeading.setForeground(new Color(23, 21, 147));
     lblHeading.setHorizontalAlignment(SwingConstants.CENTER);
     
-    icon = new ImageIcon("/Users/PANPAN/eclipse-workspace/Fixed_Book_Keeper/img/Logo_Blue.png");
+    icon = new ImageIcon("img/Logo_Blue.png");
     image = icon.getImage();
     scaledImage = image.getScaledInstance(32, 30, Image.SCALE_SMOOTH);
     scaledIcon = new ImageIcon(scaledImage);
