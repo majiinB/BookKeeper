@@ -1,6 +1,4 @@
 package com.bookkeeper;
-import java.awt.EventQueue;
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -31,26 +29,47 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import java.util.Random;
-
-//DATING MAINFRAME
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ActionEvent;
+// Frame for user authentication
 
 public class AuthenticationFrame extends JFrame{
+	//panel
 	private JPanel mainPanel;
 	private RoleSelectionPanel RoleSelectionPanel;
 	private AdminLogInPanel AdminLogInPanel;
 	private PatronLogInPanel PatronLogInPanel;
-	private signUpPanel SignUpPanel;
+	private SignUpPanel SignUpPanel;
 	private StartUpPanel StartUpPanel;
+	
+	//layout
 	private CardLayout cardLayout;
+	
+	//icon
 	private ImageIcon icon;
 	private Image image;
+	
+	//Graphics environment and screen dimensions
+	private GraphicsEnvironment environment;	
+	private GraphicsDevice device;
+	private int width;
+	private int height;
 	
 	public static void main(String[] args) {
 		/*updateOverdueBooks();*/
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AuthenticationFrame frame = new AuthenticationFrame();					
+					AuthenticationFrame frame = new AuthenticationFrame();	
+					
+					//need ko lng makita marun ung frame mehe
+//					AlertFrame frame = new AlertFrame();	
+//					DashboardFrame frame = new DashboardFrame();	
+//					InfoDisplayFrame frame = new InfoDisplayFrame();	
+//					ChangeInfoFrame frame = new ChangeInfoFrame();	
+
 				} catch (Exception e) {
 					e.printStackTrace(); 
 				}
@@ -59,44 +78,56 @@ public class AuthenticationFrame extends JFrame{
 	}
 	
     public AuthenticationFrame() {
-    	//GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-    	//GraphicsDevice device = environment.getDefaultScreenDevice();
-
     	setTitle("Book Keeper");
-    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	setSize(1300, 900);
     	
-    	setUndecorated(true); // Remove window decorations (title bar, borders)
-    	setResizable(false); // Prevent resizing
-    	//device.setFullScreenWindow(this);
-    	
-
-    	cardLayout = new CardLayout();
-
     	// Set the Icon
-    	icon = new ImageIcon("img/Logo_Original.png"); // LAGAY MO UNG PATH!!
+    	icon = new ImageIcon("img/Logo_Original.png"); 
     	image = icon.getImage();
     	setIconImage(image);
+    	
+    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	
+    	// Remove window decorations (title bar, borders)
+//    	setUndecorated(true); 
+    	
+    	// Prevent resizing
+//    	setResizable(false); 
+
+    	// Set the frame size based on the screen dimensions
+    	environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    	device = environment.getDefaultScreenDevice();
+    	width = (int) (device.getDisplayMode().getWidth() * 0.6);    	
+    	height = (int) (device.getDisplayMode().getHeight() * (2.0 / 3.0));  
+    	setSize(width, height);
+
+    	//print sizes( wala lng toh :> )
+    	System.out.println("Device Width = " + device.getDisplayMode().getWidth());
+    	System.out.println("Device Height = " + device.getDisplayMode().getHeight());
+    	System.out.println("Frame Width = " + width);
+    	System.out.println("Frame Height = " + height);
+    	
 
     	// Create panels
-    	mainPanel = new JPanel();
-
-    	StartUpPanel = new StartUpPanel(); 
-    	RoleSelectionPanel = new RoleSelectionPanel();
+    	mainPanel = new JPanel();//panel to hold all panels
+        RoleSelectionPanel = new RoleSelectionPanel(); //panel to select whether you are a patron or a staff
+        AdminLogInPanel = new AdminLogInPanel(); //panel for admin to log in 
+        PatronLogInPanel = new PatronLogInPanel(); //panel for patron to log in 
+        SignUpPanel = new SignUpPanel(); //panel for admin to register a user
+        StartUpPanel = new StartUpPanel(); //panel the user will first see when app is opened
 
     	// Set the layout of main panel to switch between the panels
+    	cardLayout = new CardLayout();
     	mainPanel.setLayout(cardLayout);
 
     	// Add all Panels to main panel
     	mainPanel.add(StartUpPanel, "panel1");
     	mainPanel.add(RoleSelectionPanel, "panel2");
-    	// mainPanel.add(AdminLogInPanel, "panel3");
-    	// mainPanel.add(PatronLogInPanel,"panel4");
-    	// mainPanel.add(SignUpPanel, "panel5");
+    	mainPanel.add(AdminLogInPanel, "panel3");
+    	mainPanel.add(PatronLogInPanel,"panel4");
+    	mainPanel.add(SignUpPanel, "panel5");
 
     	// Set mainPanel as the content pane of the JFrame
     	setContentPane(mainPanel);
-
     	cardLayout.show(mainPanel, "panel1");
 
     	// Action listeners
@@ -434,7 +465,7 @@ public class AuthenticationFrame extends JFrame{
   		return cardLayout;
   	}
   	public JPanel getPanel() {
-  		return mainPane;
+  		return mainPanel;
   	}
  
 }

@@ -7,32 +7,80 @@ import java.awt.event.ActionListener;
 // Frame for alert notifications
 
 public class AlertFrame extends JFrame {
+	//panel
 	private JPanel mainPanel;
+	private SuccessPanel SuccessPanel;
+	private MalfunctionPanel MalfunctionPanel;
+	private ConfirmationPanel ConfirmationPanel;
+
+	//layout
+	private CardLayout cardLayout;
+	
+	//icon
 	private ImageIcon icon;
 	private Image image;	
 	
+	//Graphics environment and screen dimensions
+	private GraphicsEnvironment environment;	
+	private GraphicsDevice device;
+	private int width;
+	private int height;
+	
     public AlertFrame() {
-		setTitle("Book Keeper");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(712, 230);
-		setResizable(false);
-		setUndecorated(true);//to remove the frame	
-		setLocationRelativeTo(null);//to put frame at the center 
-	    setVisible(true);
-        setLayout(new BorderLayout());
+    	setTitle("Book Keeper");
+    	
+    	// Set the Icon
+    	icon = new ImageIcon("img/Logo_Original.png"); 
+    	image = icon.getImage();
+    	setIconImage(image);
+    	
+    	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	
+    	// Remove window decorations (title bar, borders)
+    	setUndecorated(true); 
+    	
+    	// Prevent resizing
+    	setResizable(false); 
 
-        //Set the Icon
-        icon = new ImageIcon("/Fixed_Book_Keeper/img/Logo_Original.png");//LAGAY MO UNG PATH!!
-        image = icon.getImage();
-        setIconImage(image); 
+    	// Set the frame size based on the screen dimensions
+    	environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    	device = environment.getDefaultScreenDevice();
+    	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+    	height = (int) (device.getDisplayMode().getHeight() * 0.25);    
+    	setSize(width, height);
+
+    	//print sizes( wala lng toh :> )
+    	System.out.println("Device Width = " + device.getDisplayMode().getWidth());
+    	System.out.println("Device Height = " + device.getDisplayMode().getHeight());
+    	System.out.println("Frame Width = " + width);
+    	System.out.println("Frame Height = " + height);
+    	
         
         //Create panels
         mainPanel = new JPanel();//panel to hold all panels
-        mainPanel.setLayout(new BorderLayout(0, 0)); //delete mo toh pag may backend na
-      
+        SuccessPanel = new SuccessPanel(); 
+        MalfunctionPanel = new MalfunctionPanel();
+        ConfirmationPanel = new ConfirmationPanel();
         
+    	// Set the layout of main panel to switch between the panels
+    	cardLayout = new CardLayout();
+    	mainPanel.setLayout(cardLayout);
+        
+    	// Add all Panels to main panel
+    	mainPanel.add(SuccessPanel, "panel1");
+    	mainPanel.add(MalfunctionPanel, "panel2");
+    	mainPanel.add(ConfirmationPanel, "panel3");
+    	
+    	// Set mainPanel as the content pane of the JFrame
+    	setContentPane(mainPanel);
+    	cardLayout.show(mainPanel, "panel2");
 
-    
+    	
+    	// Center the frame on the screen
+    	setLocationRelativeTo(null);
+
+    	// Make the frame visible
+    	setVisible(true);
     }
 
 }
