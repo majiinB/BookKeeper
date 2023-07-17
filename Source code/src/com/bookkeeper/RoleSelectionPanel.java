@@ -135,5 +135,15 @@ public  RoleSelectionPanel() {
 
     
     add(mainPanel);
-}
+	}
+	//Methods
+	public JButton getBtnAdmin() {
+		return btnAdmin;
+	}
+	public JButton getBtnPatron() {
+		return btnPatron;
+	}
+	public JButton getBtnClose() {
+		return btnClose;
+	}
 }

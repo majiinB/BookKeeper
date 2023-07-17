@@ -9,12 +9,19 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 
 
 public class AdminLogInPanel extends JPanel {
+	
+	//object 
+	private Employee employee;
+	public Object newUser;
+	
 	//panel
 	private JPanel mainPanel;
 	private JPanel headingPanel;
@@ -123,7 +130,7 @@ public  AdminLogInPanel() {
     btnBack.setBorderPainted(false);
     btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
     
-    lblTitle = new JLabel("LOGIN");
+    lblTitle = new JLabel("ADMIN LOGIN");
     lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
     lblTitle.setBorder(null);
     lblTitle.setForeground(headerColor);
@@ -263,8 +270,62 @@ public  AdminLogInPanel() {
 	            txtEmailAddress.setFont(plainFont);
         }
     });
+ //Action Listeners
+    
+    btnLogIn.addActionListener(new ActionListener() {
+		private int numTries = 1;
+		public void actionPerformed(ActionEvent e) {
+			int remain = 3 - numTries;
+			
+				try {
+					String email = "";
+					email = txtEmailAddress.getText();
+					String trimed = email.trim();
+					String table = "admin";
+					String colemail = "admin_email";
+					String colpass = "admin_password";
+					String colStatus ="admin_status";
+					char[] pass = txtPassword.getPassword();
+					String password = new String(pass);
+					String status = "active";
+					newUser = AuthenticationFrame.loginMethod(trimed, password, table, colemail, colpass, colStatus, status);
+					if (newUser == null && numTries<3) {
+						// Show error message if login failed
+						JOptionPane.showMessageDialog(AdminLogInPanel.this, "Invalid email or password" + "\nRemaining Attempts:" + remain, "Error", JOptionPane.ERROR_MESSAGE);
+						numTries++;
+						
+					} else {
+						if(numTries>=3) {
+							JOptionPane.showMessageDialog(AdminLogInPanel.this, "Limit Reached! Program will now close", "Error", JOptionPane.ERROR_MESSAGE);
+							System.exit(0);
+						}
+						// Hide the login panel and show the main interface
+						employee = (Employee) newUser;
+						JOptionPane.showMessageDialog(AdminLogInPanel.this, "Welcome,\n" + employee.getFname() + " !", "\nSuccess", JOptionPane.INFORMATION_MESSAGE);
+						AuthenticationFrame frame = (AuthenticationFrame) SwingUtilities.getWindowAncestor(btnLogIn);
+						frame.dispose();
+
+						// Create and show the DashboardFrame
+		                DashboardFrame DashboardFrame = new DashboardFrame();
+		                DashboardFrame.setVisible(true);
+		                
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			
+		}
+	});
+	
 	
 }
+	public JButton getBtnBack() {
+		return btnBack;
+	}
+	public void clear() {
+		txtEmailAddress.clearInputAndGetPlaceholder();
+		txtPassword.clearInputAndGetPlaceholder();
+	}
 	@Override
 	 protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);

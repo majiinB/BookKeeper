@@ -33,7 +33,8 @@ public class DashboardFrame extends JFrame {
 	private PatronSettingsPanel PatronSettingsPanel;
 	
 	//layout
-	private CardLayout cardLayout;
+	private CardLayout cardLayout1;
+	private CardLayout cardLayout2;
 	
 	//icon
 	private ImageIcon icon;
@@ -86,9 +87,10 @@ public class DashboardFrame extends JFrame {
 
 		
 		// Set the layout of panels
-		cardLayout = new CardLayout();
-		ContentPanel.setLayout(new CardLayout(0, 0));
-		menuBarPanel.setLayout(new CardLayout(0, 0));
+		cardLayout1 = new CardLayout(0, 0);
+		cardLayout2 = new CardLayout(0, 0);
+		ContentPanel.setLayout(cardLayout1);
+		menuBarPanel.setLayout(cardLayout2);
 		mainPanel.setLayout(new BorderLayout(0, 0)); 
 
 		// Add Panels to Menu Bar panel
@@ -100,17 +102,16 @@ public class DashboardFrame extends JFrame {
 		ContentPanel.add(AdminManagePatronPanel, "panel3");		    	
 		ContentPanel.add(AdminManageEmployeePanel, "panel4");
 		ContentPanel.add(AdminSettingsPanel, "panel5");
-
-    	// Set mainPanel as the content pane of the JFrame
-    	setContentPane(mainPanel);
-
-    	cardLayout.show(ContentPanel, "panel1");
-    	cardLayout.show(menuBarPanel, "panel1");
-    	
+		
+		cardLayout1.show(ContentPanel, "panel1");
+    	cardLayout2.show(menuBarPanel, "panel1");
 
 		// Add Panels to Main panel
 		mainPanel.add(menuBarPanel,BorderLayout.WEST);
 		mainPanel.add(ContentPanel,BorderLayout.CENTER);
+		
+    	// Set mainPanel as the content pane of the JFrame
+    	setContentPane(mainPanel);
 		
     	// Center the frame on the screen
     	setLocationRelativeTo(null);

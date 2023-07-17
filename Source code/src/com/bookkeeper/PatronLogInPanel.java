@@ -12,9 +12,16 @@ import javax.swing.border.EtchedBorder;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class PatronLogInPanel extends JPanel {
+	
+	//object 
+	private User user;
+	public Object newUser;
+	
 	//panel
 	private JPanel mainPanel;
 	private JPanel headingPanel;
@@ -123,7 +130,7 @@ public  PatronLogInPanel() {
     btnBack.setBorderPainted(false);
     btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
     
-    lblTitle = new JLabel("LOGIN");
+    lblTitle = new JLabel("PATRON LOGIN");
     lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
     lblTitle.setBorder(null);
     lblTitle.setForeground(headerColor);
@@ -263,8 +270,62 @@ public  PatronLogInPanel() {
 	            txtEmailAddress.setFont(plainFont);
         }
     });
+    
+    //Action Listeners
+    
+    btnLogIn.addActionListener(new ActionListener() {
+		private int numTries = 1;
+		public void actionPerformed(ActionEvent e) {
+			int remain = 3 - numTries;
+			
+				try {
+					String email = "";
+					email = txtEmailAddress.getText();
+					String trimed = email.trim();
+					String table = "patron";
+					String colemail = "patron_email";
+					String colpass = "patron_password";
+					String colStatus ="patron_status";
+					char[] pass = txtPassword.getPassword();
+					String password = new String(pass);
+					String status = "active";
+					newUser = AuthenticationFrame.loginMethod(trimed, password, table, colemail, colpass, colStatus, status);
+					if (newUser == null && numTries<3) {
+						// Show error message if login failed
+						JOptionPane.showMessageDialog(PatronLogInPanel.this, "Invalid email or password" + "\nRemaining Attempts:" + remain, "Error", JOptionPane.ERROR_MESSAGE);
+						numTries++;
+						
+					} else {
+						if(numTries>=3) {
+							JOptionPane.showMessageDialog(PatronLogInPanel.this, "Limit Reached! Program will now close", "Error", JOptionPane.ERROR_MESSAGE);
+							System.exit(0);
+						}
+						// Hide the login panel and show the main interface
+						user = (User) newUser;
+						JOptionPane.showMessageDialog(PatronLogInPanel.this, "Welcome,\n" + user.toString() + " !", "\nSuccess", JOptionPane.INFORMATION_MESSAGE);
+						AuthenticationFrame frame = (AuthenticationFrame) SwingUtilities.getWindowAncestor(btnLogIn);
+						frame.dispose();
+
+						// Create and show the DashboardFrame
+		                DashboardFrame DashboardFrame = new DashboardFrame();
+		                DashboardFrame.setVisible(true);
+		                
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			
+		}
+	});
 	
 }
+	public JButton getBtnBack() {
+		return btnBack;
+	}
+	public void clear() {
+		txtEmailAddress.clearInputAndGetPlaceholder();
+		txtPassword.clearInputAndGetPlaceholder();
+	}
 	@Override
 	 protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
@@ -278,4 +339,5 @@ public  PatronLogInPanel() {
 	    lblHeading.setIcon(new ImageIcon(scaledImage));
 
 	 }
+	//Action Listener
 }

@@ -9,9 +9,10 @@ public class User {
 	private String User_address;
 	private String User_pass;
 	private String User_status;
+	private int User_penalty;
 	
 	//Mutators and accessor 
-	public User(String User_id, String User_fname,String User_lname, String User_email, String User_contact, String User_address, String User_pass, String User_status) {
+	public User(String User_id, String User_fname,String User_lname, String User_email, String User_contact, String User_address, String User_pass, String User_status, int User_penalty) {
 		this.User_id = User_id;
 		this.User_fname = User_fname;
 		this.User_lname = User_lname;
@@ -20,6 +21,7 @@ public class User {
 		this.User_pass = User_pass;
 		this.User_status = User_status; 
 		this.User_email = User_email;
+		this.setUser_penalty(User_penalty);
 		
 	}
 
@@ -99,5 +101,13 @@ public class User {
 
 	public void setUser_status(String user_status) {
 		User_status = user_status;
+	}
+
+	public int getUser_penalty() {
+		return User_penalty;
+	}
+
+	public void setUser_penalty(int user_penalty) {
+		User_penalty = user_penalty;
 	}
 }

@@ -1,48 +1,39 @@
 package com.bookkeeper;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.sql.*;
+import java.awt.CardLayout;
+import java.awt.EventQueue;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Scanner;
-import java.awt.*;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Random;
+import java.util.regex.Pattern;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Base64;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JSplitPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JButton;
-import javax.swing.border.LineBorder;
-import javax.swing.BoxLayout;
-import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
-import java.util.Random;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ActionEvent;
-// Frame for user authentication
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class AuthenticationFrame extends JFrame{
 	//panel
 	private JPanel mainPanel;
-	private RoleSelectionPanel RoleSelectionPanel;
-	private AdminLogInPanel AdminLogInPanel;
-	private PatronLogInPanel PatronLogInPanel;
-	private SignUpPanel SignUpPanel;
-	private StartUpPanel StartUpPanel;
+	private RoleSelectionPanel roleSelectionPanel;
+	private AdminLogInPanel adminLogInPanel;
+	private PatronLogInPanel patronLogInPanel;
+	private SignUpPanel signUpPanel;
+	private StartUpPanel startUpPanel;
 	
 	//layout
 	private CardLayout cardLayout;
@@ -109,31 +100,58 @@ public class AuthenticationFrame extends JFrame{
 
     	// Create panels
     	mainPanel = new JPanel();//panel to hold all panels
-        RoleSelectionPanel = new RoleSelectionPanel(); //panel to select whether you are a patron or a staff
-        AdminLogInPanel = new AdminLogInPanel(); //panel for admin to log in 
-        PatronLogInPanel = new PatronLogInPanel(); //panel for patron to log in 
-        SignUpPanel = new SignUpPanel(); //panel for admin to register a user
-        StartUpPanel = new StartUpPanel(); //panel the user will first see when app is opened
+        roleSelectionPanel = new RoleSelectionPanel(); //panel to select whether you are a patron or a staff
+        adminLogInPanel = new AdminLogInPanel(); //panel for admin to log in 
+        patronLogInPanel = new PatronLogInPanel(); //panel for patron to log in 
+        signUpPanel = new SignUpPanel(); //panel for admin to register a user
+        startUpPanel = new StartUpPanel(); //panel the user will first see when app is opened
 
     	// Set the layout of main panel to switch between the panels
     	cardLayout = new CardLayout();
     	mainPanel.setLayout(cardLayout);
 
     	// Add all Panels to main panel
-    	mainPanel.add(StartUpPanel, "panel1");
-    	mainPanel.add(RoleSelectionPanel, "panel2");
-    	mainPanel.add(AdminLogInPanel, "panel3");
-    	mainPanel.add(PatronLogInPanel,"panel4");
-    	mainPanel.add(SignUpPanel, "panel5");
+    	mainPanel.add(startUpPanel, "panel1");
+    	mainPanel.add(roleSelectionPanel, "panel2");
+    	mainPanel.add(adminLogInPanel, "panel3");
+    	mainPanel.add(patronLogInPanel,"panel4");
+    	mainPanel.add(signUpPanel, "panel5");
 
     	// Set mainPanel as the content pane of the JFrame
     	setContentPane(mainPanel);
     	cardLayout.show(mainPanel, "panel1");
 
     	// Action listeners
-    	StartUpPanel.getStart().addActionListener(new ActionListener() {
+    	startUpPanel.getStart().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		cardLayout.show(mainPanel, "panel2");
+        	}
+        });
+    	roleSelectionPanel.getBtnAdmin().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cardLayout.show(mainPanel, "panel3");
+        	}
+        });
+    	roleSelectionPanel.getBtnPatron().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cardLayout.show(mainPanel,"panel4");
+        	}
+        });
+    	roleSelectionPanel.getBtnClose().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cardLayout.show(mainPanel,"panel1");
+        	}
+        });
+    	adminLogInPanel.getBtnBack().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cardLayout.show(mainPanel,"panel2");
+        		adminLogInPanel.clear();
+        	}
+        });
+    	patronLogInPanel.getBtnBack().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cardLayout.show(mainPanel,"panel2");
+        		patronLogInPanel.clear();
         	}
         });
     	
@@ -145,6 +163,10 @@ public class AuthenticationFrame extends JFrame{
     }
    
   //Methods
+	    public static boolean isValidEmail(String email) {
+	        String emailRegex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+	        return Pattern.matches(emailRegex, email);
+	    }
   		public static String encryption(String pass) throws Exception{
   			String UserPass = pass;
   	        String passphrase = "Book_KeeperSecretPassphrase";
@@ -213,21 +235,22 @@ public class AuthenticationFrame extends JFrame{
   	  	     } 
   			return forReturn;
   		}
-  		public void signUp(String fName, String lName, String userEmail, String userContact, String userAddress, int forQuery) throws Exception {
+  		public static void signUp(String fName, String lName, String userEmail, String userContact, String userAddress, int forQuery) throws Exception {
   			Connection conn = null;
   		    String url = "jdbc:mysql://localhost/book_keeper";
   		    String user = "root";
   		    String password = "";
+  		    String pass ="";
   		    boolean condition = true;
   		    boolean con1 = true;
   		    String encrypted = ""; 
   		    String status = "active";
-  		    String id ="";
   		    String position = "Employee";
+  		    int penalty = 0;
 
   		    do {
-  		    	id = generateRandomID();
-  		    	con1 = checkId(id);
+  		    	pass = generateRandomPass();
+  		    	con1 = checkId(pass);
   		    }while(con1);
   		    
   		    PreparedStatement stmt = null;
@@ -242,36 +265,40 @@ public class AuthenticationFrame extends JFrame{
   	  	        	 JOptionPane.showMessageDialog(null, "Email Already taken", "Error", JOptionPane.ERROR_MESSAGE);
   	  	         else {
   	  	        	 if(forQuery == 1) {
-  	  	        		encrypted = encryption(id);
+  	  	        		encrypted = encryption(pass);
   		  	        	//prepare query
-  			  	         String query = "INSERT INTO patron VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  	  	  
+
+  	  	        
+  			  	         String query = "INSERT INTO patron (patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_password, patron_status, penalty)"
+  			  	         		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   			  	         stmt = conn.prepareStatement(query);
-  			  	         stmt.setString(1, id);
-  						 stmt.setString(2, fName);
-  						 stmt.setString(3, lName); 
-  						 stmt.setString(4, userEmail); 
-  						 stmt.setString(5, userContact); 
-  						 stmt.setString(6, userAddress); 
-  						 stmt.setString(7, encrypted); 
-  						 stmt.setString(8, status); 
+  						 stmt.setString(1, fName);
+  						 stmt.setString(2, lName); 
+  						 stmt.setString(3, userEmail); 
+  						 stmt.setString(4, userContact); 
+  						 stmt.setString(5, userAddress); 
+  						 stmt.setString(6, encrypted); 
+  						 stmt.setString(7, status); 
+  						 stmt.setInt(8, penalty);
   			  	         stmt.executeUpdate();
 
   			  	         JOptionPane.showMessageDialog(null, "Signup successfull!", "Signup", JOptionPane.PLAIN_MESSAGE);
   	  	        	 }
   	  	        	 else{
-  	  	        		 encrypted = encryption(id);
+  	  	        		 encrypted = encryption(pass);
   	  	        		 //prepare query
-  	  	        		 String query = "INSERT INTO admin VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  	  	        		 String query = "INSERT INTO admin (admin_fname, admin_lname, admin_email, admin_position, admin_password, admin_status, admin_contact, admin_address)" 
+  	  	        		 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   			  	         stmt = conn.prepareStatement(query);
-  			  	         stmt.setString(1, id);
-  						 stmt.setString(2, fName);
-  						 stmt.setString(3, lName); 
-  						 stmt.setString(4, userEmail); 
-  						 stmt.setString(5, position); 
-  						 stmt.setString(6, encrypted); 
-  						 stmt.setString(7, status); 
-  						 stmt.setString(8, userContact); 
-  						 stmt.setString(9, userAddress); 
+  						 stmt.setString(1, fName);
+  						 stmt.setString(2, lName); 
+  						 stmt.setString(3, userEmail); 
+  						 stmt.setString(4, position); 
+  						 stmt.setString(5, encrypted); 
+  						 stmt.setString(6, status); 
+  						 stmt.setString(7, userContact); 
+  						 stmt.setString(8, userAddress); 
   			  	         stmt.executeUpdate();
   			  	         
   			  	         JOptionPane.showMessageDialog(null, "Signup successfull!", "Signup", JOptionPane.PLAIN_MESSAGE);
@@ -294,7 +321,7 @@ public class AuthenticationFrame extends JFrame{
   		
   		
   		//LoginMethod
-  		public Object loginMethod(String email, String pass, String table, String colEmail, String colPass, String colStatus, String status) throws Exception{
+  		public static Object loginMethod(String email, String pass, String table, String colEmail, String colPass, String colStatus, String status) throws Exception{
   			 //Declare variables
   			 Connection conn = null;
   		     String url = "jdbc:mysql://localhost/book_keeper";
@@ -327,7 +354,7 @@ public class AuthenticationFrame extends JFrame{
   		   	         if (rs.next()) {
   		   	             System.out.println("Login successful!");
   		   	             if(table.equals("patron")) {
-  		   	            	 String userID = rs.getString("patron_id");
+  		   	            	 String userID = rs.getString("formatted_id");
   			   	             String userFname = rs.getString("patron_fname");
   			   	             String userLname = rs.getString("patron_lname");
   			   	             String userEmail1 = rs.getString("patron_email");
@@ -335,8 +362,9 @@ public class AuthenticationFrame extends JFrame{
   			   	             String userAddress = rs.getString("patron_address");
   			   	             String userPass = rs.getString("patron_password");
   			   	             String userStatus = rs.getString("patron_status");
+  			   	             int userPenalty = rs.getInt("penalty");
   			   	             
-  			   	             User onlineUser = new User(userID, userFname, userLname, userEmail1, userContact, userAddress, userPass, userStatus);
+  			   	             User onlineUser = new User(userID, userFname, userLname, userEmail1, userContact, userAddress, userPass, userStatus, userPenalty);
   			   	             //Close database
   			   	             conn.close();
   			   	             return onlineUser;
@@ -373,7 +401,7 @@ public class AuthenticationFrame extends JFrame{
   		}
   		
   		//create random id
-  		    public static String generateRandomID() {
+  		    public static String generateRandomPass() {
   		    	final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   			    final int ID_LENGTH = 8;
   		    	StringBuilder sb = new StringBuilder();
@@ -387,7 +415,7 @@ public class AuthenticationFrame extends JFrame{
 
   		        return sb.toString();
   		    }
-  		public boolean checkId(String id) {
+  		public static boolean checkId(String id) {
   			Connection conn = null;
   			String url = "jdbc:mysql://localhost/book_keeper";
   		    String user = "root";
