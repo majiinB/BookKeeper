@@ -21,7 +21,7 @@ public class User {
 		this.User_pass = User_pass;
 		this.User_status = User_status; 
 		this.User_email = User_email;
-		this.setUser_penalty(User_penalty);
+		this.User_penalty = User_penalty;
 		
 	}
 

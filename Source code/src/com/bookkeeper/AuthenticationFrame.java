@@ -53,10 +53,10 @@ public class AuthenticationFrame extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AuthenticationFrame frame = new AuthenticationFrame();	
+					//AuthenticationFrame frame = new AuthenticationFrame();	
 					
 					//need ko lng makita marun ung frame mehe
-//					AlertFrame frame = new AlertFrame();	
+			AlertFrame frame = new AlertFrame();	
 //					DashboardFrame frame = new DashboardFrame();	
 //					InfoDisplayFrame frame = new InfoDisplayFrame();	
 //					ChangeInfoFrame frame = new ChangeInfoFrame();	

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2023 at 04:41 PM
+-- Generation Time: Jul 19, 2023 at 05:42 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `admin` (
-  `admin_id` varchar(9) NOT NULL,
+  `admin_id` int(11) NOT NULL,
   `admin_fname` varchar(15) NOT NULL,
   `admin_lname` varchar(15) NOT NULL,
   `admin_email` varchar(50) NOT NULL,
@@ -44,10 +44,10 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`admin_id`, `admin_fname`, `admin_lname`, `admin_email`, `admin_position`, `admin_password`, `admin_status`, `admin_contact`, `admin_address`) VALUES
-('1', 'Admin', 'Admin', 'Admin', 'Admin', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active', '09876532678', 'UNIVERSITY OF MAKATI'),
-('8NsSlWdM', 'Arthur', 'Artugue', 'arthur@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD9qmapRdVv7Q/Zy3bm9YEPQ=', 'active', '09374859438', 'San Pedro City'),
-('fgcSNROn', 'Jude', 'Rey', 'jude@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD6qreBVEBxvztv2IlbZ4ZaI=', 'active', '09876543456', 'Taguig City'),
-('Rv0oC86N', 'Mark', 'Toralde', 'mark@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD1klV0trngCbhAOKCO5gUxc=', 'active', '09876567898', 'Taguig City');
+(1, 'Admin', 'Admin', 'Admin', 'Admin', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active', '09876532678', 'UNIVERSITY OF MAKATI'),
+(8, 'Arthur', 'Artugue', 'arthur@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD9qmapRdVv7Q/Zy3bm9YEPQ=', 'active', '09374859438', 'San Pedro City'),
+(9, 'Jude', 'Rey', 'jude@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD6qreBVEBxvztv2IlbZ4ZaI=', 'active', '09876543456', 'Taguig City'),
+(10, 'Mark', 'Toralde', 'mark@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD1klV0trngCbhAOKCO5gUxc=', 'active', '09876567898', 'Taguig City');
 
 -- --------------------------------------------------------
 
@@ -64,7 +64,7 @@ CREATE TABLE `book` (
   `book_publisher` varchar(50) NOT NULL,
   `book_status` varchar(50) NOT NULL,
   `location_id` int(11) NOT NULL,
-  `ISBN` varchar(13) DEFAULT NULL
+  `ISBN` varchar(14) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -121,19 +121,12 @@ INSERT INTO `book` (`book_id`, `book_title`, `author_name`, `genre_name`, `book_
 CREATE TABLE `borrowed_book` (
   `borrow_id` int(11) NOT NULL,
   `book_id` int(11) NOT NULL,
-  `patron_id` varchar(9) NOT NULL,
   `borrowed_date` date NOT NULL,
   `borrowed_due_date` date NOT NULL,
   `borrow_status` varchar(10) NOT NULL,
-  `returned_date` date DEFAULT NULL
+  `returned_date` date DEFAULT NULL,
+  `patron_id` varchar(13) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `borrowed_book`
---
-
-INSERT INTO `borrowed_book` (`borrow_id`, `book_id`, `patron_id`, `borrowed_date`, `borrowed_due_date`, `borrow_status`, `returned_date`) VALUES
-(25, 4, 'OGVcK5xd', '2023-06-06', '2023-06-27', 'returned', '2023-06-06');
 
 -- --------------------------------------------------------
 
@@ -178,29 +171,41 @@ INSERT INTO `location` (`location_id`, `shelf_number`, `aisle_number`) VALUES
 --
 
 CREATE TABLE `patron` (
-  `patron_id` varchar(9) NOT NULL,
+  `patron_id` int(11) NOT NULL,
+  `formatted_id` varchar(13) NOT NULL,
   `patron_fname` varchar(15) NOT NULL,
   `patron_lname` varchar(15) NOT NULL,
-  `patron_email` varchar(50) DEFAULT NULL,
-  `patron_contact` varchar(11) DEFAULT NULL,
+  `patron_email` varchar(50) NOT NULL,
+  `patron_contact` varchar(12) NOT NULL,
   `patron_address` varchar(50) NOT NULL,
   `patron_password` varchar(300) NOT NULL,
-  `patron_status` varchar(20) NOT NULL
+  `patron_status` varchar(20) NOT NULL,
+  `penalty` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `patron`
 --
 
-INSERT INTO `patron` (`patron_id`, `patron_fname`, `patron_lname`, `patron_email`, `patron_contact`, `patron_address`, `patron_password`, `patron_status`) VALUES
-('1w3zbctC', 'Aaron', 'Villamento', 'aaron@gmail.com', '09999887654', 'Taguig City', 'AAECAwQFBgcICQoLDA0OD91dV3dOCI9ITuz0Zwv2PSM=', 'active'),
-('EtQjAYkw', 'Armin', 'De rosas', 'armin@gmail.com', '09385737584', 'San Pedro City', 'AAECAwQFBgcICQoLDA0OD1R/Dj3AAigp2tMm8vHafys=', 'active'),
-('G82NZx3v', 'Elgin ', 'Sales', 'elgin@gmail.com', '09999900009', 'sa tabi lang', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
-('j9u4voQL', 'Arthur', 'Artugue', 'arthur@gmail.com', '09953653122', 'San Pedro Laguna', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
-('OGVcK5xd', 'Claire ', 'Estoque', 'claire@gmail.com', '09999999999', 'Makati City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
-('prKdMYMb', 'Faith Ysabell', 'Del Rosario', 'faith@gmail.com', '09999999999', 'San Pedro Laguna', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
-('sDnSithP', 'Leila', 'Montemayor', 'leila@gmail.com', '09999999999', 'Makati City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active'),
-('UIUvJvKu', 'Pole Andrei', 'Buendia', 'pole@gmail.com', '09999923222', 'Taguig City', 'AAECAwQFBgcICQoLDA0OD1AGvjAvG9IZkPDr5ShDv6I=', 'active');
+INSERT INTO `patron` (`patron_id`, `formatted_id`, `patron_fname`, `patron_lname`, `patron_email`, `patron_contact`, `patron_address`, `patron_password`, `patron_status`, `penalty`) VALUES
+(12, 'bkpa-00000012', 'Arthur', 'Artugue', 'arthur@gmail.com', '09999977766', 'San Pedro Laguna', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active', 0);
+
+--
+-- Triggers `patron`
+--
+DELIMITER $$
+CREATE TRIGGER `generate_formatted_id` BEFORE INSERT ON `patron` FOR EACH ROW BEGIN
+    SET @next_id = (SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'patron');
+    SET NEW.formatted_id = CONCAT('bkpa-', LPAD(@next_id, 8, '0'));
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `populate_formatted_id` BEFORE INSERT ON `patron` FOR EACH ROW BEGIN
+    SET NEW.formatted_id = CONCAT('book-', LPAD(NEW.patron_id, 7, '0'));
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -211,19 +216,10 @@ INSERT INTO `patron` (`patron_id`, `patron_fname`, `patron_lname`, `patron_email
 CREATE TABLE `reserved_book` (
   `reservation_id` int(11) NOT NULL,
   `book_id` int(11) NOT NULL,
-  `patron_id` varchar(9) NOT NULL,
   `reservation_date` date NOT NULL,
-  `reservation_status` varchar(10) NOT NULL
+  `reservation_status` varchar(10) NOT NULL,
+  `patron_id` varchar(13) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `reserved_book`
---
-
-INSERT INTO `reserved_book` (`reservation_id`, `book_id`, `patron_id`, `reservation_date`, `reservation_status`) VALUES
-(20, 4, 'j9u4voQL', '2023-06-06', 'in que'),
-(21, 4, 'sDnSithP', '2023-06-06', 'in que'),
-(22, 6, 'j9u4voQL', '2023-06-06', 'in que');
 
 --
 -- Indexes for dumped tables
@@ -248,7 +244,7 @@ ALTER TABLE `book`
 ALTER TABLE `borrowed_book`
   ADD PRIMARY KEY (`borrow_id`),
   ADD KEY `fk_book` (`book_id`),
-  ADD KEY `fk_patron` (`patron_id`);
+  ADD KEY `fk_borrowed_book_patron` (`patron_id`);
 
 --
 -- Indexes for table `location`
@@ -260,7 +256,8 @@ ALTER TABLE `location`
 -- Indexes for table `patron`
 --
 ALTER TABLE `patron`
-  ADD PRIMARY KEY (`patron_id`);
+  ADD PRIMARY KEY (`patron_id`),
+  ADD KEY `idx_formatted_id` (`formatted_id`);
 
 --
 -- Indexes for table `reserved_book`
@@ -268,11 +265,17 @@ ALTER TABLE `patron`
 ALTER TABLE `reserved_book`
   ADD PRIMARY KEY (`reservation_id`),
   ADD KEY `fk_book_2` (`book_id`),
-  ADD KEY `fk_patron_2` (`patron_id`);
+  ADD KEY `fk_reserved_book_patron` (`patron_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `book`
@@ -291,6 +294,12 @@ ALTER TABLE `borrowed_book`
 --
 ALTER TABLE `location`
   MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `patron`
+--
+ALTER TABLE `patron`
+  MODIFY `patron_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `reserved_book`
@@ -313,14 +322,14 @@ ALTER TABLE `book`
 --
 ALTER TABLE `borrowed_book`
   ADD CONSTRAINT `fk_book` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`),
-  ADD CONSTRAINT `fk_patron` FOREIGN KEY (`patron_id`) REFERENCES `patron` (`patron_id`);
+  ADD CONSTRAINT `fk_borrowed_book_patron` FOREIGN KEY (`patron_id`) REFERENCES `patron` (`formatted_id`);
 
 --
 -- Constraints for table `reserved_book`
 --
 ALTER TABLE `reserved_book`
   ADD CONSTRAINT `fk_book_2` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`),
-  ADD CONSTRAINT `fk_patron_2` FOREIGN KEY (`patron_id`) REFERENCES `patron` (`patron_id`);
+  ADD CONSTRAINT `fk_reserved_book_patron` FOREIGN KEY (`patron_id`) REFERENCES `patron` (`formatted_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
