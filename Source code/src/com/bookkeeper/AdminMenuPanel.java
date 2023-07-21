@@ -4,6 +4,8 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AdminMenuPanel extends JPanel {
 	//panel
@@ -149,6 +151,7 @@ public class AdminMenuPanel extends JPanel {
     accImage = accIcon.getImage();
     logoutImage = logoutIcon.getImage();
 
+    //baka baguhin ko if malaki sa inyo masyado ung icons
     logoWidth = 40;
     logoHeight = 35;
     iconWidth = 38;
@@ -314,18 +317,33 @@ public class AdminMenuPanel extends JPanel {
 	add(mainPanel);
 	
  }
-
-@Override
-protected void paintComponent(Graphics g) {
-   super.paintComponent(g);
-   /*
-	    * use super.paintComponent(g) for proper rendering 
-		    * of components 
-	*/
-  	plainTextsize=   Math.min(getHeight() / 20, getWidth()/ 2);
-    plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
-
-}
-
- 
+ // Methods
+ public JButton getBtnAcc() {
+	 return btnAcc;
+ }
+ public JButton getBtnLibrary() {
+	 return btnLibrary;
+ }
+ public JButton getBtnLogOut() {
+	 return btnLogout;
+ }
+ public JButton getBtnReport() {
+	 return btnReport;
+ }
+ public JButton getBtnEmployee() {
+	 return btnEmployee;
+ }
+ public JButton getBtnPatron() {
+	 return btnPatron;
+ }
+	@Override
+	protected void paintComponent(Graphics g) {
+	   super.paintComponent(g);
+	   /*
+		    * use super.paintComponent(g) for proper rendering 
+			    * of components 
+		*/
+	  	plainTextsize=   Math.min(getHeight() / 20, getWidth()/ 2);
+	    plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
+	}
 }

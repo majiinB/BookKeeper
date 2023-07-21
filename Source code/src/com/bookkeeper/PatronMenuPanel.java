@@ -5,6 +5,8 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PatronMenuPanel extends JPanel {
 	//panel
@@ -112,6 +114,7 @@ public class PatronMenuPanel extends JPanel {
     accImage = accIcon.getImage();
     logoutImage = logoutIcon.getImage();
 
+    //baka baguhin ko if malaki sa inyo masyado ung icons
     logoWidth = 40;
     logoHeight = 35;
     iconWidth = 38;
@@ -231,8 +234,10 @@ public class PatronMenuPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 	   super.paintComponent(g);
 	   /*
-	    * use super.paintComponent(g) for proper rendering 
-		    * of components 
-	*/
+		    * use super.paintComponent(g) for proper rendering 
+			    * of components 
+		*/
 	}
+
+ 
 }

@@ -83,7 +83,7 @@ public class ChangeInfoFrame extends JFrame {
 		mainPanel.add(ChangeNumPanel,"panel3");
 		mainPanel.add(ChangeAddPanel,"panel4");
 		mainPanel.add(ChangeStatPanel,"panel5");
-		mainPanel.add(ChangeAccessPanel,"panel6");
+//		mainPanel.add(ChangeAccessPanel,"panel6");
 		mainPanel.add(ChangeBorowLimitPanel,"panel7");
 		mainPanel.add(ChangeReserveLimitPanel,"panel8");
 			
@@ -91,7 +91,7 @@ public class ChangeInfoFrame extends JFrame {
 		
 		// Set mainPanel as the content pane of the JFrame
 		setContentPane(mainPanel);
-		//cardLayout.show(,"");
+		cardLayout.show(mainPanel,"panel1");
 		
 		
 		// Center the frame on the screen

@@ -1,19 +1,33 @@
-package com.bookkeeper;import java.awt.Color;
+package com.bookkeeper;
+import java.awt.*;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.*;
 import javax.swing.BorderFactory;
 import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 public class PlaceholderPassword extends JPasswordField {
-    private String placeholder;
-    private Border border;
-
+    //String
+	private String placeholder;
+    
+    //button
+    private JButton btnShowPass;
+    
+    //icon
+	private ImageIcon hideIcon;
+	private ImageIcon showIcon;
+	private int iconHeight; 
+	private int iconWidth;
+	
     public PlaceholderPassword(String placeholder) {
-        setOpaque(true);
+    	setOpaque(true);
         this.placeholder = placeholder;
 
         // Set the initial font and foreground color
@@ -28,21 +42,59 @@ public class PlaceholderPassword extends JPasswordField {
                     setText("");
                     setFont(getFont().deriveFont(Font.PLAIN));
                     setForeground(Color.BLACK);
+                } else {
+                	setFont(getFont().deriveFont(Font.PLAIN));
+                    setForeground(Color.BLACK);
                 }
             }
-
             @Override
             public void focusLost(FocusEvent e) {
                 if (getText().isEmpty()) {
                     setText(placeholder);
                     setFont(getFont().deriveFont(Font.ITALIC));
                     setForeground(Color.GRAY);
+                } else {
+                    setFont(getFont().deriveFont(Font.ITALIC));
+                    setForeground(Color.GRAY); 	
                 }
             }
         });
-
         // Set the initial placeholder text
+        setEchoChar('●'); 
         setText(placeholder);
+        hideIcon = new ImageIcon("img/Eye_Hide.png");
+        showIcon = new ImageIcon("img/Eye_Show.png");
+        
+    
+        btnShowPass = new JButton();
+        btnShowPass.setBorderPainted(false);
+        btnShowPass.setFocusPainted(false);
+        btnShowPass.setContentAreaFilled(false);
+
+        iconHeight = (int) (btnShowPass.getPreferredSize().getHeight() * 0.6);
+        iconWidth = (int) (btnShowPass.getPreferredSize().getHeight() * 0.9);
+        hideIcon = new ImageIcon(hideIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
+        showIcon = new ImageIcon(showIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
+        
+        btnShowPass.setIcon(hideIcon);
+
+        
+        btnShowPass.addMouseListener(new MouseAdapter() {
+        	@Override
+            public void mouseClicked(MouseEvent e) {
+        		// password visibility
+        		if (getEchoChar() == '●') {// Show password 
+        			setEchoChar((char) 0); 
+        			btnShowPass.setIcon(showIcon);
+        		} else {// hide password
+        			setEchoChar('●'); 
+        			btnShowPass.setIcon(hideIcon);
+        		}
+        	}
+        });
+
+        setLayout(new BorderLayout());
+        add(btnShowPass, BorderLayout.EAST);   
     }
 
     public String getPlaceholder() {

@@ -47,8 +47,10 @@ public class MalfunctionPanel extends JPanel {
 	private int titleTextSize;
 	private int subtitleTextSize;
 
-	private Color headerColor = new Color(182, 32, 68);
-	private Color plainColor = new Color(14, 14, 15);
+	private  Color headerColor = new Color(23, 21, 147);//blue
+	private  Color darkplainColor = new Color(14, 14, 15);//black
+	private  Color lightplainColor = new Color(250, 251, 255);//white
+	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
 	public MalfunctionPanel() {
 		
@@ -86,7 +88,7 @@ public class MalfunctionPanel extends JPanel {
 	txtTitle.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 	
 	txtDescription = new JTextArea("Alert Description");
-	txtDescription.setForeground(plainColor);
+	txtDescription.setForeground(darkplainColor);
 	txtDescription.setLineWrap(true);
 	txtDescription.setOpaque(false);
 	txtDescription.setWrapStyleWord(true);
@@ -97,7 +99,7 @@ public class MalfunctionPanel extends JPanel {
 	txtDescription.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
 	btnConfirm = new JButton("Ok");
-	btnConfirm.setForeground(plainColor);
+	btnConfirm.setForeground(darkplainColor);
 	btnConfirm.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 	btnConfirm.setFocusPainted(false);
 	 /*

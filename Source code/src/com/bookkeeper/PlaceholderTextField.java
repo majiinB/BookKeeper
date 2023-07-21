@@ -30,6 +30,9 @@ public class PlaceholderTextField extends JTextField{
                     setFont(getFont().deriveFont(Font.PLAIN));
                     setForeground(Color.BLACK);
 
+                } else {
+                	setFont(getFont().deriveFont(Font.PLAIN));
+                    setForeground(Color.BLACK);
                 }
             }
 
@@ -39,6 +42,9 @@ public class PlaceholderTextField extends JTextField{
                     setText(placeholder);
                     setForeground(Color.GRAY);
 
+                }else {
+                    setFont(getFont().deriveFont(Font.ITALIC));
+                    setForeground(Color.GRAY); 	
                 }
             }
         });

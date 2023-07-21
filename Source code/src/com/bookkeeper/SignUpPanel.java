@@ -366,15 +366,10 @@ public  SignUpPanel() {
   	            
   	            plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
   	            lblFirstName.setFont(plainFont);
-  	            txtFirstName.setFont(plainFont);
   	            lblLastName.setFont(plainFont);
-  	            txtLastName.setFont(plainFont);
-  	            txtEmailAddress.setFont(plainFont);
   	            lblEmailAddress.setFont(plainFont);
 	  	        lblHomeAddress.setFont(plainFont);
-	  	        txtHomeAddress.setFont(plainFont);
   	            lblContactNumber.setFont(plainFont);
-  	          	txtContactNumber.setFont(plainFont);  	          
   	        
 
           }

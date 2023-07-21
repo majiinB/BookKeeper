@@ -50,7 +50,7 @@ public class DashboardFrame extends JFrame {
 	public DashboardFrame(Employee employee) {
 		setTitle("Book Keeper");
     	
-    	// Set the Icon
+//    	// Set the Icon
     	icon = new ImageIcon("img/Logo_Original.png"); 
     	image = icon.getImage();
     	setIconImage(image);
@@ -118,13 +118,49 @@ public class DashboardFrame extends JFrame {
 
     	// Make the frame visible
     	setVisible(true);
+    	
+    	//Action Listeners for admin
+    	AdminMenuPanel.getBtnLibrary().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cardLayout1.show(ContentPanel,"panel1");
+        	}
+        });
+    	AdminMenuPanel.getBtnReport().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cardLayout1.show(ContentPanel,"panel2");
+        	}
+        });
+    	AdminMenuPanel.getBtnPatron().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cardLayout1.show(ContentPanel,"pane3");
+        	}
+        });
+    	AdminMenuPanel.getBtnEmployee().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cardLayout1.show(ContentPanel,"panel4");
+        	}
+        });
+    	AdminMenuPanel.getBtnAcc().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cardLayout1.show(ContentPanel,"panel5");
+        	}
+        });
+    	AdminMenuPanel.getBtnLogOut().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		DashboardFrame frame = (DashboardFrame) SwingUtilities.getWindowAncestor(AdminMenuPanel);
+				frame.dispose();
+				
+				AuthenticationFrame frame2 = new AuthenticationFrame();
+				frame2.setVisible(true);
+        	}
+        });
     }
 	
 	//patron
-	public DashboardFrame(User patron) {
+	public DashboardFrame(User user) {
 		setTitle("Book Keeper");
     	
-    	//Set the Icon
+    	// Set the Icon
     	icon = new ImageIcon("img/Logo_Original.png"); 
     	image = icon.getImage();
     	setIconImage(image);
@@ -140,9 +176,9 @@ public class DashboardFrame extends JFrame {
     	// Set the frame size based on the screen dimensions
     	environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
     	device = environment.getDefaultScreenDevice();
-    	//width = (int)(device.getDisplayMode().getWidth() * (3.5/5.0));    	
-    	//height = (int)(device.getDisplayMode().getHeight() * 0.9);    
-    	//setSize(width, height);
+//    	width = (int)(device.getDisplayMode().getWidth() * (3.5/5.0));    	
+//    	height = (int)(device.getDisplayMode().getHeight() * 0.9);    
+//    	setSize(width, height);
     	device.setFullScreenWindow(this);
 
 	    //create panels
@@ -186,6 +222,27 @@ public class DashboardFrame extends JFrame {
 
     	// Make the frame visible
     	setVisible(true);
+    	
+    	//Action Listeners for PatronMenuPanel
+    	PatronMenuPanel.getBtnLibrary().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cardLayout1.show(ContentPanel,"panel6");
+        	}
+        });
+    	PatronMenuPanel.getBtnAcc().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cardLayout1.show(ContentPanel,"panel7");
+        	}
+        });
+    	PatronMenuPanel.getBtnLogOut().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		DashboardFrame frame = (DashboardFrame) SwingUtilities.getWindowAncestor(PatronMenuPanel);
+				frame.dispose();
+				
+				AuthenticationFrame frame2 = new AuthenticationFrame();
+				frame2.setVisible(true);
+        	}
+        });
     }	
 }
 

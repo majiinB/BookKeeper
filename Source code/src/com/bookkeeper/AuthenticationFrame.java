@@ -82,7 +82,7 @@ public class AuthenticationFrame extends JFrame{
     	//setUndecorated(true); 
     	
     	// Prevent resizing
-    	//setResizable(true); 
+    	//setResizable(false); 
 
     	// Set the frame size based on the screen dimensions
     	environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -262,14 +262,19 @@ public class AuthenticationFrame extends JFrame{
   	  	         //Check email Existence
   	  	         condition = checkEmailExistence(userEmail, forQuery);
   	  	         if(condition)
+ 	            	// Show alert message
+         			/* 
+         			 * Alert Title: Sign Up Failed
+         			 * Alert Description: The email you provided is already taken.
+         			 * Please try using a different email address.
+         			 */
+  	  	        	 
   	  	        	 JOptionPane.showMessageDialog(null, "Email Already taken", "Error", JOptionPane.ERROR_MESSAGE);
   	  	         else {
   	  	        	 if(forQuery == 1) {
   	  	        		encrypted = encryption(pass);
   		  	        	//prepare query
   	  	  
-
-  	  	        
   			  	         String query = "INSERT INTO patron (patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_password, patron_status, penalty)"
   			  	         		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   			  	         stmt = conn.prepareStatement(query);
@@ -282,7 +287,12 @@ public class AuthenticationFrame extends JFrame{
   						 stmt.setString(7, status); 
   						 stmt.setInt(8, penalty);
   			  	         stmt.executeUpdate();
-
+  	 	            	// Show alert message
+  	         			/* 
+  	         			 * Alert Title: Added Successfully
+  	         			 * Alert Description: User account is successfully added! The user ID 
+  	         			 * has been set as the temporary password. Welcome to Book Keeper!
+  	         			 */
   			  	         JOptionPane.showMessageDialog(null, "Signup successfull!", "Signup", JOptionPane.PLAIN_MESSAGE);
   	  	        	 }
   	  	        	 else{
@@ -301,6 +311,12 @@ public class AuthenticationFrame extends JFrame{
   						 stmt.setString(8, userAddress); 
   			  	         stmt.executeUpdate();
   			  	         
+   	 	            	// Show alert message
+   	         			/* 
+   	         			 * Alert Title: Added Successfully
+   	         			 * Alert Description: User account is successfully added! The user ID 
+   	         			 * has been set as the temporary password. Welcome to Book Keeper!
+   	         			 */
   			  	         JOptionPane.showMessageDialog(null, "Signup successfull!", "Signup", JOptionPane.PLAIN_MESSAGE);
   	  	        	 }
   	  	         }  
@@ -352,6 +368,11 @@ public class AuthenticationFrame extends JFrame{
   		   	         
   		   	         //Condition for return and loop continuation
   		   	         if (rs.next()) {
+   	 	            	// Show alert message
+   	         			/* 
+   	         			 * Alert Title: Log In Successful
+   	         			 * Alert Description: Welcome Back, <name> ! Happy Browsing!
+   	         			 */
   		   	             System.out.println("Login successful!");
   		   	             if(table.equals("patron")) {
   		   	            	 String userID = rs.getString("formatted_id");

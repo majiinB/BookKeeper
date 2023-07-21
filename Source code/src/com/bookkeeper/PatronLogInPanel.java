@@ -267,9 +267,7 @@ public  PatronLogInPanel() {
 	            lblHeading.setFont(headerFont);
 	            plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
 	            lblPassword.setFont(plainFont);
-	            txtPassword.setFont(plainFont);
 	            lblEmailAddress.setFont(plainFont);
-	            txtEmailAddress.setFont(plainFont);
         }
     });
     //Action Listeners
@@ -291,16 +289,17 @@ public  PatronLogInPanel() {
 					String password = new String(pass);
 					String status = "active";
 					newUser = AuthenticationFrame.loginMethod(trimed, password, table, colemail, colpass, colStatus, status);
-					if (newUser == null && numTries<3) {
+					if (newUser == null && numTries<=3) {
+						if(numTries==3) {
+							JOptionPane.showMessageDialog(PatronLogInPanel.this, "Limit Reached! Program will now close", "Error", JOptionPane.ERROR_MESSAGE);
+							System.exit(0);
+						}
 						// Show error message if login failed
 						JOptionPane.showMessageDialog(PatronLogInPanel.this, "Invalid email or password" + "\nRemaining Attempts:" + remain, "Error", JOptionPane.ERROR_MESSAGE);
 						numTries++;
 						
 					} else {
-						if(numTries>=3) {
-							JOptionPane.showMessageDialog(PatronLogInPanel.this, "Limit Reached! Program will now close", "Error", JOptionPane.ERROR_MESSAGE);
-							System.exit(0);
-						}
+						
 						// Hide the login panel and show the main interface
 						user = (User) newUser;
 						JOptionPane.showMessageDialog(PatronLogInPanel.this, "Welcome,\n" + user.toString() + " !", "\nSuccess", JOptionPane.INFORMATION_MESSAGE);
@@ -308,8 +307,8 @@ public  PatronLogInPanel() {
 						frame.dispose();
 
 						// Create and show the DashboardFrame
-		                DashboardFrame DashboardFrame = new DashboardFrame(user);
-		                DashboardFrame.setVisible(true);
+		                DashboardFrame dashboardFrame = new DashboardFrame(user);
+		                dashboardFrame.setVisible(true);
 		                
 					}
 				} catch (Exception e1) {
