@@ -77,6 +77,7 @@ public class PatronLogInPanel extends JPanel {
 	private  Color headerColor = new Color(23, 21, 147);
 	private  Color darkplainColor = new Color(14, 14, 15);
 	private  Color lightplainColor = new Color(250, 251, 255);
+	private  Color middleplainColor = new Color(243, 243, 247);
 
 	
 public  PatronLogInPanel() {
@@ -95,14 +96,14 @@ public  PatronLogInPanel() {
     buttonPanel = new JPanel();
     
     // Set panel properties
-    mainPanel.setBackground(new Color(250, 251, 255));
     mainPanel.setBorder(null);
     passwordPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
     titlePanel.setBorder(new EmptyBorder(50, 120, 0, 120));
     subtitlePanel.setBorder(new EmptyBorder(0, 120, 10, 120));
     inputPanel.setBorder(new EmptyBorder(20, 120, 0, 120));
     buttonPanel.setBorder(new EmptyBorder(25, 200, 25, 200));
-
+    
+    mainPanel.setOpaque(false);
     subtitlePanel.setOpaque(false);
     headingPanel.setOpaque(false);
     titlePanel.setOpaque(false);
@@ -110,7 +111,6 @@ public  PatronLogInPanel() {
     inputPanel.setOpaque(false);
     emailPanel.setOpaque(false);
     buttonPanel.setOpaque(false);
-
 
 
     icon = new ImageIcon("img/Logo_Blue.png");
@@ -142,16 +142,18 @@ public  PatronLogInPanel() {
 
     
     lblEmailAddress = new JLabel("Email Address:");   
-    
+    lblEmailAddress.setForeground(darkplainColor);
+
     txtEmailAddress = new PlaceholderTextField("sample@email.com");
     txtEmailAddress.setBorder(new CompoundBorder(new LineBorder(null, 0, true), new EmptyBorder(10, 10, 10, 10)));
     txtEmailAddress.setBackground(new Color(243, 243, 247));
     
     lblPassword = new JLabel("Password:");
-    
+    lblPassword.setForeground(darkplainColor);
+
     txtPassword  = new PlaceholderPassword("password");
     txtPassword.setBorder(new CompoundBorder(new LineBorder(new Color(0, 0, 0), 0, true), new EmptyBorder(10, 10, 10, 10)));
-    txtPassword.setBackground(new Color(243, 243, 247));
+    txtPassword.setBackground(middleplainColor);
     
     btnLogIn = new JButton("Log In");
     btnLogIn.setMnemonic(KeyEvent.VK_ENTER);
@@ -160,7 +162,7 @@ public  PatronLogInPanel() {
     btnLogIn.setOpaque(true);
     btnLogIn.setFocusPainted(false);
     btnLogIn.setBorderPainted(false);
-    btnLogIn.setBackground(new Color(23, 20, 146));
+    btnLogIn.setBackground(headerColor);
     /*
      * gamit ka ng gridbag layout for more control sa placement ng components  sa panel
      * ung gbc or grid bag constraints is para madetermine mo ung positioning ng mga components sa gridbag layout
@@ -174,7 +176,7 @@ public  PatronLogInPanel() {
     //gridbag layouts
     gbl_mainPanel = new GridBagLayout();
     gbl_mainPanel.columnWidths = new int[]{865, 0};
-    gbl_mainPanel.rowHeights = new int[]{40, 203, 0, 0};
+    gbl_mainPanel.rowHeights = new int[]{35, 203, 0, 0};
     gbl_mainPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
     gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0};
     
@@ -270,7 +272,6 @@ public  PatronLogInPanel() {
 	            txtEmailAddress.setFont(plainFont);
         }
     });
-    
     //Action Listeners
     
     btnLogIn.addActionListener(new ActionListener() {
@@ -307,7 +308,7 @@ public  PatronLogInPanel() {
 						frame.dispose();
 
 						// Create and show the DashboardFrame
-		                DashboardFrame DashboardFrame = new DashboardFrame();
+		                DashboardFrame DashboardFrame = new DashboardFrame(user);
 		                DashboardFrame.setVisible(true);
 		                
 					}
@@ -331,7 +332,7 @@ public  PatronLogInPanel() {
 	    super.paintComponent(g);
 	    /*
 		    * use super.paintComponent(g) for proper rendering 
-		    * ng mga components 
+            * of the components 
 		*/
 	    iconWidth = (int) (getWidth() * 0.025);
 	    iconHeight = (int) (getHeight() * 0.04);

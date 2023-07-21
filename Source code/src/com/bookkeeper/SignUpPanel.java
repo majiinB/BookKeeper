@@ -1,6 +1,8 @@
 package com.bookkeeper;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.border.EmptyBorder;
 import javax.swing.*;
@@ -11,6 +13,7 @@ import javax.swing.border.EtchedBorder;
 
 
 public class SignUpPanel extends JPanel {
+	//panel
 	private JPanel mainPanel;
 	private JPanel headingPanel;
 	private JPanel logoPanel;
@@ -23,6 +26,8 @@ public class SignUpPanel extends JPanel {
 	private JPanel contactNumberPanel;
 	private JPanel subtitlePanel;	
 	private JPanel buttonPanel;
+	//label
+	private JLabel lblTitle;
 	private JLabel lblSubTitle;
 	private JLabel lblHeading;
 	private JLabel lblLogo;
@@ -31,15 +36,26 @@ public class SignUpPanel extends JPanel {
 	private JLabel lblLastName;
 	private JLabel lblHomeAddress;
 	private JLabel lblContactNumber;
+	
+	//textfield
 	private PlaceholderTextField txtFirstName;
 	private PlaceholderTextField txtLastName;
 	private PlaceholderTextField txtEmailAddress;
 	private PlaceholderTextField txtHomeAddress;
 	private PlaceholderTextField txtContactNumber;
+	
+	//icon
 	private ImageIcon icon;
 	private Image image;
 	private Image scaledImage;
-	private Icon scaledIcon;
+	private int iconHeight; 
+	private int iconWidth;
+	
+	//Button
+	private JButton btnSignUp;
+	private JButton btnClear;
+	private JButton btnBack;
+	//layout
 	private GridBagLayout gbl_mainPanel; 
 	private GridBagConstraints gbc_headingPanel;
 	private GridBagConstraints gbc_titlePanel;
@@ -51,10 +67,25 @@ public class SignUpPanel extends JPanel {
 	private GridBagConstraints gbc_contactNumberPanel;
 	private GridBagLayout gbl_inputPanel;
 	private GridBagConstraints gbc_firstNamePanel;
-	GridBagConstraints gbc_lastNamePanel;
-	private JButton btnSignUp;
-	private JButton btnClear;
-	private JButton btnClose;
+	private GridBagConstraints gbc_lastNamePanel;
+	//text
+	private  Font titleFont;
+	private  Font subtitleFont;
+	private  Font buttonFont;
+	private  Font headerFont;
+	private  Font plainFont;
+	
+	private  int buttonTextSize;
+	private  int titleTextSize;
+	private  int subtitleTextSize;
+	private  int headerTextSize;
+	private  int plainTextsize;
+	private  Color headerColor = new Color(23, 21, 147);
+	private  Color darkplainColor = new Color(14, 14, 15);
+	private  Color lightplainColor = new Color(250, 251, 255);
+	private  Color middleplainColor = new Color(243, 243, 247);
+
+	
 
 public  SignUpPanel() {
 	setBackground(new Color(250, 251, 255));
@@ -73,16 +104,16 @@ public  SignUpPanel() {
     homeAddressPanel = new JPanel();    
     contactNumberPanel = new JPanel();
     buttonPanel = new JPanel();
+    lastNamePanel = new JPanel();
 
-    
-    mainPanel.setBackground(new Color(250, 251, 255));
-
+    // Set panel properties
     mainPanel.setBorder(null);
     titlePanel.setBorder(new EmptyBorder(15, 100, 0, 100));
-    subtitlePanel.setBorder(new EmptyBorder(0, 120, 10, 120));
+    subtitlePanel.setBorder(new EmptyBorder(0, 100, 10, 100));
     inputPanel.setBorder(new EmptyBorder(20, 100, 5, 100));
     buttonPanel.setBorder(new EmptyBorder(25, 0, 25, 0));
 
+    mainPanel.setOpaque(false);
     subtitlePanel.setOpaque(false);
     headingPanel.setOpaque(false);
     logoPanel.setOpaque(false);
@@ -93,97 +124,70 @@ public  SignUpPanel() {
     homeAddressPanel.setOpaque(false);
     contactNumberPanel.setOpaque(false);
     buttonPanel.setOpaque(false);
-     
-    buttonPanel.setLayout(new GridLayout(0, 2, 30, 0));
-    contactNumberPanel.setLayout(new GridLayout(2, 1, 0, 0));
-    homeAddressPanel.setLayout(new GridLayout(2, 1, 0, 0));
-    emailPanel.setLayout(new GridLayout(2, 1, 0, 0));
-    firstNamePanel.setLayout(new GridLayout(2, 1, 0, 0));
-    headingPanel.setLayout(new BorderLayout(0,0));
-    titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-    subtitlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-    
+    lastNamePanel.setOpaque(false);
+
+   
     icon = new ImageIcon("img/Logo_Blue.png");
     image = icon.getImage();
-    scaledImage = image.getScaledInstance(28, 26, Image.SCALE_SMOOTH);
-    scaledIcon = new ImageIcon(scaledImage);
     
-    lblLogo = new JLabel();
-    lblLogo.setIconTextGap(20);
-    lblLogo.setFocusable(false);
-    lblLogo.setForeground(new Color(23, 21, 147));
-    lblLogo.setFont(new Font("Montserrat", Font.PLAIN, 15));
-    lblLogo.setText("Book Keeper");
-    lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-    lblLogo.setIcon(scaledIcon);
+    lblHeading = new JLabel();
+    lblHeading.setIconTextGap(20);
+    lblHeading.setFocusable(false);
+    lblHeading.setForeground(headerColor);
+    lblHeading.setText("Book Keeper");
+    lblHeading.setHorizontalAlignment(SwingConstants.CENTER);
   
-    btnClose = new JButton("Cancel");
-    btnClose.setFocusPainted(false);
-    btnClose.setForeground(new Color(23, 21, 147));
-    btnClose.setFont(new Font("Montserrat", Font.ITALIC, 15));
-    btnClose.setBorderPainted(false);
-    btnClose.setBorder(new EmptyBorder(5, 5, 5, 5));
+    btnBack = new JButton("Back");
+    btnBack.setFocusPainted(false);
+    btnBack.setForeground(new Color(23, 21, 147));
+    btnBack.setBorderPainted(false);
+    btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
     
-    lblHeading = new JLabel("SIGN UP");
-    lblHeading.setBorder(null);
-    lblHeading.setFont(new Font("Montserrat", lblHeading.getFont().getStyle() | Font.BOLD, lblHeading.getFont().getSize() + 110));
-    lblHeading.setForeground(new Color(23, 20, 146));
-    lblHeading.setHorizontalAlignment(SwingConstants.LEFT);
+    lblTitle = new JLabel("SIGN UP");
+    lblTitle.setBorder(null);
+    lblTitle.setForeground(headerColor);
+    lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
     
     lblSubTitle = new JLabel("Register a new account by filling in the details below. ");
     lblSubTitle.setHorizontalAlignment(SwingConstants.LEFT);
-    lblSubTitle.setFont(new Font("Montserrat", Font.ITALIC, 20));
     lblSubTitle.setBorder(null);
-    
+    lblSubTitle.setForeground(darkplainColor);
+
     lblFirstName = new JLabel("First Name:");
-    lblFirstName.setFont(new Font("Montserrat", Font.BOLD | Font.ITALIC, 18));
-    lblFirstName.setForeground(new Color(14, 14, 15));
+    lblFirstName.setForeground(darkplainColor);
     
     txtFirstName  = new PlaceholderTextField("Juan ");
     txtFirstName.setBorder(new CompoundBorder(new LineBorder(new Color(0, 0, 0), 0, true), new EmptyBorder(10, 10, 10, 10)));
-    txtFirstName.setBackground(new Color(243, 243, 247));
-    txtFirstName.setFont(new Font("Montserrat", Font.ITALIC, 15));
-    
-    lastNamePanel = new JPanel();
-    lastNamePanel.setOpaque(false);
-    lastNamePanel.setLayout(new GridLayout(0, 1, 0, 0));
+    txtFirstName.setBackground(middleplainColor);
     
     lblLastName = new JLabel("Last Name:");
     lblLastName.setFont(new Font("Montserrat", Font.BOLD | Font.ITALIC, 18));
-    lblLastName.setForeground(new Color(14, 14, 15));
+    lblLastName.setForeground(darkplainColor);
     
     txtLastName  = new PlaceholderTextField("Dela Cruz");
     txtLastName.setBorder(new CompoundBorder(new LineBorder(new Color(0, 0, 0), 0, true), new EmptyBorder(10, 10, 10, 10)));
-    txtLastName.setBackground(new Color(243, 243, 247));
-    txtLastName.setFont(new Font("Montserrat", Font.ITALIC, 15));
-    
+    txtLastName.setBackground(middleplainColor);
 
     lblEmailAddress = new JLabel("Email Address:");
-    lblEmailAddress.setFont(new Font("Montserrat", Font.BOLD | Font.ITALIC, 18));
-    lblEmailAddress.setForeground(new Color(14, 14, 15));
+    lblEmailAddress.setForeground(darkplainColor);
     
     txtEmailAddress = new PlaceholderTextField("sample@email.com");
     txtEmailAddress.setBorder(new CompoundBorder(new LineBorder(null, 0, true), new EmptyBorder(10, 10, 10, 10)));
-    txtEmailAddress.setBackground(new Color(243, 243, 247));
-    txtEmailAddress.setFont(new Font("Montserrat", Font.ITALIC, 15));
+    txtEmailAddress.setBackground(middleplainColor);
     
     lblHomeAddress = new JLabel("Home Address:");
-    lblHomeAddress.setFont(new Font("Montserrat", Font.BOLD | Font.ITALIC, 18));
-    lblHomeAddress.setForeground(new Color(14, 14, 15));
+    lblHomeAddress.setForeground(darkplainColor);
     
     txtHomeAddress = new PlaceholderTextField("House No. / Block No. / Street / Barangay / City");
     txtHomeAddress.setBorder(new CompoundBorder(new LineBorder(null, 0, true), new EmptyBorder(10, 10, 10, 10)));
-    txtHomeAddress.setBackground(new Color(243, 243, 247));
-    txtHomeAddress.setFont(new Font("Montserrat", Font.ITALIC, 15));
+    txtHomeAddress.setBackground(middleplainColor);
     
     lblContactNumber = new JLabel("Contact Number:");
-    lblContactNumber.setFont(new Font("Montserrat", Font.BOLD | Font.ITALIC, 18));
-    lblContactNumber.setForeground(new Color(14, 14, 15));
+    lblContactNumber.setForeground(darkplainColor);
     
     txtContactNumber = new PlaceholderTextField("00000000000");
     txtContactNumber.setBorder(new CompoundBorder(new LineBorder(null, 0, true), new EmptyBorder(10, 10, 10, 10)));
-    txtContactNumber.setBackground(new Color(243, 243, 247));
-    txtContactNumber.setFont(new Font("Montserrat", Font.ITALIC, 15));
+    txtContactNumber.setBackground(middleplainColor);
     
     btnClear = new JButton("Clear");
     btnClear.setOpaque(true);
@@ -192,7 +196,7 @@ public  SignUpPanel() {
     btnClear.setFocusPainted(false);
     btnClear.setBorderPainted(false);
     btnClear.setBorder(new EmptyBorder(10, 10, 10, 10));
-    btnClear.setBackground(new Color(23, 20, 146));
+    btnClear.setBackground(headerColor);
     
     btnSignUp = new JButton("Sign Up");
     btnSignUp.setForeground(new Color(250, 251, 255));
@@ -201,7 +205,7 @@ public  SignUpPanel() {
     btnSignUp.setOpaque(true);
     btnSignUp.setFocusPainted(false);
     btnSignUp.setBorderPainted(false);
-    btnSignUp.setBackground(new Color(23, 20, 146));
+    btnSignUp.setBackground(headerColor);
 
     /*
      * gamit ka ng gridbag layout for more control sa placement ng components  sa panel
@@ -215,36 +219,33 @@ public  SignUpPanel() {
     
     //gridbag layouts
     gbl_mainPanel = new GridBagLayout();
-    gbl_mainPanel.columnWidths = new int[]{180, 26, 0};
-    gbl_mainPanel.rowHeights = new int[]{40, 178, 0, 0};
-    gbl_mainPanel.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+    gbl_mainPanel.columnWidths = new int[]{865};
+    gbl_mainPanel.rowHeights = new int[]{35, 150, 0, 0};
+    gbl_mainPanel.columnWeights = new double[]{1.0};
     gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0};
     
     
     gbc_headingPanel = new GridBagConstraints();
     gbc_headingPanel.anchor = GridBagConstraints.NORTH;
     gbc_headingPanel.fill = GridBagConstraints.HORIZONTAL;
-    gbc_headingPanel.gridwidth = 2;
-    gbc_headingPanel.insets = new Insets(5, 5, 0, 5);
+    gbc_headingPanel.insets = new Insets(5, 5, 5, 0);
     gbc_headingPanel.gridx = 0;
     gbc_headingPanel.gridy = 0;
     
     
     gbc_titlePanel = new GridBagConstraints();
-    gbc_titlePanel.gridwidth = 2;
-    gbc_titlePanel.anchor = GridBagConstraints.NORTHWEST;
+    gbc_titlePanel.insets = new Insets(0, 0, 5, 0);
+    gbc_titlePanel.anchor = GridBagConstraints.SOUTHWEST;
     gbc_titlePanel.gridx = 0;
     gbc_titlePanel.gridy = 1;
     
     gbc_inputPanel = new GridBagConstraints();
     gbc_inputPanel.fill = GridBagConstraints.BOTH;
-    gbc_inputPanel.gridwidth = 2;
     gbc_inputPanel.gridx = 0;
     gbc_inputPanel.gridy = 3;
 
     gbc_subtitlePanel = new GridBagConstraints();
-    gbc_subtitlePanel.gridwidth = 2;
-    gbc_subtitlePanel.insets = new Insets(0, 0, 5, 5);
+    gbc_subtitlePanel.insets = new Insets(0, 0, 5, 0);
     gbc_subtitlePanel.fill = GridBagConstraints.BOTH;
     gbc_subtitlePanel.gridx = 0;
     gbc_subtitlePanel.gridy = 2;
@@ -289,31 +290,36 @@ public  SignUpPanel() {
     gbc_contactNumberPanel.gridy = 3;
     
     gbc_buttonPanel = new GridBagConstraints();
-    gbc_buttonPanel.insets = new Insets(5, 0, 0, 0);
     gbc_buttonPanel.gridwidth = 3;
+    gbc_buttonPanel.insets = new Insets(0, 0, 5, 0);
     gbc_buttonPanel.fill = GridBagConstraints.BOTH;
     gbc_buttonPanel.gridx = 0;
     gbc_buttonPanel.gridy = 4;
     
-    //Add all to main panel
+    // Set panel layout
     mainPanel.setLayout(gbl_mainPanel);
+    headingPanel.setLayout(new BorderLayout(0,0));
+    titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+    buttonPanel.setLayout(new GridLayout(0, 2, 30, 0));
+    contactNumberPanel.setLayout(new GridLayout(2, 1, 0, 0));
+    homeAddressPanel.setLayout(new GridLayout(2, 1, 0, 0));
+    emailPanel.setLayout(new GridLayout(2, 1, 0, 0));
+    firstNamePanel.setLayout(new GridLayout(2, 1, 0, 0));
     inputPanel.setLayout(gbl_inputPanel);
+    lastNamePanel.setLayout(new GridLayout(0, 1, 0, 0));
+    subtitlePanel.setLayout(new BorderLayout(0, 0));
 
-    headingPanel.add(lblLogo, BorderLayout.WEST);
-    headingPanel.add(btnClose, BorderLayout.EAST);
-    
-    titlePanel.add(lblHeading);
+    //Add all to main panel
+    headingPanel.add(lblHeading, BorderLayout.WEST);
+    headingPanel.add(btnBack, BorderLayout.EAST);
+    titlePanel.add(lblTitle);
     subtitlePanel.add(lblSubTitle);
-
     firstNamePanel.add(lblFirstName);
-    firstNamePanel.add(txtFirstName);
-        
+    firstNamePanel.add(txtFirstName);  
     lastNamePanel.add(lblLastName);
     lastNamePanel.add(txtLastName);
-    
     emailPanel.add(lblEmailAddress);
-    emailPanel.add(txtEmailAddress);    
-    
+    emailPanel.add(txtEmailAddress);     
     homeAddressPanel.add(lblHomeAddress);
     homeAddressPanel.add(txtHomeAddress);
     contactNumberPanel.add(lblContactNumber);
@@ -334,5 +340,57 @@ public  SignUpPanel() {
     mainPanel.add(inputPanel, gbc_inputPanel);
     
     add(mainPanel);
+    addComponentListener(new ComponentAdapter() {
+    	  @Override
+          public void componentResized(ComponentEvent e) {
+          	
+  	        	titleTextSize = Math.min(getHeight() / 7, getWidth()/ 10) ;
+  	            subtitleTextSize =  Math.min(getHeight() / 20, getWidth()/ 45);
+  	            buttonTextSize =  Math.min(getHeight() / 40, getWidth()/ 58);
+  	           	headerTextSize =   Math.min(getHeight() / 50, getWidth()/ 65);
+  	           	plainTextsize=   Math.min(getHeight() / 20, getWidth()/ 60);
+  	            
+  	            titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
+  	            lblTitle.setFont(titleFont);
+  	            
+  	            subtitleFont = new Font("Montserrat", Font.ITALIC, subtitleTextSize);
+  	            lblSubTitle.setFont(subtitleFont);
+  	            
+  	            buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
+  	            btnSignUp.setFont(buttonFont);
+  	            btnClear.setFont(buttonFont);
+  	            
+  	            headerFont = new Font("Montserrat", Font.PLAIN, headerTextSize);
+  	            btnBack.setFont(headerFont);
+  	            lblHeading.setFont(headerFont);
+  	            
+  	            plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
+  	            lblFirstName.setFont(plainFont);
+  	            txtFirstName.setFont(plainFont);
+  	            lblLastName.setFont(plainFont);
+  	            txtLastName.setFont(plainFont);
+  	            txtEmailAddress.setFont(plainFont);
+  	            lblEmailAddress.setFont(plainFont);
+	  	        lblHomeAddress.setFont(plainFont);
+	  	        txtHomeAddress.setFont(plainFont);
+  	            lblContactNumber.setFont(plainFont);
+  	          	txtContactNumber.setFont(plainFont);  	          
+  	        
+
+          }
+      });
+}
+@Override
+protected void paintComponent(Graphics g) {
+   super.paintComponent(g);
+   /*
+	    * use super.paintComponent(g) for proper rendering 
+		    * of components 
+	*/
+   iconWidth = (int) (getWidth() * 0.025);
+   iconHeight = (int) (getHeight() * 0.04);
+   scaledImage = image.getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
+   lblHeading.setIcon(new ImageIcon(scaledImage));
+
 }
 }

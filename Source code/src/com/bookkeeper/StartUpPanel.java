@@ -9,8 +9,9 @@ import java.awt.event.ActionEvent;
 
 public class StartUpPanel extends JPanel{
 	//panel
-//  private JPanel mainPanel;
-    private BackgroundPanel mainPanel;
+//	private JPanel mainPanel;
+	private BackgroundPanel mainPanel;
+	private JPanel contentPanel;
     private JPanel headingPanel;
 	private JPanel logoPanel;
 	private JPanel titlePanel;
@@ -30,18 +31,17 @@ public class StartUpPanel extends JPanel{
 	private JButton btnStart;
 	
 	//layout
-	private GridBagLayout gbl_mainPanel;
-	private GridBagConstraints gbc_headingPanel;
+	private GridBagLayout gbl_contentPanel;
 	private GridBagConstraints gbc_logoPanel;
 	private GridBagConstraints gbc_titlePanel;
 	private GridBagConstraints gbc_subtitlePanel;
 	private GridBagConstraints gbc_buttonPanel;
 	
 	//text
-	Font titleFont;
-	Font subtitleFont;
-	int titleTextSize;
-	int subtitleTextSize;
+	private  Font titleFont;
+	private Font subtitleFont;
+	private int titleTextSize;
+	private int subtitleTextSize;
 	
 	public  StartUpPanel() {
 	setBackground(new Color(250, 251, 255));
@@ -50,31 +50,35 @@ public class StartUpPanel extends JPanel{
  
     //create panels
     mainPanel = new BackgroundPanel();//panel to hold all panels
-    headingPanel = new JPanel(); 
+//    mainPanel = new JPanel();//panel to hold all panels
+    contentPanel = new JPanel();
     logoPanel = new JPanel();
+    logoPanel.setBorder(null);
     titlePanel = new JPanel();
     subtitlePanel = new JPanel();
     buttonPanel = new JPanel();
-    
+    headingPanel = new JPanel(); 
+
     // Set panel properties 
-    mainPanel.setBorder(null);
     mainPanel.setBackground(new Color(250, 251, 255));
+    contentPanel.setOpaque(false);
     headingPanel.setOpaque(false);
     logoPanel.setOpaque(false);
     titlePanel.setOpaque(false);
     subtitlePanel.setOpaque(false);
     buttonPanel.setOpaque(false);
     
-    btnClose = new JButton("x");
-    btnClose.setFocusPainted(false);
-    btnClose.setForeground(new Color(23, 21, 147));
-    btnClose.setFont(new Font("Montserrat", Font.PLAIN, 20));
-    btnClose.setBorderPainted(false);
-    btnClose.setBorder(new EmptyBorder(5, 5, 5, 5));
-    btnClose.setContentAreaFilled(false);
-    
     icon = new ImageIcon("img/Logo_Blue.png");
     image = icon.getImage();
+        
+    btnClose = new JButton("x");
+    btnClose.setFocusPainted(false);
+	btnClose.setForeground(new Color(23, 21, 147));
+	btnClose.setFont(new Font("Montserrat", Font.PLAIN, 20));
+	btnClose.setBorderPainted(false);
+	btnClose.setBorder(new EmptyBorder(5, 5, 5, 5));
+	btnClose.setContentAreaFilled(false);
+
 
     lblLogo = new JLabel();
     lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -111,46 +115,40 @@ public class StartUpPanel extends JPanel{
      */
     
     //gridbag layouts
-    gbl_mainPanel = new GridBagLayout();
-    gbl_mainPanel.columnWidths = new int[]{180, 0};
-    gbl_mainPanel.rowHeights = new int[]{108, 239, 56, 53, 68};
-    gbl_mainPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-    gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0};
-    
-    gbc_headingPanel = new GridBagConstraints();
-    gbc_headingPanel.anchor = GridBagConstraints.NORTH;
-    gbc_headingPanel.fill = GridBagConstraints.HORIZONTAL;
-    gbc_headingPanel.gridwidth = 2;
-    gbc_headingPanel.insets = new Insets(0, 0, 5, 5);
-    gbc_headingPanel.gridx = 0;
-    gbc_headingPanel.gridy = 0;
+    gbl_contentPanel = new GridBagLayout();
+    gbl_contentPanel.columnWidths = new int[]{180, 0};
+    gbl_contentPanel.rowHeights = new int[]{239, 56, 53, 154};
+    gbl_contentPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+    gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
     
     gbc_logoPanel = new GridBagConstraints();
+    gbc_logoPanel.anchor = GridBagConstraints.SOUTH;
     gbc_logoPanel.insets = new Insets(0, 0, 5, 0);
     gbc_logoPanel.gridx = 0;
-    gbc_logoPanel.gridy = 1;
-    gbc_logoPanel.fill = GridBagConstraints.BOTH;
+    gbc_logoPanel.gridy = 0;
+    gbc_logoPanel.fill = GridBagConstraints.HORIZONTAL;
     
     gbc_titlePanel = new GridBagConstraints();
     gbc_titlePanel.anchor = GridBagConstraints.SOUTH;
-    gbc_titlePanel.insets = new Insets(0, 0, 0, 0);
+    gbc_titlePanel.insets = new Insets(0, 0, 5, 0);
     gbc_titlePanel.gridx = 0;
-    gbc_titlePanel.gridy = 2;
+    gbc_titlePanel.gridy = 1;
     
     gbc_subtitlePanel = new GridBagConstraints();
     gbc_subtitlePanel.anchor = GridBagConstraints.NORTH;
-    gbc_subtitlePanel.insets = new Insets(0, 0, 0, 0);
+    gbc_subtitlePanel.insets = new Insets(0, 0, 5, 0);
     gbc_subtitlePanel.gridx = 0;
-    gbc_subtitlePanel.gridy = 3;    
+    gbc_subtitlePanel.gridy = 2;    
     
     gbc_buttonPanel = new GridBagConstraints();
     gbc_buttonPanel.gridx = 0;
-    gbc_buttonPanel.gridy = 4;
+    gbc_buttonPanel.gridy = 3;
     
     // Set panel layouts 
-    mainPanel.setLayout(gbl_mainPanel);
-    headingPanel.setLayout(new BorderLayout(0, 0));
+    mainPanel.setLayout(new BorderLayout(0, 0));
+    contentPanel.setLayout(gbl_contentPanel);
     buttonPanel.setLayout(new BorderLayout(0, 0));
+    headingPanel.setLayout(new BorderLayout(0, 0));
     
     //Add all to main panel
     headingPanel.add(btnClose, BorderLayout.EAST);
@@ -158,22 +156,15 @@ public class StartUpPanel extends JPanel{
     titlePanel.add(lblTitle);
     subtitlePanel.add(lblHeading);
     buttonPanel.add(btnStart);
+    contentPanel.add(logoPanel, gbc_logoPanel);
+    contentPanel.add(titlePanel, gbc_titlePanel);
+    contentPanel.add(subtitlePanel, gbc_subtitlePanel);
+    contentPanel.add(buttonPanel, gbc_buttonPanel);
+    mainPanel.setLayout(new BorderLayout(0, 0));
     
-    mainPanel.add(headingPanel, gbc_headingPanel);
-    mainPanel.add(logoPanel, gbc_logoPanel);
-    mainPanel.add(titlePanel, gbc_titlePanel);
-    mainPanel.add(subtitlePanel, gbc_subtitlePanel);
-    mainPanel.add(buttonPanel, gbc_buttonPanel);
-    
-    
+    mainPanel.add(headingPanel,BorderLayout.NORTH);
+    mainPanel.add(contentPanel, BorderLayout.CENTER);
     add(mainPanel);
-    
-    // Action listener
-    btnClose.addActionListener(new ActionListener() {
-    	public void actionPerformed(ActionEvent e) {
-    		System.exit(0);
-    	}
-    });
   
     addComponentListener(new ComponentAdapter() {
         @Override
@@ -188,6 +179,15 @@ public class StartUpPanel extends JPanel{
             lblHeading.setFont(subtitleFont);
         }
     });
+
+
+    // Action listener
+    btnClose.addActionListener(new ActionListener() {
+    	public void actionPerformed(ActionEvent e) {
+    		System.exit(0);
+    	}
+    });
+    
 }
 
 
@@ -202,7 +202,7 @@ public class BackgroundPanel extends JPanel {
 	private Icon scaledIcon;
 	
 	public BackgroundPanel() {
-		backgroundImage = new ImageIcon("img/Triangles_StartUp.png").getImage();
+		backgroundImage = new ImageIcon("img/AuthenticationFrame/Triangles_StartUp.png").getImage();
 	}
 	
 //put image over panel

@@ -68,7 +68,7 @@ public class SuccessPanel extends JPanel {
     alertPanel.setOpaque(false);
     
 
-    icon = new ImageIcon("img/Logo_Success.png");
+    icon = new ImageIcon("img/AlertFrame/Logo_Success.png");
     image = icon.getImage();
     
     lblLogo = new JLabel();

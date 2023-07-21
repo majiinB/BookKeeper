@@ -53,10 +53,10 @@ public class AuthenticationFrame extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//AuthenticationFrame frame = new AuthenticationFrame();	
+					AuthenticationFrame frame = new AuthenticationFrame();	
 					
 					//need ko lng makita marun ung frame mehe
-			AlertFrame frame = new AlertFrame();	
+//					AlertFrame frame = new AlertFrame();	
 //					DashboardFrame frame = new DashboardFrame();	
 //					InfoDisplayFrame frame = new InfoDisplayFrame();	
 //					ChangeInfoFrame frame = new ChangeInfoFrame();	
@@ -79,10 +79,10 @@ public class AuthenticationFrame extends JFrame{
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	
     	// Remove window decorations (title bar, borders)
-//    	setUndecorated(true); 
+    	//setUndecorated(true); 
     	
     	// Prevent resizing
-//    	setResizable(false); 
+    	//setResizable(true); 
 
     	// Set the frame size based on the screen dimensions
     	environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -137,7 +137,7 @@ public class AuthenticationFrame extends JFrame{
         		cardLayout.show(mainPanel,"panel4");
         	}
         });
-    	roleSelectionPanel.getBtnClose().addActionListener(new ActionListener() {
+    	roleSelectionPanel.getBtnBack().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		cardLayout.show(mainPanel,"panel1");
         	}

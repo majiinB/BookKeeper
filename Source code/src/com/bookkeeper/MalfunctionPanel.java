@@ -68,7 +68,7 @@ public class MalfunctionPanel extends JPanel {
     alertPanel.setOpaque(false);
     
 
-    icon = new ImageIcon("img/Logo_Malfunction.png");
+    icon = new ImageIcon("img/AlertFrame/Logo_Malfunction.png");
     image = icon.getImage();
     
     lblLogo = new JLabel();

@@ -47,7 +47,7 @@ public class DashboardFrame extends JFrame {
 //	private int height;
 	
 	//admin
-	public DashboardFrame() {
+	public DashboardFrame(Employee employee) {
 		setTitle("Book Keeper");
     	
     	// Set the Icon
@@ -121,71 +121,71 @@ public class DashboardFrame extends JFrame {
     }
 	
 	//patron
-//	public DashboardFrame() {
-//		setTitle("Book Keeper");
-//    	
-//    	// Set the Icon
-//    	icon = new ImageIcon("img/Logo_Original.png"); 
-//    	image = icon.getImage();
-//    	setIconImage(image);
-//    	
-//    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//    	
-//    	// Remove window decorations (title bar, borders)
-//    	setUndecorated(true); 
-//    	
-//    	// Prevent resizing
-//    	setResizable(false); 
-//
-//    	// Set the frame size based on the screen dimensions
-//    	environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//    	device = environment.getDefaultScreenDevice();
-////    	width = (int)(device.getDisplayMode().getWidth() * (3.5/5.0));    	
-////    	height = (int)(device.getDisplayMode().getHeight() * 0.9);    
-////    	setSize(width, height);
-//    	device.setFullScreenWindow(this);
-//
-//	    //create panels
-//		mainPanel = new JPanel();//panel to hold all panels
-//		menuBarPanel = new JPanel();// panel to hold menu bar
-//		ContentPanel = new JPanel();// panel to hold dashboard contents
-//		//menu bar panels
-//		PatronMenuPanel = new PatronMenuPanel();//menu bar for patron
-//		//dashboard panels
-//		PatronLibraryPanel = new PatronLibraryPanel();//panel for  book-related operations 
-//		PatronSettingsPanel  = new PatronSettingsPanel();//panel for the settings of patron
-//		
-//		// Set the layout of panels
-//		cardLayout = new CardLayout();
-//		ContentPanel.setLayout(new CardLayout(0, 0));
-//		menuBarPanel.setLayout(new CardLayout(0, 0));
-//		mainPanel.setLayout(new BorderLayout(0, 0)); 
-//
-//		// Add Panels to Menu Bar panel
-//		menuBarPanel.add(PatronMenuPanel, "panel2");
-//		
-//		// Add Panels to Dashboard panel
-//		ContentPanel.add(PatronLibraryPanel, "panel6");
-//		ContentPanel.add(PatronSettingsPanel, "panel7");
-//		
-//		    	
-//    	// Set mainPanel as the content pane of the JFrame
-//    	setContentPane(mainPanel);
-//
-//    	cardLayout.show(ContentPanel, "panel6");
-//    	cardLayout.show(menuBarPanel, "panel2");
-//
-//
-//		// Add Panels to Main panel
-//		mainPanel.add(menuBarPanel,BorderLayout.WEST);
-//		mainPanel.add(ContentPanel,BorderLayout.CENTER);
-//		
-//    	// Center the frame on the screen
-//    	setLocationRelativeTo(null);
-//
-//    	// Make the frame visible
-//    	setVisible(true);
-//    }	
-}
+	public DashboardFrame(User patron) {
+		setTitle("Book Keeper");
+    	
+    	//Set the Icon
+    	icon = new ImageIcon("img/Logo_Original.png"); 
+    	image = icon.getImage();
+    	setIconImage(image);
+    	
+    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	
+    	// Remove window decorations (title bar, borders)
+    	setUndecorated(true); 
+    	
+    	// Prevent resizing
+    	setResizable(false); 
 
+    	// Set the frame size based on the screen dimensions
+    	environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    	device = environment.getDefaultScreenDevice();
+    	//width = (int)(device.getDisplayMode().getWidth() * (3.5/5.0));    	
+    	//height = (int)(device.getDisplayMode().getHeight() * 0.9);    
+    	//setSize(width, height);
+    	device.setFullScreenWindow(this);
+
+	    //create panels
+		mainPanel = new JPanel();//panel to hold all panels
+		menuBarPanel = new JPanel();// panel to hold menu bar
+		ContentPanel = new JPanel();// panel to hold dashboard contents
+		//menu bar panels
+		PatronMenuPanel = new PatronMenuPanel();//menu bar for patron
+		//dashboard panels
+		PatronLibraryPanel = new PatronLibraryPanel();//panel for  book-related operations 
+		PatronSettingsPanel  = new PatronSettingsPanel();//panel for the settings of patron
+		
+		// Set the layout of panels
+		cardLayout1 = new CardLayout(0, 0);
+		cardLayout2 = new CardLayout(0, 0);
+		ContentPanel.setLayout(cardLayout1);
+		menuBarPanel.setLayout(cardLayout2);
+		mainPanel.setLayout(new BorderLayout(0, 0)); 
+
+		// Add Panels to Menu Bar panel
+		menuBarPanel.add(PatronMenuPanel, "panel2");
+		
+		// Add Panels to Dashboard panel
+		ContentPanel.add(PatronLibraryPanel, "panel6");
+		ContentPanel.add(PatronSettingsPanel, "panel7");
+		
+		    	
+    	// Set mainPanel as the content pane of the JFrame
+    	setContentPane(mainPanel);
+
+    	cardLayout1.show(ContentPanel, "panel6");
+    	cardLayout2.show(menuBarPanel, "panel2");
+
+
+		// Add Panels to Main panel
+		mainPanel.add(menuBarPanel,BorderLayout.WEST);
+		mainPanel.add(ContentPanel,BorderLayout.CENTER);
+		
+    	// Center the frame on the screen
+    	setLocationRelativeTo(null);
+
+    	// Make the frame visible
+    	setVisible(true);
+    }	
+}
 

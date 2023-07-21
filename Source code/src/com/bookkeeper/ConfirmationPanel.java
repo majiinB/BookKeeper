@@ -76,7 +76,7 @@ public class ConfirmationPanel extends JPanel {
     alertPanel.setOpaque(false);
     
 
-    icon = new ImageIcon("img/Logo_Confirm.png");
+    icon = new ImageIcon("img/AlertFrame/Logo_Confirm.png");
     image = icon.getImage();
     
     lblLogo = new JLabel();

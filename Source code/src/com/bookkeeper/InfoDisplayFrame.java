@@ -37,7 +37,7 @@ public class InfoDisplayFrame extends JFrame {
     	image = icon.getImage();
     	setIconImage(image);
     	
-    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     	
     	// Remove window decorations (title bar, borders)
     	setUndecorated(true); 
@@ -79,12 +79,12 @@ public class InfoDisplayFrame extends JFrame {
 		mainPanel.add(AdminAddBookPanel,"panel3");
 		mainPanel.add(AdminUpdateBookPanel,"panel4");
 		mainPanel.add(AdminUserInfoPanel,"panel5");
-//		mainPanel.add(AccountInformation,"panel6");
+		mainPanel.add(AccountInfoPanel,"panel6");
 //		mainPanel.add();
 
 		// Set mainPanel as the content pane of the JFrame
 		setContentPane(mainPanel);
-    	cardLayout.show(mainPanel, "panel1");
+    	cardLayout.show(mainPanel, "panel2");
 
 		
 		// Center the frame on the screen
