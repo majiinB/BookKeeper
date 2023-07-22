@@ -106,11 +106,11 @@ public class AdminMenuPanel extends JPanel {
 	 mainPanel.setColor1(new Color(0,66,166));
 	 mainPanel.setColor2(new Color(12,1,76));
 	 
-	 LibraryPanel.setBackground(new Color(0, 115, 221, 115));
-	 ReportPanel.setBackground(new Color(0, 115, 221, 115));
-	 EmployeePanel.setBackground(new Color(0, 115, 221, 115));
-	 PatronPanel.setBackground(new Color(0, 115, 221, 115));
-	 AccPanel.setBackground(new Color(0, 115, 221, 115));
+	 LibraryPanel.setBackground(new Color(0, 115, 221));
+	 ReportPanel.setBackground(new Color(0, 115, 221));
+	 EmployeePanel.setBackground(new Color(0, 115, 221));
+	 PatronPanel.setBackground(new Color(0, 115, 221));
+	 AccPanel.setBackground(new Color(0, 115, 221));
 	 
 	 LibraryPanel.setOpaque(true);//set to true as library is shown at start
 	 ReportPanel.setOpaque(false);
@@ -336,6 +336,125 @@ public class AdminMenuPanel extends JPanel {
  public JButton getBtnPatron() {
 	 return btnPatron;
  }
+ public void setBtnLibrary(){
+	 libraryIcon = new ImageIcon("img/DashboardFrame/Library_Solid.png");    
+	 reportIcon = new ImageIcon("img/DashboardFrame/Report_Outline.png");  
+	 employeeIcon = new ImageIcon("img/DashboardFrame/Employee_Outline.png");    
+	 patronIcon = new ImageIcon("img/DashboardFrame/Patron_Outline.png");    
+	 accIcon = new ImageIcon("img/DashboardFrame/Account_Outline.png");    
+	 
+	 btnLibrary.setIcon(new ImageIcon(libraryIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnReport.setIcon(new ImageIcon(reportIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnEmployee.setIcon(new ImageIcon(employeeIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnPatron.setIcon(new ImageIcon(patronIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnAcc.setIcon(new ImageIcon(accIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+
+	 LibraryPanel.setOpaque(true);
+     AccPanel.setOpaque(false);
+     ReportPanel.setOpaque(false);
+     EmployeePanel.setOpaque(false);
+     PatronPanel.setOpaque(false);
+     LibraryPanel.repaint();
+     AccPanel.repaint();
+     ReportPanel.repaint();
+     EmployeePanel.repaint();
+     PatronPanel.repaint();
+ }
+ public void setBtnAcc(){
+	libraryIcon = new ImageIcon("img/DashboardFrame/Library_Outline.png");    
+	reportIcon = new ImageIcon("img/DashboardFrame/Report_Outline.png");    
+	employeeIcon = new ImageIcon("img/DashboardFrame/Employee_Outline.png");    
+	patronIcon = new ImageIcon("img/DashboardFrame/Patron_Outline.png");    
+	accIcon = new ImageIcon("img/DashboardFrame/Account_Solid.png");    
+	 
+	btnLibrary.setIcon(new ImageIcon(libraryIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	btnReport.setIcon(new ImageIcon(reportIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	btnEmployee.setIcon(new ImageIcon(employeeIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	btnPatron.setIcon(new ImageIcon(patronIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	btnAcc.setIcon(new ImageIcon(accIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+
+	LibraryPanel.setOpaque(false);
+	AccPanel.setOpaque(true);
+	ReportPanel.setOpaque(false);
+	EmployeePanel.setOpaque(false);
+	PatronPanel.setOpaque(false);
+	LibraryPanel.repaint();
+	AccPanel.repaint();
+	ReportPanel.repaint();
+    EmployeePanel.repaint();
+    PatronPanel.repaint();
+ }
+ public void setBtnReport() {    
+	 libraryIcon = new ImageIcon("img/DashboardFrame/Library_Outline.png");    
+	 reportIcon = new ImageIcon("img/DashboardFrame/Report_Solid.png");    
+	 employeeIcon = new ImageIcon("img/DashboardFrame/Employee_Outline.png");    
+	 patronIcon = new ImageIcon("img/DashboardFrame/Patron_Outline.png");    
+	 accIcon = new ImageIcon("img/DashboardFrame/Account_Outline.png");    
+	 
+	 btnLibrary.setIcon(new ImageIcon(libraryIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnReport.setIcon(new ImageIcon(reportIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnEmployee.setIcon(new ImageIcon(employeeIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnPatron.setIcon(new ImageIcon(patronIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnAcc.setIcon(new ImageIcon(accIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+
+	 LibraryPanel.setOpaque(false);
+     AccPanel.setOpaque(false);
+     ReportPanel.setOpaque(true);
+     EmployeePanel.setOpaque(false);
+     PatronPanel.setOpaque(false);
+     
+     LibraryPanel.repaint();
+     AccPanel.repaint();
+     ReportPanel.repaint();
+     EmployeePanel.repaint();
+     PatronPanel.repaint();
+ }
+ public void setBtnEmployee() {    
+	 libraryIcon = new ImageIcon("img/DashboardFrame/Library_Outline.png");    
+	 reportIcon = new ImageIcon("img/DashboardFrame/Report_Outline.png");    
+	 employeeIcon = new ImageIcon("img/DashboardFrame/Employee_Solid.png");    
+	 patronIcon = new ImageIcon("img/DashboardFrame/Patron_Outline.png");    
+	 accIcon = new ImageIcon("img/DashboardFrame/Account_Outline.png");    
+	 btnLibrary.setIcon(new ImageIcon(libraryIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnReport.setIcon(new ImageIcon(reportIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnEmployee.setIcon(new ImageIcon(employeeIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnPatron.setIcon(new ImageIcon(patronIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnAcc.setIcon(new ImageIcon(accIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+
+	 LibraryPanel.setOpaque(false);
+     AccPanel.setOpaque(false);
+     ReportPanel.setOpaque(false);
+     EmployeePanel.setOpaque(true);
+     PatronPanel.setOpaque(false);
+     LibraryPanel.repaint();
+     AccPanel.repaint();
+     ReportPanel.repaint();
+     EmployeePanel.repaint();
+     PatronPanel.repaint();
+}
+public void setBtnPatron() {    
+	libraryIcon = new ImageIcon("img/DashboardFrame/Library_Outline.png");    
+	reportIcon = new ImageIcon("img/DashboardFrame/Report_Outline.png");    
+	employeeIcon = new ImageIcon("img/DashboardFrame/Employee_Outline.png");    
+	patronIcon = new ImageIcon("img/DashboardFrame/Patron_Solid.png");    
+	accIcon = new ImageIcon("img/DashboardFrame/Account_Outline.png");    
+	 btnLibrary.setIcon(new ImageIcon(libraryIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnReport.setIcon(new ImageIcon(reportIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnEmployee.setIcon(new ImageIcon(employeeIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnPatron.setIcon(new ImageIcon(patronIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnAcc.setIcon(new ImageIcon(accIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+
+	 LibraryPanel.setOpaque(false);
+    AccPanel.setOpaque(false);
+    ReportPanel.setOpaque(false);
+    EmployeePanel.setOpaque(false);
+    PatronPanel.setOpaque(true);
+    LibraryPanel.repaint();
+    AccPanel.repaint();
+    ReportPanel.repaint();
+    EmployeePanel.repaint();
+    PatronPanel.repaint();
+}
 	@Override
 	protected void paintComponent(Graphics g) {
 	   super.paintComponent(g);

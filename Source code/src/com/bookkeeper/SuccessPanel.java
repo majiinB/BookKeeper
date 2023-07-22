@@ -1,6 +1,8 @@
 package com.bookkeeper;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
@@ -51,7 +53,8 @@ public class SuccessPanel extends JPanel {
 	private  Color darkplainColor = new Color(14, 14, 15);//black
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
-	public SuccessPanel() {
+	
+	public SuccessPanel(String title, String message) {
 		
 	setBackground(new Color(250, 251, 255));
 	setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -75,7 +78,7 @@ public class SuccessPanel extends JPanel {
     lblLogo = new JLabel();
     lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
    
-	txtTitle = new JTextArea("Alert Title");
+	txtTitle = new JTextArea(title);
 	txtTitle.setForeground(headerColor);
 	txtTitle.setLineWrap(true);
 	txtTitle.setOpaque(false);
@@ -86,7 +89,7 @@ public class SuccessPanel extends JPanel {
 	txtTitle.setAutoscrolls(false);
 	txtTitle.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 	
-	txtDescription = new JTextArea("Alert Description");
+	txtDescription = new JTextArea(message);
 	txtDescription.setForeground(darkplainColor);
 	txtDescription.setLineWrap(true);
 	txtDescription.setOpaque(false);
@@ -190,6 +193,10 @@ public class SuccessPanel extends JPanel {
           }
       });
   }
+	// Methods
+	public JButton getBtnConfirm() {
+		return btnConfirm;
+	}
   	 @Override
   	 protected void paintComponent(Graphics g) {
   	    super.paintComponent(g);

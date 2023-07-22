@@ -17,9 +17,9 @@ public class PlaceholderComboBox extends JComboBox {
 	public void setItem( String item) {
 	}
 
-	public String getItem() {
-		return actionCommand;
-	}
+//	public String getItem() {
+//		return;
+//	}
 		  
  
 	

@@ -27,6 +27,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class AuthenticationFrame extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//panel
 	private JPanel mainPanel;
 	private RoleSelectionPanel roleSelectionPanel;
@@ -53,6 +57,7 @@ public class AuthenticationFrame extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					@SuppressWarnings("unused")
 					AuthenticationFrame frame = new AuthenticationFrame();	
 					
 					//need ko lng makita marun ung frame mehe
@@ -79,10 +84,10 @@ public class AuthenticationFrame extends JFrame{
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	
     	// Remove window decorations (title bar, borders)
-    	//setUndecorated(true); 
+//    	setUndecorated(true); 
     	
     	// Prevent resizing
-    	//setResizable(false); 
+    	setResizable(true); 
 
     	// Set the frame size based on the screen dimensions
     	environment = GraphicsEnvironment.getLocalGraphicsEnvironment();

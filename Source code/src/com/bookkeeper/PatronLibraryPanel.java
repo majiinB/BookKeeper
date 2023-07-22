@@ -22,8 +22,8 @@ import java.awt.event.ActionEvent;
 
 public class PatronLibraryPanel extends JPanel {
 	//panel
-	private JPanel mainPanel;
-//	private BackgroundPanel mainPanel;
+//	private JPanel mainPanel;
+	private BackgroundPanel mainPanel;
 //	private BackgroundPanel triangleBackground;
 	private JPanel contentPanel;
 	private JPanel headingPanel;
@@ -84,14 +84,12 @@ public class PatronLibraryPanel extends JPanel {
 	setLayout(new BorderLayout(0, 0));
 	 
 	//create panels
-	mainPanel = new JPanel();
-	mainPanel.setBorder(new EmptyBorder(20, 25, 20, 25));
-//	mainPanel = new BackgroundPanel();
+	mainPanel = new BackgroundPanel();
+//	mainPanel = new JPanel();
 	contentPanel = new JPanel();
 	headingPanel = new JPanel();
     titlePanel = new JPanel();
     searchBarPanel =  new RoundedPanel(20);
-    searchBarPanel.setBorder(new EmptyBorder(10, 10, 10, 15));
     searchResultsPanel =  new RoundedPanel(20);
 
 
@@ -102,9 +100,11 @@ public class PatronLibraryPanel extends JPanel {
     titlePanel.setOpaque(false);
     searchBarPanel.setOpaque(true);
     searchResultsPanel.setOpaque(true);
+	mainPanel.setBorder(new EmptyBorder(20, 25, 20, 25));
+    searchBarPanel.setBorder(new EmptyBorder(10, 10, 10, 15));
 
     searchBarPanel.setBorderWidth(2);
-    searchResultsPanel.setBorderWidth(5);
+    searchResultsPanel.setBorderWidth(2);
     searchBarPanel.setForeground(darkplainColor);
     searchResultsPanel.setForeground(darkplainColor);
     searchBarPanel.setBackground(lightplainColor);
@@ -186,13 +186,13 @@ public class PatronLibraryPanel extends JPanel {
     gbc_searchResultsPanel.gridx = 0;
     gbc_searchResultsPanel.gridy = 3;
     
-	
 	// Set panel layouts
     mainPanel.setLayout(new BorderLayout(0,0));
     contentPanel.setLayout(gbl_contentPanel);
     titlePanel.setLayout(new BorderLayout(0, 0));
     searchBarPanel.setLayout(new BorderLayout(0, 0));
     headingPanel.setLayout(new FlowLayout());
+    searchResultsPanel.setLayout(new BorderLayout(0, 0));
 
     //Add all to main panel
     headingPanel.add(lblHeading1);
@@ -205,10 +205,11 @@ public class PatronLibraryPanel extends JPanel {
     contentPanel.add(titlePanel,gbc_titlePanel);
     contentPanel.add(searchBarPanel,gbc_searchBarPanel);
     contentPanel.add(searchResultsPanel,gbc_searchResultsPanel);
-    searchResultsPanel.setLayout(new BorderLayout(0, 0));
     
     // Create the scroll pane and add the table to it
     scrollPane = new JScrollPane(table);
+    scrollPane.setOpaque(false);
+    scrollPane.setBorder(new EmptyBorder(15, 10, 15, 10));
     
     // Add the scroll pane to the searchResultsPanel
     searchResultsPanel.add(scrollPane);
@@ -224,6 +225,9 @@ public class PatronLibraryPanel extends JPanel {
     		      return false;
     		}
          };
+    table.setFillsViewportHeight(true);
+    table.setOpaque(false);
+    table.setShowVerticalLines(false);
     
     //listener for clicking cells in table  
 	table.addMouseListener(new MouseAdapter() {

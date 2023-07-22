@@ -52,7 +52,7 @@ public class MalfunctionPanel extends JPanel {
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
-	public MalfunctionPanel() {
+	public MalfunctionPanel(String title, String message) {
 		
 	setBackground(new Color(250, 251, 255));
 	setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -76,7 +76,7 @@ public class MalfunctionPanel extends JPanel {
     lblLogo = new JLabel();
     lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
    
-	txtTitle = new JTextArea("Alert Title");
+	txtTitle = new JTextArea(title);
 	txtTitle.setForeground(headerColor);
 	txtTitle.setLineWrap(true);
 	txtTitle.setOpaque(false);
@@ -87,7 +87,7 @@ public class MalfunctionPanel extends JPanel {
 	txtTitle.setAutoscrolls(false);
 	txtTitle.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 	
-	txtDescription = new JTextArea("Alert Description");
+	txtDescription = new JTextArea(message);
 	txtDescription.setForeground(darkplainColor);
 	txtDescription.setLineWrap(true);
 	txtDescription.setOpaque(false);

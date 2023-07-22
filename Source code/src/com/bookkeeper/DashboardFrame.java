@@ -3,21 +3,18 @@ import javax.swing.*;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.awt.Polygon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.border.LineBorder;
-
 //Frame for displaying the dashboard with menu bar and content panels
 public class DashboardFrame extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//panel
 	private JPanel mainPanel;
 	private JPanel menuBarPanel;
@@ -117,41 +114,57 @@ public class DashboardFrame extends JFrame {
     	setLocationRelativeTo(null);
 
     	// Make the frame visible
+    	setAlwaysOnTop(false);
     	setVisible(true);
     	
     	//Action Listeners for admin
     	AdminMenuPanel.getBtnLibrary().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		cardLayout1.show(ContentPanel,"panel1");
+        		cardLayout1.show(ContentPanel,"panel1");        		AdminMenuPanel.setBtnLibrary();
+        		AdminMenuPanel.setBtnLibrary();
         	}
         });
     	AdminMenuPanel.getBtnReport().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		cardLayout1.show(ContentPanel,"panel2");
+        		AdminMenuPanel.setBtnReport();
         	}
         });
     	AdminMenuPanel.getBtnPatron().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		cardLayout1.show(ContentPanel,"pane3");
+        		AdminMenuPanel.setBtnPatron();
+
         	}
         });
     	AdminMenuPanel.getBtnEmployee().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		cardLayout1.show(ContentPanel,"panel4");
+        		AdminMenuPanel.setBtnEmployee(); 
+
         	}
         });
     	AdminMenuPanel.getBtnAcc().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		cardLayout1.show(ContentPanel,"panel5");
+        		AdminMenuPanel.setBtnAcc();
+
         	}
         });
     	AdminMenuPanel.getBtnLogOut().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		DashboardFrame frame = (DashboardFrame) SwingUtilities.getWindowAncestor(AdminMenuPanel);
-				frame.dispose();
-				
-				AuthenticationFrame frame2 = new AuthenticationFrame();
-				frame2.setVisible(true);
+        		ConfirmationPanel confirm = new ConfirmationPanel("Confirm Logout", "Are you sure you want to log out?");
+        		int option = JOptionPane.showOptionDialog(DashboardFrame.this, confirm, "Confirmation",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                        null, new Object[]{"Confirm","Cancel"}, null);
+			    
+        		if(option == 0) {
+        			DashboardFrame frame = (DashboardFrame) SwingUtilities.getWindowAncestor(AdminMenuPanel);
+    				frame.dispose();
+    				
+    				AuthenticationFrame frame2 = new AuthenticationFrame();
+    				frame2.setVisible(true);
+        		}
         	}
         });
     }
@@ -227,22 +240,31 @@ public class DashboardFrame extends JFrame {
     	PatronMenuPanel.getBtnLibrary().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		cardLayout1.show(ContentPanel,"panel6");
+        		PatronMenuPanel.setBtnLibrary();
         	}
         });
     	PatronMenuPanel.getBtnAcc().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		cardLayout1.show(ContentPanel,"panel7");
+        		PatronMenuPanel.setBtnAcc();
+
         	}
         });
     	PatronMenuPanel.getBtnLogOut().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		DashboardFrame frame = (DashboardFrame) SwingUtilities.getWindowAncestor(PatronMenuPanel);
-				frame.dispose();
-				
-				AuthenticationFrame frame2 = new AuthenticationFrame();
-				frame2.setVisible(true);
+        		ConfirmationPanel confirm = new ConfirmationPanel("Confirm Logout", "Are you sure you want to log out?");
+        		int option = JOptionPane.showOptionDialog(DashboardFrame.this, confirm, "Confirmation",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                        null, new Object[]{"Confirm","Cancel"}, null);
+			    
+        		if(option == 0) {
+        			DashboardFrame frame = (DashboardFrame) SwingUtilities.getWindowAncestor(PatronMenuPanel);
+    				frame.dispose();
+    				
+    				AuthenticationFrame frame2 = new AuthenticationFrame();
+    				frame2.setVisible(true);
+        		}
         	}
         });
     }	
 }
-

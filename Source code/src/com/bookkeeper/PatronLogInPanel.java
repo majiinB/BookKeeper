@@ -1,14 +1,10 @@
 package com.bookkeeper;
 
 import java.awt.*;
-
 import javax.swing.border.EmptyBorder;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.EtchedBorder;
-
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
@@ -18,6 +14,10 @@ import java.awt.event.ActionEvent;
 
 public class PatronLogInPanel extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//object 
 	private User user;
 	public Object newUser;
@@ -271,13 +271,14 @@ public  PatronLogInPanel() {
         }
     });
     //Action Listeners
-    
     btnLogIn.addActionListener(new ActionListener() {
 		private int numTries = 1;
 		public void actionPerformed(ActionEvent e) {
 			int remain = 3 - numTries;
+			MalfunctionPanel malfunction;
 			
 				try {
+					
 					String email = "";
 					email = txtEmailAddress.getText();
 					String trimed = email.trim();
@@ -290,28 +291,50 @@ public  PatronLogInPanel() {
 					String status = "active";
 					newUser = AuthenticationFrame.loginMethod(trimed, password, table, colemail, colpass, colStatus, status);
 					if (newUser == null && numTries<=3) {
+						// Shield
 						if(numTries==3) {
-							JOptionPane.showMessageDialog(PatronLogInPanel.this, "Limit Reached! Program will now close", "Error", JOptionPane.ERROR_MESSAGE);
+							
+							malfunction = new MalfunctionPanel("Limit Reached", "You have reached the limit for the number of login attempts.\nThe program will now close");
+							JOptionPane.showOptionDialog(PatronLogInPanel.this, malfunction, "Error",
+			                        JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
+			                        null, new Object[]{"ok"}, null);
 							System.exit(0);
 						}
+						
 						// Show error message if login failed
-						JOptionPane.showMessageDialog(PatronLogInPanel.this, "Invalid email or password" + "\nRemaining Attempts:" + remain, "Error", JOptionPane.ERROR_MESSAGE);
+						malfunction = new MalfunctionPanel("Login Error", "Invalid email or password\n"+"Remaining Attempts:" + remain);
+						JOptionPane.showOptionDialog(PatronLogInPanel.this, malfunction, "Error",
+		                        JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
+		                        null, new Object[]{"ok"}, null);
 						numTries++;
 						
 					} else {
 						
-						// Hide the login panel and show the main interface
-						user = (User) newUser;
-						JOptionPane.showMessageDialog(PatronLogInPanel.this, "Welcome,\n" + user.toString() + " !", "\nSuccess", JOptionPane.INFORMATION_MESSAGE);
-						AuthenticationFrame frame = (AuthenticationFrame) SwingUtilities.getWindowAncestor(btnLogIn);
-						frame.dispose();
+						// Cast newUser to User object
+					    user = (User) newUser;
+					    String title = "Login Success!";
+					    String message = "Welcome " + user.getUser_fname() + " " + user.getUser_lname();
 
-						// Create and show the DashboardFrame
-		                DashboardFrame dashboardFrame = new DashboardFrame(user);
-		                dashboardFrame.setVisible(true);
-		                
+					    // Prompt
+					    SuccessPanel success = new SuccessPanel(title, message);
+					    JOptionPane.showOptionDialog(PatronLogInPanel.this, success, "Success",
+		                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+		                        null, new Object[]{"Enter"}, null);
+		            	
+					    // Remove previous frame
+		            	AuthenticationFrame frame = (AuthenticationFrame) SwingUtilities.getWindowAncestor(btnLogIn);
+					    frame.dispose();
+		            	
+					    // Create and show the DashboardFrame
+					    @SuppressWarnings("unused")
+						DashboardFrame dashboardFrame = new DashboardFrame(user);
+					   
 					}
 				} catch (Exception e1) {
+					malfunction = new MalfunctionPanel("Login Error", "An unknown error has occured!");
+					JOptionPane.showOptionDialog(PatronLogInPanel.this, malfunction, "Error",
+	                        JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
+	                        null, new Object[]{"ok"}, null);
 					e1.printStackTrace();
 				}
 			

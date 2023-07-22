@@ -42,9 +42,13 @@ public class StartUpPanel extends JPanel{
 	private Font subtitleFont;
 	private int titleTextSize;
 	private int subtitleTextSize;
-	
+	private  Color headerColor = new Color(23, 21, 147);//blue
+	private  Color darkplainColor = new Color(14, 14, 15);//black
+	private  Color lightplainColor = new Color(250, 251, 255);//white
+	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
+
 	public  StartUpPanel() {
-	setBackground(new Color(250, 251, 255));
+	setBackground(lightplainColor);
 	setBorder(new EmptyBorder(10, 10, 10, 10));
 	setLayout(new BorderLayout(0, 0));
  
@@ -60,7 +64,7 @@ public class StartUpPanel extends JPanel{
     headingPanel = new JPanel(); 
 
     // Set panel properties 
-    mainPanel.setBackground(new Color(250, 251, 255));
+    mainPanel.setOpaque(false);
     contentPanel.setOpaque(false);
     headingPanel.setOpaque(false);
     logoPanel.setOpaque(false);
@@ -73,7 +77,7 @@ public class StartUpPanel extends JPanel{
         
     btnClose = new JButton("x");
     btnClose.setFocusPainted(false);
-	btnClose.setForeground(new Color(23, 21, 147));
+	btnClose.setForeground(headerColor);
 	btnClose.setFont(new Font("Montserrat", Font.PLAIN, 20));
 	btnClose.setBorderPainted(false);
 	btnClose.setBorder(new EmptyBorder(5, 5, 5, 5));

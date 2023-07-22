@@ -65,6 +65,7 @@ public class PatronMenuPanel extends JPanel {
 	 
 	 //create panels
 	 mainPanel = new GradientBackgroundPanel();
+	 mainPanel.setBorder(null);
 //	 mainPanel = new JPanel();
 	 topPanel = new JPanel();
 	 middlePanel = new JPanel();
@@ -84,11 +85,13 @@ public class PatronMenuPanel extends JPanel {
 	 mainPanel.setColor1(new Color(0,66,166));
 	 mainPanel.setColor2(new Color(12,1,76));
 	 
-	 LibraryPanel.setBackground(new Color(0, 115, 221, 115));
-	 AccPanel.setBackground(new Color(0, 115, 221, 115));
+	 LibraryPanel.setBackground(new Color(0, 115, 221));
+	 AccPanel.setBackground(new Color(0, 115, 221));
+	 LogoutPanel.setBackground(new Color(0, 115, 221));
 	 
 	 LibraryPanel.setOpaque(true);//set to true as library is shown at start;
 	 AccPanel.setOpaque(false);
+	 LogoutPanel.setOpaque(false);
 	 topPanel.setOpaque(false);
 	 middlePanel.setOpaque(false);
 	 bottomPanel.setOpaque(false);
@@ -97,10 +100,10 @@ public class PatronMenuPanel extends JPanel {
 	 topSeparatorPanel.setPreferredSize(new Dimension(3, 3));
 	 bottomSeparatorPanel.setPreferredSize(new Dimension(3, 3));
 	 
-	 bottomPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
+	 bottomPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 	 middlePanel.setBorder(new EmptyBorder(20, 0, 0, 0));
 	 topPanel.setBorder(new EmptyBorder(29, 0, 0, 0));
-	 LogoutPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
+	 LogoutPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 	 LibraryPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
 	 AccPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
 
@@ -222,6 +225,7 @@ public class PatronMenuPanel extends JPanel {
  }
  //Methods
  public JButton getBtnLibrary() {
+
 	 return btnLibrary;
  }
  public JButton getBtnLogOut() {
@@ -230,7 +234,36 @@ public class PatronMenuPanel extends JPanel {
  public JButton getBtnAcc() {
 	 return btnAcc;
  }
-	@Override
+ public void setBtnLibrary(){
+	 libraryIcon = new ImageIcon("img/DashboardFrame/Library_Solid.png");    
+	 accIcon = new ImageIcon("img/DashboardFrame/Account_Outline.png");    
+	 
+	 btnLibrary.setIcon(new ImageIcon(libraryIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	 btnAcc.setIcon(new ImageIcon(accIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+
+     LibraryPanel.setOpaque(true);
+     AccPanel.setOpaque(false);
+     
+     LibraryPanel.repaint();
+     AccPanel.repaint();
+ }
+ public void setBtnAcc(){
+	libraryIcon = new ImageIcon("img/DashboardFrame/Library_Outline.png");    
+	accIcon = new ImageIcon("img/DashboardFrame/Account_Solid.png");    
+	
+	btnLibrary.setIcon(new ImageIcon(libraryIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+	btnAcc.setIcon(new ImageIcon(accIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH)));
+
+	LibraryPanel.setOpaque(false);
+	AccPanel.setOpaque(true);
+	
+	LibraryPanel.repaint();
+	AccPanel.repaint();
+ }
+ 
+
+
+ @Override
 	protected void paintComponent(Graphics g) {
 	   super.paintComponent(g);
 	   /*
