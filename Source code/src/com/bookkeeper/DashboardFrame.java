@@ -154,7 +154,7 @@ public class DashboardFrame extends JFrame {
     	AdminMenuPanel.getBtnLogOut().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		ConfirmationPanel confirm = new ConfirmationPanel("Confirm Logout", "Are you sure you want to log out?");
-        		int option = JOptionPane.showOptionDialog(DashboardFrame.this, confirm, "Confirmation",
+        		int option = JOptionPane.showOptionDialog(SwingUtilities.getWindowAncestor(AdminMenuPanel), confirm, "Confirmation",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
                         null, new Object[]{"Confirm","Cancel"}, null);
 			    
@@ -253,7 +253,7 @@ public class DashboardFrame extends JFrame {
     	PatronMenuPanel.getBtnLogOut().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		ConfirmationPanel confirm = new ConfirmationPanel("Confirm Logout", "Are you sure you want to log out?");
-        		int option = JOptionPane.showOptionDialog(DashboardFrame.this, confirm, "Confirmation",
+        		int option = JOptionPane.showOptionDialog(SwingUtilities.getWindowAncestor(PatronMenuPanel), confirm, "Confirmation",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
                         null, new Object[]{"Confirm","Cancel"}, null);
 			    
