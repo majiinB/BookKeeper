@@ -51,6 +51,7 @@ public class AuthenticationFrame extends JFrame{
 	private GraphicsDevice device;
 	private int width;
 	private int height;
+	private int selectedValue;
 	
 	public static void main(String[] args) {
 		/*updateOverdueBooks();*/
@@ -168,6 +169,9 @@ public class AuthenticationFrame extends JFrame{
     }
    
   //Methods
+    //Alert Frame Methods
+    
+    //Validation Methods
 	    public static boolean isValidEmail(String email) {
 	        String emailRegex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	        return Pattern.matches(emailRegex, email);

@@ -3,9 +3,12 @@ import javax.swing.*;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Frame;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -42,6 +45,7 @@ public class DashboardFrame extends JFrame {
 	private GraphicsDevice device;
 //	private int width;
 //	private int height;
+	private int selectedValue;
 	
 	//admin
 	public DashboardFrame(Employee employee) {
@@ -253,11 +257,9 @@ public class DashboardFrame extends JFrame {
     	PatronMenuPanel.getBtnLogOut().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		ConfirmationPanel confirm = new ConfirmationPanel("Confirm Logout", "Are you sure you want to log out?");
-        		int option = JOptionPane.showOptionDialog(SwingUtilities.getWindowAncestor(PatronMenuPanel), confirm, "Confirmation",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                        null, new Object[]{"Confirm","Cancel"}, null);
+        		int option = showDialog(confirm);
 			    
-        		if(option == 0) {
+        		if(option == 1) {
         			DashboardFrame frame = (DashboardFrame) SwingUtilities.getWindowAncestor(PatronMenuPanel);
     				frame.dispose();
     				
@@ -267,4 +269,38 @@ public class DashboardFrame extends JFrame {
         	}
         });
     }	
+	// Methods
+	//Method to show alert panel (Confirmation Panel)
+	public int showDialog(ConfirmationPanel panel) {
+		selectedValue = 0;
+		
+		panel.getBtnConfirm().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		selectedValue = 1; // Set selectedValue to 1 when "OK" is clicked
+	            closeDialog(e);
+	    	}
+	    });
+	    panel.getBtnCancel().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	            selectedValue = 2; // Set selectedValue to 1 when "OK" is clicked
+	            closeDialog(e);
+	    	}
+	    });
+	    
+		JDialog dialog = new JDialog(this, "Confirm Log Out", true);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.add(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+		
+		return selectedValue;
+	}
+	private static void closeDialog(ActionEvent e) {
+        Component component = (Component) e.getSource();
+        Window window = SwingUtilities.getWindowAncestor(component);
+        if (window != null) {
+            window.dispose();
+        }
+    }
 }

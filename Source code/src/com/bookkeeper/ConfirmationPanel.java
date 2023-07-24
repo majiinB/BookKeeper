@@ -56,6 +56,8 @@ public class ConfirmationPanel extends JPanel {
 	private  Color darkplainColor = new Color(14, 14, 15);//black
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
+	
+	private static int selectedValue;
 
 	public ConfirmationPanel(String title, String message) {
 		
@@ -185,14 +187,7 @@ public class ConfirmationPanel extends JPanel {
 	mainPanel.add(alertPanel, gbc_alertPanel);
 		
     add(mainPanel); 
-	
-    // Action listener
-    btnCancel.addActionListener(new ActionListener() {
-    	public void actionPerformed(ActionEvent e) {
-            AlertFrame frame = (AlertFrame) SwingUtilities.getWindowAncestor(ConfirmationPanel.this);
-            frame.dispose();
-    	}
-    });
+    
     addComponentListener(new ComponentAdapter() {
     	  @Override
           public void componentResized(ComponentEvent e) {
@@ -227,4 +222,10 @@ public class ConfirmationPanel extends JPanel {
   	    lblLogo.setIcon(new ImageIcon(scaledImage));
 
   	 }
+  	public JButton getBtnConfirm() {
+  		return btnConfirm;
+  	}
+  	public JButton getBtnCancel() {
+  		return btnCancel;
+  	}
 }

@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-
 public class PatronLogInPanel extends JPanel {
 	
 	/**
@@ -295,17 +294,13 @@ public  PatronLogInPanel() {
 						if(numTries==3) {
 							
 							malfunction = new MalfunctionPanel("Limit Reached", "You have reached the limit for the number of login attempts.\nThe program will now close");
-							JOptionPane.showOptionDialog(PatronLogInPanel.this, malfunction, "Error",
-			                        JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
-			                        null, new Object[]{"ok"}, null);
+							showDialog(malfunction);
 							System.exit(0);
 						}
 						
 						// Show error message if login failed
 						malfunction = new MalfunctionPanel("Login Error", "Invalid email or password\n"+"Remaining Attempts:" + remain);
-						JOptionPane.showOptionDialog(PatronLogInPanel.this, malfunction, "Error",
-		                        JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
-		                        null, new Object[]{"ok"}, null);
+						showDialog(malfunction);
 						numTries++;
 						
 					} else {
@@ -317,9 +312,7 @@ public  PatronLogInPanel() {
 
 					    // Prompt
 					    SuccessPanel success = new SuccessPanel(title, message);
-					    JOptionPane.showOptionDialog(PatronLogInPanel.this, success, "Success",
-		                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-		                        null, new Object[]{"Enter"}, null);
+					    showDialog(success);
 		            	
 					    // Remove previous frame
 		            	AuthenticationFrame frame = (AuthenticationFrame) SwingUtilities.getWindowAncestor(btnLogIn);
@@ -332,9 +325,7 @@ public  PatronLogInPanel() {
 					}
 				} catch (Exception e1) {
 					malfunction = new MalfunctionPanel("Login Error", "An unknown error has occured!");
-					JOptionPane.showOptionDialog(PatronLogInPanel.this, malfunction, "Error",
-	                        JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
-	                        null, new Object[]{"ok"}, null);
+					showDialog(malfunction);
 					e1.printStackTrace();
 				}
 			
@@ -342,6 +333,7 @@ public  PatronLogInPanel() {
 	});
 	
 }
+	//Method to get Back button
 	public JButton getBtnBack() {
 		return btnBack;
 	}
@@ -349,6 +341,8 @@ public  PatronLogInPanel() {
 		txtEmailAddress.clearInputAndGetPlaceholder();
 		txtPassword.clearInputAndGetPlaceholder();
 	}
+	
+	// Method for GUI
 	@Override
 	 protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
@@ -362,5 +356,49 @@ public  PatronLogInPanel() {
 	    lblHeading.setIcon(new ImageIcon(scaledImage));
 
 	 }
-	//Action Listener
+	
+	// OVERLOADED METHOD -> showDialog()
+	//Method to show alert panel (Success Panel)
+	public void showDialog(SuccessPanel panel) {
+		
+		panel.getBtnConfirm().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	            closeDialog(e);
+	    	}
+	    });
+	    
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+
+	}
+	
+	//Method to show alert panel (Malfunction Panel)
+    public void showDialog(MalfunctionPanel panel) {
+		
+		panel.getBtnConfirm().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	            closeDialog(e);
+	    	}
+	    });
+	    
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Confirm Log Out", true);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.getContentPane().add(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+	}
+    
+    //Method used by showDialog to close the JDialog containing the alert panels
+	private void closeDialog(ActionEvent e) {
+        Component component = (Component) e.getSource();
+        Window window = SwingUtilities.getWindowAncestor(component);
+        if (window != null) {
+            window.dispose();
+        }
+    }
 }

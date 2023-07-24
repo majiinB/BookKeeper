@@ -171,7 +171,7 @@ public class SuccessPanel extends JPanel {
 	mainPanel.add(alertPanel, gbc_alertPanel);
 		
     add(mainPanel); 
-	    
+	
     addComponentListener(new ComponentAdapter() {
     	  @Override
           public void componentResized(ComponentEvent e) {
@@ -192,6 +192,7 @@ public class SuccessPanel extends JPanel {
 
           }
       });
+    
   }
 	// Methods
 	public JButton getBtnConfirm() {
