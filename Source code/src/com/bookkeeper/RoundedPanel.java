@@ -9,9 +9,8 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-import javax.swing.border.Border;
 
-class RoundedPanel extends JPanel {
+public class RoundedPanel extends JPanel {
     //dimension
 	private int cornerRadius;
     private int borderWidth;

@@ -43,7 +43,7 @@ public class SignUpPanel extends JPanel {
 	private PlaceholderTextField txtEmailAddress;
 	private PlaceholderTextField txtHomeAddress;
 	private PlaceholderTextField txtContactNumber;
-	
+
 	//icon
 	private ImageIcon icon;
 	private Image image;

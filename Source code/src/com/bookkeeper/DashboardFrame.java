@@ -43,8 +43,8 @@ public class DashboardFrame extends JFrame {
 	//Graphics environment and screen dimensions
 	private GraphicsEnvironment environment;	
 	private GraphicsDevice device;
-//	private int width;
-//	private int height;
+	private int width;
+	private int height;
 	private int selectedValue;
 	
 	//admin
@@ -67,10 +67,10 @@ public class DashboardFrame extends JFrame {
     	// Set the frame size based on the screen dimensions
     	environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
     	device = environment.getDefaultScreenDevice();
-//    	width = (int)(device.getDisplayMode().getWidth() * (3.5/5.0));    	
-//    	height = (int)(device.getDisplayMode().getHeight() * 0.9);    
-//    	setSize(width, height);
-    	device.setFullScreenWindow(this);
+    	width = (int)(device.getDisplayMode().getWidth());    	
+    	height = (int)(device.getDisplayMode().getHeight());    
+    	setSize(width, height);
+//    	device.setFullScreenWindow(this);
 
 	    //create panels
 		mainPanel = new JPanel();//panel to hold all panels
@@ -193,10 +193,10 @@ public class DashboardFrame extends JFrame {
     	// Set the frame size based on the screen dimensions
     	environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
     	device = environment.getDefaultScreenDevice();
-//    	width = (int)(device.getDisplayMode().getWidth() * (3.5/5.0));    	
-//    	height = (int)(device.getDisplayMode().getHeight() * 0.9);    
-//    	setSize(width, height);
-    	device.setFullScreenWindow(this);
+    	width = (int)(device.getDisplayMode().getWidth());    	
+    	height = (int)(device.getDisplayMode().getHeight());    
+    	setSize(width, height);
+//    	device.setFullScreenWindow(this);
 
 	    //create panels
 		mainPanel = new JPanel();//panel to hold all panels
@@ -206,7 +206,7 @@ public class DashboardFrame extends JFrame {
 		PatronMenuPanel = new PatronMenuPanel();//menu bar for patron
 		//dashboard panels
 		PatronLibraryPanel = new PatronLibraryPanel();//panel for  book-related operations 
-		PatronSettingsPanel  = new PatronSettingsPanel();//panel for the settings of patron
+		PatronSettingsPanel  = new PatronSettingsPanel(user);//panel for the settings of patron
 		
 		// Set the layout of panels
 		cardLayout1 = new CardLayout(0, 0);

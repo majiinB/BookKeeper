@@ -18,7 +18,6 @@ public class PlaceholderComboBox extends JComboBox {
 	}
 
 //	public String getItem() {
-//		return;
 //	}
 		  
  
