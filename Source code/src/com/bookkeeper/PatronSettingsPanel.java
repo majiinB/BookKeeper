@@ -23,6 +23,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class PatronSettingsPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//panel
 	private JPanel mainPanel;
 	private JPanel contentPanel;
@@ -319,6 +323,26 @@ public class PatronSettingsPanel extends JPanel {
 	reserveScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
 	reserveScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	reserveScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+	
+	// Setting up reserved books table
+	reserveTableModel = new DefaultTableModel();
+	reserveTable = new JTable(reserveTableModel) {
+    	/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		// Override isCellEditable method to make cells not editable
+		@Override
+		public boolean isCellEditable(int row, int column) {
+		      return false;
+		}
+    };
+    reserveTable.setBackground(new Color(0, 0, 0, 0));;
+    reserveTable.setFillsViewportHeight(true);
+    reserveTable.setOpaque(false);
+    reserveTable.setShowVerticalLines(false);
+    reserveScrollPane.setViewportView(reserveTable);
     
 	lblactiveLoan = new JLabel("Active Book Loans");
 	lblactiveLoan.setOpaque(false);
@@ -334,7 +358,26 @@ public class PatronSettingsPanel extends JPanel {
 	activeLoanScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
 	activeLoanScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	activeLoanScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-    
+	
+	// Setting up active loan table
+	activeLoanTableModel = new DefaultTableModel();
+	activeLoanTable = new JTable(activeLoanTableModel) {
+    	/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		// Override isCellEditable method to make cells not editable
+		@Override
+		public boolean isCellEditable(int row, int column) {
+		      return false;
+		}
+    };
+    activeLoanTable.setBackground(new Color(0, 0, 0, 0));;
+    activeLoanTable.setFillsViewportHeight(true);
+    activeLoanTable.setOpaque(false);
+    activeLoanTable.setShowVerticalLines(false);
+    activeLoanScrollPane.setViewportView(activeLoanTable);
 	
 	lblhistoryLoan = new JLabel("Book Loan History");
 	lblhistoryLoan.setOpaque(false);
@@ -351,9 +394,15 @@ public class PatronSettingsPanel extends JPanel {
 	historyLoanScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	historyLoanScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 	
+	// Setting up history loan table
 	historyLoanTableModel = new DefaultTableModel();
 	historyLoanTable = new JTable(historyLoanTableModel) {
-    	// Override isCellEditable method to make cells not editable
+    	/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		// Override isCellEditable method to make cells not editable
 		@Override
 		public boolean isCellEditable(int row, int column) {
 		      return false;
@@ -363,12 +412,7 @@ public class PatronSettingsPanel extends JPanel {
     historyLoanTable.setFillsViewportHeight(true);
     historyLoanTable.setOpaque(false);
     historyLoanTable.setShowVerticalLines(false);
-    
     historyLoanScrollPane.setViewportView(historyLoanTable);
-   
-    
-	
-
 	
 	 /*
      * gamit ka ng gridbag layout for more control sa placement ng components  sa panel
@@ -581,6 +625,7 @@ public class PatronSettingsPanel extends JPanel {
     contentPanel.add(historyLoanPanel,gbc_historyLoanPanel);
     
     //Method call for table
+    displayReservation(user.getUser_id());
     displayBookHistory(user.getUser_id());
     
     
@@ -694,50 +739,48 @@ public class PatronSettingsPanel extends JPanel {
 	         e.printStackTrace();
 	     }
 	 }
-//	 private void displayAllReservation(String id) {
-//	     try {
-//	         // Establish database connection
-//	     	//Rekta na kasi tinamad mag assign pa ng variables same lang naman kasi db na gagamitin HAHAHAHAA
-//	         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
-//	         String getQuery = "SELECT b.book_status, b.book_id, b.book_title " +
-//	                 "FROM reserved_book AS rb " +
-//	                 "JOIN book AS b ON rb.book_id = b.book_id " +
-//	                 "WHERE rb.patron_id = '" + id + "' AND  rb.reservation_status = 'in que'";
-//	
-//	
-//	         // Execute the SQL query
-//	         Statement statement = connection.createStatement();
-//	         ResultSet resultSet = statement.executeQuery(getQuery); 
-//	
-//	         // Get the metadata for column information
-//	         ResultSetMetaData metaData = resultSet.getMetaData();
-//	         int columnCount = metaData.getColumnCount();
-//	
-//	         // Create an array to store column names
-//	         String[] columnNames = new String[columnCount];
-//	         for (int i = 1; i <= columnCount; i++) {
-//	             columnNames[i - 1] = metaData.getColumnName(i);
-//	         }
-//	
-//	         // Set the column names in the table model
-//	         tableModel_1.setColumnIdentifiers(columnNames);
-//	         
-//	         //Retrieve all row data
-//	         while (resultSet.next()) {
-//	             Object[] rowData = new Object[columnCount];
-//	             for (int i = 1; i <= columnCount; i++) {
-//	                 rowData[i - 1] = resultSet.getObject(i);
-//	             }
-//	             tableModel_1.addRow(rowData);
-//	         }
-//	
-//	         // Close the database connection
-//	         resultSet.close();
-//	         statement.close();
-//	         connection.close();
-//	     } catch (SQLException e) {
-//	         e.printStackTrace();
-//	     }
-//	 }
+	 private void displayReservation(String id) {
+	     try {
+	         // Establish database connection
+	     	//Rekta na kasi tinamad mag assign pa ng variables same lang naman kasi db na gagamitin HAHAHAHAA
+	         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+	         String getQuery = "SELECT b.book_status, b.ISBN, b.book_title " +
+	                 "FROM reserved_book AS rb " +
+	                 "JOIN book AS b ON rb.book_id = b.book_id " +
+	                 "WHERE rb.patron_id = '" + id + "' AND  rb.reservation_status = 'in que'";
+	
+	
+	         // Execute the SQL query
+	         Statement statement = connection.createStatement();
+	         ResultSet resultSet = statement.executeQuery(getQuery); 
+	
+	         // Get the metadata for column information
+	         ResultSetMetaData metaData = resultSet.getMetaData();
+	         int columnCount = metaData.getColumnCount();
+	
+	         // Create an array to store column names
+	         String[] columnNames = {"Boook Status", "ISBN", "Book title"};
+	         
+	
+	         // Set the column names in the table model
+	         reserveTableModel.setColumnIdentifiers(columnNames);
+	         
+	         //Retrieve all row data
+	         while (resultSet.next()) {
+	             Object[] rowData = new Object[columnCount];
+	             for (int i = 1; i <= columnCount; i++) {
+	                 rowData[i - 1] = resultSet.getObject(i);
+	             }
+	             reserveTableModel.addRow(rowData);
+	         }
+	
+	         // Close the database connection
+	         resultSet.close();
+	         statement.close();
+	         connection.close();
+	     } catch (SQLException e) {
+	         e.printStackTrace();
+	     }
+	 }
 
 }

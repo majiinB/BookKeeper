@@ -54,7 +54,8 @@ public class AuthenticationFrame extends JFrame{
 	private int selectedValue;
 	
 	public static void main(String[] args) {
-		/*updateOverdueBooks();*/
+		updateOverdueBooks();
+		 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
