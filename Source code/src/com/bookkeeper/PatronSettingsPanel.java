@@ -626,6 +626,7 @@ public class PatronSettingsPanel extends JPanel {
     
     //Method call for table
     displayReservation(user.getUser_id());
+    displayActiveBookLoans(user.getUser_id());
     displayBookHistory(user.getUser_id());
     
     
@@ -705,7 +706,7 @@ public class PatronSettingsPanel extends JPanel {
 	         String getQuery = "SELECT b.book_title, bb.borrowed_date" +
 	                 " FROM book AS b " +
 	                 "JOIN borrowed_book AS bb ON b.book_id = bb.book_id" +
-	                 " WHERE bb.patron_id = '" + id + "' ORDER BY bb.borrowed_date";
+	                 " WHERE bb.patron_id = '" + id + "' AND bb.borrow_status = 'returned' ORDER BY bb.borrowed_date";
 	
 	         // Execute the SQL query
 	         Statement statement = connection.createStatement();
@@ -782,5 +783,46 @@ public class PatronSettingsPanel extends JPanel {
 	         e.printStackTrace();
 	     }
 	 }
-
+	 private void displayActiveBookLoans(String id) {
+	     try {
+	         // Establish database connection
+	     	//Rekta na kasi tinamad mag assign pa ng variables same lang naman kasi db na gagamitin HAHAHAHAA
+	         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+	         String getQuery = "SELECT b.book_title, bb.borrowed_date, bb.borrow_status" +
+	                 " FROM book AS b " +
+	                 "JOIN borrowed_book AS bb ON b.book_id = bb.book_id" +
+	                 " WHERE bb.patron_id = '" + id + "' AND (bb.borrow_status = 'borrowed' OR bb.borrow_status = 'overdue') ORDER BY bb.borrowed_date";
+	
+	         // Execute the SQL query
+	         Statement statement = connection.createStatement();
+	         ResultSet resultSet = statement.executeQuery(getQuery); 
+	
+	         // Get the metadata for column information
+	         ResultSetMetaData metaData = resultSet.getMetaData();
+	         int columnCount = metaData.getColumnCount();
+	
+	         // Create an array to store column names
+	         String[] columnNames ={"Book title", "Date Borrowed", "Status"};
+	         
+	
+	         // Set the column names in the table model
+	         activeLoanTableModel.setColumnIdentifiers(columnNames);
+	         
+	         //Retrieve all row data
+	         while (resultSet.next()) {
+	             Object[] rowData = new Object[columnCount];
+	             for (int i = 1; i <= columnCount; i++) {
+	                 rowData[i - 1] = resultSet.getObject(i);
+	             }
+	             activeLoanTableModel.addRow(rowData);
+	         }
+	
+	         // Close the database connection
+	         resultSet.close();
+	         statement.close();
+	         connection.close();
+	     } catch (SQLException e) {
+	         e.printStackTrace();
+	     }
+	 }
 }
