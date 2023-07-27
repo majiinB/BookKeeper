@@ -125,10 +125,10 @@ public class AdminMenuPanel extends JPanel {
 	 topSeparatorPanel.setPreferredSize(new Dimension(3, 3));
 	 bottomSeparatorPanel.setPreferredSize(new Dimension(3, 3));
 	 
-	 bottomPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
+	 bottomPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 	 middlePanel.setBorder(new EmptyBorder(20, 0, 0, 0));
 	 topPanel.setBorder(new EmptyBorder(29, 0, 0, 0));
-	 LogoutPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
+	 LogoutPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 	 LibraryPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
 	 ReportPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
 	 EmployeePanel.setBorder(new EmptyBorder(10, 0, 10, 0));

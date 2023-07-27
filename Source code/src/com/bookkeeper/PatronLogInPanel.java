@@ -385,7 +385,7 @@ public  PatronLogInPanel() {
 	    	}
 	    });
 	    
-		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Confirm Log Out", true);
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),"Error", true);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.getContentPane().add(panel);
         dialog.pack();

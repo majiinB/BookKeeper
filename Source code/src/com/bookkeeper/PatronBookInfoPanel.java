@@ -16,6 +16,16 @@ public class PatronBookInfoPanel extends JPanel{
 	private JPanel detailPanel;
 	private JPanel buttonPanel;
 
+	private JPanel bookTitlePanel;
+	private JPanel authorPanel;
+	private JPanel isbnPanel;
+	private JPanel genrePanel;
+	private JPanel publisherPanel;
+	private JPanel publicationPanel;
+	private JPanel availabilityPanel;
+	private JPanel shelfNoPanel;
+	private JPanel aisleNoPanel;
+	
 	//icon
 	private ImageIcon icon;
 	private Image image;
@@ -33,8 +43,6 @@ public class PatronBookInfoPanel extends JPanel{
 	private JLabel lblBookAisleNo;
 	private JLabel lblBookAvail;
 	
-	private JLabel lblTitle;//title of panel "Book Information"
-	private JLabel lblDescription;
 	private JLabel lbPatronID;
 	private JLabel lblDateLoaned;
 	private JLabel lblDateDue;
@@ -42,6 +50,9 @@ public class PatronBookInfoPanel extends JPanel{
 	private JLabel lblEmailAdd;
 	
 	//textfield
+	private JTextArea txtTitle;//title of panel "Book Information"
+	private JTextArea txtDescription;
+	
 	private PlaceholderTextField txtBookTitle;
 	private PlaceholderTextField txtBookAuthor;
 	private PlaceholderTextField txtBookISBN;
@@ -57,11 +68,19 @@ public class PatronBookInfoPanel extends JPanel{
 	//layout
 	private GridBagLayout gbl_mainPanel; 
 	private GridBagConstraints gbc_headingPanel;
+	private GridBagConstraints gbc_titlePanel;
+	private GridBagConstraints gbc_detailPanel;
+	private GridBagConstraints gbc_buttonPanel;
+	
+	private GridBagLayout gbl_titlePanel; 
+	private GridBagConstraints gbc_txtTitle;
+	private GridBagConstraints gbc_txtDescription;
 
 
 	//text
 	private  Font titleFont;
 	private  Font subtitleFont;
+	private  Font bookTitleFont;
 	private  Font buttonFont;
 	private  Font headerFont;
 	private  Font plainFont;
@@ -71,6 +90,7 @@ public class PatronBookInfoPanel extends JPanel{
 	private  int subtitleTextSize;
 	private  int headerTextSize;
 	private  int plainTextsize;
+	private  int bookTitleTextSize;
 	private  Color headerColor = new Color(23, 21, 147);//blue
 	private  Color darkplainColor = new Color(14, 14, 15);//black
 	private  Color lightplainColor = new Color(250, 251, 255);//white
@@ -87,12 +107,32 @@ public class PatronBookInfoPanel extends JPanel{
 	    titlePanel = new JPanel();
 	    detailPanel = new JPanel();
 	    buttonPanel = new JPanel();
-
+	    
+	    bookTitlePanel = new JPanel();
+		authorPanel = new JPanel();
+		isbnPanel = new JPanel();
+		genrePanel = new JPanel();
+		publisherPanel = new JPanel();
+		publicationPanel = new JPanel();
+		availabilityPanel = new JPanel();
+		shelfNoPanel = new JPanel();
+		aisleNoPanel = new JPanel();
+		
 		// Set panel properties
 	    mainPanel.setBorder(null);
 	    mainPanel.setOpaque(false);
 	    headingPanel.setOpaque(false);
-
+	    titlePanel.setOpaque(false);
+	    detailPanel.setOpaque(false);
+	    bookTitlePanel.setOpaque(false);
+		authorPanel.setOpaque(false);;
+		isbnPanel.setOpaque(false);
+		genrePanel.setOpaque(false);
+		publisherPanel.setOpaque(false);
+		publicationPanel.setOpaque(false);
+		availabilityPanel.setOpaque(false);
+		shelfNoPanel.setOpaque(false);
+		aisleNoPanel.setOpaque(false);
 	    
 	    icon = new ImageIcon("img/Logo_Blue.png");
 	    image = icon.getImage();
@@ -110,6 +150,42 @@ public class PatronBookInfoPanel extends JPanel{
 	    btnBack.setBorderPainted(false);
 	    btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    
+	    
+	    txtTitle = new JTextArea("Book Information");
+	    txtTitle.setForeground(headerColor);
+	    txtTitle.setLineWrap(true);
+	    txtTitle.setOpaque(false);
+	    txtTitle.setWrapStyleWord(true);
+	    txtTitle.setFocusable(false);
+	    txtTitle.setEditable(false);
+	    txtTitle.setDragEnabled(false);
+	    txtTitle.setAutoscrolls(false);
+	    
+	    txtDescription = new JTextArea("Browse and reserve books effortlessly so they'll be ready for your next reading.");
+	    txtDescription.setForeground(darkplainColor);
+		txtDescription.setLineWrap(true);
+		txtDescription.setOpaque(false);
+		txtDescription.setWrapStyleWord(true);
+		txtDescription.setFocusable(false);
+		txtDescription.setEditable(false);
+		txtDescription.setDragEnabled(false);
+		txtDescription.setAutoscrolls(false);
+		
+	    lblBookTitle = new JLabel("Title:");
+	    lblBookTitle.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblBookTitle.setBorder(null);
+	    lblBookTitle.setForeground(headerColor);
+	    
+	    txtBookTitle = new PlaceholderTextField("Title of the Book");
+	    txtBookTitle.setHorizontalAlignment(SwingConstants.RIGHT);
+	    txtBookTitle.setForeground(headerColor);
+	    txtBookTitle.setOpaque(false);
+	    txtBookTitle.setFocusable(false);
+	    txtBookTitle.setBorder(null);
+	    txtBookTitle.setEditable(false);
+	    txtBookTitle.setDragEnabled(false);
+	    
+	    
 	    /*
 	     * gamit ka ng gridbag layout for more control sa placement ng components  sa panel
 	     * ung gbc or grid bag constraints is para madetermine mo ung positioning ng mga components sa gridbag layout
@@ -123,11 +199,10 @@ public class PatronBookInfoPanel extends JPanel{
 	    //gridbag layouts
 	    gbl_mainPanel = new GridBagLayout();
 	    gbl_mainPanel.columnWidths = new int[]{865};
-	    gbl_mainPanel.rowHeights = new int[]{35, 150, 0, 0};
+	    gbl_mainPanel.rowHeights = new int[]{35, 0, 0, 0};
 	    gbl_mainPanel.columnWeights = new double[]{1.0};
-	    gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0};
-	    
-	    
+	    gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0};
+	       
 	    gbc_headingPanel = new GridBagConstraints();
 	    gbc_headingPanel.fill = GridBagConstraints.HORIZONTAL;	    
 	    gbc_headingPanel.anchor = GridBagConstraints.NORTH;
@@ -135,19 +210,80 @@ public class PatronBookInfoPanel extends JPanel{
 	    gbc_headingPanel.gridx = 0;
 	    gbc_headingPanel.gridy = 0;
 
+	    gbc_titlePanel = new GridBagConstraints();
+	    gbc_titlePanel.anchor = GridBagConstraints.SOUTH;
+	    gbc_titlePanel.fill = GridBagConstraints.BOTH;	    
+	    gbc_titlePanel.insets = new Insets(5,5,5,5);
+	    gbc_titlePanel.gridx = 0;
+	    gbc_titlePanel.gridy = 1;
+	    
+	    gbc_detailPanel = new GridBagConstraints();
+	    gbc_detailPanel.anchor = GridBagConstraints.NORTH;
+	    gbc_detailPanel.fill = GridBagConstraints.HORIZONTAL;	    
+	    gbc_detailPanel.insets = new Insets(5,5,5,5);
+	    gbc_detailPanel.gridx = 0;
+	    gbc_detailPanel.gridy = 2;
+	    
+	    gbc_buttonPanel = new GridBagConstraints();
+	    gbc_buttonPanel.fill = GridBagConstraints.BOTH;	    
+	    gbc_buttonPanel.insets = new Insets(5,5,5,5);
+	    gbc_buttonPanel.gridx = 0;
+	    gbc_buttonPanel.gridy = 3;
+	    
+	    
+	    //
+	    
+	    gbl_titlePanel = new GridBagLayout();
+	    gbl_titlePanel.columnWidths = new int[]{865};
+	    gbl_titlePanel.rowHeights = new int[]{35, 0};
+	    gbl_titlePanel.columnWeights = new double[]{1.0};
+	    gbl_titlePanel.rowWeights = new double[]{0.0, 1.0,};
+	    
+	    gbc_txtTitle = new GridBagConstraints();
+	    gbc_txtTitle.fill = GridBagConstraints.HORIZONTAL;	    
+	    gbc_txtTitle.insets = new Insets(0, 0, 0, 0);
+	    gbc_txtTitle.gridx = 0;
+	    gbc_txtTitle.gridy = 0;
+	    
+	    gbc_txtDescription = new GridBagConstraints();
+	    gbc_txtDescription.fill = GridBagConstraints.BOTH;	    
+	    gbc_txtDescription.insets = new Insets(0,0,0,0);
+	    gbc_txtDescription.gridx = 0;
+	    gbc_txtDescription.gridy = 1;
+	    //
+	    
 	    
 	    // Set panel layout
 	    mainPanel.setLayout(gbl_mainPanel);
 	    headingPanel.setLayout(new BorderLayout(0,0));
-	    titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-	    buttonPanel.setLayout(new GridLayout(0, 3, 30, 0));
-
+	    titlePanel.setLayout(gbl_titlePanel); 
+	    buttonPanel.setLayout(new BorderLayout(0,0));
+	    detailPanel.setLayout(new GridLayout(1, 0, 0, 0));
+	    /*
+	     * change number of rows depending 
+	     * on how many details there are
+	    */
+	    bookTitlePanel.setLayout(new BorderLayout(0,0)); 
+	    
 	    //Add all to main panel
 	    headingPanel.add(lblHeading, BorderLayout.WEST);
 	    headingPanel.add(btnBack, BorderLayout.EAST);
-
+	    
+	    titlePanel.add(txtTitle,gbc_txtTitle);
+	    titlePanel.add(txtDescription,gbc_txtDescription);
+	    
+	    bookTitlePanel.add(lblBookTitle, BorderLayout.WEST);
+	    bookTitlePanel.add(txtBookTitle, BorderLayout.CENTER);
+	   
+	    detailPanel.add(bookTitlePanel);
+//	    detailPanel.add();
+//	    detailPanel.add();
+//	    detailPanel.add();
 	    
 	    mainPanel.add(headingPanel, gbc_headingPanel);
+	    mainPanel.add(titlePanel, gbc_titlePanel);
+	    mainPanel.add(detailPanel, gbc_detailPanel);
+	    mainPanel.add(buttonPanel, gbc_buttonPanel);
 //	    mainPanel.add();
 	    
 	    add(mainPanel);
@@ -155,18 +291,21 @@ public class PatronBookInfoPanel extends JPanel{
 	    addComponentListener(new ComponentAdapter() {
 	    	  @Override
 	          public void componentResized(ComponentEvent e) {
-	          	
-	  	        	titleTextSize = Math.min(getHeight() / 7, getWidth()/ 10) ;
-	  	            subtitleTextSize =  Math.min(getHeight() / 20, getWidth()/ 45);
+	    		  titleTextSize = Math.min(getHeight() / 10, getWidth()/ 10) ;
+	  	            subtitleTextSize =  Math.min(getHeight() / 20, getWidth()/ 50);
+	  	            bookTitleTextSize =  Math.min(getHeight() / 15, getWidth()/ 30);
 	  	            buttonTextSize =  Math.min(getHeight() / 40, getWidth()/ 58);
 	  	           	headerTextSize =   Math.min(getHeight() / 50, getWidth()/ 65);
 	  	           	plainTextsize=   Math.min(getHeight() / 20, getWidth()/ 50);
 	  	            
 	  	            titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
-//	  	            .setFont(titleFont);
+	  	            txtTitle.setFont(titleFont);
 	  	            
 	  	            subtitleFont = new Font("Montserrat", Font.ITALIC, subtitleTextSize);
-//	  	            .setFont(subtitleFont);
+	  	            txtDescription.setFont(subtitleFont);
+	  	            
+	  	            bookTitleFont = new Font("Montserrat", Font.BOLD, bookTitleTextSize);
+
 	  	            
 	  	            buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
 //	  	            .setFont(buttonFont);
@@ -176,7 +315,10 @@ public class PatronBookInfoPanel extends JPanel{
 	  	            btnBack.setFont(headerFont);
 	  	            lblHeading.setFont(headerFont);
 	  	            
+	  	            
 	  	            plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
+	  	            lblBookTitle.setFont(plainFont);
+	  	            txtBookTitle.setFont(plainFont);
 //	  	            .setFont(plainFont);
 //	  	            .setFont(plainFont);
 //	  	            .setFont(plainFont);

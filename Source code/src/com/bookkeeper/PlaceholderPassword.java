@@ -71,8 +71,8 @@ public class PlaceholderPassword extends JPasswordField {
         btnShowPass.setFocusPainted(false);
         btnShowPass.setContentAreaFilled(false);
 
-        iconHeight = (int) (btnShowPass.getPreferredSize().getHeight() * 0.6);
-        iconWidth = (int) (btnShowPass.getPreferredSize().getHeight() * 0.9);
+        iconHeight = (int) (btnShowPass.getPreferredSize().getHeight()-0.2);
+        iconWidth = (int) (btnShowPass.getPreferredSize().getHeight()-0.6);
         hideIcon = new ImageIcon(hideIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
         showIcon = new ImageIcon(showIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
         

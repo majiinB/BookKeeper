@@ -64,7 +64,8 @@ public class AdminBookInfoPanel extends JPanel{
 	//layout
 	private GridBagLayout gbl_mainPanel; 
 	private GridBagConstraints gbc_headingPanel;
-
+	private GridBagConstraints gbc_titlePanel;
+	private GridBagConstraints gbc_detailPanel;
 
 	//text
 	private  Font titleFont;
@@ -143,6 +144,17 @@ public class AdminBookInfoPanel extends JPanel{
 	    gbc_headingPanel.gridx = 0;
 	    gbc_headingPanel.gridy = 0;
 
+	    gbc_titlePanel = new GridBagConstraints();
+	    gbc_titlePanel.fill = GridBagConstraints.BOTH;	    
+	    gbc_titlePanel.insets = new Insets(0, 0, 0, 0);
+	    gbc_titlePanel.gridx = 0;
+	    gbc_titlePanel.gridy = 1;
+	    
+	    gbc_detailPanel = new GridBagConstraints();
+	    gbc_detailPanel.fill = GridBagConstraints.BOTH;	    
+	    gbc_detailPanel.insets = new Insets(0, 0, 0, 0);
+	    gbc_detailPanel.gridx = 0;
+	    gbc_detailPanel.gridy = 2;
 	    
 	    // Set panel layout
 	    mainPanel.setLayout(gbl_mainPanel);

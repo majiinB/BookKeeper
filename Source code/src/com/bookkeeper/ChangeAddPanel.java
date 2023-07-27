@@ -195,7 +195,7 @@ public class ChangeAddPanel extends JPanel{
 	    mainPanel.setLayout(gbl_mainPanel);
 	    headingPanel.setLayout(new BorderLayout(0,0));
 	    titlePanel.setLayout(new GridLayout(2, 0, 0, 0));
-	    buttonPanel.setLayout(new GridLayout(0, 3, 30, 0));
+//	    buttonPanel.setLayout(new GridLayout(0, 3, 30, 0));
 	    buttonPanel.setLayout(new BorderLayout(0, 0));
 
 	    //Add all to main panel

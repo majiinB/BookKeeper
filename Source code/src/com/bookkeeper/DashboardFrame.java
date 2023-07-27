@@ -136,7 +136,7 @@ public class DashboardFrame extends JFrame {
         });
     	AdminMenuPanel.getBtnPatron().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		cardLayout1.show(ContentPanel,"pane3");
+        		cardLayout1.show(ContentPanel,"panel3");
         		AdminMenuPanel.setBtnPatron();
 
         	}
@@ -158,11 +158,9 @@ public class DashboardFrame extends JFrame {
     	AdminMenuPanel.getBtnLogOut().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		ConfirmationPanel confirm = new ConfirmationPanel("Confirm Logout", "Are you sure you want to log out?");
-        		int option = JOptionPane.showOptionDialog(SwingUtilities.getWindowAncestor(AdminMenuPanel), confirm, "Confirmation",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                        null, new Object[]{"Confirm","Cancel"}, null);
+        		int option = showDialog(confirm);
 			    
-        		if(option == 0) {
+        		if(option == 1) {
         			DashboardFrame frame = (DashboardFrame) SwingUtilities.getWindowAncestor(AdminMenuPanel);
     				frame.dispose();
     				
@@ -282,7 +280,7 @@ public class DashboardFrame extends JFrame {
 	    });
 	    panel.getBtnCancel().addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	            selectedValue = 2; // Set selectedValue to 1 when "OK" is clicked
+	            selectedValue = 2; // Set selectedValue to2 when "Cancel" is clicked
 	            closeDialog(e);
 	    	}
 	    });

@@ -76,9 +76,8 @@ public class PatronLibraryPanel extends JPanel {
 	private  Color headerColor = new Color(23, 21, 147);
 	private  Color darkplainColor = new Color(14, 14, 15);
 	private  Color lightplainColor = new Color(250, 251, 255);
-	private JScrollPane scrollPane;
-	
-public PatronLibraryPanel() {
+
+	public PatronLibraryPanel() {
 	setBackground(lightplainColor);
 	setBorder(new EmptyBorder(20, 20, 20, 20));
 	setLayout(new BorderLayout(0, 0));
@@ -91,6 +90,7 @@ public PatronLibraryPanel() {
     titlePanel = new JPanel();
     searchBarPanel =  new RoundedPanel(20);
     searchResultsPanel =  new RoundedPanel(20);
+    searchResultsPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
 
 
     // Set panel properties
@@ -146,22 +146,23 @@ public PatronLibraryPanel() {
     txtSearchBar.setOpaque(false);
 
     // Create the scroll pane and add the table to it
-    scrollPane = new JScrollPane(table);
-    scrollPane.setOpaque(false);
-    scrollPane.setBorder(new EmptyBorder(15, 10, 15, 10));
-    scrollPane.setOpaque(false);
-    scrollPane.getViewport().setOpaque(false);
+    searchScrollPane = new JScrollPane(table);
+    searchScrollPane.setOpaque(false);
+    searchScrollPane.setBorder(new EmptyBorder(15, 10, 0, 10));
+    searchScrollPane.setOpaque(false);
+    searchScrollPane.getViewport().setOpaque(false);
     
-    // Create the table with the tableModel
+ // Create the table with the tableModel
     tableModel = new DefaultTableModel();//add table
-
+    
     table = new JTable(tableModel) {
-    	// Override isCellEditable method to make cells not editable
-		@Override
-		public boolean isCellEditable(int row, int column) {
-		      return false;
-		}
-    };
+    	
+        // Override isCellEditable method to make cells not editable
+    		@Override
+    		public boolean isCellEditable(int row, int column) {
+    		      return false;
+    		}
+         };
     table.setBackground(new Color(0, 0, 0, 0));;
     table.setFillsViewportHeight(true);
     table.setOpaque(false);
@@ -197,9 +198,6 @@ public PatronLibraryPanel() {
 		    } 
 		    }
 	});
-
-	//set what's inside the scroll pane
-	scrollPane.setViewportView(table);
 	
 	 /*
      * gamit ka ng gridbag layout for more control sa placement ng components  sa panel
@@ -259,7 +257,7 @@ public PatronLibraryPanel() {
 
  
     // Add the scroll pane to the searchResultsPanel
-    searchResultsPanel.add(scrollPane);
+    searchResultsPanel.add(searchScrollPane);
     
     
 	displayAllBooks();
@@ -307,7 +305,7 @@ public PatronLibraryPanel() {
 	        txtTitle.setFont(newTitleTextFont);
 
     		tableModel.setRowCount(0);
- 		    scrollPane.setViewportView(table);
+    		searchScrollPane.setViewportView(table);
  		    try {
  		        // Establish database connection
  		        String getSearch = txtSearchBar.getText().trim();
@@ -353,8 +351,6 @@ public PatronLibraryPanel() {
  		              }
  		              tableModel.addRow(rowData);
  		       }
- 		      
- 		     // To hide the first column which
  		     table.getColumnModel().getColumn(0).setWidth(0);
  		     table.getColumnModel().getColumn(0).setMinWidth(0);
  		     table.getColumnModel().getColumn(0).setMaxWidth(0);
