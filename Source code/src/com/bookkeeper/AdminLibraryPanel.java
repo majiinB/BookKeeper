@@ -327,6 +327,70 @@ protected void paintComponent(Graphics g) {
 }
 
 //Methods
+	public String searchQuery(String search) {
+		 String query = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
+	            "JOIN location l ON b.location_id = l.location_id " +
+	            "WHERE b.book_title LIKE '" + search + "%' OR " +
+	            "b.author_name LIKE '" + search + "%' OR " +
+	            "b.genre_name LIKE '%" + search + "%' OR " +
+	            "b.book_publisher LIKE '" + search + "%'";      
+		return query;
+	}
+	public void addBook() {
+		
+	}
+	private void displayAllBooks() {
+	   try {
+	       // Establish database connection
+	   	//Rekta na kasi tinamad mag assign pa ng variables same lang naman kasi db na gagamitin HAHAHAHAA
+	       Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+	       String getQuery = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name,b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
+	               "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
+	
+	       // Execute the SQL query
+	       Statement statement = connection.createStatement();
+	       ResultSet resultSet = statement.executeQuery(getQuery); 
+	
+	       // Get the metadata for column information
+	       ResultSetMetaData metaData = resultSet.getMetaData();
+	       int columnCount = metaData.getColumnCount();
+	
+	       // Create an array to store column names
+	       String[] columnNames = new String[10];
+	       columnNames[0] = "Book ID";
+	       columnNames[1] = "ISBN";
+	       columnNames[2] = "Title";
+	       columnNames[3] = "Author name";
+	       columnNames[4] = "Genre";
+	       columnNames[5] = "Publisher";
+	       columnNames[6] = "Publication Date";
+	       columnNames[7] = "Status";
+	       columnNames[8] = "Aisle No.";
+	       columnNames[9] = "Shelf No.";
+	
+	       // Set the column names in the table model
+	       tableModel.setColumnIdentifiers(columnNames);
+	       
+	       //Retrieve all row data
+	       while (resultSet.next()) {
+	           Object[] rowData = new Object[columnCount];
+	           for (int i = 1; i <= columnCount; i++) {
+	               rowData[i - 1] = resultSet.getObject(i);
+	           }
+	           tableModel.addRow(rowData);
+	       }
+	
+	       // Close the database connection
+	       resultSet.close();
+	       statement.close();
+	       connection.close();
+	   } catch (SQLException e) {
+	       e.printStackTrace();
+	   }
+	}
+//	public Book getBook() {
+//		return selectedBook;
+//	}
 
 
 }
