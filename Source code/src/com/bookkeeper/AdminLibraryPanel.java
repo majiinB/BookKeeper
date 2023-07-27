@@ -386,7 +386,8 @@ protected void paintComponent(Graphics g) {
 	            "WHERE b.book_title LIKE '" + search + "%' OR " +
 	            "b.author_name LIKE '" + search + "%' OR " +
 	            "b.genre_name LIKE '%" + search + "%' OR " +
-	            "b.book_publisher LIKE '" + search + "%'";      
+	            "b.book_publisher LIKE '" + search + "%' OR " +
+	            "b.ISBN LIKE '" + search + "%'";      
 		return query;
 	}
 //	public void addBook() {

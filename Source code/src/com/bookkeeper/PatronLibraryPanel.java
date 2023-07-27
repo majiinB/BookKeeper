@@ -402,7 +402,8 @@ public String searchQuery(String search) {
             "WHERE book_status = 'Available' AND b.book_title LIKE '" + search + "%' OR " +
             "b.author_name LIKE '" + search + "%' OR " +
             "b.genre_name LIKE '" + search + "%' OR " +
-            "b.book_publisher LIKE '" + search + "%'";
+            "b.book_publisher LIKE '" + search + "%' OR " +
+            "b.ISBN LIKE '" + search + "%'";
   return query;
 }
 
