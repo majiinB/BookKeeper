@@ -152,17 +152,17 @@ public class PatronLibraryPanel extends JPanel {
     searchScrollPane.setOpaque(false);
     searchScrollPane.getViewport().setOpaque(false);
     
- // Create the table with the tableModel
+    // Create the table with the tableModel
     tableModel = new DefaultTableModel();//add table
     
     table = new JTable(tableModel) {
     	
-        // Override isCellEditable method to make cells not editable
-    		@Override
-    		public boolean isCellEditable(int row, int column) {
-    		      return false;
-    		}
-         };
+    // Override isCellEditable method to make cells not editable
+		@Override
+		public boolean isCellEditable(int row, int column) {
+		      return false;
+		}
+     };
     table.setBackground(new Color(0, 0, 0, 0));;
     table.setFillsViewportHeight(true);
     table.setOpaque(false);
@@ -260,7 +260,7 @@ public class PatronLibraryPanel extends JPanel {
     searchResultsPanel.add(searchScrollPane);
     
     
-	displayAllBooks();
+	//displayAllBooks();
 
     mainPanel.add(contentPanel, BorderLayout.CENTER);
 	add(headingPanel, BorderLayout.NORTH);
@@ -405,54 +405,5 @@ public String searchQuery(String search) {
             "b.book_publisher LIKE '" + search + "%'";
   return query;
 }
-private void displayAllBooks() {
-    try {
-        // Establish database connection
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
-        String getQuery = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
-                "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
 
-        // Execute the SQL query
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(getQuery);
-
-        // Get the metadata for column information
-        ResultSetMetaData metaData = resultSet.getMetaData();
-        int columnCount = metaData.getColumnCount();
-
-        // Create an array to store column names
-        String[] columnNames = new String[10];
-        columnNames[0] = "Book ID";
-        columnNames[1] = "ISBN";
-        columnNames[2] = "Title";
-        columnNames[3] = "Author name";
-        columnNames[4] = "Genre";
-        columnNames[5] = "Publisher";
-        columnNames[6] = "Publication Date";
-        columnNames[7] = "Status";
-        columnNames[8] = "Aisle No.";
-        columnNames[9] = "Shelf No.";
-
-        // Set the column names in the table model
-        tableModel.setColumnIdentifiers(columnNames);
-
-        while (resultSet.next()) {
-            Object[] rowData = new Object[columnCount];
-            for (int i = 1; i <= columnCount; i++) {
-                rowData[i - 1] = resultSet.getObject(i);
-            }
-            tableModel.addRow(rowData);
-        }
-        table.getColumnModel().getColumn(0).setWidth(0);
-        table.getColumnModel().getColumn(0).setMinWidth(0);
-        table.getColumnModel().getColumn(0).setMaxWidth(0);
-
-        // Close the database connection
-        resultSet.close();
-        statement.close();
-        connection.close();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-}
 }

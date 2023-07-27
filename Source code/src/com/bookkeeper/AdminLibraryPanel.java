@@ -161,7 +161,7 @@ public class AdminLibraryPanel extends JPanel {
     searchScrollPane.setOpaque(false);
     searchScrollPane.getViewport().setOpaque(false);
     
- // Create the table with the tableModel
+    // Create the table with the tableModel
     tableModel = new DefaultTableModel();//add table
     
     table = new JTable(tableModel) {
@@ -259,17 +259,15 @@ public class AdminLibraryPanel extends JPanel {
 
     searchBarPanel.add(btnSearch,BorderLayout.WEST);
     searchBarPanel.add(txtSearchBar,BorderLayout.CENTER);
-
+    
     contentPanel.add(searchResultsPanel);
+    displayAllBooks();
     searchResultsPanel.setLayout(new BorderLayout(0, 0));
 
     // Add the scroll pane to the searchResultsPanel
     searchResultsPanel.add(searchScrollPane);
+ 
     addBookPanel.setLayout(new BorderLayout(0, 0));
-    
-   
-//	displayAllBooks();
-    
     addBookPanel.add(btnAdd);    
     topPanel.add(headingPanel,gbc_headingPanel);
     topPanel.add(searchBarPanel,gbc_searchBarPanel);
@@ -308,6 +306,61 @@ public class AdminLibraryPanel extends JPanel {
 	// Action Listener
 	btnSearch.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
+    		tableModel.setRowCount(0);
+    		searchScrollPane.setViewportView(table);
+ 		    try {
+ 		        // Establish database connection
+ 		        String getSearch = txtSearchBar.getText().trim();
+ 		        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+ 		        String getQuery = "";
+ 		              
+ 		        // Check for empty search
+ 		        if (getSearch.isEmpty()||getSearch.equals("Search Book")) {
+ 		             getQuery = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
+ 		                                "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
+ 		        } else {
+ 		             getQuery = searchQuery(getSearch);
+ 		        }
+
+ 		       // Execute the SQL query
+ 		      Statement statement = connection.createStatement();
+ 		      ResultSet resultSet = statement.executeQuery(getQuery);
+
+ 		      // Get the metadata for column information
+ 		      ResultSetMetaData metaData = resultSet.getMetaData();
+ 		      int columnCount = metaData.getColumnCount();
+               // Create an array to store column names
+ 		      String[] columnNames = new String[10];
+ 	            columnNames[0] = "Book ID";
+ 	            columnNames[1] = "ISBN";
+ 	            columnNames[2] = "Title";
+ 	            columnNames[3] = "Author name";
+ 	            columnNames[4] = "Genre";
+ 	            columnNames[5] = "Publisher";
+ 	            columnNames[6] = "Publication Date";
+ 	            columnNames[7] = "Status";
+ 	            columnNames[8] = "Aisle No.";
+ 	            columnNames[9] = "Shelf No.";
+
+ 		      // Set the column names in the table model
+ 		      tableModel.setColumnIdentifiers(columnNames);
+ 		      table.setModel(tableModel);
+ 		      
+ 		      while (resultSet.next()) {
+ 		              Object[] rowData = new Object[columnCount];
+ 		              for (int i = 1; i <= columnCount; i++) {
+ 		                     rowData[i - 1] = resultSet.getObject(i);
+ 		              }
+ 		              tableModel.addRow(rowData);
+ 		       }
+
+ 		      // Close the database connection
+ 		     resultSet.close();
+ 		     statement.close();
+ 		     connection.close();
+ 		     } catch (SQLException e1) {
+ 		              e1.printStackTrace();
+ 		     }
     	}
     });
 	btnAdd.addActionListener(new ActionListener() {
@@ -336,57 +389,57 @@ protected void paintComponent(Graphics g) {
 	            "b.book_publisher LIKE '" + search + "%'";      
 		return query;
 	}
-	public void addBook() {
-		
-	}
+//	public void addBook() {
+//		
+//	}
 	private void displayAllBooks() {
-	   try {
-	       // Establish database connection
-	   	//Rekta na kasi tinamad mag assign pa ng variables same lang naman kasi db na gagamitin HAHAHAHAA
-	       Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
-	       String getQuery = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name,b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
-	               "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
-	
-	       // Execute the SQL query
-	       Statement statement = connection.createStatement();
-	       ResultSet resultSet = statement.executeQuery(getQuery); 
-	
-	       // Get the metadata for column information
-	       ResultSetMetaData metaData = resultSet.getMetaData();
-	       int columnCount = metaData.getColumnCount();
-	
-	       // Create an array to store column names
-	       String[] columnNames = new String[10];
-	       columnNames[0] = "Book ID";
-	       columnNames[1] = "ISBN";
-	       columnNames[2] = "Title";
-	       columnNames[3] = "Author name";
-	       columnNames[4] = "Genre";
-	       columnNames[5] = "Publisher";
-	       columnNames[6] = "Publication Date";
-	       columnNames[7] = "Status";
-	       columnNames[8] = "Aisle No.";
-	       columnNames[9] = "Shelf No.";
-	
-	       // Set the column names in the table model
-	       tableModel.setColumnIdentifiers(columnNames);
-	       
-	       //Retrieve all row data
-	       while (resultSet.next()) {
-	           Object[] rowData = new Object[columnCount];
-	           for (int i = 1; i <= columnCount; i++) {
-	               rowData[i - 1] = resultSet.getObject(i);
-	           }
-	           tableModel.addRow(rowData);
-	       }
-	
-	       // Close the database connection
-	       resultSet.close();
-	       statement.close();
-	       connection.close();
-	   } catch (SQLException e) {
-	       e.printStackTrace();
-	   }
+	    try {
+	    	searchScrollPane.setViewportView(table);
+	        // Establish database connection
+	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+	        String getQuery = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
+	                "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
+
+	        // Execute the SQL query
+	        Statement statement = connection.createStatement();
+	        ResultSet resultSet = statement.executeQuery(getQuery);
+
+	        // Get the metadata for column information
+	        ResultSetMetaData metaData = resultSet.getMetaData();
+	        int columnCount = metaData.getColumnCount();
+
+	        // Create an array to store column names
+	        String[] columnNames = new String[10];
+	        columnNames[0] = "Book ID";
+	        columnNames[1] = "ISBN";
+	        columnNames[2] = "Title";
+	        columnNames[3] = "Author name";
+	        columnNames[4] = "Genre";
+	        columnNames[5] = "Publisher";
+	        columnNames[6] = "Publication Date";
+	        columnNames[7] = "Status";
+	        columnNames[8] = "Aisle No.";
+	        columnNames[9] = "Shelf No.";
+
+	        // Set the column names in the table model
+	        tableModel.setColumnIdentifiers(columnNames);
+
+	        while (resultSet.next()) {
+	            Object[] rowData = new Object[columnCount];
+	            for (int i = 1; i <= columnCount; i++) {
+	                rowData[i - 1] = resultSet.getObject(i);
+	            }
+	            tableModel.addRow(rowData);
+	        }
+	        
+
+	        // Close the database connection
+	        resultSet.close();
+	        statement.close();
+	        connection.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
 //	public Book getBook() {
 //		return selectedBook;
