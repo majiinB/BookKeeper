@@ -140,6 +140,8 @@ public class PatronMenuPanel extends JPanel {
     topSeparator.setBorder(new EmptyBorder(0, 10, 0, 10));
     
     btnLibrary = new JButton();
+    btnLibrary.setContentAreaFilled(false);
+    btnLibrary.setOpaque(false);
     btnLibrary.setMnemonic(KeyEvent.VK_L);
     btnLibrary.setToolTipText("Library");
     btnLibrary.setFocusPainted(false);
@@ -148,6 +150,8 @@ public class PatronMenuPanel extends JPanel {
 
 
     btnAcc = new JButton();
+    btnAcc.setContentAreaFilled(false);
+    btnAcc.setOpaque(false);
     btnAcc.setMnemonic(KeyEvent.VK_A);
     btnAcc.setToolTipText("Manage Account");
     btnAcc.setFocusPainted(false);
@@ -159,6 +163,8 @@ public class PatronMenuPanel extends JPanel {
     bottomSeparator.setForeground(new Color(250, 251, 255));
     bottomSeparator.setBorder(new EmptyBorder(0, 10, 0, 10));
     btnLogout = new JButton();
+    btnLogout.setOpaque(false);
+    btnLogout.setContentAreaFilled(false);
     btnLogout.setFocusPainted(false);
     btnLogout.setBorderPainted(false);
     btnLogout.setIcon(new ImageIcon(logoutScaledImage));
