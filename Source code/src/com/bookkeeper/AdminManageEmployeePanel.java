@@ -327,10 +327,7 @@ public class AdminManageEmployeePanel extends JPanel {
                 int columnCount = metaData.getColumnCount();
 
                 // Create an array to store column names
-                String[] columnNames = new String[columnCount];
-                for (int i = 1; i <= columnCount; i++) {
-                    columnNames[i - 1] = metaData.getColumnName(i);
-                }
+                String[] columnNames = {"Admin ID", "First Name","Last Name", "Email", "Contact", "Address", "Status"};
 
                 // Set the column names in the table model
                 tableModel.setColumnIdentifiers(columnNames);
@@ -395,10 +392,7 @@ protected void paintComponent(Graphics g) {
           int columnCount = metaData.getColumnCount();
 
           // Create an array to store column names
-          String[] columnNames = new String[columnCount];
-          for (int i = 1; i <= columnCount; i++) {
-              columnNames[i - 1] = metaData.getColumnName(i);
-          }
+          String[] columnNames = {"Admin ID", "First Name","Last Name", "Email", "Contact", "Address", "Status"};
 
           // Set the column names in the table model
           tableModel.setColumnIdentifiers(columnNames);

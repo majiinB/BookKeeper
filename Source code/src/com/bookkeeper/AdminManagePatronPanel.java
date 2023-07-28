@@ -180,34 +180,34 @@ public class AdminManagePatronPanel extends JPanel {
     
     //listener for clicking cells in table  
 	table.addMouseListener(new MouseAdapter() {
-	@Override
-	public void mouseClicked(MouseEvent e) { 
-		int selectedRow = table.getSelectedRow();
-		if (selectedRow != -1) {
-		    // Get the values from the selected row
-//		    int bookId = (int) table.getValueAt(selectedRow, 0);
-//		    String ISBN = (String) table.getValueAt(selectedRow, 1);
-//		    String bookTitle = (String) table.getValueAt(selectedRow, 2);
-//		    String authorName = (String) table.getValueAt(selectedRow, 3);
-//		    String genreName = (String) table.getValueAt(selectedRow, 4);
-//		    String bookPublisher = (String) table.getValueAt(selectedRow, 5);
-//		    java.sql.Date date = (java.sql.Date) table.getValueAt(selectedRow, 6);
-//		    String bookPublishDate = date.toString();
-//		    String bookStatus = (String) table.getValueAt(selectedRow, 7);
-//		    int aisleNumber = (int) table.getValueAt(selectedRow, 8);
-//		    int shelfNumber = (int) table.getValueAt(selectedRow, 9);
-		    //Create a Book object with the retrieved values
-		    //selectedBook = new Book(bookId, bookTitle, genreName, authorName, bookPublishDate , bookPublisher, bookStatus, aisleNumber, shelfNumber, ISBN);
-
-		    //Use the selectedBook object as needed
-		    // ...
-
-		    // Open the BookInfoFrame with the selected book
-		    //BookInfoFrame frame = new BookInfoFrame(3, selectedBook, user);
-		    //frame.setVisible(true);
-		    } 
-		    }
+		@Override
+		public void mouseClicked(MouseEvent e) { 
+			int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+            // Get the values from the selected row
+            String userID =  (String) table.getValueAt(selectedRow, 0);
+            String userFname = (String) table.getValueAt(selectedRow, 1);
+            String userLname = (String) table.getValueAt(selectedRow, 2);
+            String userEmail = (String) table.getValueAt(selectedRow, 3);
+            String userContact = (String) table.getValueAt(selectedRow, 4);
+            String userAddress = (String) table.getValueAt(selectedRow, 5);
+            String userStatus = (String) table.getValueAt(selectedRow, 6);
+           
+//            //Create a Book object with the retrieved values
+//            selectedUser = new User(userID, userFname, userLname, userEmail, userContact, userAddress, "n/a", userStatus);
+//           
+//            //Use the selectedBook object as needed
+//            // ...
+//
+//            // Open the BookInfoFrame with the selected book
+//            UserInfoFrame frame = new UserInfoFrame(1, selectedUser);
+//            frame.setVisible(true);
+            }
+		}
 	});
+	
+	//set what's inside the scroll pane
+	searchScrollPane.setViewportView(table);
 	
 	 /*
      * gamit ka ng gridbag layout for more control sa placement ng components  sa panel
@@ -268,7 +268,7 @@ public class AdminManagePatronPanel extends JPanel {
     addBookPanel.setLayout(new BorderLayout(0, 0));
     
    
-//	displayAllBooks();
+	displayAllPatron();
     
     addBookPanel.add(btnAdd);    
     topPanel.add(headingPanel,gbc_headingPanel);
@@ -308,6 +308,54 @@ public class AdminManagePatronPanel extends JPanel {
 	// Action Listener
 	btnSearch.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
+    		tableModel.setRowCount(0);
+            searchScrollPane.setViewportView(table);
+
+            try {
+                // Establish database connection
+                String getSearch = txtSearchBar.getText().trim();
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+                String getQuery = "";
+                
+                // Check for empty search
+                if (getSearch.isEmpty()||getSearch.equals("Search User") ) {
+                    getQuery = "SELECT formatted_id, patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_status "
+    	            		+ "FROM patron "
+    	            		+ "ORDER BY patron_lname ASC";
+                } else {
+                    getQuery = searchQuery(getSearch);
+                }
+
+                // Execute the SQL query
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(getQuery);
+
+                // Get the metadata for column information
+                ResultSetMetaData metaData = resultSet.getMetaData();
+                int columnCount = metaData.getColumnCount();
+
+                // Create an array to store column names
+                String[] columnNames = {"Patron ID", "First Name","Last Name", "Email", "Contact", "Address", "Status"};
+                
+
+                // Set the column names in the table model
+                tableModel.setColumnIdentifiers(columnNames);
+
+                while (resultSet.next()) {
+                    Object[] rowData = new Object[columnCount];
+                    for (int i = 1; i <= columnCount; i++) {
+                        rowData[i - 1] = resultSet.getObject(i);
+                    }
+                    tableModel.addRow(rowData);
+                }
+
+                // Close the database connection
+                resultSet.close();
+                statement.close();
+                connection.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
     	}
     });
 	btnAdd.addActionListener(new ActionListener() {
@@ -327,6 +375,52 @@ protected void paintComponent(Graphics g) {
 }
 
 //Methods
+public String searchQuery(String search) {
+    String query = "SELECT formatted_id, patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_status "
+    		+ "FROM patron "
+    		+ "WHERE formatted_id LIKE '" +search+"%' OR patron_fname LIKE '"+search+"%' OR patron_lname LIKE '"+search+"%' "
+    		+ "ORDER BY patron_lname ASC";
+    return query;
+ }
 
+ private void displayAllPatron() {
+     try {
+         // Establish database connection
+     	//Rekta na kasi tinamad mag assign pa ng variables same lang naman kasi db na gagamitin HAHAHAHAA
+         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+         String getQuery = "SELECT formatted_id, patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_status "
+         		+ "FROM patron "
+         		+ "ORDER BY patron_lname ASC";
 
+         // Execute the SQL query
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery(getQuery); 
+
+         // Get the metadata for column information
+         ResultSetMetaData metaData = resultSet.getMetaData();
+         int columnCount = metaData.getColumnCount();
+
+         // Create an array to store column names
+         String[] columnNames = {"Patron ID", "First Name","Last Name", "Email", "Contact", "Address", "Status"};
+
+         // Set the column names in the table model
+         tableModel.setColumnIdentifiers(columnNames);
+         
+         //Retrieve all row data
+         while (resultSet.next()) {
+             Object[] rowData = new Object[columnCount];
+             for (int i = 1; i <= columnCount; i++) {
+                 rowData[i - 1] = resultSet.getObject(i);
+             }
+             tableModel.addRow(rowData);
+         }
+
+         // Close the database connection
+         resultSet.close();
+         statement.close();
+         connection.close();
+     } catch (SQLException e) {
+         e.printStackTrace();
+     }
+ }
 }
