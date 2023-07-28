@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 28, 2023 at 08:35 AM
+-- Generation Time: Jul 28, 2023 at 09:51 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -236,6 +236,13 @@ CREATE TABLE `setting` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `setting`
+--
+
+INSERT INTO `setting` (`setting_id`, `borrow_limit`, `reserve_limit`, `borrow_duration`, `penalty_limit`) VALUES
+(1, 8, 8, 21, 3);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -331,7 +338,7 @@ ALTER TABLE `reserved_book`
 -- AUTO_INCREMENT for table `setting`
 --
 ALTER TABLE `setting`
-  MODIFY `setting_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `setting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
