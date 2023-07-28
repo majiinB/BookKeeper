@@ -48,7 +48,7 @@ public class DashboardFrame extends JFrame {
 	private int selectedValue;
 	
 	//admin
-	public DashboardFrame(Employee employee) {
+	public DashboardFrame(Employee employee, Setting setting) {
 		setTitle("Book Keeper");
     	
 //    	// Set the Icon
@@ -84,7 +84,7 @@ public class DashboardFrame extends JFrame {
 		AdminReportPanel  = new AdminReportPanel();//panel for showcasing reports regarding the library
 		AdminManagePatronPanel  = new AdminManagePatronPanel();//panel for managing patrons
 		AdminManageEmployeePanel  = new AdminManageEmployeePanel();//panel for managing employees
-		AdminSettingsPanel  = new AdminSettingsPanel();//panel for the settings of admin and employees
+		AdminSettingsPanel  = new AdminSettingsPanel(employee, setting);//panel for the settings of admin and employees
 
 		
 		// Set the layout of panels

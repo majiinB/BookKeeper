@@ -11,6 +11,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class AdminLogInPanel extends JPanel {
@@ -306,7 +311,9 @@ public  AdminLogInPanel() {
 						
 					} else {
 						// Hide the login panel and show the main interface
-						employee = (Employee) newUser;
+						
+						Setting setting = retrieveSettingFromDatabase(); //Instantiate the setting object to be used by admin
+						employee = (Employee) newUser; //Create the employee that logged in
 						String title = "Login Success!";
 					    String message = "Welcome " + employee.getFname() + " " + employee.getLname();
 
@@ -320,7 +327,7 @@ public  AdminLogInPanel() {
 		            	
 					    // Create and show the DashboardFrame
 					    @SuppressWarnings("unused")
-						DashboardFrame dashboardFrame = new DashboardFrame(employee);
+						DashboardFrame dashboardFrame = new DashboardFrame(employee , setting); // pass both the employee created and setting object
 		                
 					}
 				} catch (Exception e1) {
@@ -398,5 +405,33 @@ public  AdminLogInPanel() {
         if (window != null) {
             window.dispose();
         }
+    }
+	public Setting retrieveSettingFromDatabase() {
+        Setting setting = null;
+        String DB_URL = "jdbc:mysql://localhost/book_keeper";
+        String DB_USER = "root";
+        String DB_PASSWORD = "";
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM setting");
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int setting_id = resultSet.getInt("setting_id");
+                int borrow_limit = resultSet.getInt("borrow_limit");
+                int reserve_limit = resultSet.getInt("reserve_limit");
+                int borrow_duration = resultSet.getInt("borrow_duration");
+                int penalty_limit = resultSet.getInt("penalty_limit");
+
+                setting = new Setting(setting_id, borrow_limit, reserve_limit, borrow_duration, penalty_limit);
+            }
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception appropriately (e.g., log, throw, or return a default Setting object)
+        }
+
+        return setting;
     }
 }

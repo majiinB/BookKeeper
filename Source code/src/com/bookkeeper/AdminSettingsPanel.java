@@ -182,7 +182,7 @@ public class AdminSettingsPanel extends JPanel {
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
- public AdminSettingsPanel() {
+ public AdminSettingsPanel(Employee employee, Setting setting) {
 	setBackground(lightplainColor);
 	setBorder(new EmptyBorder(20, 20, 0, 0));
 	setLayout(new BorderLayout(0, 0));
@@ -293,7 +293,7 @@ public class AdminSettingsPanel extends JPanel {
 	lblFirstName.setOpaque(false);
 	lblFirstName.setForeground(darkplainColor);
 	
-	txtFirstName = new PlaceholderTextField("Juan");
+	txtFirstName = new PlaceholderTextField(employee.getFname());
 	txtFirstName.setFocusable(false);
 	txtFirstName.setEditable(false);
 	txtFirstName.setBorder(null);
@@ -305,7 +305,7 @@ public class AdminSettingsPanel extends JPanel {
 	lblLastName.setOpaque(false);
 	lblLastName.setForeground(darkplainColor);
 	
-	txtLastName = new PlaceholderTextField("Delolo");
+	txtLastName = new PlaceholderTextField(employee.getLname());
 	txtLastName.setFocusable(false);
 	txtLastName.setEditable(false);
 	txtLastName.setOpaque(false);
@@ -316,7 +316,7 @@ public class AdminSettingsPanel extends JPanel {
 	lblUserID.setOpaque(false);
 	lblUserID.setForeground(darkplainColor);
 	
-	txtUserID = new PlaceholderTextField("AAAAAAAAA");
+	txtUserID = new PlaceholderTextField(employee.getEmployee_id());
 	txtUserID.setFocusable(false);
 	txtUserID.setBorder(null);
 	txtUserID.setEditable(false);
@@ -327,7 +327,7 @@ public class AdminSettingsPanel extends JPanel {
 	lblHomeAddress.setOpaque(false);
 	lblHomeAddress.setForeground(darkplainColor);
 	
-	txtHomeAddress = new PlaceholderTextField("House No. / Block No. / Street / Barangay / City");
+	txtHomeAddress = new PlaceholderTextField(employee.getAddress());
 	txtHomeAddress.setFocusable(false);
 	txtHomeAddress.setBorder(null);
 	txtHomeAddress.setEditable(false);
@@ -338,7 +338,7 @@ public class AdminSettingsPanel extends JPanel {
 	lblContactNumber.setOpaque(false);
 	lblContactNumber.setForeground(darkplainColor);
 	
-	txtContactNumber= new PlaceholderTextField("00000000000");
+	txtContactNumber= new PlaceholderTextField(employee.getContactNum());
 	txtContactNumber.setFocusable(false);
 	txtContactNumber.setBorder(null);
 	txtContactNumber.setEditable(false);
@@ -349,7 +349,7 @@ public class AdminSettingsPanel extends JPanel {
 	lblEmailAddress.setOpaque(false);
 	lblEmailAddress.setForeground(darkplainColor);
 	
-	txtEmailAddress = new PlaceholderTextField("sample@gmail.com");
+	txtEmailAddress = new PlaceholderTextField(employee.getEmail());
 	txtEmailAddress.setFocusable(false);
 	txtEmailAddress.setEditable(false);
 	txtEmailAddress.setBorder(null);
@@ -367,7 +367,7 @@ public class AdminSettingsPanel extends JPanel {
 	lblCapacityLimit.setOpaque(false);
 	lblCapacityLimit.setForeground(darkplainColor);
 	
-	txtCapacityLimit = new PlaceholderTextField("000");
+	txtCapacityLimit = new PlaceholderTextField(Integer.toString(setting.getBorrow_lim()));
 	txtCapacityLimit.setFocusable(false);
 	txtCapacityLimit.setEditable(false);
 	txtCapacityLimit.setBorder(null);
@@ -378,7 +378,7 @@ public class AdminSettingsPanel extends JPanel {
 	lblDurationLimit.setOpaque(false);
 	lblDurationLimit.setForeground(darkplainColor);
 	
-	txtDurationLimit = new PlaceholderTextField("000");
+	txtDurationLimit = new PlaceholderTextField(Integer.toString(setting.getBorrow_duration_lim()));
 	txtDurationLimit.setFocusable(false);
 	txtDurationLimit.setEditable(false);
 	txtDurationLimit.setBorder(null);
@@ -389,7 +389,7 @@ public class AdminSettingsPanel extends JPanel {
 	lblReserveLimit.setOpaque(false);
 	lblReserveLimit.setForeground(darkplainColor);
 	
-	txtReserveLimit = new PlaceholderTextField("000");
+	txtReserveLimit = new PlaceholderTextField(Integer.toString(setting.getReserve_lim()));
 	txtReserveLimit.setFocusable(false);
 	txtReserveLimit.setEditable(false);
 	txtReserveLimit.setBorder(null);
@@ -400,7 +400,7 @@ public class AdminSettingsPanel extends JPanel {
 	lblPenaltyLimit.setOpaque(false);
 	lblPenaltyLimit.setForeground(darkplainColor);
 	
-	txtPenaltyLimit = new PlaceholderTextField("000");
+	txtPenaltyLimit = new PlaceholderTextField(Integer.toString(setting.getPenalty_lim()));
 	txtPenaltyLimit.setFocusable(false);
 	txtPenaltyLimit.setEditable(false);
 	txtPenaltyLimit.setBorder(null);
