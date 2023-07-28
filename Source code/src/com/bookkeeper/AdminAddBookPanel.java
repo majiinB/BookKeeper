@@ -199,4 +199,8 @@ public class AdminAddBookPanel extends JPanel{
 	    lblHeading.setIcon(new ImageIcon(scaledImage));
 
 	 }
+	// Method 
+	public JButton getBtnBack() {
+		return btnBack;
+	}
 }

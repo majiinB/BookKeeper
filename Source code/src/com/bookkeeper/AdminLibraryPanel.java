@@ -79,6 +79,9 @@ public class AdminLibraryPanel extends JPanel {
 	private  Color darkplainColor = new Color(14, 14, 15);//black
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
+	
+	//Object
+	private Book selectedBook;
 
  public AdminLibraryPanel() {
 	setBackground(lightplainColor);
@@ -185,28 +188,28 @@ public class AdminLibraryPanel extends JPanel {
 		int selectedRow = table.getSelectedRow();
 		if (selectedRow != -1) {
 		    // Get the values from the selected row
-//		    int bookId = (int) table.getValueAt(selectedRow, 0);
-//		    String ISBN = (String) table.getValueAt(selectedRow, 1);
-//		    String bookTitle = (String) table.getValueAt(selectedRow, 2);
-//		    String authorName = (String) table.getValueAt(selectedRow, 3);
-//		    String genreName = (String) table.getValueAt(selectedRow, 4);
-//		    String bookPublisher = (String) table.getValueAt(selectedRow, 5);
-//		    java.sql.Date date = (java.sql.Date) table.getValueAt(selectedRow, 6);
-//		    String bookPublishDate = date.toString();
-//		    String bookStatus = (String) table.getValueAt(selectedRow, 7);
-//		    int aisleNumber = (int) table.getValueAt(selectedRow, 8);
-//		    int shelfNumber = (int) table.getValueAt(selectedRow, 9);
+		    int bookId = (int) table.getValueAt(selectedRow, 0);
+		    String ISBN = (String) table.getValueAt(selectedRow, 1);
+		    String bookTitle = (String) table.getValueAt(selectedRow, 2);
+		    String authorName = (String) table.getValueAt(selectedRow, 3);
+		    String genreName = (String) table.getValueAt(selectedRow, 4);
+		    String bookPublisher = (String) table.getValueAt(selectedRow, 5);
+		    java.sql.Date date = (java.sql.Date) table.getValueAt(selectedRow, 6);
+		    String bookPublishDate = date.toString();
+		    String bookStatus = (String) table.getValueAt(selectedRow, 7);
+		    int aisleNumber = (int) table.getValueAt(selectedRow, 8);
+		    int shelfNumber = (int) table.getValueAt(selectedRow, 9);
+		    
 		    //Create a Book object with the retrieved values
-		    //selectedBook = new Book(bookId, bookTitle, genreName, authorName, bookPublishDate , bookPublisher, bookStatus, aisleNumber, shelfNumber, ISBN);
+		    selectedBook = new Book(bookId, bookTitle, genreName, authorName, bookPublishDate , bookPublisher, bookStatus, aisleNumber, shelfNumber, ISBN);
 
 		    //Use the selectedBook object as needed
-		    // ...
-
+		    
 		    // Open the BookInfoFrame with the selected book
-		    //BookInfoFrame frame = new BookInfoFrame(3, selectedBook, user);
-		    //frame.setVisible(true);
+		    AdminBookInfoPanel panel = new AdminBookInfoPanel(selectedBook);
+		    showDialog(panel);
 		    } 
-		    }
+		}
 	});
 	
 	 /*
@@ -365,6 +368,8 @@ public class AdminLibraryPanel extends JPanel {
     });
 	btnAdd.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
+    		AdminAddBookPanel panel = new AdminAddBookPanel();
+    		showDialog(panel);
     	}
     });
 		
@@ -390,9 +395,48 @@ protected void paintComponent(Graphics g) {
 	            "b.ISBN LIKE '" + search + "%'";      
 		return query;
 	}
-//	public void addBook() {
-//		
-//	}
+	//Methods
+	// Overload Method showDialog
+	public void showDialog(AdminAddBookPanel panel) {
+		
+		panel.getBtnBack().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	            closeDialog(e);
+	    	}
+	    });
+	    
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+
+	}
+	public void showDialog(AdminBookInfoPanel panel) {
+		
+		panel.getBtnBack().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	            closeDialog(e);
+	    	}
+	    });
+	    
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+
+	}
+	//Method used by showDialog to close the JDialog containing the alert panels
+	private void closeDialog(ActionEvent e) {
+        Component component = (Component) e.getSource();
+        Window window = SwingUtilities.getWindowAncestor(component);
+        if (window != null) {
+            window.dispose();
+        }
+    }
 	private void displayAllBooks() {
 	    try {
 	    	searchScrollPane.setViewportView(table);

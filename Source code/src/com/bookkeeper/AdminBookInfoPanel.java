@@ -84,7 +84,7 @@ public class AdminBookInfoPanel extends JPanel{
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
-	public AdminBookInfoPanel() {
+	public AdminBookInfoPanel(Book book) {
 		setBackground(new Color(250, 251, 255));
 	    setBorder(new EmptyBorder(10, 10, 10, 10));
 	    setLayout(new BorderLayout(0, 0));
@@ -219,4 +219,7 @@ public class AdminBookInfoPanel extends JPanel{
 	    lblHeading.setIcon(new ImageIcon(scaledImage));
 
 	 }
+	public JButton getBtnBack() {
+		return btnBack;
+	}
 }

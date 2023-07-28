@@ -60,13 +60,13 @@ public class InfoDisplayFrame extends JFrame {
     	
         
         //Create panels
-    	mainPanel = new JPanel();//panel to hold all panels
-    	PatronBookInfoPanel = new PatronBookInfoPanel();//panel to display book information for patron 
-    	AdminBookInfoPanel = new AdminBookInfoPanel();//panel to display book information for admin and employee
-    	AdminAddBookPanel = new AdminAddBookPanel();
-    	AdminUpdateBookPanel = new AdminUpdateBookPanel();
-    	AdminUserInfoPanel = new AdminUserInfoPanel();
-    	AccountInfoPanel = new AccountInfoPanel();
+//    	mainPanel = new JPanel();//panel to hold all panels
+//    	PatronBookInfoPanel = new PatronBookInfoPanel();//panel to display book information for patron 
+//    	AdminBookInfoPanel = new AdminBookInfoPanel();//panel to display book information for admin and employee
+//    	AdminAddBookPanel = new AdminAddBookPanel();
+//    	AdminUpdateBookPanel = new AdminUpdateBookPanel();
+//    	AdminUserInfoPanel = new AdminUserInfoPanel();
+//    	AccountInfoPanel = new AccountInfoPanel();
            
 
 		// Set the layout of panels

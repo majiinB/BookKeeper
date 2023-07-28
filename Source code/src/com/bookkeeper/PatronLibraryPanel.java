@@ -376,7 +376,7 @@ public class BackgroundPanel extends JPanel {
 		backgroundImage = new ImageIcon("img/DashboardFrame/Triangles_Library.png").getImage();
 	}
 	
-//put image over panel
+	//put image over panel
 	 @Override
 	 protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
@@ -395,16 +395,15 @@ public class BackgroundPanel extends JPanel {
 	 }
 	    
 	}  
-//Methods
-public String searchQuery(String search) {
-	 String query = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
-            "JOIN location l ON b.location_id = l.location_id " +
-            "WHERE book_status = 'Available' AND b.book_title LIKE '" + search + "%' OR " +
-            "b.author_name LIKE '" + search + "%' OR " +
-            "b.genre_name LIKE '" + search + "%' OR " +
-            "b.book_publisher LIKE '" + search + "%' OR " +
-            "b.ISBN LIKE '" + search + "%'";
-  return query;
-}
-
+	//Methods
+	public String searchQuery(String search) {
+		 String query = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
+	            "JOIN location l ON b.location_id = l.location_id " +
+	            "WHERE book_status = 'Available' AND b.book_title LIKE '" + search + "%' OR " +
+	            "b.author_name LIKE '" + search + "%' OR " +
+	            "b.genre_name LIKE '" + search + "%' OR " +
+	            "b.book_publisher LIKE '" + search + "%' OR " +
+	            "b.ISBN LIKE '" + search + "%'";
+	  return query;
+	}
 }
