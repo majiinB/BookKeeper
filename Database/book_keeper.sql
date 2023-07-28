@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2023 at 05:42 AM
+-- Generation Time: Jul 28, 2023 at 08:35 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -221,6 +221,20 @@ CREATE TABLE `reserved_book` (
   `patron_id` varchar(13) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `setting`
+--
+
+CREATE TABLE `setting` (
+  `setting_id` int(11) NOT NULL,
+  `borrow_limit` int(11) NOT NULL,
+  `reserve_limit` int(11) NOT NULL,
+  `borrow_duration` int(11) NOT NULL,
+  `penalty_limit` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -268,6 +282,12 @@ ALTER TABLE `reserved_book`
   ADD KEY `fk_reserved_book_patron` (`patron_id`);
 
 --
+-- Indexes for table `setting`
+--
+ALTER TABLE `setting`
+  ADD PRIMARY KEY (`setting_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -306,6 +326,12 @@ ALTER TABLE `patron`
 --
 ALTER TABLE `reserved_book`
   MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `setting`
+--
+ALTER TABLE `setting`
+  MODIFY `setting_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
