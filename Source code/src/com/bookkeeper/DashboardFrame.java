@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Frame;
+import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
@@ -65,12 +66,13 @@ public class DashboardFrame extends JFrame {
     	setResizable(false); 
 
     	// Set the frame size based on the screen dimensions
-    	environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-    	device = environment.getDefaultScreenDevice();
-    	width = (int)(device.getDisplayMode().getWidth());    	
-    	height = (int)(device.getDisplayMode().getHeight());    
-    	setSize(width, height);
-//    	device.setFullScreenWindow(this);
+    	GraphicsDevice[] devices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+    	GraphicsDevice device = devices[0]; // Choose the appropriate device index if there are multiple
+    	GraphicsConfiguration config = device.getDefaultConfiguration();
+    	setUndecorated(true);
+    	//device.setFullScreenWindow(this);
+    	setSize(config.getBounds().getSize());
+
 
 	    //create panels
 		mainPanel = new JPanel();//panel to hold all panels
@@ -189,12 +191,13 @@ public class DashboardFrame extends JFrame {
     	setResizable(false); 
 
     	// Set the frame size based on the screen dimensions
-    	environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-    	device = environment.getDefaultScreenDevice();
-    	width = (int)(device.getDisplayMode().getWidth());    	
-    	height = (int)(device.getDisplayMode().getHeight());    
-    	setSize(width, height);
-//    	device.setFullScreenWindow(this);
+    	GraphicsDevice[] devices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+    	GraphicsDevice device = devices[0]; // Choose the appropriate device index if there are multiple
+    	GraphicsConfiguration config = device.getDefaultConfiguration();
+    	setUndecorated(true);
+    	//device.setFullScreenWindow(this);
+    	setSize(config.getBounds().getSize());
+
 
 	    //create panels
 		mainPanel = new JPanel();//panel to hold all panels
