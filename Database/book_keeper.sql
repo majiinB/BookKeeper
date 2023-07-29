@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 28, 2023 at 09:51 AM
+-- Generation Time: Jul 29, 2023 at 12:37 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -36,18 +36,38 @@ CREATE TABLE `admin` (
   `admin_password` varchar(50) NOT NULL,
   `admin_status` varchar(20) NOT NULL,
   `admin_contact` varchar(11) NOT NULL,
-  `admin_address` varchar(50) NOT NULL
+  `admin_address` varchar(50) NOT NULL,
+  `admin_formatted_id` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`admin_id`, `admin_fname`, `admin_lname`, `admin_email`, `admin_position`, `admin_password`, `admin_status`, `admin_contact`, `admin_address`) VALUES
-(1, 'Admin', 'Admin', 'Admin', 'Admin', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active', '09876532678', 'UNIVERSITY OF MAKATI'),
-(8, 'Arthur', 'Artugue', 'arthur@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD9qmapRdVv7Q/Zy3bm9YEPQ=', 'active', '09374859438', 'San Pedro City'),
-(9, 'Jude', 'Rey', 'jude@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD6qreBVEBxvztv2IlbZ4ZaI=', 'active', '09876543456', 'Taguig City'),
-(10, 'Mark', 'Toralde', 'mark@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD1klV0trngCbhAOKCO5gUxc=', 'active', '09876567898', 'Taguig City');
+INSERT INTO `admin` (`admin_id`, `admin_fname`, `admin_lname`, `admin_email`, `admin_position`, `admin_password`, `admin_status`, `admin_contact`, `admin_address`, `admin_formatted_id`) VALUES
+(11, 'Arthur', 'Artugue', 'arthur@gmail.com', 'Admin', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', '09150980561', 'San Pedro Laguna', 'bkad-00000011'),
+(16, 'Leila', 'Montemayor', 'leila@gmail.com', 'Admin', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', '09150980561', 'Barangay Rizal Taguig City', 'bkad-00000016'),
+(17, 'Claire', 'Estoque', 'claire@gmail.com', 'Admin', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', '09150780562', 'Barangay Rizal Taguig City', 'bkad-00000017'),
+(18, 'Elgin', 'Sales', 'elgin@gmail.com', 'Admin', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', '09150780562', 'Pasig City', 'bkad-00000018');
+
+--
+-- Triggers `admin`
+--
+DELIMITER $$
+CREATE TRIGGER `generate_admin_formatted_id` BEFORE INSERT ON `admin` FOR EACH ROW BEGIN
+    SET @next_id = (SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'admin');
+    SET NEW.admin_formatted_id = CONCAT('bkad-', LPAD(@next_id, 8, '0'));
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `trg_admin_auto_generate_id` BEFORE INSERT ON `admin` FOR EACH ROW BEGIN
+  IF NEW.admin_formatted_id = '' OR NEW.admin_formatted_id IS NULL THEN
+    SET NEW.admin_formatted_id = CONCAT('bkad-', LPAD(NEW.admin_id, 8, '0'));
+  END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -188,7 +208,10 @@ CREATE TABLE `patron` (
 --
 
 INSERT INTO `patron` (`patron_id`, `formatted_id`, `patron_fname`, `patron_lname`, `patron_email`, `patron_contact`, `patron_address`, `patron_password`, `patron_status`, `penalty`) VALUES
-(12, 'bkpa-00000012', 'Arthur', 'Artugue', 'arthur@gmail.com', '09999977766', 'San Pedro Laguna', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active', 0);
+(12, 'bkpa-00000012', 'Arthur', 'Artugue', 'arthur@gmail.com', '09999977766', 'San Pedro Laguna', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active', 0),
+(13, 'bkpa-00000013', 'Leila', 'Montemayor', 'leila@gmail.com', '09150980561', 'Rizal Taguig City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active', 0),
+(14, 'bkpa-00000014', 'Claire', 'Estoque', 'claire@gmail.com', '09150780562', 'Barangay Rizal Taguig City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active', 0),
+(15, 'bkpa-00000015', 'Elgin', 'Sales', 'elgin@gmail.com', '09150780562', 'Pasig City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active', 0);
 
 --
 -- Triggers `patron`
@@ -197,12 +220,6 @@ DELIMITER $$
 CREATE TRIGGER `generate_formatted_id` BEFORE INSERT ON `patron` FOR EACH ROW BEGIN
     SET @next_id = (SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'patron');
     SET NEW.formatted_id = CONCAT('bkpa-', LPAD(@next_id, 8, '0'));
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `populate_formatted_id` BEFORE INSERT ON `patron` FOR EACH ROW BEGIN
-    SET NEW.formatted_id = CONCAT('book-', LPAD(NEW.patron_id, 7, '0'));
 END
 $$
 DELIMITER ;
@@ -302,7 +319,7 @@ ALTER TABLE `setting`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `book`
@@ -326,7 +343,7 @@ ALTER TABLE `location`
 -- AUTO_INCREMENT for table `patron`
 --
 ALTER TABLE `patron`
-  MODIFY `patron_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `patron_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `reserved_book`
