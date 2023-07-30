@@ -394,12 +394,13 @@ public class AuthenticationFrame extends JFrame{
   			   	             String userStatus = rs.getString("patron_status");
   			   	             int userPenalty = rs.getInt("penalty");
   			   	             
+  			   	             // Create User object
   			   	             User onlineUser = new User(userID, userFname, userLname, userEmail1, userContact, userAddress, userPass, userStatus, userPenalty);
   			   	             //Close database
   			   	             conn.close();
   			   	             return onlineUser;
   		   	             }else {
-  		   	            	 String userID = rs.getString("admin_id");
+  		   	            	 String userID = rs.getString("admin_formatted_id");
   			   	             String userFname = rs.getString("admin_fname");
   			   	             String userLname = rs.getString("admin_lname");
   			   	             String userEmail1 = rs.getString("admin_email");
@@ -409,8 +410,9 @@ public class AuthenticationFrame extends JFrame{
   			   	             String userAddress = rs.getString("admin_address");
   			   	             String userStatus = rs.getString("admin_status");
   			   	             
-  			   	             
+  			   	             // Create employee object
   			   	             Employee onlineUser = new Employee(userID, userFname, userLname, userEmail1, userPosition, userPass, userStatus, userContact, userAddress);
+  			   	          
   			   	             //Close database
   			   	             conn.close();
   			   	             return onlineUser;

@@ -313,10 +313,11 @@ public  AdminLogInPanel() {
 						// Hide the login panel and show the main interface
 						
 						Setting setting = retrieveSettingFromDatabase(); //Instantiate the setting object to be used by admin
-						employee = (Employee) newUser; //Create the employee that logged in
+						employee =  (Employee) newUser; //Create the employee that logged in
 						String title = "Login Success!";
 					    String message = "Welcome " + employee.getFname() + " " + employee.getLname();
-
+					    System.out.println(employee.getEmail()	+ " LoginPanel");
+					    System.out.println(employee.getPosition() + " LoginPanel");
 					    // Prompt
 					    SuccessPanel success = new SuccessPanel(title, message);
 					    showDialog(success);

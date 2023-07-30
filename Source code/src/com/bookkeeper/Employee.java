@@ -11,7 +11,7 @@ public class Employee {
 	private String contactNum;
 	private String address;
 	
-	public Employee(String Employee_id, String fname, String lname,String Position, String Email, String Employee_pass, String status, String contactNum, String address ) {
+	public Employee(String Employee_id, String fname, String lname,String Email, String Position, String Employee_pass, String status, String contactNum, String address ) {
 		this.Employee_id = Employee_id;
 		this.fname = fname;
 		this.lname = lname;

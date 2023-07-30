@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -41,11 +40,6 @@ public class DashboardFrame extends JFrame {
 	private ImageIcon icon;
 	private Image image;
 	
-	//Graphics environment and screen dimensions
-	private GraphicsEnvironment environment;	
-	private GraphicsDevice device;
-	private int width;
-	private int height;
 	private int selectedValue;
 	
 	//admin
@@ -59,9 +53,6 @@ public class DashboardFrame extends JFrame {
     	
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	
-    	// Remove window decorations (title bar, borders)
-    	setUndecorated(true); 
-    	
     	// Prevent resizing
     	setResizable(false); 
 
@@ -69,19 +60,19 @@ public class DashboardFrame extends JFrame {
     	GraphicsDevice[] devices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
     	GraphicsDevice device = devices[0]; // Choose the appropriate device index if there are multiple
     	GraphicsConfiguration config = device.getDefaultConfiguration();
-    	setUndecorated(true);
-    	//device.setFullScreenWindow(this);
+    	
+    	setUndecorated(true); // Remove window decorations (title bar, borders)
     	setSize(config.getBounds().getSize());
 
-
-	    //create panels
+	    // Create panels
 		mainPanel = new JPanel();//panel to hold all panels
 		menuBarPanel = new JPanel();// panel to hold menu bar
 		ContentPanel = new JPanel();// panel to hold dashboard contents
-		//menu bar panels
+		
+		// Menu bar panels
 		AdminMenuPanel = new AdminMenuPanel();//menu bar for admin and employees
 
-		//dashboard panels
+		// Dash board panels
 		AdminLibraryPanel = new AdminLibraryPanel();//panel for  book-related operations 
 		AdminReportPanel  = new AdminReportPanel();//panel for showcasing reports regarding the library
 		AdminManagePatronPanel  = new AdminManagePatronPanel();//panel for managing patrons
@@ -123,7 +114,7 @@ public class DashboardFrame extends JFrame {
     	setAlwaysOnTop(false);
     	setVisible(true);
     	
-    	//Action Listeners for admin
+    	// Action Listeners for admin
     	AdminMenuPanel.getBtnLibrary().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		cardLayout1.show(ContentPanel,"panel1");        		AdminMenuPanel.setBtnLibrary();
@@ -184,9 +175,6 @@ public class DashboardFrame extends JFrame {
     	
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	
-    	// Remove window decorations (title bar, borders)
-    	setUndecorated(true); 
-    	
     	// Prevent resizing
     	setResizable(false); 
 
@@ -194,18 +182,19 @@ public class DashboardFrame extends JFrame {
     	GraphicsDevice[] devices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
     	GraphicsDevice device = devices[0]; // Choose the appropriate device index if there are multiple
     	GraphicsConfiguration config = device.getDefaultConfiguration();
-    	setUndecorated(true);
-    	//device.setFullScreenWindow(this);
+    	
+    	setUndecorated(true); // Remove window decorations (title bar, borders)
     	setSize(config.getBounds().getSize());
 
-
-	    //create panels
+	    // Create panels
 		mainPanel = new JPanel();//panel to hold all panels
 		menuBarPanel = new JPanel();// panel to hold menu bar
 		ContentPanel = new JPanel();// panel to hold dashboard contents
-		//menu bar panels
+		
+		// Menu bar panels
 		PatronMenuPanel = new PatronMenuPanel();//menu bar for patron
-		//dashboard panels
+		
+		// Dash board panels
 		PatronLibraryPanel = new PatronLibraryPanel();//panel for  book-related operations 
 		PatronSettingsPanel  = new PatronSettingsPanel(user);//panel for the settings of patron
 		
@@ -219,17 +208,15 @@ public class DashboardFrame extends JFrame {
 		// Add Panels to Menu Bar panel
 		menuBarPanel.add(PatronMenuPanel, "panel2");
 		
-		// Add Panels to Dashboard panel
+		// Add Panels to Dash board panel
 		ContentPanel.add(PatronLibraryPanel, "panel6");
 		ContentPanel.add(PatronSettingsPanel, "panel7");
 		
-		    	
     	// Set mainPanel as the content pane of the JFrame
     	setContentPane(mainPanel);
 
     	cardLayout1.show(ContentPanel, "panel6");
     	cardLayout2.show(menuBarPanel, "panel2");
-
 
 		// Add Panels to Main panel
 		mainPanel.add(menuBarPanel,BorderLayout.WEST);
@@ -283,7 +270,7 @@ public class DashboardFrame extends JFrame {
 	    });
 	    panel.getBtnCancel().addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	            selectedValue = 2; // Set selectedValue to2 when "Cancel" is clicked
+	            selectedValue = 2; // Set selectedValue to 2 when "Cancel" is clicked
 	            closeDialog(e);
 	    	}
 	    });
