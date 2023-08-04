@@ -715,10 +715,10 @@ public class PatronSettingsPanel extends JPanel {
 	           + btnOptionDetail.getBounds().height);
 	    }
 	});
-	detailPopupMenu.addMouseListener(new MouseAdapter() {
+	option1.addMouseListener(new MouseAdapter() {
 	    public void mousePressed(MouseEvent e) {
 	    	//punta info display frmae Account Information
-	    	System.out.println("Clicked UwU");
+	    	InfoDisplayFrame frame = new InfoDisplayFrame(6, user);
 	    }
 	});
  }
