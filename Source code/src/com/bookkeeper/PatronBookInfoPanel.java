@@ -101,6 +101,7 @@ public class PatronBookInfoPanel extends JPanel{
 	private  Color darkplainColor = new Color(14, 14, 15);//black
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
+	private int selectedValue;
 
 	public PatronBookInfoPanel(Book selectedBook, User patron) {
 		setBackground(new Color(250, 251, 255));
@@ -488,11 +489,27 @@ public class PatronBookInfoPanel extends JPanel{
 	    // Action Listener
 	    btnReserve.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
+		    	
 	    		int bookID = selectedBook.getBook_id();
 				String patronID = patron.getUser_id();
-					
+				
+				//Check if reservation already exists
+				if(isReservationExisting(bookID, patronID)) {
+					// Prompt a malfunction dialog
+					MalfunctionPanel mal = new MalfunctionPanel("Reservation Error", "Reservation already exists!");
+					showDialog(mal);
+					return;
+				}
+				
+				// Check if reservation is necessary
 				if(selectedBook.getBook_status().equals("Checked out") || selectedBook.getBook_status().equals("Unavailable")) {
-					updateReservation(bookID, patronID);
+					// Prompt cofirmation panel
+			    	ConfirmationPanel confirm =  new ConfirmationPanel("Confirm Reservation?", "You cannot cancel this after\nthe reservation has been made.");
+			    	int con = showDialog(confirm);
+			    	
+			    	//Condition
+			    	if(con == 2) return;
+			    	else updateReservation(bookID, patronID);
 				}
 				else {
 					MalfunctionPanel mal = new MalfunctionPanel("Reservation Error", "This book is still available");
@@ -519,29 +536,21 @@ public class PatronBookInfoPanel extends JPanel{
 		return btnBack;
 	}
 	public void updateReservation(int bookId, String patronId) {
-		if(isReservationExisting(bookId, patronId)) {
-			// Prompt a malfunction dialog
-			MalfunctionPanel mal = new MalfunctionPanel("Reservation Error", "Reservation already exists!");
-			showDialog(mal);
-		}else {
-			 try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "")) {
-			   
-			            // Insert or update the reservation record
-			                String query = "INSERT INTO reserved_book (book_id, reservation_date, reservation_status, patron_id, reservation_time) VALUES (?, CURDATE(), ?, ?,  CURRENT_TIME )";
-			                try (PreparedStatement insertStmt = conn.prepareStatement(query)) {
-			                    insertStmt.setInt(1, bookId);
-			                    insertStmt.setString(2, "in que");
-			                    insertStmt.setString(3, patronId);
-			                    insertStmt.executeUpdate();
-			                    
-			                    SuccessPanel success = new SuccessPanel("Reservation Success", "Reservation Success!");
-			                    showDialog(success);
-			                } 
-			    } catch (SQLException e) {
-			        e.printStackTrace();
-			    }
-		}
-	   
+		 try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "")) {
+		            // Insert or update the reservation record
+		                String query = "INSERT INTO reserved_book (book_id, reservation_date, reservation_status, patron_id, reservation_time) VALUES (?, CURDATE(), ?, ?,  CURRENT_TIME )";
+		                try (PreparedStatement insertStmt = conn.prepareStatement(query)) {
+		                    insertStmt.setInt(1, bookId);
+		                    insertStmt.setString(2, "in que");
+		                    insertStmt.setString(3, patronId);
+		                    insertStmt.executeUpdate();
+		                    
+		                    SuccessPanel success = new SuccessPanel("Reservation Success", "Reservation Success!");
+		                    showDialog(success);
+		                } 
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
 	}
 	public boolean isReservationExisting(int bookId, String patronId) {
 		boolean isExisting = false;
@@ -597,6 +606,32 @@ public class PatronBookInfoPanel extends JPanel{
 	        dialog.pack();
 	        dialog.setLocationRelativeTo(null);
 	        dialog.setVisible(true);
+		}
+	  //Method to show alert panel (Confirmation Panel)
+		public int showDialog(ConfirmationPanel panel) {
+			selectedValue = 0;
+			
+			panel.getBtnConfirm().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		    		selectedValue = 1; // Set selectedValue to 1 when "OK" is clicked
+		            closeDialog(e);
+		    	}
+		    });
+		    panel.getBtnCancel().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            selectedValue = 2; // Set selectedValue to2 when "Cancel" is clicked
+		            closeDialog(e);
+		    	}
+		    });
+		    
+			JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),"Confirm Reservation", true);
+	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	        dialog.add(panel);
+	        dialog.pack();
+	        dialog.setLocationRelativeTo(null);
+	        dialog.setVisible(true);
+			
+			return selectedValue;
 		}
 	    
 	    //Method used by showDialog to close the JDialog containing the alert panels
