@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 29, 2023 at 12:37 PM
+-- Generation Time: Aug 04, 2023 at 07:54 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -235,8 +235,17 @@ CREATE TABLE `reserved_book` (
   `book_id` int(11) NOT NULL,
   `reservation_date` date NOT NULL,
   `reservation_status` varchar(10) NOT NULL,
-  `patron_id` varchar(13) NOT NULL
+  `patron_id` varchar(13) NOT NULL,
+  `reservation_time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reserved_book`
+--
+
+INSERT INTO `reserved_book` (`reservation_id`, `book_id`, `reservation_date`, `reservation_status`, `patron_id`, `reservation_time`) VALUES
+(23, 6, '2023-08-04', 'in que', 'bkpa-00000012', '23:33:42'),
+(24, 6, '2023-08-05', 'in que', 'bkpa-00000013', '00:26:24');
 
 -- --------------------------------------------------------
 
@@ -349,7 +358,7 @@ ALTER TABLE `patron`
 -- AUTO_INCREMENT for table `reserved_book`
 --
 ALTER TABLE `reserved_book`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `setting`
