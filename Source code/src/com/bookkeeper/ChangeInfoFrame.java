@@ -91,7 +91,7 @@ public class ChangeInfoFrame extends JFrame {
 		
 		// Set mainPanel as the content pane of the JFrame
 		setContentPane(mainPanel);
-		cardLayout.show(mainPanel,"panel1");
+		cardLayout.show(mainPanel,"panel2");
 		
 		
 		// Center the frame on the screen

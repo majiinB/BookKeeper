@@ -23,7 +23,7 @@ public class Book {
 		this.Book_status = Book_status;
 		this.aisle = aisle;
 		this.shelf = shelf;
-		this.ISBN = ISBN;
+		this.setISBN(ISBN);
 	}
 	//Mutator and accessor
 	public int getBook_id() {
@@ -91,5 +91,11 @@ public class Book {
 	}
 	public void setShelf(int shelf) {
 		this.shelf = shelf;
+	}
+	public String getISBN() {
+		return ISBN;
+	}
+	public void setISBN(String iSBN) {
+		ISBN = iSBN;
 	}
 }

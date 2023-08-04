@@ -41,7 +41,11 @@ public class SignUpPanel extends JPanel {
 	private PlaceholderTextField txtFirstName;
 	private PlaceholderTextField txtLastName;
 	private PlaceholderTextField txtEmailAddress;
-	private PlaceholderTextField txtHomeAddress;
+	private PlaceholderTextField txtHouseNum; 
+	private PlaceholderTextField txtBlockNum;
+	private PlaceholderTextField txtStreet;
+	private PlaceholderTextField txtBarangay;
+	private PlaceholderTextField txtCity;
 	private PlaceholderTextField txtContactNumber;
 
 	//icon
@@ -64,6 +68,15 @@ public class SignUpPanel extends JPanel {
 	private GridBagConstraints gbc_buttonPanel;
 	private GridBagConstraints gbc_emailPanel;
 	private GridBagConstraints gbc_homeAddressPanel;
+	
+	private GridBagLayout  gbl_homeAddressPanel;
+	private GridBagConstraints  gbc_lblHomeAddress;
+	private GridBagConstraints  gbc_txtHouseNum;
+	private GridBagConstraints  gbc_txtBlockNum;
+	private GridBagConstraints  gbc_txtStreet;
+	private GridBagConstraints  gbc_txtBarangay;
+	private GridBagConstraints  gbc_txtCity;
+	
 	private GridBagConstraints gbc_contactNumberPanel;
 	private GridBagLayout gbl_inputPanel;
 	private GridBagConstraints gbc_firstNamePanel;
@@ -142,7 +155,8 @@ public  SignUpPanel() {
     btnBack.setForeground(new Color(23, 21, 147));
     btnBack.setBorderPainted(false);
     btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
-    
+    btnBack.setOpaque(false);
+
     lblTitle = new JLabel("SIGN UP");
     lblTitle.setBorder(null);
     lblTitle.setForeground(headerColor);
@@ -178,9 +192,25 @@ public  SignUpPanel() {
     lblHomeAddress = new JLabel("Home Address:");
     lblHomeAddress.setForeground(darkplainColor);
     
-    txtHomeAddress = new PlaceholderTextField("House No. / Block No. / Street / Barangay / City");
-    txtHomeAddress.setBorder(new CompoundBorder(new LineBorder(null, 0, true), new EmptyBorder(10, 10, 10, 10)));
-    txtHomeAddress.setBackground(middleplainColor);
+    txtHouseNum = new PlaceholderTextField("House No.");
+    txtHouseNum.setBorder(new CompoundBorder(new LineBorder(null, 0, true), new EmptyBorder(10, 10, 10, 10)));
+    txtHouseNum.setBackground(middleplainColor);
+    
+    txtBlockNum = new PlaceholderTextField("Block No.");
+    txtBlockNum.setBorder(new CompoundBorder(new LineBorder(null, 0, true), new EmptyBorder(10, 10, 10, 10)));
+    txtBlockNum.setBackground(middleplainColor);
+    
+    txtStreet = new PlaceholderTextField("Street");
+    txtStreet.setBorder(new CompoundBorder(new LineBorder(null, 0, true), new EmptyBorder(10, 10, 10, 10)));
+    txtStreet.setBackground(middleplainColor);
+
+    txtBarangay = new PlaceholderTextField("Barangay");
+    txtBarangay.setBorder(new CompoundBorder(new LineBorder(null, 0, true), new EmptyBorder(10, 10, 10, 10)));
+    txtBarangay.setBackground(middleplainColor);
+
+    txtCity = new PlaceholderTextField("City");
+    txtCity.setBorder(new CompoundBorder(new LineBorder(null, 0, true), new EmptyBorder(10, 10, 10, 10)));
+    txtCity.setBackground(middleplainColor);
     
     lblContactNumber = new JLabel("Contact Number:");
     lblContactNumber.setForeground(darkplainColor);
@@ -220,7 +250,7 @@ public  SignUpPanel() {
     //gridbag layouts
     gbl_mainPanel = new GridBagLayout();
     gbl_mainPanel.columnWidths = new int[]{865};
-    gbl_mainPanel.rowHeights = new int[]{35, 150, 0, 0};
+    gbl_mainPanel.rowHeights = new int[]{35, 0, 0, 0};
     gbl_mainPanel.columnWeights = new double[]{1.0};
     gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0};
     
@@ -251,9 +281,9 @@ public  SignUpPanel() {
     gbc_subtitlePanel.gridy = 2;
 
     gbl_inputPanel = new GridBagLayout();
-    gbl_inputPanel.columnWidths = new int[]{120, 543, 543, 0};
+    gbl_inputPanel.columnWidths = new int[]{100, 543, 543, 0};
     gbl_inputPanel.rowHeights = new int[] {80, 80, 80, 0, 0, 0};
-    gbl_inputPanel.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+    gbl_inputPanel.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
     gbl_inputPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
     
     gbc_firstNamePanel = new GridBagConstraints();
@@ -264,6 +294,7 @@ public  SignUpPanel() {
     gbc_firstNamePanel.gridy = 0;
     
     gbc_lastNamePanel = new GridBagConstraints();
+    gbc_firstNamePanel.gridwidth = 2;
     gbc_lastNamePanel.fill = GridBagConstraints.BOTH;
     gbc_lastNamePanel.gridx = 2;
     gbc_lastNamePanel.gridy = 0;
@@ -296,13 +327,57 @@ public  SignUpPanel() {
     gbc_buttonPanel.gridx = 0;
     gbc_buttonPanel.gridy = 4;
     
+    // Home Address Layouts
+    gbl_homeAddressPanel = new GridBagLayout();
+    gbl_homeAddressPanel.columnWidths = new int[]{0, 0, 0, 0, 0};
+    gbl_homeAddressPanel.rowHeights = new int[]{1, 0};
+    gbl_homeAddressPanel.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0};
+    gbl_homeAddressPanel.rowWeights = new double[]{0.0, 0.0};
+    
+    gbc_lblHomeAddress = new GridBagConstraints();
+    gbc_lblHomeAddress.fill = GridBagConstraints.BOTH;
+    gbc_lblHomeAddress.insets = new Insets(5, 0, 0, 0);
+    gbc_lblHomeAddress.gridx = 0;
+    gbc_lblHomeAddress.gridy = 0;
+    
+    gbc_txtHouseNum = new GridBagConstraints();
+    gbc_txtHouseNum.fill = GridBagConstraints.BOTH;
+    gbc_txtHouseNum.insets = new Insets(5, 0, 0, 15);
+    gbc_txtHouseNum.gridx = 0;
+    gbc_txtHouseNum.gridy = 1;
+    
+    gbc_txtBlockNum = new GridBagConstraints();
+    gbc_txtBlockNum.fill = GridBagConstraints.BOTH;
+    gbc_txtBlockNum.insets = new Insets(5, 15, 0, 15);
+    gbc_txtBlockNum.gridx = 1;
+    gbc_txtBlockNum.gridy = 1;
+    
+    gbc_txtStreet = new GridBagConstraints();
+    gbc_txtStreet.fill = GridBagConstraints.BOTH;
+    gbc_txtStreet.insets = new Insets(5, 15, 0, 15);
+    gbc_txtStreet.gridx = 2;
+    gbc_txtStreet.gridy = 1;
+    
+    gbc_txtBarangay = new GridBagConstraints();
+    gbc_txtBarangay.fill = GridBagConstraints.BOTH;
+    gbc_txtBarangay.insets = new Insets(5, 15, 0, 15);
+    gbc_txtBarangay.gridx = 3;
+    gbc_txtBarangay.gridy = 1;
+    
+    gbc_txtCity = new GridBagConstraints();
+    gbc_txtCity.fill = GridBagConstraints.BOTH;
+    gbc_txtCity.insets = new Insets(5, 0, 0, 0);
+    gbc_txtCity.gridx = 4;
+    gbc_txtCity.gridy = 1;
+    //
+    
     // Set panel layout
     mainPanel.setLayout(gbl_mainPanel);
     headingPanel.setLayout(new BorderLayout(0,0));
     titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
     buttonPanel.setLayout(new GridLayout(0, 2, 30, 0));
     contactNumberPanel.setLayout(new GridLayout(2, 1, 0, 0));
-    homeAddressPanel.setLayout(new GridLayout(2, 1, 0, 0));
+    homeAddressPanel.setLayout(gbl_homeAddressPanel);
     emailPanel.setLayout(new GridLayout(2, 1, 0, 0));
     firstNamePanel.setLayout(new GridLayout(2, 1, 0, 0));
     inputPanel.setLayout(gbl_inputPanel);
@@ -320,8 +395,14 @@ public  SignUpPanel() {
     lastNamePanel.add(txtLastName);
     emailPanel.add(lblEmailAddress);
     emailPanel.add(txtEmailAddress);     
-    homeAddressPanel.add(lblHomeAddress);
-    homeAddressPanel.add(txtHomeAddress);
+    homeAddressPanel.add(lblHomeAddress, gbc_lblHomeAddress);
+
+    homeAddressPanel.add(txtHouseNum,gbc_txtHouseNum);
+    homeAddressPanel.add(txtBlockNum, gbc_txtBlockNum);
+    homeAddressPanel.add(txtStreet, gbc_txtStreet);
+    homeAddressPanel.add(txtBarangay,gbc_txtBarangay);
+    homeAddressPanel.add(txtCity, gbc_txtCity);
+    
     contactNumberPanel.add(lblContactNumber);
     contactNumberPanel.add(txtContactNumber);
     buttonPanel.add(btnSignUp);
@@ -344,7 +425,7 @@ public  SignUpPanel() {
     	  @Override
           public void componentResized(ComponentEvent e) {
           	
-  	        	titleTextSize = Math.min(getHeight() / 7, getWidth()/ 10) ;
+    		  titleTextSize = Math.min(getHeight() / 10, getWidth()/ 15) ;
   	            subtitleTextSize =  Math.min(getHeight() / 20, getWidth()/ 45);
   	            buttonTextSize =  Math.min(getHeight() / 40, getWidth()/ 58);
   	           	headerTextSize =   Math.min(getHeight() / 50, getWidth()/ 65);

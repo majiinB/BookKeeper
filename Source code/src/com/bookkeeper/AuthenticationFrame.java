@@ -26,7 +26,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class AuthenticationFrame extends JFrame{
+public class AuthenticationFrame extends JFrame {
 	/**
 	 * 
 	 */
@@ -85,7 +85,7 @@ public class AuthenticationFrame extends JFrame{
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	
     	// Remove window decorations (title bar, borders)
-//    	setUndecorated(true); 
+    	setUndecorated(false); 
     	
     	// Prevent resizing
     	setResizable(true); 

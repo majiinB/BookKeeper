@@ -14,5 +14,10 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files (x86)/MySQL/Connector J 8.0/mysql-connector-j-8.0.33.jar"/>
+	<classpathentry kind="lib" path="D:/documents/Final_Project/JFreechart/target/jfreechart-1.5.4.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

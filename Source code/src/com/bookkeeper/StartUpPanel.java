@@ -82,6 +82,7 @@ public class StartUpPanel extends JPanel{
 	btnClose.setBorderPainted(false);
 	btnClose.setBorder(new EmptyBorder(5, 5, 5, 5));
 	btnClose.setContentAreaFilled(false);
+	btnClose.setOpaque(false);
 
 
     lblLogo = new JLabel();

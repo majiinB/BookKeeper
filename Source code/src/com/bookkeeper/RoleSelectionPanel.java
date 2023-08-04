@@ -117,6 +117,7 @@ public  RoleSelectionPanel() {
     btnBack.setForeground(new Color(23, 21, 147));
     btnBack.setBorderPainted(false);
     btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
+    btnBack.setOpaque(false);
     
     btnPatron = new JButton();
     btnPatron.setIconTextGap(20);

@@ -7,6 +7,8 @@ import java.awt.event.ComponentEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -53,7 +55,7 @@ public class PatronLibraryPanel extends JPanel {
 	//table
     private JTable table;
 	private DefaultTableModel tableModel;
-	
+
 	//layout
 	private GridBagLayout gbl_contentPanel;
 	private GridBagConstraints gbc_headingPanel;
@@ -76,8 +78,11 @@ public class PatronLibraryPanel extends JPanel {
 	private  Color headerColor = new Color(23, 21, 147);
 	private  Color darkplainColor = new Color(14, 14, 15);
 	private  Color lightplainColor = new Color(250, 251, 255);
+	
+	// Object
+	private Book selectedBook;
 
-	public PatronLibraryPanel() {
+	public PatronLibraryPanel(User patron) {
 	setBackground(lightplainColor);
 	setBorder(new EmptyBorder(20, 20, 20, 20));
 	setLayout(new BorderLayout(0, 0));
@@ -147,7 +152,8 @@ public class PatronLibraryPanel extends JPanel {
 
     // Create the scroll pane and add the table to it
     searchScrollPane = new JScrollPane(table);
-    searchScrollPane.setOpaque(false);
+    searchScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    searchScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);    searchScrollPane.setOpaque(false);
     searchScrollPane.setBorder(new EmptyBorder(15, 10, 0, 10));
     searchScrollPane.setOpaque(false);
     searchScrollPane.getViewport().setOpaque(false);
@@ -163,40 +169,41 @@ public class PatronLibraryPanel extends JPanel {
 		      return false;
 		}
      };
-    table.setBackground(new Color(0, 0, 0, 0));;
-    table.setFillsViewportHeight(true);
-    table.setOpaque(false);
-    table.setShowVerticalLines(false);
-    
+     table.setBackground(lightplainColor);;
+     table.setFillsViewportHeight(true);
+     table.setOpaque(false);
+     table.setShowVerticalLines(false);
+     table.setRowHeight(45);
+     table.getTableHeader().setOpaque(false);
+     table.setGridColor(darkplainColor);
+  	table.getTableHeader().setOpaque(false);
+  	table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+     table.getTableHeader().setDefaultRenderer(new headerRenderer());
     //listener for clicking cells in table  
 	table.addMouseListener(new MouseAdapter() {
-	@Override
-	public void mouseClicked(MouseEvent e) { 
-		int selectedRow = table.getSelectedRow();
-		if (selectedRow != -1) {
-		    // Get the values from the selected row
-//		    int bookId = (int) table.getValueAt(selectedRow, 0);
-//		    String ISBN = (String) table.getValueAt(selectedRow, 1);
-//		    String bookTitle = (String) table.getValueAt(selectedRow, 2);
-//		    String authorName = (String) table.getValueAt(selectedRow, 3);
-//		    String genreName = (String) table.getValueAt(selectedRow, 4);
-//		    String bookPublisher = (String) table.getValueAt(selectedRow, 5);
-//		    java.sql.Date date = (java.sql.Date) table.getValueAt(selectedRow, 6);
-//		    String bookPublishDate = date.toString();
-//		    String bookStatus = (String) table.getValueAt(selectedRow, 7);
-//		    int aisleNumber = (int) table.getValueAt(selectedRow, 8);
-//		    int shelfNumber = (int) table.getValueAt(selectedRow, 9);
-		    //Create a Book object with the retrieved values
-		    //selectedBook = new Book(bookId, bookTitle, genreName, authorName, bookPublishDate , bookPublisher, bookStatus, aisleNumber, shelfNumber, ISBN);
-
-		    //Use the selectedBook object as needed
-		    // ...
-
-		    // Open the BookInfoFrame with the selected book
-		    //BookInfoFrame frame = new BookInfoFrame(3, selectedBook, user);
-		    //frame.setVisible(true);
-		    } 
-		    }
+		@Override
+		public void mouseClicked(MouseEvent e) { 
+			int selectedRow = table.getSelectedRow();
+			if (selectedRow != -1) {
+			    // Get the values from the selected row
+			    int bookId = (int) table.getValueAt(selectedRow, 0);
+			    String ISBN = (String) table.getValueAt(selectedRow, 1);
+			    String bookTitle = (String) table.getValueAt(selectedRow, 2);
+			    String authorName = (String) table.getValueAt(selectedRow, 3);
+			    String genreName = (String) table.getValueAt(selectedRow, 4);
+			    String bookPublisher = (String) table.getValueAt(selectedRow, 5);
+			    java.sql.Date date = (java.sql.Date) table.getValueAt(selectedRow, 6);
+			    String bookPublishDate = date.toString();
+			    String bookStatus = (String) table.getValueAt(selectedRow, 7);
+			    int aisleNumber = (int) table.getValueAt(selectedRow, 8);
+			    int shelfNumber = (int) table.getValueAt(selectedRow, 9);
+			    
+			    //Create a Book object with the retrieved values
+			    selectedBook = new Book(bookId, bookTitle, genreName, authorName, bookPublishDate , bookPublisher, bookStatus, aisleNumber, shelfNumber, ISBN);
+			    InfoDisplayFrame frame = new InfoDisplayFrame(selectedBook, 1, patron);
+			    
+			} 
+		}
 	});
 	
 	 /*
@@ -270,22 +277,24 @@ public class PatronLibraryPanel extends JPanel {
   	  @Override
         public void componentResized(ComponentEvent e) {
 	      	titleTextSize = Math.min(getHeight() / 8, getWidth()/ 11) ;
-	        buttonTextSize =  Math.min(getHeight() / 40, getWidth()/ 58);
+	        buttonTextSize =  Math.min(getHeight() / 80, getWidth()/ 80);
 	        headerTextSize =   Math.min(getHeight() / 30, getWidth()/ 35);
-//			plainTextsize=   Math.min(getHeight() / 20, getWidth()/ 60);
+	        plainTextsize=   Math.min(getHeight() / 80, getWidth()/ 80);
 	            
 	        titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
 	        txtTitle.setFont(titleFont);
 	            	            
-//	        buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
-	            
-//	     	headerFont = new Font("Montserrat", Font.PLAIN, headerTextSize);
-//			btnBack.setFont(headerFont);
+	        buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
+	     	headerFont = new Font("Montserrat", Font.PLAIN, headerTextSize);
+			plainFont = new Font("Montserrat", Font.ITALIC, plainTextsize);
+			
 	     	lblHeading1.setFont(new Font("Montserrat", Font.BOLD, headerTextSize));
 	     	lblHeading2.setFont(new Font("Montserrat", Font.PLAIN, headerTextSize));
 	            
-//			plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
-        }
+	     	table.setFont(plainFont);
+	     	table.getTableHeader().setFont(new Font("Montserrat", Font.ITALIC  | Font.BOLD, plainTextsize));	            
+	     	table.getTableHeader().setForeground(darkplainColor);
+               }
     });
 	
 	// Action Listener
@@ -354,7 +363,25 @@ public class PatronLibraryPanel extends JPanel {
  		     table.getColumnModel().getColumn(0).setWidth(0);
  		     table.getColumnModel().getColumn(0).setMinWidth(0);
  		     table.getColumnModel().getColumn(0).setMaxWidth(0);
-
+ 		     
+ 		     table.getColumnModel().getColumn(1).setMinWidth(130);
+ 		     table.getColumnModel().getColumn(1).setMaxWidth(145);
+ 		     
+ 		     table.getColumnModel().getColumn(4).setMinWidth(120);
+ 		     table.getColumnModel().getColumn(4).setMaxWidth(120); 
+ 		     
+ 		     table.getColumnModel().getColumn(6).setMinWidth(140);
+ 		     table.getColumnModel().getColumn(6).setMaxWidth(140); 
+ 		     
+ 		     table.getColumnModel().getColumn(7).setMinWidth(100);
+ 		     table.getColumnModel().getColumn(7).setMaxWidth(100); 
+ 		     
+ 		     table.getColumnModel().getColumn(8).setMinWidth(80);
+ 		     table.getColumnModel().getColumn(8).setMaxWidth(80); 
+ 		     
+ 		     table.getColumnModel().getColumn(9).setMinWidth(80);
+ 		     table.getColumnModel().getColumn(9).setMaxWidth(80);
+ 		    table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
  		      // Close the database connection
  		     resultSet.close();
  		     statement.close();
@@ -365,6 +392,19 @@ public class PatronLibraryPanel extends JPanel {
     	}
     });
  }
+public class headerRenderer implements TableCellRenderer {
+	@Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column) {
+	        JTableHeader header = table.getTableHeader();
+	        JLabel label = new JLabel(value.toString());
+	        label.setOpaque(false);
+	        label.setFont(header.getFont());
+	        label.setBackground(new Color(0, 0, 0, 0)); 
+	        label.setForeground(header.getForeground());
+	        label.setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+	        return label;
+	    }
+	}
 
 public class BackgroundPanel extends JPanel {
 	//background
@@ -406,4 +446,5 @@ public class BackgroundPanel extends JPanel {
 	            "b.ISBN LIKE '" + search + "%'";
 	  return query;
 	}
+	
 }

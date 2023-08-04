@@ -7,6 +7,14 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PatronBookInfoPanel extends JPanel{
 	//panel
@@ -38,16 +46,12 @@ public class PatronBookInfoPanel extends JPanel{
 	private JLabel lblBookTitle;
 	private JLabel lblBookAuthor;
 	private JLabel lblBookISBN;
-	private JLabel lblBookPublication;
+	private JLabel lblBookGenre;
+	private JLabel lblBookPublisher;
+	private JLabel lblBookPublicationDate;
+	private JLabel lblBookAvail;
 	private JLabel lblBookShelfNo;
 	private JLabel lblBookAisleNo;
-	private JLabel lblBookAvail;
-	
-	private JLabel lbPatronID;
-	private JLabel lblDateLoaned;
-	private JLabel lblDateDue;
-	private JLabel lblContactNumber;
-	private JLabel lblEmailAdd;
 	
 	//textfield
 	private JTextArea txtTitle;//title of panel "Book Information"
@@ -56,10 +60,13 @@ public class PatronBookInfoPanel extends JPanel{
 	private PlaceholderTextField txtBookTitle;
 	private PlaceholderTextField txtBookAuthor;
 	private PlaceholderTextField txtBookISBN;
-	private PlaceholderTextField txtBookPublication;
+	private PlaceholderTextField txtBookGenre;
+	private PlaceholderTextField txtBookPublisher;
+	private PlaceholderTextField txtBookPublicationDate;
+	private PlaceholderTextField txtBookAvail;
 	private PlaceholderTextField txtBookShelfNo;
 	private PlaceholderTextField txtBookAisleNo;
-	private PlaceholderTextField txtBookAvail;
+	
 	
 	//button
 	private JButton btnReserve;
@@ -75,7 +82,6 @@ public class PatronBookInfoPanel extends JPanel{
 	private GridBagLayout gbl_titlePanel; 
 	private GridBagConstraints gbc_txtTitle;
 	private GridBagConstraints gbc_txtDescription;
-
 
 	//text
 	private  Font titleFont;
@@ -96,7 +102,7 @@ public class PatronBookInfoPanel extends JPanel{
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
-	public PatronBookInfoPanel() {
+	public PatronBookInfoPanel(Book selectedBook, User patron) {
 		setBackground(new Color(250, 251, 255));
 	    setBorder(new EmptyBorder(10, 10, 10, 10));
 	    setLayout(new BorderLayout(0, 0));
@@ -149,7 +155,8 @@ public class PatronBookInfoPanel extends JPanel{
 	    btnBack.setForeground(new Color(23, 21, 147));
 	    btnBack.setBorderPainted(false);
 	    btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
-	    
+	    btnBack.setOpaque(false);
+
 	    
 	    txtTitle = new JTextArea("Book Information");
 	    txtTitle.setForeground(headerColor);
@@ -176,7 +183,7 @@ public class PatronBookInfoPanel extends JPanel{
 	    lblBookTitle.setBorder(null);
 	    lblBookTitle.setForeground(headerColor);
 	    
-	    txtBookTitle = new PlaceholderTextField("Title of the Book");
+	    txtBookTitle = new PlaceholderTextField(selectedBook.getBook_title());
 	    txtBookTitle.setHorizontalAlignment(SwingConstants.RIGHT);
 	    txtBookTitle.setForeground(headerColor);
 	    txtBookTitle.setOpaque(false);
@@ -185,6 +192,127 @@ public class PatronBookInfoPanel extends JPanel{
 	    txtBookTitle.setEditable(false);
 	    txtBookTitle.setDragEnabled(false);
 	    
+	    lblBookAuthor = new JLabel("Author:");
+	    lblBookAuthor.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblBookAuthor.setBorder(null);
+	    lblBookAuthor.setForeground(darkplainColor);
+	    
+	    txtBookAuthor = new PlaceholderTextField(selectedBook.getBook_author());
+	    txtBookAuthor.setHorizontalAlignment(SwingConstants.RIGHT);
+	    txtBookAuthor.setForeground(darkplainColor);
+	    txtBookAuthor.setOpaque(false);
+	    txtBookAuthor.setFocusable(false);
+	    txtBookAuthor.setBorder(null);
+	    txtBookAuthor.setEditable(false);
+	    txtBookAuthor.setDragEnabled(false);
+	    
+	    lblBookISBN = new JLabel("ISBN:");
+	    lblBookISBN.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblBookISBN.setBorder(null);
+	    lblBookISBN.setForeground(darkplainColor);
+	    
+	    txtBookISBN = new PlaceholderTextField(selectedBook.getISBN());
+	    txtBookISBN.setHorizontalAlignment(SwingConstants.RIGHT);
+	    txtBookISBN.setForeground(darkplainColor);
+	    txtBookISBN.setOpaque(false);
+	    txtBookISBN.setFocusable(false);
+	    txtBookISBN.setBorder(null);
+	    txtBookISBN.setEditable(false);
+	    txtBookISBN.setDragEnabled(false);
+	    
+	    lblBookGenre = new JLabel("Genre:");
+	    lblBookGenre.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblBookGenre.setBorder(null);
+	    lblBookGenre.setForeground(darkplainColor);
+	    
+	    txtBookGenre = new PlaceholderTextField(selectedBook.getBook_genre());
+	    txtBookGenre.setHorizontalAlignment(SwingConstants.RIGHT);
+	    txtBookGenre.setForeground(darkplainColor);
+	    txtBookGenre.setOpaque(false);
+	    txtBookGenre.setFocusable(false);
+	    txtBookGenre.setBorder(null);
+	    txtBookGenre.setEditable(false);
+	    txtBookGenre.setDragEnabled(false);
+	    
+	    lblBookPublisher = new JLabel("Publisher:");
+	    lblBookPublisher.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblBookPublisher.setBorder(null);
+	    lblBookPublisher.setForeground(darkplainColor);
+	    
+	    txtBookPublisher = new PlaceholderTextField(selectedBook.getBook_publisher());
+	    txtBookPublisher.setHorizontalAlignment(SwingConstants.RIGHT);
+	    txtBookPublisher.setForeground(darkplainColor);
+	    txtBookPublisher.setOpaque(false);
+	    txtBookPublisher.setFocusable(false);
+	    txtBookPublisher.setBorder(null);
+	    txtBookPublisher.setEditable(false);
+	    txtBookPublisher.setDragEnabled(false);
+	    
+	    lblBookPublicationDate = new JLabel("Publication Date:");
+	    lblBookPublicationDate.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblBookPublicationDate.setBorder(null);
+	    lblBookPublicationDate.setForeground(darkplainColor);
+	    
+	    txtBookPublicationDate = new PlaceholderTextField(selectedBook.getBook_publication_date());
+	    txtBookPublicationDate.setHorizontalAlignment(SwingConstants.RIGHT);
+	    txtBookPublicationDate.setForeground(darkplainColor);
+	    txtBookPublicationDate.setOpaque(false);
+	    txtBookPublicationDate.setFocusable(false);
+	    txtBookPublicationDate.setBorder(null);
+	    txtBookPublicationDate.setEditable(false);
+	    txtBookPublicationDate.setDragEnabled(false);
+	    
+	    lblBookAvail = new JLabel("Availability:");
+	    lblBookAvail.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblBookAvail.setBorder(null);
+	    lblBookAvail.setForeground(darkplainColor);
+	    
+	    txtBookAvail = new PlaceholderTextField(selectedBook.getBook_status());
+	    txtBookAvail.setHorizontalAlignment(SwingConstants.RIGHT);
+	    txtBookAvail.setForeground(darkplainColor);
+	    txtBookAvail.setOpaque(false);
+	    txtBookAvail.setFocusable(false);
+	    txtBookAvail.setBorder(null);
+	    txtBookAvail.setEditable(false);
+	    txtBookAvail.setDragEnabled(false);
+	    
+	    lblBookShelfNo = new JLabel("Shelf Number:");
+	    lblBookShelfNo.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblBookShelfNo.setBorder(null);
+	    lblBookShelfNo.setForeground(darkplainColor);
+	    
+	    txtBookShelfNo = new PlaceholderTextField(selectedBook.getShelf());
+	    txtBookShelfNo.setHorizontalAlignment(SwingConstants.RIGHT);
+	    txtBookShelfNo.setForeground(darkplainColor);
+	    txtBookShelfNo.setOpaque(false);
+	    txtBookShelfNo.setFocusable(false);
+	    txtBookShelfNo.setBorder(null);
+	    txtBookShelfNo.setEditable(false);
+	    txtBookShelfNo.setDragEnabled(false);
+	    
+	    lblBookAisleNo = new JLabel("Aisle Number:");
+	    lblBookAisleNo.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblBookAisleNo.setBorder(null);
+	    lblBookAisleNo.setForeground(darkplainColor);
+	    
+	    txtBookAisleNo  = new PlaceholderTextField(selectedBook.getAisle());
+	    txtBookAisleNo.setHorizontalAlignment(SwingConstants.RIGHT);
+	    txtBookAisleNo.setForeground(darkplainColor);
+	    txtBookAisleNo.setOpaque(false);
+	    txtBookAisleNo.setFocusable(false);
+	    txtBookAisleNo.setBorder(null);
+	    txtBookAisleNo.setEditable(false);
+	    txtBookAisleNo.setDragEnabled(false);
+	    
+	    btnReserve = new JButton();
+	    btnReserve.setText("Reserve");
+	    btnReserve.setMnemonic(KeyEvent.VK_ENTER);
+	    btnReserve.setForeground(lightplainColor);
+	    btnReserve.setBorder(new EmptyBorder(10, 10, 10, 10));
+	    btnReserve.setOpaque(true);
+	    btnReserve.setFocusPainted(false);
+	    btnReserve.setBorderPainted(false);
+	    btnReserve.setBackground(headerColor);
 	    
 	    /*
 	     * gamit ka ng gridbag layout for more control sa placement ng components  sa panel
@@ -201,38 +329,36 @@ public class PatronBookInfoPanel extends JPanel{
 	    gbl_mainPanel.columnWidths = new int[]{865};
 	    gbl_mainPanel.rowHeights = new int[]{35, 0, 0, 0};
 	    gbl_mainPanel.columnWeights = new double[]{1.0};
-	    gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0};
+	    gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
 	       
 	    gbc_headingPanel = new GridBagConstraints();
-	    gbc_headingPanel.fill = GridBagConstraints.HORIZONTAL;	    
-	    gbc_headingPanel.anchor = GridBagConstraints.NORTH;
-	    gbc_headingPanel.insets = new Insets(5, 5, 5, 0);
+	    gbc_headingPanel.fill = GridBagConstraints.BOTH;	    
+	    gbc_headingPanel.insets = new Insets(20, 20, 20, 20);
 	    gbc_headingPanel.gridx = 0;
 	    gbc_headingPanel.gridy = 0;
-
+	    
 	    gbc_titlePanel = new GridBagConstraints();
 	    gbc_titlePanel.anchor = GridBagConstraints.SOUTH;
 	    gbc_titlePanel.fill = GridBagConstraints.BOTH;	    
-	    gbc_titlePanel.insets = new Insets(5,5,5,5);
+	    gbc_titlePanel.insets = new Insets(20, 20, 20, 20);
 	    gbc_titlePanel.gridx = 0;
 	    gbc_titlePanel.gridy = 1;
 	    
 	    gbc_detailPanel = new GridBagConstraints();
 	    gbc_detailPanel.anchor = GridBagConstraints.NORTH;
 	    gbc_detailPanel.fill = GridBagConstraints.HORIZONTAL;	    
-	    gbc_detailPanel.insets = new Insets(5,5,5,5);
+	    gbc_detailPanel.insets = new Insets(20, 20, 20, 20);
 	    gbc_detailPanel.gridx = 0;
 	    gbc_detailPanel.gridy = 2;
 	    
 	    gbc_buttonPanel = new GridBagConstraints();
 	    gbc_buttonPanel.fill = GridBagConstraints.BOTH;	    
-	    gbc_buttonPanel.insets = new Insets(5,5,5,5);
+	    gbc_buttonPanel.insets = new Insets(20, 20, 20, 20);
 	    gbc_buttonPanel.gridx = 0;
 	    gbc_buttonPanel.gridy = 3;
 	    
-	    
 	    //
-	    
+	   
 	    gbl_titlePanel = new GridBagLayout();
 	    gbl_titlePanel.columnWidths = new int[]{865};
 	    gbl_titlePanel.rowHeights = new int[]{35, 0};
@@ -250,7 +376,6 @@ public class PatronBookInfoPanel extends JPanel{
 	    gbc_txtDescription.insets = new Insets(0,0,0,0);
 	    gbc_txtDescription.gridx = 0;
 	    gbc_txtDescription.gridy = 1;
-	    //
 	    
 	    
 	    // Set panel layout
@@ -258,12 +383,19 @@ public class PatronBookInfoPanel extends JPanel{
 	    headingPanel.setLayout(new BorderLayout(0,0));
 	    titlePanel.setLayout(gbl_titlePanel); 
 	    buttonPanel.setLayout(new BorderLayout(0,0));
-	    detailPanel.setLayout(new GridLayout(1, 0, 0, 0));
-	    /*
-	     * change number of rows depending 
-	     * on how many details there are
-	    */
+	    detailPanel.setLayout(new GridLayout(9, 0, 0, 5));
+
+	    
+	    // Panels inside the detailPanel
 	    bookTitlePanel.setLayout(new BorderLayout(0,0)); 
+	    authorPanel.setLayout(new BorderLayout(0,0));
+	    isbnPanel.setLayout(new BorderLayout(0,0));
+	    genrePanel.setLayout(new BorderLayout(0,0));
+		publisherPanel.setLayout(new BorderLayout(0,0));
+		publicationPanel.setLayout(new BorderLayout(0,0));
+		availabilityPanel.setLayout(new BorderLayout(0,0));
+		shelfNoPanel.setLayout(new BorderLayout(0,0));
+		aisleNoPanel.setLayout(new BorderLayout(0,0));
 	    
 	    //Add all to main panel
 	    headingPanel.add(lblHeading, BorderLayout.WEST);
@@ -273,60 +405,101 @@ public class PatronBookInfoPanel extends JPanel{
 	    titlePanel.add(txtDescription,gbc_txtDescription);
 	    
 	    bookTitlePanel.add(lblBookTitle, BorderLayout.WEST);
-	    bookTitlePanel.add(txtBookTitle, BorderLayout.CENTER);
+	    bookTitlePanel.add(txtBookTitle, BorderLayout.CENTER);   
+	    authorPanel.add(lblBookAuthor, BorderLayout.WEST);
+	    authorPanel.add(txtBookAuthor, BorderLayout.CENTER);
+	    isbnPanel.add(lblBookISBN, BorderLayout.WEST);
+	    isbnPanel.add(txtBookISBN, BorderLayout.CENTER);
+	    genrePanel.add(lblBookGenre, BorderLayout.WEST);
+	    genrePanel.add(txtBookGenre, BorderLayout.CENTER);
+	    publisherPanel.add(lblBookPublisher, BorderLayout.WEST);
+	    publisherPanel.add(txtBookPublisher, BorderLayout.CENTER);
+		publicationPanel.add(lblBookPublicationDate, BorderLayout.WEST);
+	    publicationPanel.add(txtBookPublicationDate, BorderLayout.CENTER);
+		availabilityPanel.add(lblBookAvail, BorderLayout.WEST);
+	    availabilityPanel.add(txtBookAvail, BorderLayout.CENTER);
+		shelfNoPanel.add(lblBookShelfNo, BorderLayout.WEST);
+	    shelfNoPanel.add(txtBookShelfNo, BorderLayout.CENTER);
+		aisleNoPanel.add(lblBookAisleNo, BorderLayout.WEST);
+	    aisleNoPanel.add(txtBookAisleNo, BorderLayout.CENTER);
 	   
 	    detailPanel.add(bookTitlePanel);
-//	    detailPanel.add();
-//	    detailPanel.add();
-//	    detailPanel.add();
+	    detailPanel.add(authorPanel);
+	    detailPanel.add(isbnPanel);
+	    detailPanel.add(genrePanel);
+	    detailPanel.add(publisherPanel);
+	    detailPanel.add(publicationPanel);
+	    detailPanel.add(availabilityPanel);
+	    detailPanel.add(shelfNoPanel);
+	    detailPanel.add(aisleNoPanel);
 	    
+	    buttonPanel.add(btnReserve);	    
 	    mainPanel.add(headingPanel, gbc_headingPanel);
 	    mainPanel.add(titlePanel, gbc_titlePanel);
 	    mainPanel.add(detailPanel, gbc_detailPanel);
 	    mainPanel.add(buttonPanel, gbc_buttonPanel);
-//	    mainPanel.add();
 	    
 	    add(mainPanel);
 	    
 	    addComponentListener(new ComponentAdapter() {
 	    	  @Override
 	          public void componentResized(ComponentEvent e) {
-	    		  titleTextSize = Math.min(getHeight() / 10, getWidth()/ 10) ;
+	    		  	titleTextSize = Math.min(getHeight() / 10, getWidth()/ 10) ;
 	  	            subtitleTextSize =  Math.min(getHeight() / 20, getWidth()/ 50);
 	  	            bookTitleTextSize =  Math.min(getHeight() / 15, getWidth()/ 30);
 	  	            buttonTextSize =  Math.min(getHeight() / 40, getWidth()/ 58);
 	  	           	headerTextSize =   Math.min(getHeight() / 50, getWidth()/ 65);
 	  	           	plainTextsize=   Math.min(getHeight() / 20, getWidth()/ 50);
 	  	            
-	  	            titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
-	  	            txtTitle.setFont(titleFont);
-	  	            
-	  	            subtitleFont = new Font("Montserrat", Font.ITALIC, subtitleTextSize);
-	  	            txtDescription.setFont(subtitleFont);
-	  	            
+	  	            titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);	  	            
+	  	            subtitleFont = new Font("Montserrat", Font.ITALIC, subtitleTextSize); 	          
 	  	            bookTitleFont = new Font("Montserrat", Font.BOLD, bookTitleTextSize);
-
+	  	            buttonFont = new Font("Montserrat", Font.BOLD, buttonTextSize);	  	          
+	  	            headerFont = new Font("Montserrat", Font.PLAIN, headerTextSize);	  	         
+	  	            plainFont = new Font("Montserrat", Font.PLAIN, plainTextsize);
 	  	            
-	  	            buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
-//	  	            .setFont(buttonFont);
-//	  	            .setFont(buttonFont);
-	  	            
-	  	            headerFont = new Font("Montserrat", Font.PLAIN, headerTextSize);
+	  	            txtTitle.setFont(titleFont);
+	  	            txtDescription.setFont(subtitleFont);
+	  	            lblBookTitle.setFont(bookTitleFont);
+	  	            txtBookTitle.setFont(bookTitleFont);
+	  	            btnReserve.setFont(buttonFont);
 	  	            btnBack.setFont(headerFont);
 	  	            lblHeading.setFont(headerFont);
-	  	            
-	  	            
-	  	            plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
-	  	            lblBookTitle.setFont(plainFont);
-	  	            txtBookTitle.setFont(plainFont);
-//	  	            .setFont(plainFont);
-//	  	            .setFont(plainFont);
-//	  	            .setFont(plainFont);
-//	  	          	.setFont(plainFont);  	          
+	  	            lblBookAuthor.setFont(plainFont);
+	  	            txtBookAuthor.setFont(plainFont);
+	  	            lblBookISBN.setFont(plainFont);
+	  	            txtBookISBN.setFont(plainFont);  
+	  	            lblBookGenre.setFont(plainFont); 
+	  	            txtBookGenre.setFont(plainFont); 
+		  	        lblBookPublisher.setFont(plainFont);
+	  	            txtBookPublisher.setFont(plainFont);
+		  	    	lblBookPublicationDate.setFont(plainFont);
+	  	            txtBookPublicationDate.setFont(plainFont);
+		  	    	lblBookAvail.setFont(plainFont);
+	  	            txtBookAvail.setFont(plainFont);
+		  	    	lblBookShelfNo.setFont(plainFont);
+	  	            txtBookShelfNo.setFont(plainFont);
+		  	    	lblBookAisleNo.setFont(plainFont);
+	  	            txtBookAisleNo.setFont(plainFont);
 	  	        
 
 	          }
 	      });
+	    // Action Listener
+	    btnReserve.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		int bookID = selectedBook.getBook_id();
+				String patronID = patron.getUser_id();
+					
+				if(selectedBook.getBook_status().equals("Checked out") || selectedBook.getBook_status().equals("Unavailable")) {
+					updateReservation(bookID, patronID);
+				}
+				else {
+					MalfunctionPanel mal = new MalfunctionPanel("Reservation Error", "This book is still available");
+					showDialog(mal);
+				}
+	    	}
+	    });
 	}
 	@Override
 	 protected void paintComponent(Graphics g) {
@@ -335,10 +508,103 @@ public class PatronBookInfoPanel extends JPanel{
 		    * use super.paintComponent(g) for proper rendering 
 		    * of components 
 		*/
-	    iconWidth = (int) (getWidth() * 0.025);
+	    iconWidth = (int) (getWidth() * 0.029);
 	    iconHeight = (int) (getHeight() * 0.035);
 	    scaledImage = image.getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
 	    lblHeading.setIcon(new ImageIcon(scaledImage));
 
 	 }
+	// Methods
+	public JButton getBtnBack() {
+		return btnBack;
+	}
+	public void updateReservation(int bookId, String patronId) {
+		if(isReservationExisting(bookId, patronId)) {
+			// Prompt a malfunction dialog
+			MalfunctionPanel mal = new MalfunctionPanel("Reservation Error", "Reservation already exists!");
+			showDialog(mal);
+		}else {
+			 try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "")) {
+			   
+			            // Insert or update the reservation record
+			                String query = "INSERT INTO reserved_book (book_id, reservation_date, reservation_status, patron_id, reservation_time) VALUES (?, CURDATE(), ?, ?,  CURRENT_TIME )";
+			                try (PreparedStatement insertStmt = conn.prepareStatement(query)) {
+			                    insertStmt.setInt(1, bookId);
+			                    insertStmt.setString(2, "in que");
+			                    insertStmt.setString(3, patronId);
+			                    insertStmt.executeUpdate();
+			                    
+			                    SuccessPanel success = new SuccessPanel("Reservation Success", "Reservation Success!");
+			                    showDialog(success);
+			                } 
+			    } catch (SQLException e) {
+			        e.printStackTrace();
+			    }
+		}
+	   
+	}
+	public boolean isReservationExisting(int bookId, String patronId) {
+		boolean isExisting = false;
+	    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "")) {
+	        String query = "SELECT COUNT(*) AS count FROM reserved_book WHERE book_id = ? AND patron_id = ? AND reservation_status ='in que'";
+	        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+	            stmt.setInt(1, bookId);
+	            stmt.setString(2, patronId);
+	            ResultSet rs = stmt.executeQuery();
+
+	            if (rs.next()) {
+	                int count = rs.getInt("count");
+	                if (count > 0) {
+	                    isExisting = true;
+	                }
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return isExisting;
+	}
+	//Method to show alert panel (Success Panel)
+		public void showDialog(SuccessPanel panel) {
+			
+			panel.getBtnConfirm().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            closeDialog(e);
+		    	}
+		    });
+		    
+			JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.pack();
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
+
+		}
+		
+		//Method to show alert panel (Malfunction Panel)
+	    public void showDialog(MalfunctionPanel panel) {
+			
+			panel.getBtnConfirm().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            closeDialog(e);
+		    	}
+		    });
+		    
+			JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),"Error", true);
+	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	        dialog.getContentPane().add(panel);
+	        dialog.pack();
+	        dialog.setLocationRelativeTo(null);
+	        dialog.setVisible(true);
+		}
+	    
+	    //Method used by showDialog to close the JDialog containing the alert panels
+		private void closeDialog(ActionEvent e) {
+	        Component component = (Component) e.getSource();
+	        Window window = SwingUtilities.getWindowAncestor(component);
+	        if (window != null) {
+	            window.dispose();
+	        }
+	    }
 }

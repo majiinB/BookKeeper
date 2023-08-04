@@ -7,6 +7,10 @@ import java.awt.event.ComponentEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+
+import com.bookkeeper.PatronLibraryPanel.headerRenderer;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -23,7 +27,6 @@ import java.awt.event.ActionEvent;
 public class AdminLibraryPanel extends JPanel {
 	//panel
 	private JPanel mainPanel;
-	private JPanel contentPanel;
 	private JPanel headingPanel;
 	private JPanel topPanel;
 	private RoundedPanel searchBarPanel;
@@ -33,7 +36,6 @@ public class AdminLibraryPanel extends JPanel {
 	//label
 	private JLabel lblHeading1;
 	private JLabel lblHeading2;
-	private JTextArea txtTitle;
 	
 	//textfield
 	private PlaceholderTextField txtSearchBar;
@@ -54,7 +56,7 @@ public class AdminLibraryPanel extends JPanel {
 	private DefaultTableModel tableModel;
 	
 	//layout
-	private GridBagLayout gbl_contentPanel;
+	private GridBagLayout gbl_mainPanel;
 	private GridBagConstraints gbc_searchResultsPanel;
 
 	private GridBagLayout gbl_topPanel;
@@ -89,10 +91,9 @@ public class AdminLibraryPanel extends JPanel {
 	setLayout(new BorderLayout(0, 0));
 	 
 	//create panels
-	mainPanel = new JPanel();
 	topPanel = new JPanel();
 
-	contentPanel = new JPanel();
+	mainPanel = new JPanel();
 	headingPanel = new JPanel();
     searchBarPanel =  new RoundedPanel(20);
     searchResultsPanel =  new RoundedPanel(20);
@@ -100,15 +101,14 @@ public class AdminLibraryPanel extends JPanel {
 
 
     // Set panel properties
-    mainPanel.setOpaque(false);
     headingPanel.setOpaque(false);
-    contentPanel.setOpaque(false);
+    mainPanel.setOpaque(false);
     searchBarPanel.setOpaque(true);
     addBookPanel.setOpaque(true);
     searchResultsPanel.setOpaque(true);
 	topPanel.setOpaque(false);
 	topPanel.setBorder(new EmptyBorder(20, 25, 0, 25));
-	contentPanel.setBorder(new EmptyBorder(15, 25, 20, 25));
+	mainPanel.setBorder(new EmptyBorder(15, 25, 20, 25));
     searchBarPanel.setBorder(new EmptyBorder(5, 5, 5, 15));
     searchResultsPanel.setBorder(new EmptyBorder(10, 25, 10, 5));
     addBookPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -174,13 +174,17 @@ public class AdminLibraryPanel extends JPanel {
     		public boolean isCellEditable(int row, int column) {
     		      return false;
     		}
-         };
-         
+         };    
     table.setBackground(new Color(0, 0, 0, 0));;
     table.setFillsViewportHeight(true);
     table.setOpaque(false);
     table.setShowVerticalLines(false);
-    
+    table.setRowHeight(45);
+    table.getTableHeader().setOpaque(false);
+    table.setGridColor(darkplainColor);
+    table.getTableHeader().setDefaultRenderer(new headerRenderer());
+  	table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
     //listener for clicking cells in table  
 	table.addMouseListener(new MouseAdapter() {
 	@Override
@@ -251,7 +255,6 @@ public class AdminLibraryPanel extends JPanel {
     
 	// Set panel layouts
     mainPanel.setLayout(new BorderLayout(0,0));
-    contentPanel.setLayout(new BorderLayout(0,0));
     searchBarPanel.setLayout(new BorderLayout(0, 0));
     headingPanel.setLayout(new BoxLayout(headingPanel, BoxLayout.X_AXIS));
     topPanel.setLayout(gbl_topPanel);
@@ -263,7 +266,7 @@ public class AdminLibraryPanel extends JPanel {
     searchBarPanel.add(btnSearch,BorderLayout.WEST);
     searchBarPanel.add(txtSearchBar,BorderLayout.CENTER);
     
-    contentPanel.add(searchResultsPanel);
+    mainPanel.add(searchResultsPanel);
     displayAllBooks();
     searchResultsPanel.setLayout(new BorderLayout(0, 0));
 
@@ -276,7 +279,6 @@ public class AdminLibraryPanel extends JPanel {
     topPanel.add(searchBarPanel,gbc_searchBarPanel);
     topPanel.add(addBookPanel,gbc_addBookPanel);
     
-    mainPanel.add(contentPanel, BorderLayout.CENTER);
     
 	add(topPanel, BorderLayout.NORTH);
 	add(mainPanel, BorderLayout.CENTER);
@@ -288,22 +290,22 @@ public class AdminLibraryPanel extends JPanel {
 	        subtitleTextSize =  Math.min(getHeight() / 40, getWidth()/ 40);
 	        buttonTextSize =  Math.min(getHeight() / 80, getWidth()/ 80);
 	        headerTextSize =   Math.min(getHeight() / 30, getWidth()/ 35);
-	        plainTextsize=   Math.min(getHeight() / 70, getWidth()/ 70);
+	        plainTextsize=   Math.min(getHeight() / 75, getWidth()/ 75);
 	            
 	        titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
 			subtitleFont = new Font("Montserrat", Font.BOLD, subtitleTextSize);
 	        buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
 	     	headerFont = new Font("Montserrat", Font.PLAIN, headerTextSize);
-			plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
+			plainFont = new Font("Montserrat", Font.ITALIC, plainTextsize);
 			
 	     	lblHeading1.setFont(new Font("Montserrat", Font.BOLD, headerTextSize));
 	     	lblHeading2.setFont(new Font("Montserrat", Font.PLAIN, headerTextSize));	            	            
 	            
 			btnAdd.setFont(buttonFont);
 	     	table.setFont(plainFont);
-
-	            
-        }
+	     	table.getTableHeader().setFont(new Font("Montserrat", Font.ITALIC  | Font.BOLD, plainTextsize));	            
+	     	table.getTableHeader().setForeground(headerColor);
+  	  	}
     });
 	
 	// Action Listener
@@ -345,6 +347,7 @@ public class AdminLibraryPanel extends JPanel {
  	            columnNames[8] = "Aisle No.";
  	            columnNames[9] = "Shelf No.";
 
+
  		      // Set the column names in the table model
  		      tableModel.setColumnIdentifiers(columnNames);
  		      table.setModel(tableModel);
@@ -356,7 +359,27 @@ public class AdminLibraryPanel extends JPanel {
  		              }
  		              tableModel.addRow(rowData);
  		       }
-
+ 		      
+  		     table.getColumnModel().getColumn(0).setMinWidth(100);
+  		     table.getColumnModel().getColumn(0).setMaxWidth(100);
+  		     
+  		     table.getColumnModel().getColumn(1).setMinWidth(130);
+  		     table.getColumnModel().getColumn(1).setMaxWidth(145);
+  		     
+  		     table.getColumnModel().getColumn(4).setMinWidth(120);
+  		     table.getColumnModel().getColumn(4).setMaxWidth(120); 
+  		     
+  		     table.getColumnModel().getColumn(6).setMinWidth(140);
+  		     table.getColumnModel().getColumn(6).setMaxWidth(140); 
+  		     
+  		     table.getColumnModel().getColumn(7).setMinWidth(100);
+  		     table.getColumnModel().getColumn(7).setMaxWidth(100); 
+  		     
+  		     table.getColumnModel().getColumn(8).setMinWidth(80);
+  		     table.getColumnModel().getColumn(8).setMaxWidth(80); 
+  		     
+  		     table.getColumnModel().getColumn(9).setMinWidth(80);
+  		     table.getColumnModel().getColumn(9).setMaxWidth(80);
  		      // Close the database connection
  		     resultSet.close();
  		     statement.close();
@@ -374,6 +397,19 @@ public class AdminLibraryPanel extends JPanel {
     });
 		
  }
+ public class headerRenderer implements TableCellRenderer {
+		@Override
+	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column) {
+		        JTableHeader header = table.getTableHeader();
+		        JLabel label = new JLabel(value.toString());
+		        label.setOpaque(false);
+		        label.setFont(header.getFont());
+		        label.setBackground(new Color(0, 0, 0, 0)); 
+		        label.setForeground(header.getForeground());
+		        label.setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+		        return label;
+		    }
+		}
 
 @Override
 protected void paintComponent(Graphics g) {

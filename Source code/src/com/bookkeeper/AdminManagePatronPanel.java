@@ -7,6 +7,8 @@ import java.awt.event.ComponentEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -152,15 +154,7 @@ public class AdminManagePatronPanel extends JPanel {
     txtSearchBar.setHorizontalAlignment(SwingConstants.RIGHT);
     txtSearchBar.setOpaque(false);
 
-    // Create the scroll pane and add the table to it
-    searchScrollPane = new JScrollPane(table);
-    searchScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-    searchScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-    searchScrollPane.setOpaque(false);
-    searchScrollPane.setBorder(new EmptyBorder(15, 10, 0, 0));
-    searchScrollPane.setOpaque(false);
-    searchScrollPane.getViewport().setOpaque(false);
-    
+
  // Create the table with the tableModel
     tableModel = new DefaultTableModel();//add table
     
@@ -172,12 +166,15 @@ public class AdminManagePatronPanel extends JPanel {
     		      return false;
     		}
          };
-         
-    table.setBackground(new Color(0, 0, 0, 0));;
-    table.setFillsViewportHeight(true);
-    table.setOpaque(false);
-    table.setShowVerticalLines(false);
-    
+        table.setBackground(lightplainColor);;
+        table.setFillsViewportHeight(true);
+        table.setOpaque(false);
+        table.setShowVerticalLines(false);
+        table.setRowHeight(45);
+        table.getTableHeader().setOpaque(false);
+        table.setGridColor(darkplainColor);
+      	table.getTableHeader().setOpaque(false);
+      	table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     //listener for clicking cells in table  
 	table.addMouseListener(new MouseAdapter() {
 		@Override
@@ -205,9 +202,17 @@ public class AdminManagePatronPanel extends JPanel {
             }
 		}
 	});
+    // Create the scroll pane and add the table to it
+    searchScrollPane = new JScrollPane();
+    searchScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    searchScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    searchScrollPane.setOpaque(false);
+    searchScrollPane.setBorder(new EmptyBorder(15, 10, 0, 0));
+    searchScrollPane.setOpaque(false);
+    searchScrollPane.getViewport().setOpaque(false);
+    searchScrollPane.setViewportView(table);
 	
-	//set what's inside the scroll pane
-	searchScrollPane.setViewportView(table);
+	 /*
 	
 	 /*
      * gamit ka ng gridbag layout for more control sa placement ng components  sa panel
@@ -287,20 +292,21 @@ public class AdminManagePatronPanel extends JPanel {
 	        subtitleTextSize =  Math.min(getHeight() / 40, getWidth()/ 40);
 	        buttonTextSize =  Math.min(getHeight() / 80, getWidth()/ 80);
 	        headerTextSize =   Math.min(getHeight() / 30, getWidth()/ 35);
-	        plainTextsize=   Math.min(getHeight() / 70, getWidth()/ 70);
+	        plainTextsize=   Math.min(getHeight() / 75, getWidth()/ 75);
 	            
 	        titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
 			subtitleFont = new Font("Montserrat", Font.BOLD, subtitleTextSize);
 	        buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
 	     	headerFont = new Font("Montserrat", Font.PLAIN, headerTextSize);
-			plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
+			plainFont = new Font("Montserrat", Font.ITALIC, plainTextsize);
 			
 	     	lblHeading1.setFont(new Font("Montserrat", Font.BOLD, headerTextSize));
 	     	lblHeading2.setFont(new Font("Montserrat", Font.PLAIN, headerTextSize));	            	            
 	            
 			btnAdd.setFont(buttonFont);
 	     	table.setFont(plainFont);
-
+	     	table.getTableHeader().setFont(new Font("Montserrat", Font.ITALIC  | Font.BOLD, plainTextsize));	            
+	     	table.getTableHeader().setForeground(headerColor);
 	            
         }
     });
@@ -348,7 +354,12 @@ public class AdminManagePatronPanel extends JPanel {
                     }
                     tableModel.addRow(rowData);
                 }
-
+    		     table.getColumnModel().getColumn(0).setMinWidth(100);
+      		     table.getColumnModel().getColumn(0).setMaxWidth(100);
+      		     
+     		     table.getColumnModel().getColumn(7).setMinWidth(100);
+      		     table.getColumnModel().getColumn(7).setMaxWidth(100);
+      		     
                 // Close the database connection
                 resultSet.close();
                 statement.close();
@@ -365,6 +376,19 @@ public class AdminManagePatronPanel extends JPanel {
 		
  }
 
+ public class headerRenderer implements TableCellRenderer {
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column) {
+		        JTableHeader header = table.getTableHeader();
+		        JLabel label = new JLabel(value.toString());
+		        label.setOpaque(false);
+		        label.setFont(header.getFont());
+		        label.setBackground(new Color(0, 0, 0, 0)); 
+		        label.setForeground(header.getForeground());
+		        label.setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+		        return label;
+	}
+}
 @Override
 protected void paintComponent(Graphics g) {
 	super.paintComponent(g);
@@ -414,7 +438,6 @@ public String searchQuery(String search) {
              }
              tableModel.addRow(rowData);
          }
-
          // Close the database connection
          resultSet.close();
          statement.close();

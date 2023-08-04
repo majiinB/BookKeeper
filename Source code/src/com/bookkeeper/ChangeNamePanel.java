@@ -16,8 +16,8 @@ public class ChangeNamePanel extends JPanel{
 	private JPanel titlePanel;
 	private JPanel inputPanel;
 	private JPanel buttonPanel;
-
-
+	
+	
 	//label
 	private JLabel lblHeading;
 	private JTextArea txtTitle;//title of panel "Book Information"
@@ -25,32 +25,12 @@ public class ChangeNamePanel extends JPanel{
 
 	private JLabel lblFirstName;
 	private JLabel lblLastName;
-	private JLabel lblCurrentAddress;
-	private JLabel lblNewAddress;
-	private JLabel lblCurrentNumber;	
-	private JLabel lblNewNumber;	
-	private JLabel lblCurrentPass;	
-	private JLabel lblNewPass;		
-	private JLabel lblConfirmPass;
-	private JLabel lblUserStatus;
-	private JLabel lblBorrow;
-	private JLabel lblReserve;
-
-	//spinner
-	private PlaceholderSpinner spinnerReserve;
-	private PlaceholderSpinner spinnerBorrow;
+	
+	
 	//textfield
 	private PlaceholderTextField txtFirstName;
 	private PlaceholderTextField txtLastName;
-	private PlaceholderTextField txtCurrentAddress;
-	private PlaceholderTextField txtNewAddress;
-	private PlaceholderTextField txtCurrentNumber;
-	private PlaceholderTextField txtNewNumber;
-	private PlaceholderPassword txtCurrentPass;	
-	private PlaceholderPassword txtNewPass;		
-	private PlaceholderPassword txtConfirmPass;
 
-	private PlaceholderComboBox comboBoxUserStatus;
 
 	//button
 	private JButton btnUpdate;
@@ -62,7 +42,15 @@ public class ChangeNamePanel extends JPanel{
 	private GridBagConstraints gbc_titlePanel;
 	private GridBagConstraints gbc_inputPanel;
 	private GridBagConstraints gbc_buttonPanel;
-
+	private GridBagLayout gbl_titlePanel; 
+    private GridBagConstraints gbc_txtTitle;
+    private GridBagConstraints gbc_txtDescription;
+    
+    private GridBagLayout gbl_inputPanel;
+    private GridBagConstraints gbc_lblFirstName;
+    private GridBagConstraints gbc_txtFirstName;
+    private GridBagConstraints gbc_lblLastName;
+    private GridBagConstraints gbc_txtLastName;
 
 	//text
 	private  Font titleFont;
@@ -100,7 +88,7 @@ public class ChangeNamePanel extends JPanel{
 	    titlePanel.setOpaque(false);
 	    inputPanel.setOpaque(false);
 	    buttonPanel.setOpaque(false);
-
+	    
 	    
 	    lblHeading = new JLabel();
 	    lblHeading.setIconTextGap(20);
@@ -114,7 +102,8 @@ public class ChangeNamePanel extends JPanel{
 	    btnCancel.setForeground(new Color(23, 21, 147));
 	    btnCancel.setBorderPainted(false);
 	    btnCancel.setBorder(new EmptyBorder(5, 5, 5, 5));
-	    
+	    btnCancel.setOpaque(false);
+
 	    txtTitle = new JTextArea();
 	    txtTitle.setForeground(headerColor);
 	    txtTitle.setLineWrap(true);
@@ -136,6 +125,33 @@ public class ChangeNamePanel extends JPanel{
 		txtDescription.setDragEnabled(false);
 		txtDescription.setAutoscrolls(false);
 	    txtDescription.setText("In changing you name, please ensure your name follows standard formatting. Avoid using unusual capitalization, punctuation, characters, or random words in your name.");
+
+	    
+	    lblFirstName = new JLabel("First Name");
+	    lblFirstName.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblFirstName.setBorder(null);
+	    lblFirstName.setForeground(darkplainColor);	
+	    
+	    txtFirstName = new PlaceholderTextField("Enter First Name");
+	    txtFirstName.setBackground(middleplainColor);
+	    txtFirstName.setBorder(new EmptyBorder(10, 10, 10, 10));
+	    txtFirstName.setOpaque(true);
+	    txtFirstName.setFocusable(true);
+	    txtFirstName.setEditable(true);
+	    txtFirstName.setDragEnabled(false);
+	    
+	    lblLastName = new JLabel("Last Name");
+	    lblLastName.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblLastName.setBorder(null);
+	    lblLastName.setForeground(darkplainColor);
+	    
+	    txtLastName = new PlaceholderTextField("Enter Last Name");
+	    txtLastName.setBackground(middleplainColor);
+	    txtLastName.setBorder(new EmptyBorder(10, 10, 10, 10));
+	    txtLastName.setOpaque(true);
+	    txtLastName.setFocusable(true);
+	    txtLastName.setEditable(true);
+	    txtLastName.setDragEnabled(false);
 	    
 	    btnUpdate = new JButton();
 	    btnUpdate.setText("Update");
@@ -146,6 +162,7 @@ public class ChangeNamePanel extends JPanel{
 	    btnUpdate.setFocusPainted(false);
 	    btnUpdate.setBorderPainted(false);
 	    btnUpdate.setBackground(headerColor);
+	    
 	    /*
 	     * gamit ka ng gridbag layout for more control sa placement ng components  sa panel
 	     * ung gbc or grid bag constraints is para madetermine mo ung positioning ng mga components sa gridbag layout
@@ -155,57 +172,110 @@ public class ChangeNamePanel extends JPanel{
 	     * anchor = alignment
 	     * insets = padding
 	     */
-	    
 	    //gridbag layouts
 	    gbl_mainPanel = new GridBagLayout();
 	    gbl_mainPanel.columnWidths = new int[]{865};
-	    gbl_mainPanel.rowHeights = new int[]{35, 150, 0, 0};
+	    gbl_mainPanel.rowHeights = new int[]{35, 0, 0, 0};
 	    gbl_mainPanel.columnWeights = new double[]{1.0};
-	    gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0};
-	    
+	    gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0};
 	    
 	    gbc_headingPanel = new GridBagConstraints();
-	    gbc_headingPanel.fill = GridBagConstraints.HORIZONTAL;	    
-	    gbc_headingPanel.anchor = GridBagConstraints.NORTH;
-	    gbc_headingPanel.insets = new Insets(5, 5, 5, 0);
+	    gbc_headingPanel.fill = GridBagConstraints.BOTH;	    
+	    gbc_headingPanel.insets = new Insets(20, 20, 10, 20);
 	    gbc_headingPanel.gridx = 0;
 	    gbc_headingPanel.gridy = 0;
-
+	    
 	    gbc_titlePanel = new GridBagConstraints();
-	    gbc_titlePanel.fill = GridBagConstraints.HORIZONTAL;	    
-	    gbc_titlePanel.anchor = GridBagConstraints.NORTH;
-	    gbc_titlePanel.insets = new Insets(5, 5, 5, 0);
+	    gbc_titlePanel.anchor = GridBagConstraints.SOUTH;
+	    gbc_titlePanel.fill = GridBagConstraints.BOTH;	    
+	    gbc_titlePanel.insets = new Insets(10, 20, 20, 20);
 	    gbc_titlePanel.gridx = 0;
-	    gbc_titlePanel.gridy = 1;	    
-
+	    gbc_titlePanel.gridy = 1;
+	    
 	    gbc_inputPanel = new GridBagConstraints();
-	    gbc_inputPanel.fill = GridBagConstraints.HORIZONTAL;	    
-	    gbc_inputPanel.anchor = GridBagConstraints.NORTH;
-	    gbc_inputPanel.insets = new Insets(5, 5, 5, 0);
+	    gbc_inputPanel.fill = GridBagConstraints.HORIZONTAL;
+	    gbc_inputPanel.insets = new Insets(10, 20, 20, 20);
 	    gbc_inputPanel.gridx = 0;
 	    gbc_inputPanel.gridy = 2;	 
 	    
 	    gbc_buttonPanel = new GridBagConstraints();
 	    gbc_buttonPanel.fill = GridBagConstraints.HORIZONTAL;	    
 	    gbc_buttonPanel.anchor = GridBagConstraints.NORTH;
-	    gbc_buttonPanel.insets = new Insets(5, 5, 5, 0);
+	    gbc_buttonPanel.insets = new Insets(20, 20, 20, 20);
 	    gbc_buttonPanel.gridx = 0;
-	    gbc_buttonPanel.gridy = 3;	   
+	    gbc_buttonPanel.gridy = 3;
+	    
+	    
+	    gbl_titlePanel = new GridBagLayout();
+        gbl_titlePanel.columnWidths = new int[]{865};
+        gbl_titlePanel.rowHeights = new int[]{35, 0};
+        gbl_titlePanel.columnWeights = new double[]{1.0};
+        gbl_titlePanel.rowWeights = new double[]{0.0, 1.0,};
+
+        gbc_txtTitle = new GridBagConstraints();
+        gbc_txtTitle.fill = GridBagConstraints.HORIZONTAL;
+        gbc_txtTitle.insets = new Insets(0, 0, 0, 0);
+        gbc_txtTitle.gridx = 0;
+        gbc_txtTitle.gridy = 0;
+
+        gbc_txtDescription = new GridBagConstraints();
+        gbc_txtDescription.fill = GridBagConstraints.BOTH;
+        gbc_txtDescription.insets = new Insets(0, 0, 0, 0);
+        gbc_txtDescription.gridx = 0;
+        gbc_txtDescription.gridy = 1;
+        
+        gbl_inputPanel = new GridBagLayout();
+        gbl_inputPanel.columnWidths = new int[]{865};
+        gbl_inputPanel.rowHeights = new int[]{0, 0, 0, 0};
+        gbl_inputPanel.columnWeights = new double[]{1.0};
+        gbl_inputPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
+        
+//        FIRST NAME
+        gbc_lblFirstName = new GridBagConstraints();
+        gbc_lblFirstName.fill = GridBagConstraints.BOTH;
+        gbc_lblFirstName.insets = new Insets(0, 0, 0, 0);
+        gbc_lblFirstName.gridx = 0;
+        gbc_lblFirstName.gridy = 0;
+        
+        gbc_txtFirstName = new GridBagConstraints();
+        gbc_txtFirstName.fill = GridBagConstraints.BOTH;
+        gbc_txtFirstName.insets = new Insets(5, 0, 0, 0);
+        gbc_txtFirstName.gridx = 0;
+        gbc_txtFirstName.gridy = 1;
+        
+//        LAST NAME
+        gbc_lblLastName = new GridBagConstraints();
+        gbc_lblLastName.fill = GridBagConstraints.BOTH;
+        gbc_lblLastName.insets = new Insets(20, 0, 0, 0);
+        gbc_lblLastName.gridx = 0;
+        gbc_lblLastName.gridy = 2;
+        
+        gbc_txtLastName = new GridBagConstraints();
+        gbc_txtLastName.fill = GridBagConstraints.BOTH;
+        gbc_txtLastName.insets = new Insets(5, 0, 0, 0);
+        gbc_txtLastName.gridx = 0;
+        gbc_txtLastName.gridy = 3;
+	    
 	    // Set panel layout
 	    mainPanel.setLayout(gbl_mainPanel);
-	    headingPanel.setLayout(new BorderLayout(0,0));
-	    titlePanel.setLayout(new GridLayout(2, 0, 0, 0));
-	    buttonPanel.setLayout(new GridLayout(0, 3, 30, 0));
+	    headingPanel.setLayout(new BorderLayout(0, 0));
+	    titlePanel.setLayout(gbl_titlePanel);
+	    inputPanel.setLayout(gbl_inputPanel);
 	    buttonPanel.setLayout(new BorderLayout(0, 0));
-
+	    
 	    //Add all to main panel
 	    headingPanel.add(lblHeading, BorderLayout.WEST);
 	    headingPanel.add(btnCancel, BorderLayout.EAST);
 
-	    titlePanel.add(txtTitle);
-	    titlePanel.add(txtDescription);
+	    titlePanel.add(txtTitle, gbc_txtTitle);
+	    titlePanel.add(txtDescription, gbc_txtDescription);
 //	    inputPanel.add(=);
-	    buttonPanel.add(btnUpdate);
+	    inputPanel.add(lblFirstName, gbc_lblFirstName);
+	    inputPanel.add(txtFirstName, gbc_txtFirstName);
+	    inputPanel.add(lblLastName, gbc_lblLastName);
+	    inputPanel.add(txtLastName, gbc_txtLastName);
+	    
+	    buttonPanel.add(btnUpdate, BorderLayout.CENTER);
 	    mainPanel.add(headingPanel, gbc_headingPanel);
 	    mainPanel.add(titlePanel, gbc_titlePanel);
 	    mainPanel.add(inputPanel, gbc_inputPanel);
@@ -221,27 +291,21 @@ public class ChangeNamePanel extends JPanel{
 	  	            subtitleTextSize =  Math.min(getHeight() / 20, getWidth()/ 25);
 	  	            buttonTextSize =  Math.min(getHeight() / 30, getWidth()/ 30);
 	  	           	headerTextSize =   Math.min(getHeight() / 20, getWidth()/ 30);
-	  	           	plainTextsize=   Math.min(getHeight() / 20, getWidth()/ 50);
-	  	            
-	  	            titleFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, titleTextSize);
-	  	            txtTitle.setFont(titleFont);
-	  	            
+	  	           	plainTextsize=   Math.min(getHeight() / 25, getWidth()/ 25);
+	  	          
+	  	            titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
 	  	            subtitleFont = new Font("Montserrat", Font.ITALIC, subtitleTextSize);
-	  	            txtDescription.setFont(subtitleFont);
-	  	            
-	  	            buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
-	  	            btnUpdate.setFont(buttonFont);
-//	  	            .setFont(buttonFont);
-	  	            
+	  	            buttonFont = new Font("Montserrat", Font.BOLD, buttonTextSize);
 	  	            headerFont = new Font("Montserrat", Font.PLAIN, headerTextSize);
+	  	            plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
+
+	  	            txtTitle.setFont(titleFont);
+	  	           	txtDescription.setFont(subtitleFont);
+	  	            btnUpdate.setFont(buttonFont);	  	            
 	  	            btnCancel.setFont(headerFont);
-	  	            lblHeading.setFont(headerFont);
-	  	            
-	  	            plainFont = new Font("Montserrat", Font.PLAIN , plainTextsize);
-//	  	            .setFont(plainFont);
-//	  	            .setFont(plainFont);
-//	  	            .setFont(plainFont);
-//	  	          	.setFont(plainFont);  	          
+	  	            lblHeading.setFont(headerFont);	  	            
+	  	          	lblFirstName.setFont(plainFont);  	          
+	  	          	lblLastName.setFont(plainFont);  	          
 	  	        
 
 	          }

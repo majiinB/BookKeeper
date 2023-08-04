@@ -350,7 +350,6 @@ public class AdminSettingsPanel extends JPanel {
 	lblEmailAddress.setForeground(darkplainColor);
 	
 	txtEmailAddress = new PlaceholderTextField(employee.getEmail());
-	System.out.println(employee.getEmail());
 	txtEmailAddress.setFocusable(false);
 	txtEmailAddress.setEditable(false);
 	txtEmailAddress.setBorder(null);

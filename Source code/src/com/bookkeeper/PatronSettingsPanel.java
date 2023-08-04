@@ -11,6 +11,10 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+
+import com.bookkeeper.PatronLibraryPanel.headerRenderer;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -29,7 +33,6 @@ public class PatronSettingsPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	//panel
 	private JPanel mainPanel;
-	private JPanel contentPanel;
 	private JPanel headingPanel;
 	
 	private RoundedPanel accDetailPanel;
@@ -100,8 +103,7 @@ public class PatronSettingsPanel extends JPanel {
 	private DefaultTableModel historyLoanTableModel;
 	
 	//layout
-	private GridBagLayout gbl_contentPanel;
-	private GridBagConstraints gbc_headingPanel;
+	private GridBagLayout gbl_mainPanel;
 	private GridBagConstraints gbc_accDetailPanel;
 	private GridBagConstraints gbc_reserveBookPanel;
 	private GridBagConstraints gbc_activeLoanPanel;
@@ -153,10 +155,7 @@ public class PatronSettingsPanel extends JPanel {
 	 
 	//create panels
 	mainPanel = new JPanel();
-//	mainPanel = new BackgroundPanel();
-	contentPanel = new JPanel();
-	contentPanel.setBorder(null);
-	contentPanel.setBackground(new Color(237, 238, 237));
+
 	headingPanel = new JPanel();
 	
     accDetailPanel =  new RoundedPanel(20);
@@ -173,10 +172,8 @@ public class PatronSettingsPanel extends JPanel {
 	emailPanel = new JPanel();
 	
     // Set panel properties
-	
-    mainPanel.setOpaque(false);
     headingPanel.setOpaque(false);
-    contentPanel.setOpaque(false);
+    mainPanel.setOpaque(false);
     accDetailPanel.setOpaque(false);
     reserveBookPanel.setOpaque(false);
     historyLoanPanel.setOpaque(false);
@@ -187,12 +184,12 @@ public class PatronSettingsPanel extends JPanel {
 	contactNumberPanel.setOpaque(false);
 	homeAddressPanel.setOpaque(false);
 	emailPanel.setOpaque(false);
-	
+	mainPanel.setBorder(null);
+	mainPanel.setBackground(new Color(237, 238, 237));
     accDetailPanel.setBorder(new EmptyBorder(10, 10, 15, 10));
     reserveBookPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
     activeLoanPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
     historyLoanPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-	mainPanel.setBorder(new EmptyBorder(0, 0, 0, 30));
 	headingPanel.setBorder(new EmptyBorder(20, 25, 0, 45));
 
     accDetailPanel.setBorderWidth(2);
@@ -257,7 +254,7 @@ public class PatronSettingsPanel extends JPanel {
 	lblLastName.setOpaque(false);
 	lblLastName.setForeground(darkplainColor);
 	
-	txtLastName = new PlaceholderTextField(user.getUser_fname());
+	txtLastName = new PlaceholderTextField(user.getUser_lname());
 	txtLastName.setFocusable(false);
 	txtLastName.setEditable(false);
 	txtLastName.setOpaque(false);
@@ -313,17 +310,7 @@ public class PatronSettingsPanel extends JPanel {
 	lblreserveBook.setOpaque(false);
 	lblreserveBook.setForeground(darkplainColor);
 	
-	reserveTable = new JTable();
-	reserveTable.setBorder(new EmptyBorder(0, 0, 0, 25));
 
-	reserveScrollPane  = new JScrollPane(reserveTable);
-	reserveScrollPane.setOpaque(false);
-	reserveScrollPane.getViewport().setOpaque(false);
-	reserveScrollPane.setBackground(new Color(255, 255, 255));
-	reserveScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
-	reserveScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-	reserveScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-	
 	// Setting up reserved books table
 	reserveTableModel = new DefaultTableModel();
 	reserveTable = new JTable(reserveTableModel) {
@@ -338,27 +325,30 @@ public class PatronSettingsPanel extends JPanel {
 		      return false;
 		}
     };
-    reserveTable.setBackground(new Color(0, 0, 0, 0));;
-    reserveTable.setFillsViewportHeight(true);
-    reserveTable.setOpaque(false);
-    reserveTable.setShowVerticalLines(false);
+	reserveTable.setBackground(lightplainColor);;
+	reserveTable.setFillsViewportHeight(true);
+	reserveTable.setOpaque(false);
+	reserveTable.setShowVerticalLines(false);
+	reserveTable.setRowHeight(45);
+	reserveTable.getTableHeader().setOpaque(false);
+	reserveTable.setGridColor(darkplainColor);
+    reserveTable.getTableHeader().setDefaultRenderer(new headerRenderer());
+    reserveTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+	reserveScrollPane  = new JScrollPane();
+	reserveScrollPane.setOpaque(false);
+	reserveScrollPane.getViewport().setOpaque(false);
+	reserveScrollPane.setBackground(new Color(255, 255, 255));
+	reserveScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
+	reserveScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+	reserveScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     reserveScrollPane.setViewportView(reserveTable);
     
 	lblactiveLoan = new JLabel("Active Book Loans");
 	lblactiveLoan.setOpaque(false);
 	lblactiveLoan.setForeground(darkplainColor);
 	
-	activeLoanTable = new JTable();
-	activeLoanTable.setBorder(new EmptyBorder(0, 0, 0, 25));
-	
-	activeLoanScrollPane  = new JScrollPane(activeLoanTable);
-	activeLoanScrollPane.setOpaque(false);
-	activeLoanScrollPane.getViewport().setOpaque(false);
-	activeLoanScrollPane.setBackground(new Color(255, 255, 255));
-	activeLoanScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
-	activeLoanScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-	activeLoanScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-	
+
 	// Setting up active loan table
 	activeLoanTableModel = new DefaultTableModel();
 	activeLoanTable = new JTable(activeLoanTableModel) {
@@ -373,28 +363,33 @@ public class PatronSettingsPanel extends JPanel {
 		      return false;
 		}
     };
-    activeLoanTable.setBackground(new Color(0, 0, 0, 0));;
+    activeLoanTable.setBackground(lightplainColor);;
     activeLoanTable.setFillsViewportHeight(true);
     activeLoanTable.setOpaque(false);
     activeLoanTable.setShowVerticalLines(false);
+    activeLoanTable.setRowHeight(45);
+    activeLoanTable.getTableHeader().setOpaque(false);
+	activeLoanTable.setGridColor(darkplainColor);
+	activeLoanTable.getTableHeader().setDefaultRenderer(new headerRenderer());
+	activeLoanTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+    
+	activeLoanScrollPane  = new JScrollPane();
+	activeLoanScrollPane.setOpaque(false);
+	activeLoanScrollPane.getViewport().setOpaque(false);
+	activeLoanScrollPane.setBackground(new Color(255, 255, 255));
+	activeLoanScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
+	activeLoanScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+	activeLoanScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     activeLoanScrollPane.setViewportView(activeLoanTable);
 	
 	lblhistoryLoan = new JLabel("Book Loan History");
 	lblhistoryLoan.setOpaque(false);
 	lblhistoryLoan.setForeground(darkplainColor);
 	
-	historyLoanTable = new JTable();
-	historyLoanTable.setBorder(new EmptyBorder(0, 0, 0, 25));
-	
-	historyLoanScrollPane  = new JScrollPane(historyLoanTable);
-	historyLoanScrollPane.setOpaque(false);
-	historyLoanScrollPane.getViewport().setOpaque(false);
-	historyLoanScrollPane.setBackground(new Color(255, 255, 255));
-	historyLoanScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
-	historyLoanScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-	historyLoanScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-	
 	// Setting up history loan table
+
+	
 	historyLoanTableModel = new DefaultTableModel();
 	historyLoanTable = new JTable(historyLoanTableModel) {
     	/**
@@ -408,10 +403,24 @@ public class PatronSettingsPanel extends JPanel {
 		      return false;
 		}
     };
-    historyLoanTable.setBackground(new Color(0, 0, 0, 0));;
+    historyLoanTable.setBackground(lightplainColor);;
     historyLoanTable.setFillsViewportHeight(true);
     historyLoanTable.setOpaque(false);
     historyLoanTable.setShowVerticalLines(false);
+    historyLoanTable.setRowHeight(45);
+    activeLoanTable.getTableHeader().setOpaque(false);
+    historyLoanTable.setGridColor(darkplainColor);
+    historyLoanTable.getTableHeader().setDefaultRenderer(new headerRenderer());
+    historyLoanTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+    
+	historyLoanScrollPane  = new JScrollPane();
+	historyLoanScrollPane.setOpaque(false);
+	historyLoanScrollPane.getViewport().setOpaque(false);
+	historyLoanScrollPane.setBackground(new Color(255, 255, 255));
+	historyLoanScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
+	historyLoanScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+	historyLoanScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     historyLoanScrollPane.setViewportView(historyLoanTable);
 	
 	 /*
@@ -425,11 +434,11 @@ public class PatronSettingsPanel extends JPanel {
      */
     
     //gridbag layouts
-	gbl_contentPanel = new GridBagLayout();
-	gbl_contentPanel.columnWidths = new int[]{380, 0};
-	gbl_contentPanel.rowHeights = new int[]{33, 30, 46, 0};
-	gbl_contentPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-	gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
+	gbl_mainPanel = new GridBagLayout();
+	gbl_mainPanel.columnWidths = new int[]{380, 0};
+	gbl_mainPanel.rowHeights = new int[]{33, 30, 46, 0};
+	gbl_mainPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+	gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
     
 	gbc_accDetailPanel = new GridBagConstraints();
     gbc_accDetailPanel.fill = GridBagConstraints.BOTH;
@@ -437,6 +446,20 @@ public class PatronSettingsPanel extends JPanel {
     gbc_accDetailPanel.gridx = 0;
     gbc_accDetailPanel.gridy = 1;  	
     
+
+    gbc_reserveBookPanel = new GridBagConstraints();
+    gbc_reserveBookPanel.fill = GridBagConstraints.BOTH;
+    gbc_reserveBookPanel.insets = new Insets(15, 0, 25, 0);
+    gbc_reserveBookPanel.gridx = 0;
+    gbc_reserveBookPanel.gridy = 2; 
+    
+    gbc_activeLoanPanel = new GridBagConstraints();
+    gbc_activeLoanPanel.fill = GridBagConstraints.BOTH;
+    gbc_activeLoanPanel.insets = new Insets(15, 0, 25, 0);
+    gbc_activeLoanPanel.gridx = 0;
+    gbc_activeLoanPanel.gridy = 3; 
+    
+    //
     gbl_accDetailPanel = new GridBagLayout();
     gbl_accDetailPanel.columnWidths = new int[]{332, 68, 0};
     gbl_accDetailPanel.rowHeights = new int[]{66, 0};
@@ -493,14 +516,8 @@ public class PatronSettingsPanel extends JPanel {
 	gbc_emailPanel.insets = new Insets(0, 5, 0, 0);
 	gbc_emailPanel.gridx = 1;
 	gbc_emailPanel.gridy = 3;
-
-
-    gbc_reserveBookPanel = new GridBagConstraints();
-    gbc_reserveBookPanel.fill = GridBagConstraints.BOTH;
-    gbc_reserveBookPanel.insets = new Insets(15, 0, 25, 0);
-    gbc_reserveBookPanel.gridx = 0;
-    gbc_reserveBookPanel.gridy = 2; 
     
+    //
     gbl_reserveBookPanel = new GridBagLayout();
     gbl_reserveBookPanel.columnWidths = new int[]{316, 0};
     gbl_reserveBookPanel.rowHeights = new int[]{66, 0};
@@ -519,11 +536,7 @@ public class PatronSettingsPanel extends JPanel {
     gbc_reserveTable.gridx = 0;
     gbc_reserveTable.gridy = 1;
     
-    gbc_activeLoanPanel = new GridBagConstraints();
-    gbc_activeLoanPanel.fill = GridBagConstraints.BOTH;
-    gbc_activeLoanPanel.insets = new Insets(15, 0, 25, 0);
-    gbc_activeLoanPanel.gridx = 0;
-    gbc_activeLoanPanel.gridy = 3; 
+    //
     
     gbl_activeLoanPanel = new GridBagLayout();
     gbl_activeLoanPanel.columnWidths = new int[]{316, 0};
@@ -566,8 +579,7 @@ public class PatronSettingsPanel extends JPanel {
     gbc_historyLoanScrollPane.gridy = 1;
     
     // Set panel layouts
-    mainPanel.setLayout(new BorderLayout(0,0));
-    contentPanel.setLayout(gbl_contentPanel);
+    mainPanel.setLayout(gbl_mainPanel);
     firstNamePanel.setLayout(new GridLayout(2, 1, 0, 0));
 	lastNamePanel.setLayout(new GridLayout(2, 1, 0, 0));
 	userIDPanel.setLayout(new GridLayout(2, 1, 0, 0));
@@ -617,12 +629,11 @@ public class PatronSettingsPanel extends JPanel {
     
     historyLoanPanel.add(lblhistoryLoan, gbc_lblhistoryLoan);
     historyLoanPanel.add(historyLoanScrollPane,gbc_historyLoanScrollPane);
-//    contentPanel.add(headingPanel,gbc_headingPanel);
-//    contentPanel.add(headingPanel,gbc_headingPanel);
-    contentPanel.add(accDetailPanel,gbc_accDetailPanel);
-    contentPanel.add(reserveBookPanel,gbc_reserveBookPanel);
-    contentPanel.add(activeLoanPanel,gbc_activeLoanPanel);
-    contentPanel.add(historyLoanPanel,gbc_historyLoanPanel);
+
+    mainPanel.add(accDetailPanel,gbc_accDetailPanel);
+    mainPanel.add(reserveBookPanel,gbc_reserveBookPanel);
+    mainPanel.add(activeLoanPanel,gbc_activeLoanPanel);
+    mainPanel.add(historyLoanPanel,gbc_historyLoanPanel);
     
     //Method call for table
     displayReservation(user.getUser_id());
@@ -630,7 +641,6 @@ public class PatronSettingsPanel extends JPanel {
     displayBookHistory(user.getUser_id());
     
     
-    mainPanel.add(contentPanel, BorderLayout.CENTER);
 
 
 	add(headingPanel, BorderLayout.NORTH);
@@ -668,6 +678,20 @@ public class PatronSettingsPanel extends JPanel {
 			lblHomeAddress.setFont(plainFont);
 			lblContactNumber.setFont(plainFont);
 			lblEmailAddress.setFont(plainFont);
+			
+			reserveTable.setFont(plainFont);
+			reserveTable.getTableHeader().setFont(new Font("Montserrat", Font.ITALIC  | Font.BOLD, plainTextsize));	            
+			reserveTable.getTableHeader().setForeground(darkplainColor);
+			
+			activeLoanTable.setFont(plainFont);
+			activeLoanTable.getTableHeader().setFont(new Font("Montserrat", Font.ITALIC  | Font.BOLD, plainTextsize));	            
+			activeLoanTable.getTableHeader().setForeground(darkplainColor);
+			
+			historyLoanTable.setFont(plainFont);
+			historyLoanTable.getTableHeader().setFont(new Font("Montserrat", Font.ITALIC  | Font.BOLD, plainTextsize));	            
+			historyLoanTable.getTableHeader().setForeground(darkplainColor);
+	     		     	
+	     	
 		}
     });
 	
@@ -698,6 +722,20 @@ public class PatronSettingsPanel extends JPanel {
 	    }
 	});
  }
+ public class headerRenderer implements TableCellRenderer {
+		@Override
+	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column) {
+		        JTableHeader header = table.getTableHeader();
+		        JLabel label = new JLabel(value.toString());
+		        label.setOpaque(false);
+		        label.setFont(header.getFont());
+		        label.setBackground(new Color(0, 0, 0, 0)); 
+		        label.setForeground(header.getForeground());
+		        label.setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+		        return label;
+		    }
+		}
+ 
 	 private void displayBookHistory(String id) {
 	     try {
 	         // Establish database connection
@@ -760,7 +798,7 @@ public class PatronSettingsPanel extends JPanel {
 	         int columnCount = metaData.getColumnCount();
 	
 	         // Create an array to store column names
-	         String[] columnNames = {"Boook Status", "ISBN", "Book title"};
+	         String[] columnNames = {"Book Status", "ISBN", "Book title"};
 	         
 	
 	         // Set the column names in the table model

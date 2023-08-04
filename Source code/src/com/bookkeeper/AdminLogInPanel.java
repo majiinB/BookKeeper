@@ -135,7 +135,8 @@ public  AdminLogInPanel() {
     btnBack.setForeground(new Color(23, 21, 147));
     btnBack.setBorderPainted(false);
     btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
-    
+    btnBack.setOpaque(false);
+
     lblTitle = new JLabel("ADMIN LOGIN");
     lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
     lblTitle.setBorder(null);
