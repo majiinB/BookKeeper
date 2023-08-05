@@ -177,6 +177,8 @@ public class AdminMenuPanel extends JPanel {
     topSeparator.setBorder(new EmptyBorder(0, 10, 0, 10));
     
     btnLibrary = new JButton();
+    btnLibrary.setOpaque(false);
+    btnLibrary.setContentAreaFilled(false);
     btnLibrary.setMnemonic(KeyEvent.VK_L);
     btnLibrary.setToolTipText("Library");
     btnLibrary.setFocusPainted(false);
@@ -184,6 +186,8 @@ public class AdminMenuPanel extends JPanel {
     btnLibrary.setIcon(new ImageIcon(libraryScaledImage));
 
     btnReport = new JButton();
+    btnReport.setOpaque(false);
+    btnReport.setContentAreaFilled(false);
     btnReport.setMnemonic(KeyEvent.VK_R);
     btnReport.setToolTipText("Report");
     btnReport.setFocusPainted(false);
@@ -192,6 +196,8 @@ public class AdminMenuPanel extends JPanel {
     btnReport.setIcon(new ImageIcon(reportScaledImage));
 
     btnEmployee = new JButton();
+    btnEmployee.setOpaque(false);
+    btnEmployee.setContentAreaFilled(false);
     btnEmployee.setMnemonic(KeyEvent.VK_E);
     btnEmployee.setToolTipText("Manage Employees");
     btnEmployee.setFocusPainted(false);
@@ -199,6 +205,8 @@ public class AdminMenuPanel extends JPanel {
     btnEmployee.setIcon(new ImageIcon(employeeScaledImage));
 
     btnPatron = new JButton();
+    btnPatron.setOpaque(false);
+    btnPatron.setContentAreaFilled(false);
     btnPatron.setMnemonic(KeyEvent.VK_P);
     btnPatron.setToolTipText("Manage Patrons");
     btnPatron.setFocusPainted(false);
@@ -206,6 +214,8 @@ public class AdminMenuPanel extends JPanel {
     btnPatron.setIcon(new ImageIcon(patronScaledImage));
 
     btnAcc = new JButton();
+    btnAcc.setOpaque(false);
+    btnAcc.setContentAreaFilled(false);
     btnAcc.setMnemonic(KeyEvent.VK_A);
     btnAcc.setToolTipText("Manage Account");
     btnAcc.setFocusPainted(false);
@@ -217,6 +227,8 @@ public class AdminMenuPanel extends JPanel {
     bottomSeparator.setForeground(new Color(250, 251, 255));
     bottomSeparator.setBorder(new EmptyBorder(0, 10, 0, 10));
     btnLogout = new JButton();
+    btnLogout.setOpaque(false);
+    btnLogout.setContentAreaFilled(false);
     btnLogout.setFocusPainted(false);
     btnLogout.setBorderPainted(false);
     btnLogout.setIcon(new ImageIcon(logoutScaledImage));

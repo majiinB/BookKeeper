@@ -334,7 +334,7 @@ public class ChangeNamePanel extends JPanel{
 	    		return;
 	    	}
 	    	if(firstName.equals(patron.getUser_fname()) && lastName.equals(patron.getUser_lname())){
-	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "This is already your current\nfirst name adn last name");
+	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "This is already your current\nfirst name and last name");
 	            showDialog(mal);
 	    		return;
 	    	}
