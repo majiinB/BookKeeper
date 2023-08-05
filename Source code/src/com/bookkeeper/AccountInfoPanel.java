@@ -629,7 +629,7 @@ public class AccountInfoPanel extends JPanel{
 		btnAddress.setIcon(new ImageIcon(buttonscaledImage));
 		btnChangePass.setIcon(new ImageIcon(buttonscaledImage));
 	}
-	public JButton getBtnBack() {
-		return btnBack;
+	public JButton getBtnSave() {
+		return btnSave;
 	}
 }
