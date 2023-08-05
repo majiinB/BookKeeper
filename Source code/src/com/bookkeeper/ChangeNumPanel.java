@@ -5,9 +5,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class ChangeNumPanel extends JPanel{
 	//panel
@@ -143,7 +149,7 @@ public class ChangeNumPanel extends JPanel{
 	    lblNewContact.setBorder(null);
 	    lblNewContact.setForeground(darkplainColor);
 	
-	    txtNewContact = new PlaceholderTextField("Enter New Contact Number");
+	    txtNewContact = new PlaceholderTextField("E.g. 09155466982");
 	    txtNewContact.setBackground(middleplainColor);
 	    txtNewContact.setBorder(new EmptyBorder(10, 10, 10, 10));
 	    txtNewContact.setOpaque(true);
@@ -304,6 +310,75 @@ public class ChangeNumPanel extends JPanel{
 		    	lblNewContact.setFont(plainFont);  	          
 	          }
 	      });
+	    
+	  // Action listeners
+	    btnUpdate.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    	
+	    	String DB_URL = "jdbc:mysql://localhost:3306/book_keeper";
+	        String DB_USERNAME = "root";
+	        String DB_PASSWORD = "";
+	    	String newContact = txtNewContact.getText().trim();
+	    	String formattedID = patron.getUser_id();
+	    	
+	    	// Shield
+	    	if (newContact.isBlank() || newContact.equals("E.g. 09155466982")) {
+	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Cannot update with blank values");
+	            showDialog(mal);
+	    		return;
+	    	}
+	    	if(newContact.equals(patron.getUser_contact())) {
+	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Your contact info is already set to the same value");
+	            showDialog(mal);
+	    		return;
+	    	}
+	    	if(!newContact.matches("\\d{11}")) {
+	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Invalid Input");
+	            showDialog(mal);
+	    		return;
+	    	}
+
+	    	
+	    	Connection conn = null;
+	        PreparedStatement stmt = null;
+
+	        try {
+	            conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+	            
+	            //Prepare query
+	            String sql = "UPDATE patron SET patron_contact = ? WHERE formatted_id = ?";
+	            
+	            //Execute update
+	            stmt = conn.prepareStatement(sql);
+	            stmt.setString(1, newContact);
+	            stmt.setString(2, formattedID);
+	            stmt.executeUpdate();
+	            //Update Object
+	            patron.setUser_contact(newContact);
+	            
+	            //Prompt successful update
+	            SuccessPanel success = new SuccessPanel("Info Change", "Contact No. Change Successful");
+	            showDialog(success);
+	            
+	            //Close Frame after update
+	            ChangeInfoFrame frame = (ChangeInfoFrame) SwingUtilities.getWindowAncestor(btnUpdate);
+				frame.dispose();
+	        } catch (SQLException e1) {
+	            e1.printStackTrace();
+	        } finally {
+	            try {
+	                if (stmt != null) {
+	                    stmt.close();
+	                }
+	                if (conn != null) {
+	                    conn.close();
+	                }
+	            } catch (SQLException e2) {
+	                e2.printStackTrace();
+	            }
+	        }
+	    }
+	 });
 	}
 	@Override
 	 protected void paintComponent(Graphics g) {
@@ -317,4 +392,48 @@ public class ChangeNumPanel extends JPanel{
 	public JButton getBtnBack() {
 		return btnCancel;
 	}
+	// OVERLOADED METHOD -> showDialog()
+		//Method to show alert panel (Success Panel)
+		public void showDialog(SuccessPanel panel) {
+			
+			panel.getBtnConfirm().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            closeDialog(e);
+		    	}
+		    });
+		    
+			JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.pack();
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
+	
+		}
+		
+		//Method to show alert panel (Malfunction Panel)
+	    public void showDialog(MalfunctionPanel panel) {
+			
+			panel.getBtnConfirm().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            closeDialog(e);
+		    	}
+		    });
+		    
+			JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),"Error", true);
+	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	        dialog.getContentPane().add(panel);
+	        dialog.pack();
+	        dialog.setLocationRelativeTo(null);
+	        dialog.setVisible(true);
+		}
+	    
+	    //Method used by showDialog to close the JDialog containing the alert panels
+		private void closeDialog(ActionEvent e) {
+	        Component component = (Component) e.getSource();
+	        Window window = SwingUtilities.getWindowAncestor(component);
+	        if (window != null) {
+	            window.dispose();
+	        }
+	    }
 }

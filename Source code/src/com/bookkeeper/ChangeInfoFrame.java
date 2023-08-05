@@ -67,7 +67,7 @@ public class ChangeInfoFrame extends JFrame {
     	mainPanel = new JPanel();//panel to hold all panels
     	ChangeNamePanel = new ChangeNamePanel(patron);
     	ChangePassPanel = new ChangePassPanel();
-    	ChangeNumPanel = new ChangeNumPanel();
+    	ChangeNumPanel = new ChangeNumPanel(patron);
     	ChangeAddPanel = new ChangeAddPanel(patron);
 //    	ChangeStatPanel = new ChangeStatPanel();
 //    	ChangeAccessPanel = new ChangeAccessPanel();
