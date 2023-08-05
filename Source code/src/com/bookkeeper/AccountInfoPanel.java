@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AccountInfoPanel extends JPanel{
 	//panel			
@@ -115,7 +117,7 @@ public class AccountInfoPanel extends JPanel{
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 	
-	public AccountInfoPanel() {
+	public AccountInfoPanel(User patron) {
 		setBackground(new Color(250, 251, 255));
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		setLayout(new BorderLayout(0, 0));
@@ -551,6 +553,7 @@ public class AccountInfoPanel extends JPanel{
 	   	mainPanel.add(buttonPanel, gbc_buttonPanel);  	   	
 	   	add(mainPanel);
 	   	
+	   	// Action Listeners
 	   	addComponentListener(new ComponentAdapter() {
 	   		@Override
 	   		public void componentResized(ComponentEvent e) {
@@ -584,8 +587,28 @@ public class AccountInfoPanel extends JPanel{
 	   			
 	   		}
 	   	});
+	   	btnName.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		ChangeInfoFrame frame = new ChangeInfoFrame(1, patron);
+	    	}
+	    });
+	   	btnChangePass.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		ChangeInfoFrame frame = new ChangeInfoFrame(2, patron);
+	    	}
+	    });
+	   	btnContactNum.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		ChangeInfoFrame frame = new ChangeInfoFrame(3, patron);
+	    	}
+	    });
+	   	btnAddress.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		ChangeInfoFrame frame = new ChangeInfoFrame(4, patron);
+	    	}
+	    });
 	}
-
+	// Methods
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -605,6 +628,8 @@ public class AccountInfoPanel extends JPanel{
 		btnContactNum.setIcon(new ImageIcon(buttonscaledImage));
 		btnAddress.setIcon(new ImageIcon(buttonscaledImage));
 		btnChangePass.setIcon(new ImageIcon(buttonscaledImage));
-		
+	}
+	public JButton getBtnBack() {
+		return btnBack;
 	}
 }

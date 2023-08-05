@@ -347,4 +347,7 @@ public class ChangePassPanel extends JPanel{
 		*/
 
 	 }
+	public JButton getBtnBack() {
+		return btnCancel;
+	}
 }

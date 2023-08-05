@@ -320,4 +320,7 @@ public class ChangeAddPanel extends JPanel{
 		*/
 
 	 }
+	public JButton getBtnBack() {
+		return btnCancel;
+	}
 }

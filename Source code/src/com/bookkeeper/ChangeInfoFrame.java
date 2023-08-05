@@ -31,7 +31,7 @@ public class ChangeInfoFrame extends JFrame {
 	private int width;
 	private int height;
 	
-    public ChangeInfoFrame() {
+    public ChangeInfoFrame(int show, User patron) {
     	setTitle("Book Keeper");
     	
     	// Set the Icon
@@ -42,10 +42,10 @@ public class ChangeInfoFrame extends JFrame {
     	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     	
     	// Remove window decorations (title bar, borders)
-    	setUndecorated(true); 
+    	setUndecorated(false); 
     	
     	// Prevent resizing
-    	setResizable(false); 
+    	setResizable(true); 
 
     	// Set the frame size based on the screen dimensions
     	environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -64,14 +64,14 @@ public class ChangeInfoFrame extends JFrame {
         
         //Create panels
     	mainPanel = new JPanel();//panel to hold all panels
-    	ChangeNamePanel = new ChangeNamePanel();
+    	ChangeNamePanel = new ChangeNamePanel(patron);
     	ChangePassPanel = new ChangePassPanel();
     	ChangeNumPanel = new ChangeNumPanel();
     	ChangeAddPanel = new ChangeAddPanel();
-    	ChangeStatPanel = new ChangeStatPanel();
-    	ChangeAccessPanel = new ChangeAccessPanel();
-    	ChangeBorowLimitPanel = new ChangeBorowLimitPanel();
-    	ChangeReserveLimitPanel = new ChangeReserveLimitPanel();
+//    	ChangeStatPanel = new ChangeStatPanel();
+//    	ChangeAccessPanel = new ChangeAccessPanel();
+//    	ChangeBorowLimitPanel = new ChangeBorowLimitPanel();
+//    	ChangeReserveLimitPanel = new ChangeReserveLimitPanel();
 
 		// Set the layout of panels
 		cardLayout = new CardLayout();
@@ -82,22 +82,52 @@ public class ChangeInfoFrame extends JFrame {
 		mainPanel.add(ChangePassPanel,"panel2");
 		mainPanel.add(ChangeNumPanel,"panel3");
 		mainPanel.add(ChangeAddPanel,"panel4");
-		mainPanel.add(ChangeStatPanel,"panel5");
+//		mainPanel.add(ChangeStatPanel,"panel5");
 //		mainPanel.add(ChangeAccessPanel,"panel6");
-		mainPanel.add(ChangeBorowLimitPanel,"panel7");
-		mainPanel.add(ChangeReserveLimitPanel,"panel8");
+//		mainPanel.add(ChangeBorowLimitPanel,"panel7");
+//		mainPanel.add(ChangeReserveLimitPanel,"panel8");
 			
 		
 		
 		// Set mainPanel as the content pane of the JFrame
 		setContentPane(mainPanel);
-		cardLayout.show(mainPanel,"panel2");
 		
-		
+		// Condition 
+		if(show == 1) cardLayout.show(mainPanel, "panel1");
+		else if(show == 2) cardLayout.show(mainPanel, "panel2");
+		else if(show ==3) cardLayout.show(mainPanel, "panel3");
+		else if(show == 4) cardLayout.show(mainPanel, "panel4");
+	
 		// Center the frame on the screen
 		setLocationRelativeTo(null);
 		
 		// Make the frame visible
 		setVisible(true);
+		
+		// Action Listeners
+		ChangeNamePanel.getBtnBack().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+				ChangeInfoFrame frame = (ChangeInfoFrame) SwingUtilities.getWindowAncestor(ChangeNamePanel);
+				frame.dispose();
+        	}
+        });
+		ChangePassPanel.getBtnBack().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+				ChangeInfoFrame frame = (ChangeInfoFrame) SwingUtilities.getWindowAncestor(ChangePassPanel);
+				frame.dispose();
+        	}
+        });
+		ChangeNumPanel.getBtnBack().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+				ChangeInfoFrame frame = (ChangeInfoFrame) SwingUtilities.getWindowAncestor(ChangeNumPanel);
+				frame.dispose();
+        	}
+        });
+		ChangeAddPanel.getBtnBack().addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) { 
+				ChangeInfoFrame frame = (ChangeInfoFrame) SwingUtilities.getWindowAncestor(ChangeAddPanel);
+				frame.dispose();
+        	}
+        });
 	}	
 }

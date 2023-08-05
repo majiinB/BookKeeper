@@ -8,6 +8,12 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ChangeNamePanel extends JPanel{
 	//panel
@@ -69,7 +75,7 @@ public class ChangeNamePanel extends JPanel{
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
-	public ChangeNamePanel() {
+	public ChangeNamePanel(User patron) {
 		setBackground(new Color(250, 251, 255));
 	    setBorder(new EmptyBorder(10, 10, 10, 10));
 	    setLayout(new BorderLayout(0, 0));
@@ -310,6 +316,71 @@ public class ChangeNamePanel extends JPanel{
 
 	          }
 	      });
+	    // Action Listener
+	    btnUpdate.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    	
+	    	String DB_URL = "jdbc:mysql://localhost:3306/book_keeper";
+	        String DB_USERNAME = "root";
+	        String DB_PASSWORD = "";
+	    	String firstName = txtFirstName.getText();
+	    	String lastName = txtLastName.getText();
+	    	String formattedID = patron.getUser_id();
+	    	
+	    	// Shield
+	    	if (firstName.isBlank() || lastName.isBlank() || firstName.equals("Enter First Name") || lastName.equals("Enter Last Name")) {
+	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Cannot update with blank values");
+	            showDialog(mal);
+	    		return;
+	    	}
+	    	if(firstName.equals(patron.getUser_fname()) && lastName.equals(patron.getUser_lname())){
+	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "This is already your current\nfirst name adn last name");
+	            showDialog(mal);
+	    		return;
+	    	}
+	    	
+	    	Connection conn = null;
+	        PreparedStatement stmt = null;
+
+	        try {
+	            conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+	            
+	            //Prepare query
+	            String sql = "UPDATE patron SET patron_fname = ?, patron_lname = ? WHERE formatted_id = ?";
+	            
+	            //Execute update
+	            stmt = conn.prepareStatement(sql);
+	            stmt.setString(1, firstName);
+	            stmt.setString(2, lastName);
+				stmt.setString(3, formattedID);
+	            stmt.executeUpdate();
+	            //Update Object
+	            patron.setUser_fname(firstName);
+	            patron.setUser_lname(lastName);
+	            
+	            //Prompt successful update
+	            SuccessPanel success = new SuccessPanel("Info Change", "Name Change Successful");
+	            showDialog(success);
+	            
+	            //Close Frame after update
+	            ChangeInfoFrame frame = (ChangeInfoFrame) SwingUtilities.getWindowAncestor(btnUpdate);
+				frame.dispose();
+	        } catch (SQLException e1) {
+	            e1.printStackTrace();
+	        } finally {
+	            try {
+	                if (stmt != null) {
+	                    stmt.close();
+	                }
+	                if (conn != null) {
+	                    conn.close();
+	                }
+	            } catch (SQLException e2) {
+	                e2.printStackTrace();
+	            }
+	        }
+	    }
+	 });
 	}
 	@Override
 	 protected void paintComponent(Graphics g) {
@@ -320,4 +391,51 @@ public class ChangeNamePanel extends JPanel{
 		*/
 
 	 }
+	public JButton getBtnBack() {
+		return btnCancel;
+	}
+	// OVERLOADED METHOD -> showDialog()
+		//Method to show alert panel (Success Panel)
+		public void showDialog(SuccessPanel panel) {
+			
+			panel.getBtnConfirm().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            closeDialog(e);
+		    	}
+		    });
+		    
+			JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.pack();
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
+
+		}
+		
+		//Method to show alert panel (Malfunction Panel)
+	    public void showDialog(MalfunctionPanel panel) {
+			
+			panel.getBtnConfirm().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            closeDialog(e);
+		    	}
+		    });
+		    
+			JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),"Error", true);
+	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	        dialog.getContentPane().add(panel);
+	        dialog.pack();
+	        dialog.setLocationRelativeTo(null);
+	        dialog.setVisible(true);
+		}
+	    
+	    //Method used by showDialog to close the JDialog containing the alert panels
+		private void closeDialog(ActionEvent e) {
+	        Component component = (Component) e.getSource();
+	        Window window = SwingUtilities.getWindowAncestor(component);
+	        if (window != null) {
+	            window.dispose();
+	        }
+	    }
 }

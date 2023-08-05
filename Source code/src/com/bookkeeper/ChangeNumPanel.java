@@ -314,4 +314,7 @@ public class ChangeNumPanel extends JPanel{
 		*/
 
 	 }
+	public JButton getBtnBack() {
+		return btnCancel;
+	}
 }

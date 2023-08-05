@@ -136,7 +136,7 @@ public class InfoDisplayFrame extends JFrame {
         //Create panels
     	mainPanel = new JPanel();//panel to hold all panels
     	AdminUserInfoPanel = new AdminUserInfoPanel();
-    	AccountInfoPanel = new AccountInfoPanel();
+    	AccountInfoPanel = new AccountInfoPanel(patron);
     	SystemInfoPanel = new SystemInfoPanel();
 
 		// Set the layout of panels
@@ -164,12 +164,12 @@ public class InfoDisplayFrame extends JFrame {
 		setVisible(true);
 		
 		// Action Listeners
-//		PatronBookInfoPanel.getBtnBack().addActionListener(new ActionListener() {
-//	    	public void actionPerformed(ActionEvent e) {
-//	    		InfoDisplayFrame frame = (InfoDisplayFrame) SwingUtilities.getWindowAncestor(PatronBookInfoPanel);
-//				frame.dispose();
-//	    	}
-//	    });
+		AccountInfoPanel.getBtnBack().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		InfoDisplayFrame frame = (InfoDisplayFrame) SwingUtilities.getWindowAncestor(AccountInfoPanel);
+				frame.dispose();
+	    	}
+	    });
     }
 
 }
