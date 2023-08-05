@@ -164,7 +164,6 @@ public class InfoDisplayFrame extends JFrame {
 		setVisible(true);
 		
 		// Action Listeners
-		
 		AccountInfoPanel.getBtnSave().addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		InfoDisplayFrame frame = (InfoDisplayFrame) SwingUtilities.getWindowAncestor(AccountInfoPanel);
