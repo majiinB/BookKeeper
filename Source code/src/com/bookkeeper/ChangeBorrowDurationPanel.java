@@ -9,7 +9,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 
-public class ChangeReserveLimitPanel extends JPanel{
+public class ChangeBorrowDurationPanel extends JPanel{
 	//panel
 	private JPanel mainPanel;
 	private JPanel headingPanel;
@@ -22,17 +22,17 @@ public class ChangeReserveLimitPanel extends JPanel{
 	private JLabel lblHeading;
 	private JTextArea txtTitle;//title of panel "Book Information"
 	private JTextArea txtDescription;
-
+		
 	private JLabel lblCurrentPass;	
-	
-	private JLabel lblReserve;
+		
+	private JLabel lblDuration;
 
 	//spinner
-	private PlaceholderSpinner spinnerReserve;
-	
+	private PlaceholderSpinner spinnerDuration;
+		
 	//textfield
 	private PlaceholderPassword txtCurrentPass;	
-
+		
 	//button
 	private JButton btnUpdate;
 	private JButton btnCancel;
@@ -48,8 +48,8 @@ public class ChangeReserveLimitPanel extends JPanel{
     private GridBagConstraints gbc_txtDescription;
     
     private GridBagLayout gbl_inputPanel;
-    private GridBagConstraints gbc_lblReserve;
-    private GridBagConstraints gbc_spinnerReserve;
+    private GridBagConstraints gbc_lblDuration;
+    private GridBagConstraints gbc_spinnerDuration;
     private GridBagConstraints gbc_lblCurrentPass;
     private GridBagConstraints gbc_txtCurrentPass;
 
@@ -70,7 +70,7 @@ public class ChangeReserveLimitPanel extends JPanel{
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
-	public ChangeReserveLimitPanel() {
+	public ChangeBorrowDurationPanel() {
 		setBackground(new Color(250, 251, 255));
 	    setBorder(new EmptyBorder(10, 10, 10, 10));
 	    setLayout(new BorderLayout(0, 0));
@@ -114,7 +114,7 @@ public class ChangeReserveLimitPanel extends JPanel{
 	    txtTitle.setEditable(false);
 	    txtTitle.setDragEnabled(false);
 	    txtTitle.setAutoscrolls(false);
-	    txtTitle.setText("Reserve Limit");
+	    txtTitle.setText("Borrow Duration");
 	    
 	    txtDescription = new JTextArea();
 	    txtDescription.setForeground(darkplainColor);
@@ -125,20 +125,20 @@ public class ChangeReserveLimitPanel extends JPanel{
 		txtDescription.setEditable(false);
 		txtDescription.setDragEnabled(false);
 		txtDescription.setAutoscrolls(false);
-	    txtDescription.setText("Manage how many books a patron can reserve simultaneously. To confirm, please type in your password in the box below");
+	    txtDescription.setText("Manage how long a patron a patron can borrow a book. To confirm, please type in your password in the box below");
 	    
 //	    BORROW
-	    lblReserve = new JLabel("Reserve Limit");
-	    lblReserve.setHorizontalAlignment(SwingConstants.LEFT);
-	    lblReserve.setBorder(null);
-	    lblReserve.setForeground(darkplainColor);
+	    lblDuration = new JLabel("Borrow Duration Limit");
+	    lblDuration.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblDuration.setBorder(null);
+	    lblDuration.setForeground(darkplainColor);
 	    
-	    spinnerReserve = new PlaceholderSpinner(0, 0, 100, 1);
-	    spinnerReserve.setBackground(middleplainColor);
-	    spinnerReserve.setOpaque(true);
-	    spinnerReserve.setFocusable(false);
-	    spinnerReserve.setBorder(null);
-	    spinnerReserve.setBorder(new EmptyBorder(10, 10, 10, 10));
+	    spinnerDuration = new PlaceholderSpinner(0, 0, 100, 1);
+	    spinnerDuration.setBackground(middleplainColor);
+	    spinnerDuration.setOpaque(true);
+	    spinnerDuration.setFocusable(false);
+	    spinnerDuration.setBorder(null);
+	    spinnerDuration.setBorder(new EmptyBorder(10, 10, 10, 10));
 
 //	    PASSWORD
 	    lblCurrentPass = new JLabel("Password");
@@ -229,17 +229,17 @@ public class ChangeReserveLimitPanel extends JPanel{
         gbl_inputPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
         
 //      SPINNER BOX
-	    gbc_lblReserve = new GridBagConstraints();
-	    gbc_lblReserve.fill = GridBagConstraints.BOTH;
-	    gbc_lblReserve.insets = new Insets(0, 0, 0, 0);
-	    gbc_lblReserve.gridx = 0;
-	    gbc_lblReserve.gridy = 0;
+	    gbc_lblDuration = new GridBagConstraints();
+	    gbc_lblDuration.fill = GridBagConstraints.BOTH;
+	    gbc_lblDuration.insets = new Insets(0, 0, 0, 0);
+	    gbc_lblDuration.gridx = 0;
+	    gbc_lblDuration.gridy = 0;
     
-	    gbc_spinnerReserve = new GridBagConstraints();
-	    gbc_spinnerReserve.fill = GridBagConstraints.BOTH;
-	    gbc_spinnerReserve.insets = new Insets(5, 0, 0, 0);
-	    gbc_spinnerReserve.gridx = 0;
-	    gbc_spinnerReserve.gridy = 1;
+	    gbc_spinnerDuration = new GridBagConstraints();
+	    gbc_spinnerDuration.fill = GridBagConstraints.BOTH;
+	    gbc_spinnerDuration.insets = new Insets(5, 0, 0, 0);
+	    gbc_spinnerDuration.gridx = 0;
+	    gbc_spinnerDuration.gridy = 1;
       
 //    CURRENT PASS
 	    gbc_lblCurrentPass = new GridBagConstraints();
@@ -267,8 +267,9 @@ public class ChangeReserveLimitPanel extends JPanel{
 
 	    titlePanel.add(txtTitle, gbc_txtTitle);
 	    titlePanel.add(txtDescription, gbc_txtDescription);
-	    inputPanel.add(lblReserve, gbc_lblReserve);
-	    inputPanel.add(spinnerReserve, gbc_spinnerReserve);
+//	    inputPanel.add(=);
+	    inputPanel.add(lblDuration, gbc_lblDuration);
+	    inputPanel.add(spinnerDuration, gbc_spinnerDuration);
 	    inputPanel.add(lblCurrentPass, gbc_lblCurrentPass);
 	    inputPanel.add(txtCurrentPass, gbc_txtCurrentPass);
 	    
@@ -283,27 +284,25 @@ public class ChangeReserveLimitPanel extends JPanel{
 	    addComponentListener(new ComponentAdapter() {
 	    	  @Override
 	          public void componentResized(ComponentEvent e) {
-		          	
-	  	        	titleTextSize = Math.min(getHeight() / 7, getWidth()/ 10) ;
-	  	            subtitleTextSize =  Math.min(getHeight() / 20, getWidth()/ 25);
-	  	            buttonTextSize =  Math.min(getHeight() / 30, getWidth()/ 30);
-	  	           	headerTextSize =   Math.min(getHeight() / 20, getWidth()/ 30);
-	  	           	plainTextsize=   Math.min(getHeight() / 25, getWidth()/ 25);
+	    		  titleTextSize = Math.min(getHeight() / 7, getWidth()/ 10) ;
+	    		  subtitleTextSize =  Math.min(getHeight() / 20, getWidth()/ 25);
+	    		  buttonTextSize =  Math.min(getHeight() / 30, getWidth()/ 30);
+	    		  headerTextSize =   Math.min(getHeight() / 20, getWidth()/ 30);
+	    		  plainTextsize=   Math.min(getHeight() / 25, getWidth()/ 25);
 	  	          
-	  	            titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
-	  	            subtitleFont = new Font("Montserrat", Font.ITALIC, subtitleTextSize);
-	  	            buttonFont = new Font("Montserrat", Font.BOLD, buttonTextSize);
-	  	            headerFont = new Font("Montserrat", Font.PLAIN, headerTextSize);
-	  	            plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
+	    		  titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
+	    		  subtitleFont = new Font("Montserrat", Font.ITALIC, subtitleTextSize);
+	    		  buttonFont = new Font("Montserrat", Font.BOLD, buttonTextSize);
+	    		  headerFont = new Font("Montserrat", Font.PLAIN, headerTextSize);
+	    		  plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
 
-	  	            txtTitle.setFont(titleFont);
-	  	           	txtDescription.setFont(subtitleFont);
-	  	            btnUpdate.setFont(buttonFont);	  	            
-	  	            btnCancel.setFont(headerFont);
-	  	            lblHeading.setFont(headerFont);	  	            
-	  	            lblReserve.setFont(plainFont);  	          
-	  	            lblCurrentPass.setFont(plainFont);  	          
-	  	        
+	    		  txtTitle.setFont(titleFont);
+	    		  txtDescription.setFont(subtitleFont);
+	    		  btnUpdate.setFont(buttonFont);	  	            
+	    		  btnCancel.setFont(headerFont);
+	    		  lblHeading.setFont(headerFont);	  	            
+	    		  lblDuration.setFont(plainFont);  	          
+	    		  lblCurrentPass.setFont(plainFont);  
 	          }
 	      });
 	}

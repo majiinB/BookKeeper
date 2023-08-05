@@ -5,9 +5,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class ChangeAddPanel extends JPanel{
 	//panel
@@ -22,17 +28,20 @@ public class ChangeAddPanel extends JPanel{
 	private JLabel lblHeading;
 	private JTextArea txtTitle;//title of panel "Book Information"
 	private JTextArea txtDescription;
-
-	private JLabel lblCurrentAdd;
-	private JLabel lblNewAdd;
-
-
+	
+	private JLabel lblHouseNum;
+	private JLabel lblBlockNum;
+	private JLabel lblStreet;
+	private JLabel lblBarangay;
+	private JLabel lblCity;	
 	
 	//textfield
-	private PlaceholderTextField txtCurrentAdd;
-	private PlaceholderTextField txtNewAdd;
-
-
+	private PlaceholderTextField txtHouseNum; 
+	private PlaceholderTextField txtBlockNum;
+	private PlaceholderTextField txtStreet;
+	private PlaceholderTextField txtBarangay;
+	private PlaceholderTextField txtCity;
+	
 	//button
 	private JButton btnUpdate;
 	private JButton btnCancel;
@@ -48,10 +57,20 @@ public class ChangeAddPanel extends JPanel{
     private GridBagConstraints gbc_txtDescription;
     
     private GridBagLayout gbl_inputPanel;
-    private GridBagConstraints gbc_lblCurrentAdd;
-    private GridBagConstraints gbc_txtCurrentAdd;
-    private GridBagConstraints gbc_lblNewAdd;
-    private GridBagConstraints gbc_txtNewAdd;
+    private GridBagConstraints gbc_lblHouseNum;
+    private GridBagConstraints gbc_txtHouseNum;
+    private GridBagConstraints gbc_lblBlockNum;
+    private GridBagConstraints gbc_txtBlockNum;
+    
+    
+    private GridBagConstraints gbc_lblStreet;
+    private GridBagConstraints gbc_txtStreet;
+    
+    
+    private GridBagConstraints gbc_lblBarangay;
+    private GridBagConstraints gbc_txtBarangay;
+    private GridBagConstraints gbc_lblCity;
+    private GridBagConstraints gbc_txtCity;
 
 	//text
 	private  Font titleFont;
@@ -70,7 +89,7 @@ public class ChangeAddPanel extends JPanel{
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
-	public ChangeAddPanel() {
+	public ChangeAddPanel(User patron) {
 		setBackground(new Color(250, 251, 255));
 	    setBorder(new EmptyBorder(10, 10, 10, 10));
 	    setLayout(new BorderLayout(0, 0));
@@ -104,7 +123,7 @@ public class ChangeAddPanel extends JPanel{
 	    btnCancel.setBorderPainted(false);
 	    btnCancel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    btnCancel.setOpaque(false);
-	    
+
 	    txtTitle = new JTextArea();
 	    txtTitle.setForeground(headerColor);
 	    txtTitle.setLineWrap(true);
@@ -127,35 +146,75 @@ public class ChangeAddPanel extends JPanel{
 		txtDescription.setAutoscrolls(false);
 	    txtDescription.setText("Manage your address to make sure your info is accurate and up to date.");
 	    
-	    lblCurrentAdd = new JLabel("Current Address");
-	    lblCurrentAdd.setHorizontalAlignment(SwingConstants.LEFT);
-	    lblCurrentAdd.setBorder(null);
-	    lblCurrentAdd.setForeground(darkplainColor);
+//	    HOUSE NUMBER
+	    lblHouseNum = new JLabel("House No./Block No./Unit No.");
+	    lblHouseNum.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblHouseNum.setBorder(null);
+	    lblHouseNum.setForeground(darkplainColor);
+	
+	    txtHouseNum = new PlaceholderTextField("House No.");
+	    txtHouseNum.setBackground(middleplainColor);
+	    txtHouseNum.setBorder(new EmptyBorder(10, 10, 10, 10));
+	    txtHouseNum.setOpaque(true);
+	    txtHouseNum.setFocusable(true);
+	    txtHouseNum.setEditable(true);
+	    txtHouseNum.setDragEnabled(false);
 	    
-	    txtCurrentAdd = new PlaceholderTextField("Enter Current Address");
-	    txtCurrentAdd.setHorizontalAlignment(SwingConstants.RIGHT);
-	    txtCurrentAdd.setForeground(darkplainColor);
-	    txtCurrentAdd.setBackground(middleplainColor);
-	    txtCurrentAdd.setBorder(new EmptyBorder(10, 10, 10, 10));
-	    txtCurrentAdd.setOpaque(true);
-	    txtCurrentAdd.setFocusable(true);
-	    txtCurrentAdd.setEditable(true);
-	    txtCurrentAdd.setDragEnabled(false);
+//	    BLOCK NUMBER
+	    lblBlockNum = new JLabel("Patanggal neto"); //Patanggal neto
+	    lblBlockNum.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblBlockNum.setBorder(null);
+	    lblBlockNum.setForeground(darkplainColor);
+	
+	    txtBlockNum = new PlaceholderTextField("Block No.");
+	    txtBlockNum.setBackground(middleplainColor);
+	    txtBlockNum.setBorder(new EmptyBorder(10, 10, 10, 10));
+	    txtBlockNum.setOpaque(true);
+	    txtBlockNum.setFocusable(true);
+	    txtBlockNum.setEditable(true);
+	    txtBlockNum.setDragEnabled(false);
 	    
-	    lblNewAdd = new JLabel("New Address");
-	    lblNewAdd.setHorizontalAlignment(SwingConstants.LEFT);
-	    lblNewAdd.setBorder(null);
-	    lblNewAdd.setForeground(darkplainColor);
+//	    STREET
+	    lblStreet = new JLabel("Street");
+	    lblStreet.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblStreet.setBorder(null);
+	    lblStreet.setForeground(darkplainColor);
+	
+	    txtStreet = new PlaceholderTextField("Street");
+	    txtStreet.setBackground(middleplainColor);
+	    txtStreet.setBorder(new EmptyBorder(10, 10, 10, 10));
+	    txtStreet.setOpaque(true);
+	    txtStreet.setFocusable(true);
+	    txtStreet.setEditable(true);
+	    txtStreet.setDragEnabled(false);
 	    
-	    txtNewAdd = new PlaceholderTextField("Enter New Address");
-	    txtNewAdd.setHorizontalAlignment(SwingConstants.RIGHT);
-	    txtNewAdd.setForeground(darkplainColor);
-	    txtNewAdd.setBackground(middleplainColor);
-	    txtNewAdd.setBorder(new EmptyBorder(10, 10, 10, 10));
-	    txtNewAdd.setOpaque(true);
-	    txtNewAdd.setFocusable(true);
-	    txtNewAdd.setEditable(true);
-	    txtNewAdd.setDragEnabled(false);
+//	    BARANGAY
+	    lblBarangay = new JLabel("Barangay");
+	    lblBarangay.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblBarangay.setBorder(null);
+	    lblBarangay.setForeground(darkplainColor);
+	
+	    txtBarangay = new PlaceholderTextField("Barangay");
+	    txtBarangay.setBackground(middleplainColor);
+	    txtBarangay.setBorder(new EmptyBorder(10, 10, 10,10));
+	    txtBarangay.setOpaque(true);
+	    txtBarangay.setFocusable(true);
+	    txtBarangay.setEditable(true);
+	    txtBarangay.setDragEnabled(false);
+	    
+//	    CITY
+	    lblCity = new JLabel("City");
+	    lblCity.setHorizontalAlignment(SwingConstants.LEFT);
+	    lblCity.setBorder(null);
+	    lblCity.setForeground(darkplainColor);
+	
+	    txtCity = new PlaceholderTextField("City");
+	    txtCity.setBackground(middleplainColor);
+	    txtCity.setBorder(new EmptyBorder(10, 10, 10, 10));
+	    txtCity.setOpaque(true);
+	    txtCity.setFocusable(true);
+	    txtCity.setEditable(true);
+	    txtCity.setDragEnabled(false);
 	    
 	    btnUpdate = new JButton();
 	    btnUpdate.setText("Update");
@@ -175,31 +234,30 @@ public class ChangeAddPanel extends JPanel{
 	     * anchor = alignment
 	     * insets = padding
 	     */
+	    
 	    //gridbag layouts
 	    gbl_mainPanel = new GridBagLayout();
 	    gbl_mainPanel.columnWidths = new int[]{865};
 	    gbl_mainPanel.rowHeights = new int[]{35, 0, 0, 0};
 	    gbl_mainPanel.columnWeights = new double[]{1.0};
-	    gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0};
+	    gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0};
 	    
 	    gbc_headingPanel = new GridBagConstraints();
-	    gbc_headingPanel.fill = GridBagConstraints.HORIZONTAL;	    
-	    gbc_headingPanel.anchor = GridBagConstraints.NORTH;
-	    gbc_headingPanel.insets = new Insets(20, 20, 20, 20);
+	    gbc_headingPanel.fill = GridBagConstraints.BOTH;	    
+	    gbc_headingPanel.insets = new Insets(20, 20, 10, 20);
 	    gbc_headingPanel.gridx = 0;
 	    gbc_headingPanel.gridy = 0;
-
+	    
 	    gbc_titlePanel = new GridBagConstraints();
-	    gbc_titlePanel.fill = GridBagConstraints.HORIZONTAL;	    
-	    gbc_titlePanel.anchor = GridBagConstraints.NORTH;
-	    gbc_titlePanel.insets = new Insets(20, 20, 20, 20);
+	    gbc_titlePanel.anchor = GridBagConstraints.SOUTH;
+	    gbc_titlePanel.fill = GridBagConstraints.BOTH;	    
+	    gbc_titlePanel.insets = new Insets(10, 20, 20, 20);
 	    gbc_titlePanel.gridx = 0;
-	    gbc_titlePanel.gridy = 1;	    
-
+	    gbc_titlePanel.gridy = 1;
+	    
 	    gbc_inputPanel = new GridBagConstraints();
-	    gbc_inputPanel.fill = GridBagConstraints.HORIZONTAL;	    
-	    gbc_inputPanel.anchor = GridBagConstraints.NORTH;
-	    gbc_inputPanel.insets = new Insets(20, 20, 20, 20);
+	    gbc_inputPanel.fill = GridBagConstraints.HORIZONTAL;
+	    gbc_inputPanel.insets = new Insets(10, 20, 20, 20);
 	    gbc_inputPanel.gridx = 0;
 	    gbc_inputPanel.gridy = 2;	 
 	    
@@ -214,7 +272,7 @@ public class ChangeAddPanel extends JPanel{
         gbl_titlePanel.columnWidths = new int[]{865};
         gbl_titlePanel.rowHeights = new int[]{35, 0};
         gbl_titlePanel.columnWeights = new double[]{1.0};
-        gbl_titlePanel.rowWeights = new double[]{0.0, 1.0,};
+        gbl_titlePanel.rowWeights = new double[]{0.0, 1.0,}; 
 
         gbc_txtTitle = new GridBagConstraints();
         gbc_txtTitle.fill = GridBagConstraints.HORIZONTAL;
@@ -229,36 +287,77 @@ public class ChangeAddPanel extends JPanel{
         gbc_txtDescription.gridy = 1;
 	    
 	    gbl_inputPanel = new GridBagLayout();
-        gbl_inputPanel.columnWidths = new int[]{865};
-        gbl_inputPanel.rowHeights = new int[]{0, 0, 0, 0};
-        gbl_inputPanel.columnWeights = new double[]{1.0};
-        gbl_inputPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
+        gbl_inputPanel.columnWidths = new int[]{0, 0};
+        gbl_inputPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+        gbl_inputPanel.columnWeights = new double[]{1.0, 1.0};
+        gbl_inputPanel.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0};
         
-//      CURRENT ADDRESS
-        gbc_lblCurrentAdd = new GridBagConstraints();
-        gbc_lblCurrentAdd.fill = GridBagConstraints.BOTH;
-        gbc_lblCurrentAdd.insets = new Insets(0, 0, 0, 0);
-        gbc_lblCurrentAdd.gridx = 0;
-        gbc_lblCurrentAdd.gridy = 0;
+//      HOUSE NUMBER
+        gbc_lblHouseNum = new GridBagConstraints();
+        gbc_lblHouseNum.fill = GridBagConstraints.BOTH;
+        gbc_lblHouseNum.insets = new Insets(0, 0, 0, 0);
+        gbc_lblHouseNum.gridx = 0;
+        gbc_lblHouseNum.gridy = 0;
      
-        gbc_txtCurrentAdd = new GridBagConstraints();
-        gbc_txtCurrentAdd.fill = GridBagConstraints.BOTH;
-        gbc_txtCurrentAdd.insets = new Insets(5, 0, 0, 0);
-        gbc_txtCurrentAdd.gridx = 0;
-        gbc_txtCurrentAdd.gridy = 1;
+        gbc_txtHouseNum = new GridBagConstraints();
+        gbc_txtHouseNum.fill = GridBagConstraints.BOTH;
+        gbc_txtHouseNum.insets = new Insets(5, 0, 0, 10);
+        gbc_txtHouseNum.gridx = 0;
+        gbc_txtHouseNum.gridy = 1;
       
-//      NEW ADDRESS
-        gbc_lblNewAdd = new GridBagConstraints();
-        gbc_lblNewAdd.fill = GridBagConstraints.BOTH;
-        gbc_lblNewAdd.insets = new Insets(20, 0, 0, 0);
-        gbc_lblNewAdd.gridx = 0;
-        gbc_lblNewAdd.gridy = 2;
+//      BLOCK NUMBER
+        gbc_lblBlockNum = new GridBagConstraints();
+        gbc_lblBlockNum.fill = GridBagConstraints.BOTH;
+        gbc_lblBlockNum.insets = new Insets(0, 0, 0, 0);
+        gbc_lblBlockNum.gridx = 1;
+        gbc_lblBlockNum.gridy = 0;
       
-      	gbc_txtNewAdd = new GridBagConstraints();
-      	gbc_txtNewAdd.fill = GridBagConstraints.BOTH;
-      	gbc_txtNewAdd.insets = new Insets(5, 0, 0, 0);
-      	gbc_txtNewAdd.gridx = 0;
-      	gbc_txtNewAdd.gridy = 3;
+      	gbc_txtBlockNum = new GridBagConstraints();
+      	gbc_txtBlockNum.fill = GridBagConstraints.BOTH;
+      	gbc_txtBlockNum.insets = new Insets(5, 0, 0, 0);
+      	gbc_txtBlockNum.gridx = 1;
+      	gbc_txtBlockNum.gridy = 1;
+      	
+//      STREET
+        gbc_lblStreet = new GridBagConstraints();
+        gbc_lblStreet.fill = GridBagConstraints.BOTH;
+        gbc_lblStreet.insets = new Insets(20, 0, 0, 0);
+        gbc_lblStreet.gridx = 0;
+        gbc_lblStreet.gridy = 2;
+        gbc_lblStreet.gridwidth = 2;
+     
+        gbc_txtStreet = new GridBagConstraints();
+        gbc_txtStreet.fill = GridBagConstraints.BOTH;
+        gbc_txtStreet.insets = new Insets(5, 0, 0, 0);
+        gbc_txtStreet.gridx = 0;
+        gbc_txtStreet.gridy = 3;
+        gbc_txtStreet.gridwidth = 2;
+        
+//      BARANGAY
+        gbc_lblBarangay = new GridBagConstraints();
+        gbc_lblBarangay.fill = GridBagConstraints.BOTH;
+        gbc_lblBarangay.insets = new Insets(10, 0, 0, 0);
+        gbc_lblBarangay.gridx = 0;
+        gbc_lblBarangay.gridy = 4;
+     
+        gbc_txtBarangay = new GridBagConstraints();
+        gbc_txtBarangay.fill = GridBagConstraints.BOTH;
+        gbc_txtBarangay.insets = new Insets(5, 0, 0, 10);
+        gbc_txtBarangay.gridx = 0;
+        gbc_txtBarangay.gridy = 5;
+      
+//      CITY
+        gbc_lblCity = new GridBagConstraints();
+        gbc_lblCity.fill = GridBagConstraints.BOTH;
+        gbc_lblCity.insets = new Insets(10, 0, 0, 0);
+        gbc_lblCity.gridx = 1;
+        gbc_lblCity.gridy = 4;
+      
+      	gbc_txtCity = new GridBagConstraints();
+      	gbc_txtCity.fill = GridBagConstraints.BOTH;
+      	gbc_txtCity.insets = new Insets(5, 0, 0, 0);
+      	gbc_txtCity.gridx = 1;
+      	gbc_txtCity.gridy = 5;
 	    
 	    // Set panel layout
 	    mainPanel.setLayout(gbl_mainPanel);
@@ -274,10 +373,16 @@ public class ChangeAddPanel extends JPanel{
 	    titlePanel.add(txtTitle, gbc_txtTitle);
 	    titlePanel.add(txtDescription, gbc_txtDescription);
 //	    inputPanel.add(=);
-	    inputPanel.add(lblCurrentAdd, gbc_lblCurrentAdd);
-	    inputPanel.add(txtCurrentAdd, gbc_txtCurrentAdd);
-	    inputPanel.add(lblNewAdd, gbc_lblNewAdd);
-	    inputPanel.add(txtNewAdd, gbc_txtNewAdd);
+	    inputPanel.add(lblHouseNum, gbc_lblHouseNum);
+	    inputPanel.add(txtHouseNum, gbc_txtHouseNum);
+	    inputPanel.add(lblBlockNum, gbc_lblBlockNum);
+	    inputPanel.add(txtBlockNum, gbc_txtBlockNum);
+	    inputPanel.add(lblStreet, gbc_lblStreet);
+	    inputPanel.add(txtStreet, gbc_txtStreet);
+	    inputPanel.add(lblBarangay, gbc_lblBarangay);
+	    inputPanel.add(txtBarangay, gbc_txtBarangay);
+	    inputPanel.add(lblCity, gbc_lblCity);
+	    inputPanel.add(txtCity, gbc_txtCity);
 	    
 	    buttonPanel.add(btnUpdate);
 	    mainPanel.add(headingPanel, gbc_headingPanel);
@@ -294,22 +399,90 @@ public class ChangeAddPanel extends JPanel{
 	  	            subtitleTextSize =  Math.min(getHeight() / 20, getWidth()/ 25);
 	  	            buttonTextSize =  Math.min(getHeight() / 30, getWidth()/ 30);
 	  	           	headerTextSize =   Math.min(getHeight() / 20, getWidth()/ 30);
-	  	           	plainTextsize=   Math.min(getHeight() / 20, getWidth()/ 50);
+	  	           	plainTextsize=   Math.min(getHeight() / 25, getWidth()/ 25);
 	  	          
 	  	            titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
 	  	            subtitleFont = new Font("Montserrat", Font.ITALIC, subtitleTextSize);
 	  	            buttonFont = new Font("Montserrat", Font.BOLD, buttonTextSize);
 	  	            headerFont = new Font("Montserrat", Font.PLAIN, headerTextSize);
-	  	            plainFont = new Font("Montserrat", Font.PLAIN, plainTextsize);
+	  	            plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
 
 	  	            txtTitle.setFont(titleFont);
 	  	           	txtDescription.setFont(subtitleFont);
 	  	            btnUpdate.setFont(buttonFont);	  	            
 	  	            btnCancel.setFont(headerFont);
 	  	            lblHeading.setFont(headerFont);	  	            
-//	  	          	.setFont(plainFont); 
+	  	            lblHouseNum.setFont(plainFont);  	          
+	  	            lblBlockNum.setFont(plainFont);  	          
+	  	            lblStreet.setFont(plainFont);  	          
+	  	      		lblBarangay.setFont(plainFont);    	        
+	  	    		lblCity.setFont(plainFont);  	          
 	          }
 	      });
+	 // Action Listener
+	    btnUpdate.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    	
+	    	String DB_URL = "jdbc:mysql://localhost:3306/book_keeper";
+	        String DB_USERNAME = "root";
+	        String DB_PASSWORD = "";
+	    	String houseNum = txtHouseNum.getText().trim();
+	    	String street = txtStreet.getText().trim();
+	    	String barangay = txtBarangay.getText().trim();
+	    	String city = txtCity.getText().trim();
+	    	String Address = houseNum +", "+ street +", "+ barangay+", "+city;
+	    	
+	    	String formattedID = patron.getUser_id();
+	    	
+	    	// Shield
+	    	if (houseNum.isBlank() || street.isBlank() || houseNum.equals("House No./Block No./Unit No.") || street.equals("Street")
+	    		|| barangay.isBlank() || barangay.equals("Barangay") || city.isBlank() || city.equals("City")) {
+	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Cannot update with blank values");
+	            showDialog(mal);
+	    		return;
+	    	}
+
+	    	
+	    	Connection conn = null;
+	        PreparedStatement stmt = null;
+
+	        try {
+	            conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+	            
+	            //Prepare query
+	            String sql = "UPDATE patron SET patron_address = ? WHERE formatted_id = ?";
+	            
+	            //Execute update
+	            stmt = conn.prepareStatement(sql);
+	            stmt.setString(1, Address);
+	            stmt.setString(2, formattedID);
+	            stmt.executeUpdate();
+	            //Update Object
+	            patron.setUser_address(Address);
+	            
+	            //Prompt successful update
+	            SuccessPanel success = new SuccessPanel("Info Change", "Address Change Successful");
+	            showDialog(success);
+	            
+	            //Close Frame after update
+	            ChangeInfoFrame frame = (ChangeInfoFrame) SwingUtilities.getWindowAncestor(btnUpdate);
+				frame.dispose();
+	        } catch (SQLException e1) {
+	            e1.printStackTrace();
+	        } finally {
+	            try {
+	                if (stmt != null) {
+	                    stmt.close();
+	                }
+	                if (conn != null) {
+	                    conn.close();
+	                }
+	            } catch (SQLException e2) {
+	                e2.printStackTrace();
+	            }
+	        }
+	    }
+	 });
 	}
 	@Override
 	 protected void paintComponent(Graphics g) {
@@ -323,4 +496,48 @@ public class ChangeAddPanel extends JPanel{
 	public JButton getBtnBack() {
 		return btnCancel;
 	}
+	// OVERLOADED METHOD -> showDialog()
+			//Method to show alert panel (Success Panel)
+			public void showDialog(SuccessPanel panel) {
+				
+				panel.getBtnConfirm().addActionListener(new ActionListener() {
+			    	public void actionPerformed(ActionEvent e) {
+			            closeDialog(e);
+			    	}
+			    });
+			    
+				JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				dialog.getContentPane().add(panel);
+				dialog.pack();
+				dialog.setLocationRelativeTo(null);
+				dialog.setVisible(true);
+
+			}
+			
+			//Method to show alert panel (Malfunction Panel)
+		    public void showDialog(MalfunctionPanel panel) {
+				
+				panel.getBtnConfirm().addActionListener(new ActionListener() {
+			    	public void actionPerformed(ActionEvent e) {
+			            closeDialog(e);
+			    	}
+			    });
+			    
+				JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),"Error", true);
+		        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		        dialog.getContentPane().add(panel);
+		        dialog.pack();
+		        dialog.setLocationRelativeTo(null);
+		        dialog.setVisible(true);
+			}
+		    
+		    //Method used by showDialog to close the JDialog containing the alert panels
+			private void closeDialog(ActionEvent e) {
+		        Component component = (Component) e.getSource();
+		        Window window = SwingUtilities.getWindowAncestor(component);
+		        if (window != null) {
+		            window.dispose();
+		        }
+		    }
 }

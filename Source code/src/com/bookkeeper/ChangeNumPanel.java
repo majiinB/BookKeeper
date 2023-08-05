@@ -68,7 +68,7 @@ public class ChangeNumPanel extends JPanel{
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
-	public ChangeNumPanel() {
+	public ChangeNumPanel(User patron) {
 		setBackground(new Color(250, 251, 255));
 	    setBorder(new EmptyBorder(10, 10, 10, 10));
 	    setLayout(new BorderLayout(0, 0));
@@ -130,12 +130,12 @@ public class ChangeNumPanel extends JPanel{
 	    lblCurrentContact.setBorder(null);
 	    lblCurrentContact.setForeground(darkplainColor);
 
-	    txtCurrentContact = new PlaceholderTextField("Enter Current Contact Number");
+	    txtCurrentContact = new PlaceholderTextField(patron.getUser_contact());
 	    txtCurrentContact.setBackground(middleplainColor);
 	    txtCurrentContact.setBorder(new EmptyBorder(10, 10, 10, 10));
 	    txtCurrentContact.setOpaque(true);
 	    txtCurrentContact.setFocusable(true);
-	    txtCurrentContact.setEditable(true);
+	    txtCurrentContact.setEditable(false);
 	    txtCurrentContact.setDragEnabled(false);
 	    
 	    lblNewContact = new JLabel("New Contact Number");

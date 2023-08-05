@@ -17,6 +17,7 @@ public class ChangeInfoFrame extends JFrame {
 	private ChangeAccessPanel ChangeAccessPanel;
 	private ChangeBorowLimitPanel ChangeBorowLimitPanel;
 	private ChangeReserveLimitPanel ChangeReserveLimitPanel;
+	private ChangeOverduePenaltyPanel ChangeOverduePenaltyPanel;
 	
 	//layout
 	private CardLayout cardLayout;
@@ -67,11 +68,12 @@ public class ChangeInfoFrame extends JFrame {
     	ChangeNamePanel = new ChangeNamePanel(patron);
     	ChangePassPanel = new ChangePassPanel();
     	ChangeNumPanel = new ChangeNumPanel();
-    	ChangeAddPanel = new ChangeAddPanel();
+    	ChangeAddPanel = new ChangeAddPanel(patron);
 //    	ChangeStatPanel = new ChangeStatPanel();
 //    	ChangeAccessPanel = new ChangeAccessPanel();
 //    	ChangeBorowLimitPanel = new ChangeBorowLimitPanel();
 //    	ChangeReserveLimitPanel = new ChangeReserveLimitPanel();
+//    	ChangeOverduePenaltyPanel = new ChangeOverduePenaltyPanel();
 
 		// Set the layout of panels
 		cardLayout = new CardLayout();
@@ -86,6 +88,7 @@ public class ChangeInfoFrame extends JFrame {
 //		mainPanel.add(ChangeAccessPanel,"panel6");
 //		mainPanel.add(ChangeBorowLimitPanel,"panel7");
 //		mainPanel.add(ChangeReserveLimitPanel,"panel8");
+//		mainPanel.add(ChangeOverduePenaltyPanel,"panel9");
 			
 		
 		
