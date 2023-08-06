@@ -273,7 +273,8 @@ public class AdminAddBookPanel extends JPanel{
 	    lblBookGenre.setForeground(darkplainColor);
 	    lblBookGenre.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-	    String genre[]={"Fiction","Mystery","Fantasy","Science Fiction","Horror", "Romance", "Non-Fiction"};   
+	    String genre[]={"Classic","Dystopian","Epic Poetry", "Fantasy", "Fiction", "Gothic Fiction", "Historical Fiction", 
+	    				"Horror", "Mystery", "Novel", "Non-Fiction", "Romance", "Science", "Science Fiction", "Survival", "Thriller", "Young adult"};   
 	    comboBoxGenre = new JComboBox(genre);
 	    comboBoxGenre.setBackground(middleplainColor);
 	    comboBoxGenre.setOpaque(true);
@@ -287,7 +288,7 @@ public class AdminAddBookPanel extends JPanel{
 	    lblBookAvail.setForeground(darkplainColor);
 	    lblBookAvail.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-	    String avail[]={"Available", "Unavailable", "Borrowed"};   
+	    String avail[]={"Available", "Unavailable"};   
 	    comboBoxAvail = new JComboBox(avail);
 	    comboBoxAvail.setBackground(middleplainColor);
 	    comboBoxAvail.setOpaque(true);
@@ -672,6 +673,13 @@ public class AdminAddBookPanel extends JPanel{
 	            	//Parse aisle and shelf number
 	            	int aisleNum = Integer.parseInt(aisle);
 					int shelfNum = Integer.parseInt(shelf);
+					
+					//Shield to see if the input will have zero as value
+					if(aisleNum == 0 || shelfNum == 0) {
+						MalfunctionPanel mal = new MalfunctionPanel("Book Info Update Error", "Value cannot be Zero");
+						showDialog(mal);
+						return;
+					}
 					
 					//call addBookMethod;
 					addBook(title, author, genre, publicationDate, publisher, status, ISBN, shelfNum, aisleNum);

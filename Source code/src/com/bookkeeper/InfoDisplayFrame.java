@@ -66,7 +66,7 @@ public class InfoDisplayFrame extends JDialog {
     	PatronBookInfoPanel = new PatronBookInfoPanel(selectedBook, patron);//panel to display book information for patron 
     	AdminBookInfoPanel = new AdminBookInfoPanel(selectedBook);//panel to display book information for admin and employee
     	AdminAddBookPanel = new AdminAddBookPanel();
-    	AdminUpdateBookPanel = new AdminUpdateBookPanel();
+    	//AdminUpdateBookPanel = new AdminUpdateBookPanel();
 
 		// Set the layout of panels
 		cardLayout = new CardLayout();

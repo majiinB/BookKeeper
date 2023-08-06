@@ -8,6 +8,16 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Pattern;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AdminUpdateBookPanel extends JPanel{
 	//panel
@@ -107,7 +117,7 @@ public class AdminUpdateBookPanel extends JPanel{
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
-	public AdminUpdateBookPanel() {
+	public AdminUpdateBookPanel(Book selectedBook) {
 		setBackground(new Color(250, 251, 255));
 	    setBorder(new EmptyBorder(10, 10, 10, 10));
 	    setLayout(new BorderLayout(0, 0));
@@ -169,7 +179,7 @@ public class AdminUpdateBookPanel extends JPanel{
 	    lblBookTitle.setOpaque(false);
 	    lblBookTitle.setForeground(headerColor);
 	    
-	    txtBookTitle = new PlaceholderTextField("Title of the Book");
+	    txtBookTitle = new PlaceholderTextField(selectedBook.getBook_title());
 	    txtBookTitle.setHorizontalAlignment(SwingConstants.RIGHT);
 	    txtBookTitle.setForeground(darkplainColor);
 	    txtBookTitle.setBackground(middleplainColor);
@@ -183,7 +193,7 @@ public class AdminUpdateBookPanel extends JPanel{
 	    lblBookAuthor.setHorizontalAlignment(SwingConstants.LEFT);
 	    lblBookAuthor.setForeground(darkplainColor);
 	    
-	    txtBookAuthor = new PlaceholderTextField("First Name Last Name");
+	    txtBookAuthor = new PlaceholderTextField(selectedBook.getBook_author());
 	    txtBookAuthor.setHorizontalAlignment(SwingConstants.RIGHT);
 	    txtBookAuthor.setForeground(darkplainColor);
 	    txtBookAuthor.setBackground(middleplainColor);
@@ -197,7 +207,7 @@ public class AdminUpdateBookPanel extends JPanel{
 	    lblBookISBN.setHorizontalAlignment(SwingConstants.LEFT);
 	    lblBookISBN.setForeground(darkplainColor);
 	    
-	    txtBookISBN = new PlaceholderTextField("ISBN Number");
+	    txtBookISBN = new PlaceholderTextField(selectedBook.getISBN());
 	    txtBookISBN.setHorizontalAlignment(SwingConstants.RIGHT);
 	    txtBookISBN.setForeground(darkplainColor);
 	    txtBookISBN.setBackground(middleplainColor);
@@ -211,7 +221,7 @@ public class AdminUpdateBookPanel extends JPanel{
 	    lblBookPublisher.setHorizontalAlignment(SwingConstants.LEFT);
 	    lblBookPublisher.setForeground(darkplainColor);
 	    
-	    txtBookPublisher = new PlaceholderTextField("Name");
+	    txtBookPublisher = new PlaceholderTextField(selectedBook.getBook_publisher());
 	    txtBookPublisher.setHorizontalAlignment(SwingConstants.RIGHT);
 	    txtBookPublisher.setForeground(darkplainColor);
 	    txtBookPublisher.setBackground(middleplainColor);
@@ -230,7 +240,12 @@ public class AdminUpdateBookPanel extends JPanel{
 	    lblBookGenre.setForeground(darkplainColor);
 	    lblBookGenre.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-	    String genre[]={"Fiction","Mystery","Fantasy","Science Fiction","Horror", "Romance", "Non-Fiction"};   
+	    String genre[]={"Classic","Dystopian","Epic Poetry", "Fantasy", "Fiction", "Gothic Fiction", "Historical Fiction", 
+				"Horror", "Mystery", "Novel", "Non-Fiction", "Romance", "Science", "Science Fiction", "Survival", "Thriller", "Young adult"};
+	    String intialGenre = selectedBook.getBook_genre();
+	    
+	    genre = moveGenreToStart(genre, intialGenre);
+	    
 	    comboBoxGenre = new JComboBox(genre);
 	    comboBoxGenre.setBackground(middleplainColor);
 	    comboBoxGenre.setOpaque(true);
@@ -243,8 +258,12 @@ public class AdminUpdateBookPanel extends JPanel{
 	    lblBookAvail.setBorder(null);
 	    lblBookAvail.setForeground(darkplainColor);
 	    lblBookAvail.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-	    String avail[]={"Available", "Unavailable", "Borrowed"};   
+	    
+	    String avail[]={"Available", "Unavailable"}; 
+	    if(selectedBook.getBook_status().equals("Unavailable")) {
+	    	avail[0]= "Unavailable";
+	    	avail[1]= "Available";
+	    }
 	    comboBoxAvail = new JComboBox(avail);
 	    comboBoxAvail.setBackground(middleplainColor);
 	    comboBoxAvail.setOpaque(true);
@@ -257,7 +276,7 @@ public class AdminUpdateBookPanel extends JPanel{
 	    lblBookPublication.setBorder(null);
 	    lblBookPublication.setForeground(darkplainColor);
 	    
-	    txtBookPublication = new PlaceholderTextField("yyyy-mm-dd");
+	    txtBookPublication = new PlaceholderTextField(selectedBook.getBook_publication_date());
 	    txtBookPublication.setHorizontalAlignment(SwingConstants.RIGHT);
 	    txtBookPublication.setForeground(darkplainColor);
 	    txtBookPublication.setBackground(middleplainColor);
@@ -271,7 +290,7 @@ public class AdminUpdateBookPanel extends JPanel{
 	    lblBookAisleNo.setHorizontalAlignment(SwingConstants.LEFT);
 	    lblBookAisleNo.setForeground(darkplainColor);
 
-	    txtBookAisleNo = new PlaceholderTextField("000");
+	    txtBookAisleNo = new PlaceholderTextField(selectedBook.getAisle());
 	    txtBookAisleNo.setHorizontalAlignment(SwingConstants.RIGHT);
 	    txtBookAisleNo.setForeground(darkplainColor);
 	    txtBookAisleNo.setBackground(middleplainColor);
@@ -285,7 +304,7 @@ public class AdminUpdateBookPanel extends JPanel{
 	    lblBookShelfNo.setHorizontalAlignment(SwingConstants.LEFT);
 	    lblBookShelfNo.setForeground(darkplainColor);
 
-	    txtBookShelfNo = new PlaceholderTextField("000");
+	    txtBookShelfNo = new PlaceholderTextField(selectedBook.getShelf());
 	    txtBookShelfNo.setHorizontalAlignment(SwingConstants.RIGHT);
 	    txtBookShelfNo.setForeground(darkplainColor);
 	    txtBookShelfNo.setBackground(middleplainColor);
@@ -574,6 +593,82 @@ public class AdminUpdateBookPanel extends JPanel{
 
 	          }
 	      });
+	    btnAdd.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		String title = txtBookTitle.getText().trim();
+	    		String author = txtBookAuthor.getText().trim();
+	    		String selectedGenre = (String) comboBoxGenre.getSelectedItem();
+	    		String publicationDate = txtBookPublication.getText().trim();
+	    		String publisher = txtBookPublisher.getText();
+	    		String status = (String) comboBoxAvail.getSelectedItem();
+	    		String ISBN = txtBookISBN.getText().trim();
+	    		String shelf =txtBookShelfNo.getText().trim();
+	    		String aisle = txtBookAisleNo.getText().trim();
+	    		int bookID = selectedBook.getBook_id();
+	    		
+	    		//To check if input boxes are not blank
+				if(title.isBlank() || title.equals("Title of the book") || author.isBlank() || author.equals("First Name Last Name")
+		            || publicationDate.isBlank() || publicationDate.equals("yyyy-mm-dd")
+		            || publisher.isBlank() || publisher.equals("Name") || ISBN.isBlank() || ISBN.equals("ISBN Number")) {
+		        		
+	        		//Prompt error
+	        		MalfunctionPanel mal = new MalfunctionPanel("Book Info Update Error", "Cannot accept blank values");
+	        		showDialog(mal);
+	            	return;
+		         }
+				
+				//To check if aisle and shelf is blank
+				if (shelf.equals("000") || shelf.isBlank()  || aisle.equals("000") || aisle.isBlank()) {
+					MalfunctionPanel mal = new MalfunctionPanel("Add book Error", "Shelf number and aisle number cannot be empty");
+					showDialog(mal);
+					return;
+		        }
+				//To check if aisle and shelf is numeric
+				if(!isNumeric(shelf) || !isNumeric(aisle)) {
+					MalfunctionPanel mal = new MalfunctionPanel("Book Info Update Error", "Input for shelf and aisle number can only be numeric");
+					showDialog(mal);
+					return;
+				}
+				
+				//To check if ISBN is numeric and contains either 10 digit or 13 digits
+				if(!isNumeric(ISBN) || !(ISBN.length() == 10 || ISBN.length()==13)) {
+					MalfunctionPanel mal = new MalfunctionPanel("Book Info Update Error", "Invalid ISBN, ISBN should be a numeric value with either 10 numbers or 13");
+					showDialog(mal);
+					return;
+				}
+				
+				//To check if date is in the right format and does not exceed the current date
+				if(!isValidDateFormat(publicationDate) || !isValidDate(publicationDate)) {
+					MalfunctionPanel mal = new MalfunctionPanel("Book Info Update Error", "Invalid date or format, follow yyyy-mm-dd format and make sure the date does not exceed current date");
+					showDialog(mal);
+					return;
+				}
+				
+				
+	            try {
+	            	//Parse aisle and shelf number
+	            	int aisleNum = Integer.parseInt(aisle);
+					int shelfNum = Integer.parseInt(shelf);
+					
+					//Shield to see if the input will have zero as value
+					if(aisleNum == 0 || shelfNum == 0) {
+						MalfunctionPanel mal = new MalfunctionPanel("Book Info Update Error", "Shelf and aisle cannot be Zero");
+						showDialog(mal);
+						return;
+					}
+					//call addBookMethod;
+					updateBookInfo(bookID, title, author, selectedGenre, publicationDate, publisher, status, ISBN, aisleNum, shelfNum);
+					
+					//Close dialog
+                    closeDialog(e);
+	            } catch (NumberFormatException ex) {
+	            	MalfunctionPanel mal = new MalfunctionPanel("Book Info Update Error", "Invalid Input	");
+					showDialog(mal);
+	            }
+	    	
+	    	}
+	    });
+	    
 	}
 	@Override
 	 protected void paintComponent(Graphics g) {
@@ -588,4 +683,167 @@ public class AdminUpdateBookPanel extends JPanel{
 	    lblHeading.setIcon(new ImageIcon(scaledImage));
 
 	 }
+	public static boolean isValidDateFormat(String date) {
+        // Use regular expression to check if the string matches the yyyy-MM-dd format
+        String dateFormatRegex = "\\d{4}-\\d{2}-\\d{2}";
+        return Pattern.matches(dateFormatRegex, date);
+    }
+	public static boolean isValidDate(String date) {
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    sdf.setLenient(false);
+
+	    try {
+	        Date inputDate = sdf.parse(date);
+	        Date currentDate = new Date();
+
+	        // Check if the input date is before or equal to the current date
+	        if (inputDate.compareTo(currentDate) <= 0) {
+	            return true;
+	        } else {
+	            return false;
+	        }
+	    } catch (ParseException e) {
+	        return false;
+	    }
+	}
+
+	public static boolean isNumeric(String str) {
+        // Use regular expression to check if the string contains only numeric characters
+        return str.matches("\\d+");
+    }
+	public JButton getBtnBack() {
+		return btnBack;
+	}
+	//Update the book
+		public void updateBookInfo(int bookID, String title, String author, String genre, String publicationDate, String publisher, String status, String ISBN, int aisle, int shelf) {
+	        Connection conn = null;
+	        PreparedStatement stmt = null;
+	        String DB_URL = "jdbc:mysql://localhost/book_keeper";
+			String USERNAME = "root";
+			String PASSWORD = "";
+			
+	        try {
+	            // Establish the database connection
+	            conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+	            
+            	String sql = "UPDATE book SET book_title = ?, author_name = ?, genre_name = ?, book_publication_date = ?, "
+            			+ "book_publisher = ?, book_status = ?, ISBN = ?, aisle_number = ?, shelf_number = ? "
+            			+ "WHERE book_id = ?";
+            	stmt = conn.prepareStatement(sql);
+
+                // Prepare the statement
+            	stmt.setString(1, title);
+                stmt.setString(2, author); 
+                stmt.setString(3, genre);
+                stmt.setString(4, publicationDate);
+                stmt.setString(5, publisher);
+                stmt.setString(6, status);
+                stmt.setString(7, ISBN);
+                stmt.setInt(8, aisle);
+                stmt.setInt(9, shelf);
+                stmt.setInt(10, bookID);
+
+                // Execute the update
+                int rowsUpdated = stmt.executeUpdate();
+            	
+                if (rowsUpdated > 0) {
+                	SuccessPanel success = new SuccessPanel("Book Info Update", "The book has been successfully updated");
+                    showDialog(success);
+                	//JOptionPane.showMessageDialog(pnlEditBookInfo.this, "Book Info Updated Successfully", "Success", JOptionPane.PLAIN_MESSAGE);
+                } else {
+                	//JOptionPane.showMessageDialog(pnlEditBookInfo.this, "Book did not update", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            
+	        } catch (SQLException e) {
+	            System.err.println("Error updating row: " + e.getMessage());
+	        } finally {
+	            // Close the statement and connection
+	            try {
+	                if (stmt != null) {
+	                    stmt.close();
+	                }
+	                if (conn != null) {
+	                    conn.close();
+	                    System.out.println("Database connection closed.");
+	                }
+	            } catch (SQLException e) {
+	                System.err.println("Error closing resources: " + e.getMessage());
+	            }
+	        }
+	    }
+	//Method for dynamic genre combo box
+	public static String[] moveGenreToStart(String[] genre, String selectedBookGenre) {
+        // Find the index of the selected book's genre in the genre array
+        int indexToRemove = -1;
+        for (int i = 0; i < genre.length; i++) {
+            if (genre[i].equals(selectedBookGenre)) {
+                indexToRemove = i;
+                break;
+            }
+        }
+
+        if (indexToRemove != -1 && indexToRemove != 0) {
+            // Create a new array with increased size
+            String[] newGenre = new String[genre.length];
+
+            // Move the selected genre to the beginning of the new array
+            newGenre[0] = selectedBookGenre;
+
+            // Copy the elements before the selected genre
+            System.arraycopy(genre, 0, newGenre, 1, indexToRemove);
+
+            // Copy the elements after the selected genre
+            System.arraycopy(genre, indexToRemove + 1, newGenre, indexToRemove + 1, genre.length - indexToRemove - 1);
+
+            // Update the genre array with the new array
+            genre = newGenre;
+        }
+
+        return genre;
+    }
+	// OVERLOADED METHOD -> showDialog()
+ 	//Method to show alert panel (Success Panel)
+ 	public void showDialog(SuccessPanel panel) {
+ 		
+ 		panel.getBtnConfirm().addActionListener(new ActionListener() {
+ 	    	public void actionPerformed(ActionEvent e) {
+ 	            closeDialog(e);
+ 	    	}
+ 	    });
+ 	    
+ 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
+ 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+ 		dialog.getContentPane().add(panel);
+ 		dialog.pack();
+ 		dialog.setLocationRelativeTo(null);
+ 		dialog.setVisible(true);
+
+ 	}
+	 	
+ 	//Method to show alert panel (Malfunction Panel)
+     public void showDialog(MalfunctionPanel panel) {
+ 		
+ 		panel.getBtnConfirm().addActionListener(new ActionListener() {
+ 	    	public void actionPerformed(ActionEvent e) {
+ 	            closeDialog(e);
+ 	    	}
+ 	    });
+ 	    
+ 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Error", true);
+         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+         dialog.getContentPane().add(panel);
+         dialog.pack();
+         dialog.setLocationRelativeTo(null);
+         dialog.setVisible(true);
+ 	}
+     
+     //Method used by showDialog to close the JDialog containing the alert panels
+ 	private void closeDialog(ActionEvent e) {
+         Component component = (Component) e.getSource();
+         Window window = SwingUtilities.getWindowAncestor(component);
+         if (window != null) {
+             window.dispose();
+         }
+     }
+
 }

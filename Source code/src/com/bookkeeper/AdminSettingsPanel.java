@@ -414,7 +414,7 @@ public class AdminSettingsPanel extends JPanel {
 	lblGenre.setForeground(darkplainColor);
 	
 	 String[] genresArray = {"Classic", "Dystopian", "Epic Poetry", "Fantasy", "Fiction", "Gothic Fiction", 
-			"Historical Fiction", "Horror", "Mystery", "Novel", "Science", "Science Fiction", "Survival", 
+			"Historical Fiction", "Horror", "Mystery", "Novel","Non-Fiction", "Romance", "Science", "Science Fiction", "Survival", 
 			"Thriller", "Young Adult"};
 
     listModel = new DefaultListModel<>();

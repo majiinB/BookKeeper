@@ -652,32 +652,13 @@ public class AdminBookInfoPanel extends JPanel{
 				
 			}
 		});
-//	    btnSaveChangesEdit.addActionListener(new ActionListener() {
-//			pnlBookInfoDisplayUser bookInfoUser = new pnlBookInfoDisplayUser();
-//			public void actionPerformed(ActionEvent e) {
-//				String patronID = txtEnterPatronID.getText();
-//				int bookID = book.getBook_id();
-//				
-//				//Check if the user ID entered exists
-//				if(checkUserExistence(patronID)) {
-//					//Check if the book is Available 
-//					if(isBookAvailable(bookID)) {
-//						insertBorrowedBook(bookID, patronID);
-//						//Check if there is a reservation 
-//						if(bookInfoUser.isReservationExisting(bookID, patronID)) {
-//							updateReservationStatus(bookID, patronID);
-//						}
-//						//Prompt the successful borrowing
-//						JOptionPane.showMessageDialog(pnlBookBorrowAdmin.this, "Successfully borrowed", "Success", JOptionPane.PLAIN_MESSAGE);
-//					}
-//					else {
-//						JOptionPane.showMessageDialog(pnlBookBorrowAdmin.this, "The book is still unavailable for borrow", "Fail", JOptionPane.ERROR_MESSAGE);
-//					}
-//				}else {
-//					JOptionPane.showMessageDialog(pnlBookBorrowAdmin.this, "Patron ID does not exist", "Error", JOptionPane.ERROR_MESSAGE);
-//				}
-//			}
-//		});
+	    btnEdit.addActionListener(new ActionListener(){
+	    	public void actionPerformed(ActionEvent e) {
+	    		AdminUpdateBookPanel panel = new AdminUpdateBookPanel(selectedBook);
+	    		showDialog(panel);
+	    	}
+	    });
+
 	}
 	@Override
 	 protected void paintComponent(Graphics g) {
@@ -1081,6 +1062,23 @@ public void insertBorrowedBook(int bookId, String patronId) {
          dialog.setLocationRelativeTo(null);
          dialog.setVisible(true);
  	}
+     // showDialog to show adminUpdate
+     public void showDialog(AdminUpdateBookPanel panel) {
+  		
+  		panel.getBtnBack().addActionListener(new ActionListener() {
+  	    	public void actionPerformed(ActionEvent e) {
+  	            closeDialog(e);
+  	    	}
+  	    });
+  	    
+  		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
+  		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+  		dialog.getContentPane().add(panel);
+  		dialog.pack();
+  		dialog.setLocationRelativeTo(null);
+  		dialog.setVisible(true);
+
+  	}
      
      //Method used by showDialog to close the JDialog containing the alert panels
  	private void closeDialog(ActionEvent e) {
