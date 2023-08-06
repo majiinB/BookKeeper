@@ -2,6 +2,7 @@ package com.bookkeeper;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.awt.Stroke;
 
 import javax.swing.*;
 import javax.swing.JLabel;
@@ -66,7 +67,11 @@ public class CreatePieChart extends JPanel {
         	dataset.setValue(seriesName[i],value[i]);
 	    }
 	}
-	
+    public void setSectionPaint(String[] seriesName,Color[] Color) {
+        for (int i = 0; i < seriesName.length; i++) {
+        	plot.setSectionPaint(seriesName[i],Color[i]);    
+        }
+   }
 	public Boolean getShowLegend() {
 		return showLegend;
 	}

@@ -65,8 +65,7 @@ public class CreateLineChart extends JPanel {
         plot = (CategoryPlot) lineChart.getCategoryPlot();
         
         renderer = new LineAndShapeRenderer();
-        
-        lineChart.getPlot().setBackgroundPaint(lightplainColor);
+        lineChart.setBackgroundPaint(lightplainColor);
         plot.setRangeGridlinesVisible(true);
         plot.setRangeGridlinePaint(darkplainColor);        
         plot.setBackgroundPaint(lightplainColor);
@@ -74,19 +73,16 @@ public class CreateLineChart extends JPanel {
         plot.setRenderer(renderer);
 	}
 	
-	 
-	
 	public void addData(String[] xData, int[] yData, String seriesName) {
         for (int i = 0; i < xData.length; i++) {
-            dataset.addValue(yData[i], seriesName, xData[i]);
-            
+            dataset.addValue(yData[i], seriesName, xData[i]); 
         }
-        
     }
     public void setSeriesStroke(String seriesName,Stroke stroke) {
     	 int seriesIndex = dataset.getRowIndex(seriesName);
          if (seriesIndex >= 0) {
         	 renderer.setSeriesStroke(seriesIndex,stroke);    
+             renderer.setSeriesShapesVisible(seriesIndex, false);
          }
     }
     public void setSeriesPaint(String seriesName, Paint seriesColor) {

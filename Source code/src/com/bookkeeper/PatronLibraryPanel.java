@@ -200,8 +200,8 @@ public class PatronLibraryPanel extends JPanel {
 			    
 			    //Create a Book object with the retrieved values
 			    selectedBook = new Book(bookId, bookTitle, genreName, authorName, bookPublishDate , bookPublisher, bookStatus, aisleNumber, shelfNumber, ISBN);
-			    InfoDisplayFrame frame = new InfoDisplayFrame(selectedBook, 1, patron);
-			    
+			    PatronBookInfoPanel panel = new PatronBookInfoPanel(selectedBook, patron);
+			    showDialog(panel);
 			} 
 		}
 	});
@@ -323,8 +323,8 @@ public class PatronLibraryPanel extends JPanel {
  		              
  		        // Check for empty search
  		        if (getSearch.isEmpty()||getSearch.equals("Search Book")) {
- 		             getQuery = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
- 		                                "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
+ 		        	getQuery = "SELECT book_id, ISBN, book_title, author_name, genre_name, book_publisher, book_publication_date, book_status, aisle_number, shelf_number FROM book " +
+                             "ORDER BY book_title ASC;";
  		        } else {
  		             getQuery = searchQuery(getSearch);
  		        }
@@ -437,14 +437,36 @@ public class BackgroundPanel extends JPanel {
 	}  
 	//Methods
 	public String searchQuery(String search) {
-		 String query = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
-	            "JOIN location l ON b.location_id = l.location_id " +
-	            "WHERE book_status = 'Available' AND b.book_title LIKE '" + search + "%' OR " +
-	            "b.author_name LIKE '" + search + "%' OR " +
-	            "b.genre_name LIKE '" + search + "%' OR " +
-	            "b.book_publisher LIKE '" + search + "%' OR " +
-	            "b.ISBN LIKE '" + search + "%'";
+		String query = "SELECT book_id, ISBN, book_title, author_name, genre_name, book_publisher, book_publication_date, book_status, aisle_number, shelf_number FROM book " +
+	            "WHERE book_title LIKE '" + search + "%' OR " +
+	            "author_name LIKE '" + search + "%' OR " +
+	            "genre_name LIKE '%" + search + "%' OR " +
+	            "book_publisher LIKE '" + search + "%' OR " +
+	            "ISBN LIKE '" + search + "%'"; 
 	  return query;
 	}
+	public void showDialog(PatronBookInfoPanel panel) {
+			
+		panel.getBtnBack().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	            closeDialog(e);
+	    	}
+	    });
+	    
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
 	
+	}
+	//Method used by showDialog to close the JDialog containing the alert panels
+	private void closeDialog(ActionEvent e) {
+	    Component component = (Component) e.getSource();
+	    Window window = SwingUtilities.getWindowAncestor(component);
+	    if (window != null) {
+	        window.dispose();
+	    }
+	}
 }

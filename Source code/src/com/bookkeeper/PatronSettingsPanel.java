@@ -717,8 +717,11 @@ public class PatronSettingsPanel extends JPanel {
 	});
 	option1.addMouseListener(new MouseAdapter() {
 	    public void mousePressed(MouseEvent e) {
-	    	//punta info display frmae Account Information
-	    	InfoDisplayFrame frame = new InfoDisplayFrame(6, user);
+	    	
+	    	JFrame parentFrame = (JFrame) SwingUtilities.windowForComponent(option1);
+
+	    	AccountInfoPanel panel = new AccountInfoPanel(user, parentFrame);
+	    	showDialog(panel);
 	    }
 	});
  }
@@ -863,4 +866,28 @@ public class PatronSettingsPanel extends JPanel {
 	         e.printStackTrace();
 	     }
 	 }
+	 public void showDialog(AccountInfoPanel panel) {
+			
+		 panel.getBtnSave().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            closeDialog(e);
+		    	}
+		    });
+		    
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Change Information", true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+	 }
+	    
+    //Method used by showDialog to close the JDialog containing the alert panels
+	private void closeDialog(ActionEvent e) {
+        Component component = (Component) e.getSource();
+        Window window = SwingUtilities.getWindowAncestor(component);
+        if (window != null) {
+            window.dispose();
+        }
+    }
 }

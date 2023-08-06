@@ -465,8 +465,7 @@ public class ChangeAddPanel extends JPanel{
 	            showDialog(success);
 	            
 	            //Close Frame after update
-	            ChangeInfoFrame frame = (ChangeInfoFrame) SwingUtilities.getWindowAncestor(btnUpdate);
-				frame.dispose();
+	            closeDialog(e);
 	        } catch (SQLException e1) {
 	            e1.printStackTrace();
 	        } finally {
@@ -506,7 +505,7 @@ public class ChangeAddPanel extends JPanel{
 			    	}
 			    });
 			    
-				JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+				JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.getContentPane().add(panel);
 				dialog.pack();
@@ -524,7 +523,7 @@ public class ChangeAddPanel extends JPanel{
 			    	}
 			    });
 			    
-				JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),"Error", true);
+				JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this),"Error", true);
 		        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		        dialog.getContentPane().add(panel);
 		        dialog.pack();

@@ -582,7 +582,7 @@ public class PatronBookInfoPanel extends JPanel{
 		    	}
 		    });
 		    
-			JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.getContentPane().add(panel);
 			dialog.pack();
@@ -600,7 +600,7 @@ public class PatronBookInfoPanel extends JPanel{
 		    	}
 		    });
 		    
-			JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),"Error", true);
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this),"Error", true);
 	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	        dialog.getContentPane().add(panel);
 	        dialog.pack();
@@ -624,7 +624,7 @@ public class PatronBookInfoPanel extends JPanel{
 		    	}
 		    });
 		    
-			JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),"Confirm Reservation", true);
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this),"Confirm Reservation", true);
 	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	        dialog.add(panel);
 	        dialog.pack();

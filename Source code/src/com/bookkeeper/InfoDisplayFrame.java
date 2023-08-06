@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 //Frame for displaying information about book or user
 
-public class InfoDisplayFrame extends JFrame {
+public class InfoDisplayFrame extends JDialog {
 	//panel
 	private JPanel mainPanel;
 	private PatronBookInfoPanel PatronBookInfoPanel ;
@@ -136,7 +136,7 @@ public class InfoDisplayFrame extends JFrame {
         //Create panels
     	mainPanel = new JPanel();//panel to hold all panels
     	AdminUserInfoPanel = new AdminUserInfoPanel();
-    	AccountInfoPanel = new AccountInfoPanel(patron);
+    	//AccountInfoPanel = new AccountInfoPanel(patron);
     	SystemInfoPanel = new SystemInfoPanel();
 
 		// Set the layout of panels

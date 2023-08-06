@@ -117,7 +117,7 @@ public class AccountInfoPanel extends JPanel{
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 	
-	public AccountInfoPanel(User patron) {
+	public AccountInfoPanel(User patron, JFrame parent) {
 		setBackground(new Color(250, 251, 255));
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		setLayout(new BorderLayout(0, 0));
@@ -589,22 +589,26 @@ public class AccountInfoPanel extends JPanel{
 	   	});
 	   	btnName.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		ChangeInfoFrame frame = new ChangeInfoFrame(1, patron);
+	    		ChangeNamePanel panel = new ChangeNamePanel(patron);
+	    		showDialog(panel);
 	    	}
 	    });
 	   	btnChangePass.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		ChangeInfoFrame frame = new ChangeInfoFrame(2, patron);
+	    		ChangePassPanel panel = new ChangePassPanel(patron);
+	    		showDialog(panel);
 	    	}
 	    });
 	   	btnContactNum.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		ChangeInfoFrame frame = new ChangeInfoFrame(3, patron);
+	    		ChangeNumPanel panel = new ChangeNumPanel(patron);
+	    		showDialog(panel);
 	    	}
 	    });
 	   	btnAddress.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		ChangeInfoFrame frame = new ChangeInfoFrame(4, patron);
+	    		ChangeAddPanel panel = new ChangeAddPanel(patron);
+	    		showDialog(panel);
 	    	}
 	    });
 	}
@@ -632,4 +636,68 @@ public class AccountInfoPanel extends JPanel{
 	public JButton getBtnSave() {
 		return btnSave;
 	}
+	public void showDialog(ChangeNamePanel panel) {
+	    panel.getBtnBack().addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            closeDialog(e);
+	        }
+	    });
+
+	    JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
+	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	    dialog.getContentPane().add(panel);
+	    dialog.pack();
+	    dialog.setLocationRelativeTo(null);
+	    dialog.setVisible(true);
+	}
+	public void showDialog(ChangePassPanel panel) {
+	    panel.getBtnBack().addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            closeDialog(e);
+	        }
+	    });
+
+	    JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
+	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	    dialog.getContentPane().add(panel);
+	    dialog.pack();
+	    dialog.setLocationRelativeTo(null);
+	    dialog.setVisible(true);
+	}
+	public void showDialog(ChangeNumPanel panel) {
+	    panel.getBtnBack().addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            closeDialog(e);
+	        }
+	    });
+
+	    JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
+	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	    dialog.getContentPane().add(panel);
+	    dialog.pack();
+	    dialog.setLocationRelativeTo(null);
+	    dialog.setVisible(true);
+	}
+	public void showDialog(ChangeAddPanel panel) {
+	    panel.getBtnBack().addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            closeDialog(e);
+	        }
+	    });
+
+	    JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
+	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	    dialog.getContentPane().add(panel);
+	    dialog.pack();
+	    dialog.setLocationRelativeTo(null);
+	    dialog.setVisible(true);
+	}    
+   //Method used by showDialog to close the JDialog containing the alert panels
+	private void closeDialog(ActionEvent e) {
+       Component component = (Component) e.getSource();
+       Window window = SwingUtilities.getWindowAncestor(component);
+       if (window != null) {
+           window.dispose();
+       }
+   }
 }

@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 //Frame for user to modify user and system related settings
 
-public class ChangeInfoFrame extends JFrame {
+public class ChangeInfoFrame extends JDialog {
 	//panel
 	private JPanel mainPanel;
 	private ChangeNamePanel ChangeNamePanel;
@@ -65,7 +65,7 @@ public class ChangeInfoFrame extends JFrame {
         
         //Create panels
     	mainPanel = new JPanel();//panel to hold all panels
-    	ChangeNamePanel = new ChangeNamePanel(patron);
+    	//ChangeNamePanel = new ChangeNamePanel(patron);
     	ChangePassPanel = new ChangePassPanel(patron);
     	ChangeNumPanel = new ChangeNumPanel(patron);
     	ChangeAddPanel = new ChangeAddPanel(patron);

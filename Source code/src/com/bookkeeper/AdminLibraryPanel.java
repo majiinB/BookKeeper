@@ -16,11 +16,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -321,8 +324,8 @@ public class AdminLibraryPanel extends JPanel {
  		              
  		        // Check for empty search
  		        if (getSearch.isEmpty()||getSearch.equals("Search Book")) {
- 		             getQuery = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
- 		                                "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
+ 		             getQuery = "SELECT book_id, ISBN, book_title, author_name, genre_name, book_publisher, book_publication_date, book_status, aisle_number, shelf_number FROM book " +
+ 		                                "ORDER BY book_title ASC;";
  		        } else {
  		             getQuery = searchQuery(getSearch);
  		        }
@@ -422,13 +425,12 @@ protected void paintComponent(Graphics g) {
 
 //Methods
 	public String searchQuery(String search) {
-		 String query = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
-	            "JOIN location l ON b.location_id = l.location_id " +
-	            "WHERE b.book_title LIKE '" + search + "%' OR " +
-	            "b.author_name LIKE '" + search + "%' OR " +
-	            "b.genre_name LIKE '%" + search + "%' OR " +
-	            "b.book_publisher LIKE '" + search + "%' OR " +
-	            "b.ISBN LIKE '" + search + "%'";      
+		 String query = "SELECT book_id, ISBN, book_title, author_name, genre_name, book_publisher, book_publication_date, book_status, aisle_number, shelf_number FROM book " +
+	            "WHERE book_title LIKE '" + search + "%' OR " +
+	            "author_name LIKE '" + search + "%' OR " +
+	            "genre_name LIKE '%" + search + "%' OR " +
+	            "book_publisher LIKE '" + search + "%' OR " +
+	            "ISBN LIKE '" + search + "%'";      
 		return query;
 	}
 	//Methods
@@ -478,8 +480,8 @@ protected void paintComponent(Graphics g) {
 	    	searchScrollPane.setViewportView(table);
 	        // Establish database connection
 	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
-	        String getQuery = "SELECT b.book_id, b.ISBN, b.book_title, b.author_name, b.genre_name, b.book_publisher, b.book_publication_date, b.book_status, l.aisle_number, l.shelf_number FROM book b " +
-	                "JOIN location l ON b.location_id = l.location_id ORDER BY book_title ASC;";
+	        String getQuery = "SELECT book_id, ISBN, book_title, author_name, genre_name, book_publisher, book_publication_date, book_status, aisle_number, shelf_number FROM book " +
+	                "ORDER BY book_title ASC;";
 
 	        // Execute the SQL query
 	        Statement statement = connection.createStatement();
@@ -525,6 +527,219 @@ protected void paintComponent(Graphics g) {
 //	public Book getBook() {
 //		return selectedBook;
 //	}
+	public void updateBookStatusAndBorrowStatus(int bookId) {
+	    Connection conn = null;
+	    try {
+	        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
 
+	        // Update book_status in the book table
+	        String updateBookStatusQuery = "UPDATE book SET book_status = 'Available' WHERE book_id = ?";
+	        PreparedStatement updateBookStatusStmt = conn.prepareStatement(updateBookStatusQuery);
+	        updateBookStatusStmt.setInt(1, bookId);
+	        updateBookStatusStmt.executeUpdate();
+
+	        // Update borrow_status and returned_date in the borrowed_book table for the latest borrowed record with the given book_id
+	        String updateBorrowStatusQuery = "UPDATE borrowed_book SET borrow_status = 'returned', returned_date = ? WHERE book_id = ? " +
+	                                         "AND borrow_id = (SELECT borrow_id FROM borrowed_book WHERE book_id = ? ORDER BY borrowed_date DESC LIMIT 1)";
+	        PreparedStatement updateBorrowStatusStmt = conn.prepareStatement(updateBorrowStatusQuery);
+
+	        // Set the current date as the returned_date
+	        LocalDate currentDate = LocalDate.now();
+	        Date returnedDate = Date.valueOf(currentDate);
+	        updateBorrowStatusStmt.setDate(1, returnedDate);
+	        updateBorrowStatusStmt.setInt(2, bookId);
+	        updateBorrowStatusStmt.setInt(3, bookId);
+	        updateBorrowStatusStmt.executeUpdate();
+
+	        System.out.println("Book status and borrow status updated successfully.");
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	public User getRecentBorrowedPatron(int bookId) {
+	    User patron = null;
+	    Connection conn = null;
+	    PreparedStatement stmt1 = null;
+	    PreparedStatement stmt2 = null;
+	    ResultSet rs1 = null;
+	    ResultSet rs2 = null;
+
+	    try {
+	        // Connect to the MySQL database
+	        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+	        // Query to retrieve the most recent record from borrowed_book table for the given bookId
+	        String query1 = "SELECT patron_id FROM borrowed_book WHERE book_id = ? ORDER BY borrowed_date DESC LIMIT 1";
+
+	        // Create a prepared statement with the query
+	        stmt1 = conn.prepareStatement(query1);
+	        stmt1.setInt(1, bookId);
+
+	        // Execute the query
+	        rs1 = stmt1.executeQuery();
+
+	        // Check if a patronId was found
+	        if (rs1.next()) {
+	            String patronId = rs1.getString("patron_id");
+	            System.out.println("patronId: " + patronId);
+
+	            // Query to retrieve the patron details based on the patronId
+	            String query2 = "SELECT * FROM patron WHERE patron_id = ?";
+
+	            // Create a new prepared statement with the patron query
+	            stmt2 = conn.prepareStatement(query2);
+	            stmt2.setString(1, patronId);
+
+	            // Execute the patron query
+	            rs2 = stmt2.executeQuery();
+
+	            // Fetch the patron details
+	            if (rs2.next()) {
+	                String patronId1 = rs2.getString("patron_id");
+	                String firstName = rs2.getString("patron_fname");
+	                String lastName = rs2.getString("patron_lname");
+	                String email = rs2.getString("patron_email");
+	                String contact = rs2.getString("patron_contact");
+	                String address = rs2.getString("patron_address");
+	                String password = rs2.getString("patron_password");
+	                String status = rs2.getString("patron_status");
+
+	                // Create a new User object
+	                //patron = new User(patronId1, firstName, lastName, email, contact, address, password, status);
+	               
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            // Close the result sets and statements
+	            if (rs1 != null) {
+	                rs1.close();
+	            }
+	            if (rs2 != null) {
+	                rs2.close();
+	            }
+	            if (stmt1 != null) {
+	                stmt1.close();
+	            }
+	            if (stmt2 != null) {
+	                stmt2.close();
+	            }
+	            if (conn != null) {
+	                conn.close();
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return patron;
+	}
+
+	public String getMostRecentDueDate(int bookId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        String mostRecentDueDate = null;
+
+        try {
+            // Establish a connection to the database
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+            // Prepare the SQL query
+            String query = "SELECT borrowed_due_date FROM borrowed_book WHERE book_id = ? ORDER BY borrowed_date DESC LIMIT 1";
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, bookId);
+
+            // Execute the query
+            resultSet = statement.executeQuery();
+
+            // Retrieve the result
+            if (resultSet.next()) {
+                mostRecentDueDate = resultSet.getString("borrowed_due_date");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close the result set, statement, and connection
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return mostRecentDueDate;
+    }
+
+	public String getMostRecentBorrowedDate(int bookId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        String mostRecentBorrowDate = null;
+
+        try {
+            // Establish a connection to the database
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+            // Prepare the SQL query
+            String query = "SELECT borrowed_date FROM borrowed_book WHERE book_id = ? ORDER BY borrowed_date DESC LIMIT 1";
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, bookId);
+
+            // Execute the query
+            resultSet = statement.executeQuery();
+
+            // Retrieve the result
+            if (resultSet.next()) {
+                mostRecentBorrowDate = resultSet.getString("borrowed_date");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close the result set, statement, and connection
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return mostRecentBorrowDate;
+    }
 
 }

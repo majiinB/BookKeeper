@@ -1,4 +1,4 @@
-package com.bookkeeper;
+	package com.bookkeeper;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -361,8 +361,7 @@ public class ChangeNumPanel extends JPanel{
 	            showDialog(success);
 	            
 	            //Close Frame after update
-	            ChangeInfoFrame frame = (ChangeInfoFrame) SwingUtilities.getWindowAncestor(btnUpdate);
-				frame.dispose();
+	            closeDialog(e);
 	        } catch (SQLException e1) {
 	            e1.printStackTrace();
 	        } finally {
@@ -402,7 +401,7 @@ public class ChangeNumPanel extends JPanel{
 		    	}
 		    });
 		    
-			JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.getContentPane().add(panel);
 			dialog.pack();
@@ -420,7 +419,7 @@ public class ChangeNumPanel extends JPanel{
 		    	}
 		    });
 		    
-			JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),"Error", true);
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this),"Error", true);
 	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	        dialog.getContentPane().add(panel);
 	        dialog.pack();
