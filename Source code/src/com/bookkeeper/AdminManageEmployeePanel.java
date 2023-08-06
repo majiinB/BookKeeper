@@ -151,7 +151,7 @@ public class AdminManageEmployeePanel extends JPanel {
     btnSearch.setIcon(searchIcon);
 
     
-    txtSearchBar = new PlaceholderTextField("Search User");
+    txtSearchBar = new PlaceholderTextField("Search Employee");
     txtSearchBar.setBorder(null);
     txtSearchBar.setHorizontalAlignment(SwingConstants.RIGHT);
     txtSearchBar.setOpaque(false);
@@ -325,7 +325,7 @@ public class AdminManageEmployeePanel extends JPanel {
                 
                 // Check for empty search
                 if (getSearch.isEmpty()||getSearch.equals("Search Employee") ) {
-                    getQuery = "SELECT admin_id, admin_fname, admin_lname, admin_email, admin_contact, admin_address, admin_status "
+                    getQuery = "SELECT admin_formatted_id, admin_fname, admin_lname, admin_email, admin_contact, admin_address, admin_status "
     	            		+ "FROM admin WHERE admin_position ='employee' "
     	            		+ "ORDER BY admin_lname ASC";
                 } else {
@@ -357,8 +357,8 @@ public class AdminManageEmployeePanel extends JPanel {
      		     table.getColumnModel().getColumn(0).setMinWidth(100);
       		     table.getColumnModel().getColumn(0).setMaxWidth(100);
       		     
-     		     table.getColumnModel().getColumn(7).setMinWidth(100);
-      		     table.getColumnModel().getColumn(7).setMaxWidth(100);
+     		     table.getColumnModel().getColumn(6).setMinWidth(100);
+      		     table.getColumnModel().getColumn(6).setMaxWidth(100);
       		     
       		     
                 // Close the database connection
@@ -372,6 +372,8 @@ public class AdminManageEmployeePanel extends JPanel {
     });
 	btnAdd.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
+    		SignUpPanel sign = new SignUpPanel();
+    		showDialog(sign);
     	}
     });
 		
@@ -403,7 +405,7 @@ protected void paintComponent(Graphics g) {
  public String searchQuery(String search) {
      String query = "SELECT admin_id, admin_fname, admin_lname, admin_email, admin_contact, admin_address, admin_status "
      		+ "FROM admin "
-     		+ "WHERE (admin_fname LIKE '"+search+"%' OR admin_lname LIKE '"+search+"%') AND (admin_position = 'employee') "
+     		+ "WHERE (admin_fname LIKE '"+search+"%' OR admin_lname LIKE '"+search+"%') AND (admin_position = 'Employee') "
      		+ "ORDER BY admin_lname ASC";
      return query;
   }
@@ -413,7 +415,7 @@ protected void paintComponent(Graphics g) {
           // Establish database connection
       	//Rekta na kasi tinamad mag assign pa ng variables same lang naman kasi db na gagamitin HAHAHAHAA
           Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
-          String getQuery = "SELECT admin_id, admin_fname, admin_lname, admin_email, admin_contact, admin_address, admin_status "
+          String getQuery = "SELECT admin_formatted_id, admin_fname, admin_lname, admin_email, admin_contact, admin_address, admin_status "
           		+ "FROM admin WHERE admin_position ='employee' "
           		+ "ORDER BY admin_lname ASC";
 
@@ -439,6 +441,11 @@ protected void paintComponent(Graphics g) {
               }
               tableModel.addRow(rowData);
           }
+         table.getColumnModel().getColumn(0).setMinWidth(100);
+	     table.getColumnModel().getColumn(0).setMaxWidth(100);
+	     
+	     table.getColumnModel().getColumn(6).setMinWidth(100);
+	     table.getColumnModel().getColumn(6).setMaxWidth(100);
 
           // Close the database connection
           resultSet.close();
@@ -449,5 +456,31 @@ protected void paintComponent(Graphics g) {
       }
   }
 
+  // showDialog to show signup
+  public void showDialog(SignUpPanel panel) {
+		
+		panel.getBtnBack().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	            closeDialog(e);
+	    	}
+	    });
+	    
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+
+	}
+  
+  //Method used by showDialog to close the JDialog containing the alert panels
+	private void closeDialog(ActionEvent e) {
+      Component component = (Component) e.getSource();
+      Window window = SwingUtilities.getWindowAncestor(component);
+      if (window != null) {
+          window.dispose();
+      }
+  }
 
 }

@@ -1,9 +1,11 @@
 package com.bookkeeper;
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.nio.charset.StandardCharsets;
@@ -22,9 +24,11 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class AuthenticationFrame extends JFrame {
 	/**
@@ -202,149 +206,6 @@ public class AuthenticationFrame extends JFrame {
   			return encryptedMessage;
   		}
   		
-  		public static boolean checkEmailExistence(String userEmail, int con) {
-  			Connection conn = null;
-  			String url = "jdbc:mysql://localhost/book_keeper";
-  		    String user = "root";
-  		    String password = "";
-  		    boolean forReturn = false;
-  		    String query = "";
-  		    
-  		    try {
-  	   		 	//Connect to book_keeper Database
-  	  	      	 Class.forName("com.mysql.cj.jdbc.Driver");
-  	  	         conn = DriverManager.getConnection(url, user, password);
-  	  	         //System.out.println("Connected to the database");
-  	  	         
-  	  	         //prepare query
-  	  	         if(con == 1) {
-  	  	        	query = "SELECT * FROM patron WHERE BINARY patron_email=?";
-  	  	         }else {
-  	  	        	query = "SELECT * FROM admin WHERE BINARY admin_email=?";
-  	  	         }
-  	  	         PreparedStatement stmt = conn.prepareStatement(query);
-  	  	         
-  				 stmt.setString(1, userEmail);
-  	  	         ResultSet rs = stmt.executeQuery();
-  	  	         
-  	  	         //Condition for return and loop continuation
-  	  	         if (rs.next()) {
-  	  	        	 forReturn = true;
-  	  	             conn.close();
-  	  	         } 
-  	  	         else {
-  	  	            forReturn = false;
-  	  	            conn.close();
-  	  	         }
-  	  	     //Exception Handling
-  	  	     } catch (SQLException e) {
-  	  	         System.out.println("Error connecting to the database: " + e.getMessage());
-  	  	     } catch (ClassNotFoundException e) {
-  	  	         System.out.println("JDBC driver not found");
-  	  	     } 
-  			return forReturn;
-  		}
-  		public static void signUp(String fName, String lName, String userEmail, String userContact, String userAddress, int forQuery) throws Exception {
-  			Connection conn = null;
-  		    String url = "jdbc:mysql://localhost/book_keeper";
-  		    String user = "root";
-  		    String password = "";
-  		    String pass ="";
-  		    boolean condition = true;
-  		    boolean con1 = true;
-  		    String encrypted = ""; 
-  		    String status = "active";
-  		    String position = "Employee";
-  		    int penalty = 0;
-
-  		    do {
-  		    	pass = generateRandomPass();
-  		    	con1 = checkId(pass);
-  		    }while(con1);
-  		    
-  		    PreparedStatement stmt = null;
-  		    try {
-  	   		 	//Connect to book_keeper Database
-  	  	      	 Class.forName("com.mysql.cj.jdbc.Driver");
-  	  	         conn = DriverManager.getConnection(url, user, password);
-  	  	         
-  	  	         //Check email Existence
-  	  	         condition = checkEmailExistence(userEmail, forQuery);
-  	  	         if(condition)
- 	            	// Show alert message
-         			/* 
-         			 * Alert Title: Sign Up Failed
-         			 * Alert Description: The email you provided is already taken.
-         			 * Please try using a different email address.
-         			 */
-  	  	        	 
-  	  	        	 JOptionPane.showMessageDialog(null, "Email Already taken", "Error", JOptionPane.ERROR_MESSAGE);
-  	  	         else {
-  	  	        	 if(forQuery == 1) {
-  	  	        		encrypted = encryption(pass);
-  		  	        	//prepare query
-  	  	  
-  			  	         String query = "INSERT INTO patron (patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_password, patron_status, penalty)"
-  			  	         		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-  			  	         stmt = conn.prepareStatement(query);
-  						 stmt.setString(1, fName);
-  						 stmt.setString(2, lName); 
-  						 stmt.setString(3, userEmail); 
-  						 stmt.setString(4, userContact); 
-  						 stmt.setString(5, userAddress); 
-  						 stmt.setString(6, encrypted); 
-  						 stmt.setString(7, status); 
-  						 stmt.setInt(8, penalty);
-  			  	         stmt.executeUpdate();
-  	 	            	// Show alert message
-  	         			/* 
-  	         			 * Alert Title: Added Successfully
-  	         			 * Alert Description: User account is successfully added! The user ID 
-  	         			 * has been set as the temporary password. Welcome to Book Keeper!
-  	         			 */
-  			  	         JOptionPane.showMessageDialog(null, "Signup successfull!", "Signup", JOptionPane.PLAIN_MESSAGE);
-  	  	        	 }
-  	  	        	 else{
-  	  	        		 encrypted = encryption(pass);
-  	  	        		 //prepare query
-  	  	        		 String query = "INSERT INTO admin (admin_fname, admin_lname, admin_email, admin_position, admin_password, admin_status, admin_contact, admin_address)" 
-  	  	        		 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-  			  	         stmt = conn.prepareStatement(query);
-  						 stmt.setString(1, fName);
-  						 stmt.setString(2, lName); 
-  						 stmt.setString(3, userEmail); 
-  						 stmt.setString(4, position); 
-  						 stmt.setString(5, encrypted); 
-  						 stmt.setString(6, status); 
-  						 stmt.setString(7, userContact); 
-  						 stmt.setString(8, userAddress); 
-  			  	         stmt.executeUpdate();
-  			  	         
-   	 	            	// Show alert message
-   	         			/* 
-   	         			 * Alert Title: Added Successfully
-   	         			 * Alert Description: User account is successfully added! The user ID 
-   	         			 * has been set as the temporary password. Welcome to Book Keeper!
-   	         			 */
-  			  	         JOptionPane.showMessageDialog(null, "Signup successfull!", "Signup", JOptionPane.PLAIN_MESSAGE);
-  	  	        	 }
-  	  	         }  
-  	        } catch (ClassNotFoundException | SQLException e) {
-  	        	e.printStackTrace();
-  	        } finally {
-  	             // Close the resources
-  	             try {
-  					if (stmt != null)
-  	                    stmt.close(); 
-  	                if (conn != null)
-  	                    conn.close();
-  	             } catch (SQLException se) {
-  	                se.printStackTrace();
-  	         }
-  	       }
-  		}
-  		
-  		
   		//LoginMethod
   		public static Object loginMethod(String email, String pass, String table, String colEmail, String colPass, String colStatus, String status) throws Exception{
   			 //Declare variables
@@ -432,59 +293,6 @@ public class AuthenticationFrame extends JFrame {
   			return null;
   		}
   		
-  		//create random id
-  		    public static String generateRandomPass() {
-  		    	final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  			    final int ID_LENGTH = 8;
-  		    	StringBuilder sb = new StringBuilder();
-  		        Random random = new Random();
-
-  		        for (int i = 0; i < ID_LENGTH; i++) {
-  		            int randomIndex = random.nextInt(CHARACTERS.length());
-  		            char randomChar = CHARACTERS.charAt(randomIndex);
-  		            sb.append(randomChar);
-  		        }
-
-  		        return sb.toString();
-  		    }
-  		public static boolean checkId(String id) {
-  			Connection conn = null;
-  			String url = "jdbc:mysql://localhost/book_keeper";
-  		    String user = "root";
-  		    String password = "";
-  		    boolean forReturn = false;
-  		    
-  		    try {
-  	   		 	//Connect to book_keeper Database
-  	  	      	 Class.forName("com.mysql.cj.jdbc.Driver");
-  	  	         conn = DriverManager.getConnection(url, user, password);
-  	  	         //System.out.println("Connected to the database");
-  	  	         
-  	  	         //prepare query
-  	  	         String query = "SELECT * FROM patron WHERE BINARY patron_id=?";
-  	  	         PreparedStatement stmt = conn.prepareStatement(query);
-  	  	         
-  				 stmt.setString(1, id);
-  	  	         ResultSet rs = stmt.executeQuery();
-  	  	         
-  	  	         //Condition for return and loop continuation
-  	  	         if (rs.next()) {
-  	  	        	 forReturn = true;
-  	  	             conn.close();
-  	  	         } 
-  	  	         else {
-  	  	            forReturn = false;
-  	  	            conn.close();
-  	  	         }
-  	  	     //Exception Handling
-  	  	     } catch (SQLException e) {
-  	  	         System.out.println("Error connecting to the database: " + e.getMessage());
-  	  	     } catch (ClassNotFoundException e) {
-  	  	         System.out.println("JDBC driver not found");
-  	  	     } 
-  			return forReturn;
-  			
-  		}
   		public static void updateOverdueBooks() {
   	        try {
   	            // Establish database connection
@@ -519,7 +327,6 @@ public class AuthenticationFrame extends JFrame {
   	            e.printStackTrace();
   	        }
   	    }
-
   	//Methods to get layout and panel
   	public CardLayout getLayout() {
   		return cardLayout;
