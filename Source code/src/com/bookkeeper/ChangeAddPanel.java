@@ -30,14 +30,12 @@ public class ChangeAddPanel extends JPanel{
 	private JTextArea txtDescription;
 	
 	private JLabel lblHouseNum;
-	private JLabel lblBlockNum;
 	private JLabel lblStreet;
 	private JLabel lblBarangay;
 	private JLabel lblCity;	
 	
 	//textfield
 	private PlaceholderTextField txtHouseNum; 
-	private PlaceholderTextField txtBlockNum;
 	private PlaceholderTextField txtStreet;
 	private PlaceholderTextField txtBarangay;
 	private PlaceholderTextField txtCity;
@@ -58,14 +56,9 @@ public class ChangeAddPanel extends JPanel{
     
     private GridBagLayout gbl_inputPanel;
     private GridBagConstraints gbc_lblHouseNum;
-    private GridBagConstraints gbc_txtHouseNum;
-    private GridBagConstraints gbc_lblBlockNum;
-    private GridBagConstraints gbc_txtBlockNum;
-    
-    
+    private GridBagConstraints gbc_txtHouseNum;  
     private GridBagConstraints gbc_lblStreet;
     private GridBagConstraints gbc_txtStreet;
-    
     
     private GridBagConstraints gbc_lblBarangay;
     private GridBagConstraints gbc_txtBarangay;
@@ -160,19 +153,6 @@ public class ChangeAddPanel extends JPanel{
 	    txtHouseNum.setEditable(true);
 	    txtHouseNum.setDragEnabled(false);
 	    
-//	    BLOCK NUMBER
-	    lblBlockNum = new JLabel("Patanggal neto"); //Patanggal neto
-	    lblBlockNum.setHorizontalAlignment(SwingConstants.LEFT);
-	    lblBlockNum.setBorder(null);
-	    lblBlockNum.setForeground(darkplainColor);
-	
-	    txtBlockNum = new PlaceholderTextField("Block No.");
-	    txtBlockNum.setBackground(middleplainColor);
-	    txtBlockNum.setBorder(new EmptyBorder(10, 10, 10, 10));
-	    txtBlockNum.setOpaque(true);
-	    txtBlockNum.setFocusable(true);
-	    txtBlockNum.setEditable(true);
-	    txtBlockNum.setDragEnabled(false);
 	    
 //	    STREET
 	    lblStreet = new JLabel("Street");
@@ -290,7 +270,7 @@ public class ChangeAddPanel extends JPanel{
         gbl_inputPanel.columnWidths = new int[]{0, 0};
         gbl_inputPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
         gbl_inputPanel.columnWeights = new double[]{1.0, 1.0};
-        gbl_inputPanel.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0};
+        gbl_inputPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
         
 //      HOUSE NUMBER
         gbc_lblHouseNum = new GridBagConstraints();
@@ -305,59 +285,45 @@ public class ChangeAddPanel extends JPanel{
         gbc_txtHouseNum.gridx = 0;
         gbc_txtHouseNum.gridy = 1;
       
-//      BLOCK NUMBER
-        gbc_lblBlockNum = new GridBagConstraints();
-        gbc_lblBlockNum.fill = GridBagConstraints.BOTH;
-        gbc_lblBlockNum.insets = new Insets(0, 0, 0, 0);
-        gbc_lblBlockNum.gridx = 1;
-        gbc_lblBlockNum.gridy = 0;
-      
-      	gbc_txtBlockNum = new GridBagConstraints();
-      	gbc_txtBlockNum.fill = GridBagConstraints.BOTH;
-      	gbc_txtBlockNum.insets = new Insets(5, 0, 0, 0);
-      	gbc_txtBlockNum.gridx = 1;
-      	gbc_txtBlockNum.gridy = 1;
-      	
 //      STREET
         gbc_lblStreet = new GridBagConstraints();
         gbc_lblStreet.fill = GridBagConstraints.BOTH;
-        gbc_lblStreet.insets = new Insets(20, 0, 0, 0);
-        gbc_lblStreet.gridx = 0;
-        gbc_lblStreet.gridy = 2;
-        gbc_lblStreet.gridwidth = 2;
-     
+        gbc_lblStreet.insets = new Insets(0, 0, 0, 0);
+        gbc_lblStreet.gridx = 1;
+        gbc_lblStreet.gridy = 0;
+      
         gbc_txtStreet = new GridBagConstraints();
         gbc_txtStreet.fill = GridBagConstraints.BOTH;
         gbc_txtStreet.insets = new Insets(5, 0, 0, 0);
-        gbc_txtStreet.gridx = 0;
-        gbc_txtStreet.gridy = 3;
-        gbc_txtStreet.gridwidth = 2;
+        gbc_txtStreet.gridx = 1;
+        gbc_txtStreet.gridy = 1;
+      	
         
 //      BARANGAY
         gbc_lblBarangay = new GridBagConstraints();
         gbc_lblBarangay.fill = GridBagConstraints.BOTH;
         gbc_lblBarangay.insets = new Insets(10, 0, 0, 0);
         gbc_lblBarangay.gridx = 0;
-        gbc_lblBarangay.gridy = 4;
+        gbc_lblBarangay.gridy = 2;
      
         gbc_txtBarangay = new GridBagConstraints();
         gbc_txtBarangay.fill = GridBagConstraints.BOTH;
         gbc_txtBarangay.insets = new Insets(5, 0, 0, 10);
         gbc_txtBarangay.gridx = 0;
-        gbc_txtBarangay.gridy = 5;
+        gbc_txtBarangay.gridy = 3;
       
 //      CITY
         gbc_lblCity = new GridBagConstraints();
         gbc_lblCity.fill = GridBagConstraints.BOTH;
         gbc_lblCity.insets = new Insets(10, 0, 0, 0);
         gbc_lblCity.gridx = 1;
-        gbc_lblCity.gridy = 4;
+        gbc_lblCity.gridy = 2;
       
       	gbc_txtCity = new GridBagConstraints();
       	gbc_txtCity.fill = GridBagConstraints.BOTH;
       	gbc_txtCity.insets = new Insets(5, 0, 0, 0);
       	gbc_txtCity.gridx = 1;
-      	gbc_txtCity.gridy = 5;
+      	gbc_txtCity.gridy = 3;
 	    
 	    // Set panel layout
 	    mainPanel.setLayout(gbl_mainPanel);
@@ -375,8 +341,6 @@ public class ChangeAddPanel extends JPanel{
 //	    inputPanel.add(=);
 	    inputPanel.add(lblHouseNum, gbc_lblHouseNum);
 	    inputPanel.add(txtHouseNum, gbc_txtHouseNum);
-	    inputPanel.add(lblBlockNum, gbc_lblBlockNum);
-	    inputPanel.add(txtBlockNum, gbc_txtBlockNum);
 	    inputPanel.add(lblStreet, gbc_lblStreet);
 	    inputPanel.add(txtStreet, gbc_txtStreet);
 	    inputPanel.add(lblBarangay, gbc_lblBarangay);
@@ -413,7 +377,7 @@ public class ChangeAddPanel extends JPanel{
 	  	            btnCancel.setFont(headerFont);
 	  	            lblHeading.setFont(headerFont);	  	            
 	  	            lblHouseNum.setFont(plainFont);  	          
-	  	            lblBlockNum.setFont(plainFont);  	          
+	  	              	          
 	  	            lblStreet.setFont(plainFont);  	          
 	  	      		lblBarangay.setFont(plainFont);    	        
 	  	    		lblCity.setFont(plainFont);  	          

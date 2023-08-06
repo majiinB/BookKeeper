@@ -55,8 +55,7 @@ public class AccountInfoPanel extends JPanel{
 	private JButton btnContactNum;
 	private JButton btnAddress;
 	private JButton btnChangePass;
-	private JButton btnSave;
-	private JButton btnBack;
+	private JButton btnDone;
 	
 	//layout
 	private GridBagLayout gbl_mainPanel; 
@@ -166,14 +165,6 @@ public class AccountInfoPanel extends JPanel{
 		lblHeading.setText("Book Keeper");
 		lblHeading.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		btnBack = new JButton("Back");
-		btnBack.setFocusPainted(false);
-		btnBack.setForeground(new Color(23, 21, 147));
-		btnBack.setBorderPainted(false);
-		btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
-		btnBack.setBackground(new Color(250, 251, 255));
-	    btnBack.setOpaque(false);
-
 	    txtTitle = new JTextArea("Personal Details");
 	    txtTitle.setForeground(headerColor);
 	    txtTitle.setLineWrap(true);
@@ -288,15 +279,15 @@ public class AccountInfoPanel extends JPanel{
 	    btnChangePass.setBorderPainted(false);
 	    btnChangePass.setBackground(new Color(0, 0, 0, 0));
 	    
-	    btnSave = new JButton();
-	    btnSave.setText("Save Changes");
-	    btnSave.setMnemonic(KeyEvent.VK_ENTER);
-	    btnSave.setForeground(lightplainColor);
-	    btnSave.setBorder(new EmptyBorder(10, 10, 10, 10));
-	    btnSave.setOpaque(true);
-	    btnSave.setFocusPainted(false);
-	    btnSave.setBorderPainted(false);
-	    btnSave.setBackground(headerColor);
+	    btnDone = new JButton();
+	    btnDone.setText("Done");
+	    btnDone.setMnemonic(KeyEvent.VK_ENTER);
+	    btnDone.setForeground(lightplainColor);
+	    btnDone.setBorder(new EmptyBorder(10, 10, 10, 10));
+	    btnDone.setOpaque(true);
+	    btnDone.setFocusPainted(false);
+	    btnDone.setBorderPainted(false);
+	    btnDone.setBackground(headerColor);
 	    
 	    /*
 	     * gamit ka ng gridbag layout for more control sa placement ng components  sa panel
@@ -521,7 +512,6 @@ public class AccountInfoPanel extends JPanel{
 			    
 	   	//Add all to main panel
 	   	headingPanel.add(lblHeading, BorderLayout.WEST);
-	   	headingPanel.add(btnBack, BorderLayout.EAST);
 	   	
 	   	titlePanel.add(txtTitle,gbc_txtTitle);
 	   	titlePanel.add(txtDescription,gbc_txtDescription);
@@ -545,7 +535,7 @@ public class AccountInfoPanel extends JPanel{
 	   	detailPanel.add(passwordSecurityPanel, gbc_passwordSecurityPanel);
 	   	detailPanel.add(changePassPanel, gbc_changePassPanel);
 
-	   	buttonPanel.add(btnSave);
+	   	buttonPanel.add(btnDone);
 	   	
 	   	mainPanel.add(headingPanel, gbc_headingPanel);
 	   	mainPanel.add(titlePanel, gbc_titlePanel);
@@ -577,8 +567,7 @@ public class AccountInfoPanel extends JPanel{
 	   			txtSecurity.setFont(new Font("Montserrat", Font.BOLD, bookTitleTextSize));   			
 	   			lblProfile.setFont(new Font("Montserrat", Font.BOLD, bookTitleTextSize));
 
-	   			btnSave.setFont(buttonFont);
-	   			btnBack.setFont(headerFont);
+	   			btnDone.setFont(buttonFont);
 	   			lblHeading.setFont(headerFont);
 	   			lblName.setFont(plainFont);
 	   			lblContactNum.setFont(plainFont);
@@ -634,7 +623,7 @@ public class AccountInfoPanel extends JPanel{
 		btnChangePass.setIcon(new ImageIcon(buttonscaledImage));
 	}
 	public JButton getBtnSave() {
-		return btnSave;
+		return btnDone;
 	}
 	public void showDialog(ChangeNamePanel panel) {
 	    panel.getBtnBack().addActionListener(new ActionListener() {
