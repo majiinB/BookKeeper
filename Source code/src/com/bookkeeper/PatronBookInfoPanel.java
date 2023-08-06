@@ -502,7 +502,7 @@ public class PatronBookInfoPanel extends JPanel{
 				}
 				
 				// Check if reservation is necessary
-				if(selectedBook.getBook_status().equals("Checked out") || selectedBook.getBook_status().equals("Unavailable")) {
+				if(selectedBook.getBook_status().equals("Borrowed") || selectedBook.getBook_status().equals("Unavailable")) {
 					// Prompt cofirmation panel
 			    	ConfirmationPanel confirm =  new ConfirmationPanel("Confirm Reservation?", "You cannot cancel this after\nthe reservation has been made.");
 			    	int con = showDialog(confirm);

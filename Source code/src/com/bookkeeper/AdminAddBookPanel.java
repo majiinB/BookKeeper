@@ -5,9 +5,19 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Pattern;
 
 public class AdminAddBookPanel extends JPanel{
 	//panel
@@ -206,7 +216,7 @@ public class AdminAddBookPanel extends JPanel{
 	    lblBookTitle.setOpaque(false);
 	    lblBookTitle.setForeground(headerColor);
 	    
-	    txtBookTitle = new PlaceholderTextField("Title of the Book");
+	    txtBookTitle = new PlaceholderTextField("Title of the book");
 	    txtBookTitle.setHorizontalAlignment(SwingConstants.RIGHT);
 	    txtBookTitle.setForeground(darkplainColor);
 	    txtBookTitle.setBackground(middleplainColor);
@@ -607,6 +617,74 @@ public class AdminAddBookPanel extends JPanel{
 
 	          }
 	      });
+	    btnAdd.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		String title = txtBookTitle.getText().trim();
+				String author = txtBookAuthor.getText().trim();
+				String genre = (String) comboBoxGenre.getSelectedItem();
+				String publicationDate = txtBookPublication.getText().trim();
+				String publisher = txtBookPublisher.getText();
+				String status = (String) comboBoxAvail.getSelectedItem();
+				String ISBN = txtBookISBN.getText().trim();
+				String shelf =txtBookShelfNo.getText().trim();
+				String aisle = txtBookAisleNo.getText().trim();
+				
+				//To check if input boxes are not blank
+				if(title.isBlank() || title.equals("Title of the book") || author.isBlank() || author.equals("First Name Last Name")
+		            || publicationDate.isBlank() || publicationDate.equals("yyyy-mm-dd")
+		            || publisher.isBlank() || publisher.equals("Name") || ISBN.isBlank() || ISBN.equals("ISBN Number")) {
+		        		
+	        		//Prompt error
+	        		MalfunctionPanel mal = new MalfunctionPanel("Add book error", "Cannot accept blank values");
+	        		showDialog(mal);
+	            	return;
+		         }
+				
+				//To check if aisle and shelf is blank
+				if (shelf.equals("000") || shelf.isBlank()  || aisle.equals("000") || aisle.isBlank()) {
+					MalfunctionPanel mal = new MalfunctionPanel("Add book Error", "Shelf number and aisle number cannot be empty");
+					showDialog(mal);
+					return;
+		        }
+				//To check if aisle and shelf is numeric
+				if(!isNumeric(shelf) || !isNumeric(aisle)) {
+					MalfunctionPanel mal = new MalfunctionPanel("Add book Error", "Input for shelf and aisle number can only be numeric");
+					showDialog(mal);
+					return;
+				}
+				
+				//To check if ISBN is numeric and contains either 10 digit or 13 digits
+				if(!isNumeric(ISBN) || !(ISBN.length() == 10 || ISBN.length()==13)) {
+					MalfunctionPanel mal = new MalfunctionPanel("Add book Error", "Invalid ISBN, ISBN should be a numeric value with either 10 numbers or 13");
+					showDialog(mal);
+					return;
+				}
+				
+				//To check if date is in the right format and does not exceed the current date
+				if(!isValidDateFormat(publicationDate) || !isValidDate(publicationDate)) {
+					MalfunctionPanel mal = new MalfunctionPanel("Add book Error", "Invalid date or format, follow yyyy-mm-dd format and make sure the date does not exceed current date");
+					showDialog(mal);
+					return;
+				}
+				
+				
+	            try {
+	            	//Parse aisle and shelf number
+	            	int aisleNum = Integer.parseInt(aisle);
+					int shelfNum = Integer.parseInt(shelf);
+					
+					//call addBookMethod;
+					addBook(title, author, genre, publicationDate, publisher, status, ISBN, shelfNum, aisleNum);
+					
+					//Close dialog
+                    closeDialog(e);
+	            } catch (NumberFormatException ex) {
+	            	MalfunctionPanel mal = new MalfunctionPanel("Add book Error", "Invalid Input	");
+					showDialog(mal);
+	            }
+		        
+	    	}
+	    });
 	}
 	@Override
 	 protected void paintComponent(Graphics g) {
@@ -621,7 +699,142 @@ public class AdminAddBookPanel extends JPanel{
 	    lblHeading.setIcon(new ImageIcon(scaledImage));
 
 	 }
+	
+	public static boolean isValidDateFormat(String date) {
+        // Use regular expression to check if the string matches the yyyy-MM-dd format
+        String dateFormatRegex = "\\d{4}-\\d{2}-\\d{2}";
+        return Pattern.matches(dateFormatRegex, date);
+    }
+	public static boolean isValidDate(String date) {
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    sdf.setLenient(false);
+
+	    try {
+	        Date inputDate = sdf.parse(date);
+	        Date currentDate = new Date();
+
+	        // Check if the input date is before or equal to the current date
+	        if (inputDate.compareTo(currentDate) <= 0) {
+	            return true;
+	        } else {
+	            return false;
+	        }
+	    } catch (ParseException e) {
+	        return false;
+	    }
+	}
+
+	public static boolean isNumeric(String str) {
+        // Use regular expression to check if the string contains only numeric characters
+        return str.matches("\\d+");
+    }
+
 	public JButton getBtnBack() {
 		return btnBack;
 	}
+	public void addBook(String title, String author, String genre, String publicationDate, String publisher, String status, String ISBN, int shelf, int aisle) {
+		String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+		String DB_URL = "jdbc:mysql://localhost/book_keeper";
+		String USERNAME = "root";
+		String PASSWORD = "";
+		Connection conn = null;
+        PreparedStatement pstmt = null;
+            	
+            	try {
+                    // Register JDBC driver
+                    Class.forName(JDBC_DRIVER);
+
+                    // Open a connection
+                    conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+
+                    // Create the SQL statement
+                    String sql = "INSERT INTO book (book_title, author_name, genre_name, book_publication_date, book_publisher, book_status, ISBN, aisle_number, shelf_number) " +
+                                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+                    // Create a prepared statement
+                    pstmt = conn.prepareStatement(sql);
+
+                    // Set the parameter values
+                    pstmt.setString(1, title);
+                    pstmt.setString(2, author); 
+                    pstmt.setString(3, genre);
+                    pstmt.setString(4, publicationDate);
+                    pstmt.setString(5, publisher);
+                    pstmt.setString(6, status);
+                    pstmt.setString(7, ISBN);
+                    pstmt.setInt(8, aisle);
+                    pstmt.setInt(9, shelf);
+
+                    // Execute the statement
+                    pstmt.executeUpdate();
+                    
+                    //Prompt success
+                    SuccessPanel success = new SuccessPanel("New book added", "The book has been successfully added");
+                    showDialog(success);
+
+                    // Close the prepared statement
+                    pstmt.close();
+                    
+                } catch (SQLException se) {
+                    se.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    // Close resources
+                    try {
+                        if (pstmt != null) pstmt.close();
+                    } catch (SQLException se2) {
+                    } // nothing we can do
+                    try {
+                        if (conn != null) conn.close();
+                    } catch (SQLException se) {
+                        se.printStackTrace();
+                    }
+                }
+        	
+        }
+	// OVERLOADED METHOD -> showDialog()
+ 	//Method to show alert panel (Success Panel)
+ 	public void showDialog(SuccessPanel panel) {
+ 		
+ 		panel.getBtnConfirm().addActionListener(new ActionListener() {
+ 	    	public void actionPerformed(ActionEvent e) {
+ 	            closeDialog(e);
+ 	    	}
+ 	    });
+ 	    
+ 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
+ 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+ 		dialog.getContentPane().add(panel);
+ 		dialog.pack();
+ 		dialog.setLocationRelativeTo(null);
+ 		dialog.setVisible(true);
+
+ 	}
+ 	
+ 	//Method to show alert panel (Malfunction Panel)
+     public void showDialog(MalfunctionPanel panel) {
+ 		
+ 		panel.getBtnConfirm().addActionListener(new ActionListener() {
+ 	    	public void actionPerformed(ActionEvent e) {
+ 	            closeDialog(e);
+ 	    	}
+ 	    });
+ 	    
+ 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Error", true);
+         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+         dialog.getContentPane().add(panel);
+         dialog.pack();
+         dialog.setLocationRelativeTo(null);
+         dialog.setVisible(true);
+ 	}
+     
+     //Method used by showDialog to close the JDialog containing the alert panels
+ 	private void closeDialog(ActionEvent e) {
+         Component component = (Component) e.getSource();
+         Window window = SwingUtilities.getWindowAncestor(component);
+         if (window != null) {
+             window.dispose();
+         }
+     }
 }
