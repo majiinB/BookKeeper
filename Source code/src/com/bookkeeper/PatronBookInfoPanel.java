@@ -103,7 +103,7 @@ public class PatronBookInfoPanel extends JPanel{
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 	private int selectedValue;
 
-	public PatronBookInfoPanel(Book selectedBook, User patron) {
+	public PatronBookInfoPanel(Book selectedBook, User patron, Setting setting) {
 		setBackground(new Color(250, 251, 255));
 	    setBorder(new EmptyBorder(10, 10, 10, 10));
 	    setLayout(new BorderLayout(0, 0));
@@ -492,6 +492,14 @@ public class PatronBookInfoPanel extends JPanel{
 		    	
 	    		int bookID = selectedBook.getBook_id();
 				String patronID = patron.getUser_id();
+		
+				
+				// Check if user is already at limit
+				if(patron.getUser_num_reserved() == setting.getReserve_lim()) {
+					MalfunctionPanel mal = new MalfunctionPanel("Reservation Error", "Apologies, but you have already reached the maximum limit for reserving books");
+					showDialog(mal);
+					return;
+				}
 				
 				//Check if reservation already exists
 				if(isReservationExisting(bookID, patronID)) {
@@ -509,7 +517,11 @@ public class PatronBookInfoPanel extends JPanel{
 			    	
 			    	//Condition
 			    	if(con == 2) return;
-			    	else updateReservation(bookID, patronID);
+			    	else {
+			    		updateReservation(bookID, patronID);
+			    		int numRes = patron.getUser_num_reserved() + 1;
+			    		patron.setUser_num_reserved(numRes);
+			    	}
 				}
 				else {
 					MalfunctionPanel mal = new MalfunctionPanel("Reservation Error", "This book is still available");
@@ -535,6 +547,26 @@ public class PatronBookInfoPanel extends JPanel{
 	public JButton getBtnBack() {
 		return btnBack;
 	}
+	public static void updateNumOfReserved(String patronID) {
+        String updateQuery = "UPDATE patron SET num_of_reserved = num_of_reserved + 1 WHERE formatted_id = ?";
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+             PreparedStatement preparedStatement = conn.prepareStatement(updateQuery)) {
+
+            preparedStatement.setString(1, patronID);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Number of reservations updated successfully!");
+            } else {
+                System.out.println("No matching patron found with the given ID.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Failed to update the number of reservations.");
+        }
+    }
 	public void updateReservation(int bookId, String patronId) {
 		 try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "")) {
 		            // Insert or update the reservation record
@@ -544,6 +576,9 @@ public class PatronBookInfoPanel extends JPanel{
 		                    insertStmt.setString(2, "in que");
 		                    insertStmt.setString(3, patronId);
 		                    insertStmt.executeUpdate();
+		                    
+		                    //Increment the num_of_reserved column
+		                    updateNumOfReserved(patronId);
 		                    
 		                    SuccessPanel success = new SuccessPanel("Reservation Success", "Reservation Success!");
 		                    showDialog(success);

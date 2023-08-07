@@ -214,14 +214,21 @@ public class AdminBookBorrowPanel extends JPanel{
     	public void actionPerformed(ActionEvent e) {
     		String patronID = txtPatronID.getText();
 			int bookID = selectedBook.getBook_id();
+			User borrowerPatron = getFirstPatronForBookBorrow(patronID);
 			
 			//Check if the user ID entered exists
 			if(checkUserExistence(patronID)) {
 				//Check if the book is Available 
+				if(borrowerPatron.getUser_num_borrowed() >= setting.getBorrow_lim()) {
+					MalfunctionPanel mal = new MalfunctionPanel("User Reached Borrow Limit", "Apologies, but "+ borrowerPatron.getUser_fname()+" "+borrowerPatron.getUser_lname()+" have already reached the maximum limit for reserving books");
+					showDialog(mal);
+					return;
+				}
 				if(isBookAvailable(bookID)) {
 					User withReservation = getFirstPatronForBookReservation(selectedBook.getBook_id());
 					int flag = -1;
 					
+					//Shield to check if the one borrowing is not the same with the one who has a reservation with the book
 					if(withReservation!=null) {
 						if(!withReservation.getUser_id().equals(patronID)) {
 							ConfirmationPanel mal = new ConfirmationPanel("Warning Book is Reserved", "Are you sure you want this book to be borrowed\nBook is currently reserved by:\n"
@@ -230,18 +237,28 @@ public class AdminBookBorrowPanel extends JPanel{
 						}
 						
 					}
-					
+					// Action canceled when flag returns 2
 					if(flag == 2) {
 						MalfunctionPanel mal = new MalfunctionPanel("Action Canceled", "Action has been canceled");
 						showDialog(mal);
 						return;
 					}else {
+						//Execute query to borrow book
 						insertBorrowedBook(bookID, patronID, setting);
 						
-						//Check if there is a reservation 
+						//Increment the object
+						borrowerPatron.setUser_num_borrowed(borrowerPatron.getUser_num_borrowed() + 1);
+						
+						//Check if there is a reservation made by the borrower
 						if(isReservationExisting(bookID, patronID)) {
+							//Update reservation table if book was reserved by the borrower
 							updateReservationStatus(bookID, patronID);
+							
+							//Check first if the reservation limit is still not zero to avoid a negative value in the database
+							if(withReservation.getUser_num_reserved() != 0) updateNumOfReserved(patronID);
+							
 						}
+						closeDialog(e);
 					}
 					
 				}
@@ -309,7 +326,7 @@ public class AdminBookBorrowPanel extends JPanel{
         	connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
 
             // SQL query to retrieve the first patron for the given bookId
-            String sqlQuery = "SELECT p.formatted_id, p.patron_fname, p.patron_lname, p.patron_email, p.patron_contact, p.patron_address, p.patron_password, p.patron_status, p.penalty " +
+            String sqlQuery = "SELECT p.formatted_id, p.patron_fname, p.patron_lname, p.patron_email, p.patron_contact, p.patron_address, p.patron_password, p.patron_status, p.penalty, p.num_of_reserved, p.num_of_borrowed " +
                     "FROM patron p " +
                     "JOIN reserved_book r ON p.formatted_id = r.patron_id " +
                     "WHERE r.book_id = ? AND r.reservation_status = 'in que' " +
@@ -334,8 +351,10 @@ public class AdminBookBorrowPanel extends JPanel{
                 String patronPass = resultSet.getString("patron_password");
                 String status = resultSet.getString("patron_status");
                 int penalty = resultSet.getInt("penalty");
+                int numOfReserve = resultSet.getInt("num_of_reserved");
+                int numOfBorrowed = resultSet.getInt("num_of_borrowed");
 
-                user = new User(formattedId, patronFirstName,patronLastName, email, contact, address, patronPass, status, penalty);
+                user = new User(formattedId, patronFirstName,patronLastName, email, contact, address, patronPass, status, penalty, numOfReserve, numOfBorrowed);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -351,6 +370,99 @@ public class AdminBookBorrowPanel extends JPanel{
         }
 
         return user;
+    }
+	public static User getFirstPatronForBookBorrow(String patronID) {
+        User user = null;
+
+        // Database connection objects
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Establish database connection
+        	connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+            // SQL query to retrieve the first patron for the given bookId
+            String sqlQuery = "SELECT * FROM patron WHERE formatted_id = ?";
+
+            // Prepare the SQL statement
+            preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setString(1, patronID);
+
+            // Execute the query and get the result set
+            resultSet = preparedStatement.executeQuery();
+
+            // If there's a result, create a User object with the retrieved data
+            if (resultSet.next()) {
+            	String formattedId = resultSet.getString("formatted_id");
+                String patronFirstName = resultSet.getString("patron_fname");
+                String patronLastName = resultSet.getString("patron_lname");
+                String email = resultSet.getString("patron_email");
+                String contact = resultSet.getString("patron_contact");
+                String address = resultSet.getString("patron_address");
+                String patronPass = resultSet.getString("patron_password");
+                String status = resultSet.getString("patron_status");
+                int penalty = resultSet.getInt("penalty");
+                int numOfReserve = resultSet.getInt("num_of_reserved");
+                int numOfBorrowed = resultSet.getInt("num_of_borrowed");
+
+                user = new User(formattedId, patronFirstName,patronLastName, email, contact, address, patronPass, status, penalty, numOfReserve, numOfBorrowed);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close the database resources
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return user;
+    }
+	public static void updateNumOfReserved(String patronID) {
+        String updateQuery = "UPDATE patron SET num_of_reserved = num_of_reserved - 1 WHERE formatted_id = ?";
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+             PreparedStatement preparedStatement = conn.prepareStatement(updateQuery)) {
+
+            preparedStatement.setString(1, patronID);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Number of reservations updated successfully!");
+            } else {
+                System.out.println("No matching patron found with the given ID.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Failed to update the number of reservations.");
+        }
+    }
+	public static void updateNumOfBorrowed(String patronID) {
+        String updateQuery = "UPDATE patron SET num_of_borrowed = num_of_borrowed + 1 WHERE formatted_id = ?";
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+             PreparedStatement preparedStatement = conn.prepareStatement(updateQuery)) {
+
+            preparedStatement.setString(1, patronID);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Number of reservations updated successfully!");
+            } else {
+                System.out.println("No matching patron found with the given ID.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Failed to update the number of reservations.");
+        }
     }
 	public boolean isReservationExisting(int bookId, String patronId) {
 		boolean isExisting = false;
@@ -411,6 +523,7 @@ public class AdminBookBorrowPanel extends JPanel{
 	        // Prompt success
 	        SuccessPanel success = new SuccessPanel("Book Borrow Success", "Book has been successfuly borrowed\nBook must be returned on the given date: "+ dueDate);
 	        showDialog(success);
+	        updateNumOfBorrowed(patronId);
 	        
 	        // Close the database connection and statements
 	        updateStatement.close();

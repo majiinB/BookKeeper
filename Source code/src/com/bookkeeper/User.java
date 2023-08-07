@@ -10,9 +10,11 @@ public class User {
 	private String User_pass;
 	private String User_status;
 	private int User_penalty;
+	private int User_num_reserved;
+	private int User_num_borrowed;
 	
 	//Mutators and accessor 
-	public User(String User_id, String User_fname,String User_lname, String User_email, String User_contact, String User_address, String User_pass, String User_status, int User_penalty) {
+	public User(String User_id, String User_fname,String User_lname, String User_email, String User_contact, String User_address, String User_pass, String User_status, int User_penalty, int User_num_reserved, int User_num_borrowed) {
 		this.User_id = User_id;
 		this.User_fname = User_fname;
 		this.User_lname = User_lname;
@@ -22,6 +24,8 @@ public class User {
 		this.User_status = User_status; 
 		this.User_email = User_email;
 		this.User_penalty = User_penalty;
+		this.User_num_reserved = User_num_reserved;
+		this.User_num_borrowed = User_num_borrowed;
 		
 	}
 
@@ -109,5 +113,21 @@ public class User {
 
 	public void setUser_penalty(int user_penalty) {
 		User_penalty = user_penalty;
+	}
+
+	public int getUser_num_reserved() {
+		return User_num_reserved;
+	}
+
+	public void setUser_num_reserved(int user_num_reserved) {
+		User_num_reserved = user_num_reserved;
+	}
+
+	public int getUser_num_borrowed() {
+		return User_num_borrowed;
+	}
+
+	public void setUser_num_borrowed(int user_num_borrowed) {
+		User_num_borrowed = user_num_borrowed;
 	}
 }

@@ -640,6 +640,8 @@ public class AdminBookInfoPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				if(selectedBook.getBook_status().equals("Borrowed")) {
 					updateBookStatusAndBorrowStatus(selectedBook.getBook_id());
+					selectedBook.setBook_status("Available");
+					updateNumOfBorrowed(patron.getUser_id());
 					SuccessPanel success = new SuccessPanel("Returned","Book has been returned Successfuly");
 					showDialog(success);
 				}else if (selectedBook.getBook_status().equals("Available")){
@@ -712,7 +714,26 @@ public void updateBookStatusAndBorrowStatus(int bookId) {
         e.printStackTrace();
     }
 }
+public static void updateNumOfBorrowed(String patronID) {
+    String updateQuery = "UPDATE patron SET num_of_borrowed = num_of_borrowed - 1 WHERE formatted_id = ?";
 
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+         PreparedStatement preparedStatement = conn.prepareStatement(updateQuery)) {
+
+        preparedStatement.setString(1, patronID);
+
+        int rowsAffected = preparedStatement.executeUpdate();
+        if (rowsAffected > 0) {
+            System.out.println("Number of reservations updated successfully!");
+        } else {
+            System.out.println("No matching patron found with the given ID.");
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        System.out.println("Failed to update the number of reservations.");
+    }
+}
 public User getRecentBorrowedPatron(int bookId) {
     User patron = null;
     Connection conn = null;
@@ -761,9 +782,11 @@ public User getRecentBorrowedPatron(int bookId) {
                 String password = rs2.getString("patron_password");
                 String status = rs2.getString("patron_status");
                 int penalty = rs2.getInt("penalty");
+                int numOfReserve = rs2.getInt("num_of_reserved");
+                int numOfBorrowed = rs2.getInt("num_of_borrowed");
 
                 // Create a new User object
-                patron = new User(patronId1, firstName, lastName, email, contact, address, password, status, penalty);
+                patron = new User(patronId1, firstName, lastName, email, contact, address, password, status, penalty, numOfReserve, numOfBorrowed);
                
             }
         }

@@ -131,6 +131,12 @@ public class DashboardFrame extends JFrame {
         });
     	AdminMenuPanel.getBtnReport().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		//Shield
+        		if(employee.getPosition().equals("Employee")) {
+        			MalfunctionPanel mal = new MalfunctionPanel("Access Denied", "Only administrators have access to reports");
+					showDialog(mal);
+					return;
+        		}
         		cardLayout1.show(ContentPanel,"panel2");
         		AdminMenuPanel.setBtnReport();
         	}
@@ -144,6 +150,12 @@ public class DashboardFrame extends JFrame {
         });
     	AdminMenuPanel.getBtnEmployee().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		//Shield
+        		if(employee.getPosition().equals("Employee")) {
+        			MalfunctionPanel mal = new MalfunctionPanel("Access Denied", "The management of employees is restricted to administrators only");
+					showDialog(mal);
+					return;
+        		}
         		cardLayout1.show(ContentPanel,"panel4");
         		AdminMenuPanel.setBtnEmployee(); 
 
@@ -173,7 +185,7 @@ public class DashboardFrame extends JFrame {
     }
 	
 	//patron
-	public DashboardFrame(User user) {
+	public DashboardFrame(User user, Setting setting) {
 		setTitle("Book Keeper");
     	
     	// Set the Icon
@@ -204,7 +216,7 @@ public class DashboardFrame extends JFrame {
 		//menu bar panels
 		PatronMenuPanel = new PatronMenuPanel();//menu bar for patron
 		//dashboard panels
-		PatronLibraryPanel = new PatronLibraryPanel(user);//panel for  book-related operations 
+		PatronLibraryPanel = new PatronLibraryPanel(user, setting);//panel for  book-related operations 
 		PatronSettingsPanel  = new PatronSettingsPanel(user);//panel for the settings of patron
 		
 		// Set the layout of panels
@@ -269,6 +281,41 @@ public class DashboardFrame extends JFrame {
         });
     }	
 	// Methods
+	// OVERLOADED METHOD -> showDialog()
+	 	//Method to show alert panel (Success Panel)
+	 	public void showDialog(SuccessPanel panel) {
+	 		
+	 		panel.getBtnConfirm().addActionListener(new ActionListener() {
+	 	    	public void actionPerformed(ActionEvent e) {
+	 	            closeDialog(e);
+	 	    	}
+	 	    });
+	 	    
+	 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
+	 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	 		dialog.getContentPane().add(panel);
+	 		dialog.pack();
+	 		dialog.setLocationRelativeTo(null);
+	 		dialog.setVisible(true);
+
+	 	}
+		 	
+	 	//Method to show alert panel (Malfunction Panel)
+	     public void showDialog(MalfunctionPanel panel) {
+	 		
+	 		panel.getBtnConfirm().addActionListener(new ActionListener() {
+	 	    	public void actionPerformed(ActionEvent e) {
+	 	            closeDialog(e);
+	 	    	}
+	 	    });
+	 	    
+	 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Error", true);
+	         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	         dialog.getContentPane().add(panel);
+	         dialog.pack();
+	         dialog.setLocationRelativeTo(null);
+	         dialog.setVisible(true);
+	 	}
 	//Method to show alert panel (Confirmation Panel)
 	public int showDialog(ConfirmationPanel panel) {
 		selectedValue = 0;

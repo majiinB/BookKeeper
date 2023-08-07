@@ -82,7 +82,7 @@ public class PatronLibraryPanel extends JPanel {
 	// Object
 	private Book selectedBook;
 
-	public PatronLibraryPanel(User patron) {
+	public PatronLibraryPanel(User patron, Setting setting) {
 	setBackground(lightplainColor);
 	setBorder(new EmptyBorder(20, 20, 20, 20));
 	setLayout(new BorderLayout(0, 0));
@@ -200,7 +200,7 @@ public class PatronLibraryPanel extends JPanel {
 			    
 			    //Create a Book object with the retrieved values
 			    selectedBook = new Book(bookId, bookTitle, genreName, authorName, bookPublishDate , bookPublisher, bookStatus, aisleNumber, shelfNumber, ISBN);
-			    PatronBookInfoPanel panel = new PatronBookInfoPanel(selectedBook, patron);
+			    PatronBookInfoPanel panel = new PatronBookInfoPanel(selectedBook, patron, setting);
 			    showDialog(panel);
 			} 
 		}

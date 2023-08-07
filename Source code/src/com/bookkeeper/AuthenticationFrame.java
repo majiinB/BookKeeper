@@ -254,9 +254,11 @@ public class AuthenticationFrame extends JFrame {
   			   	             String userPass = rs.getString("patron_password");
   			   	             String userStatus = rs.getString("patron_status");
   			   	             int userPenalty = rs.getInt("penalty");
+  			   	             int userNumReserved = rs.getInt("num_of_reserved");
+  			   	             int userNumBorrowed = rs.getInt("num_of_borrowed");
   			   	             
   			   	             // Create User object
-  			   	             User onlineUser = new User(userID, userFname, userLname, userEmail1, userContact, userAddress, userPass, userStatus, userPenalty);
+  			   	             User onlineUser = new User(userID, userFname, userLname, userEmail1, userContact, userAddress, userPass, userStatus, userPenalty, userNumReserved, userNumBorrowed);
   			   	             //Close database
   			   	             conn.close();
   			   	             return onlineUser;
