@@ -113,7 +113,7 @@ public class AuthenticationFrame extends JFrame {
         roleSelectionPanel = new RoleSelectionPanel(); //panel to select whether you are a patron or a staff
         adminLogInPanel = new AdminLogInPanel(); //panel for admin to log in 
         patronLogInPanel = new PatronLogInPanel(); //panel for patron to log in 
-        signUpPanel = new SignUpPanel(); //panel for admin to register a user
+        //signUpPanel = new SignUpPanel(); //panel for admin to register a user
         startUpPanel = new StartUpPanel(); //panel the user will first see when app is opened
 
     	// Set the layout of main panel to switch between the panels
@@ -125,7 +125,7 @@ public class AuthenticationFrame extends JFrame {
     	mainPanel.add(roleSelectionPanel, "panel2");
     	mainPanel.add(adminLogInPanel, "panel3");
     	mainPanel.add(patronLogInPanel,"panel4");
-    	mainPanel.add(signUpPanel, "panel5");
+    	//mainPanel.add(signUpPanel, "panel5");
 
     	// Set mainPanel as the content pane of the JFrame
     	setContentPane(mainPanel);

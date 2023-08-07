@@ -372,7 +372,8 @@ public class AdminManageEmployeePanel extends JPanel {
     });
 	btnAdd.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
-    		SignUpPanel sign = new SignUpPanel();
+    		int forQuery =  2;
+    		SignUpPanel sign = new SignUpPanel(forQuery);
     		showDialog(sign);
     	}
     });

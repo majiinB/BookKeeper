@@ -357,8 +357,8 @@ public class AdminManagePatronPanel extends JPanel {
     		     table.getColumnModel().getColumn(0).setMinWidth(100);
       		     table.getColumnModel().getColumn(0).setMaxWidth(100);
       		     
-     		     table.getColumnModel().getColumn(7).setMinWidth(100);
-      		     table.getColumnModel().getColumn(7).setMaxWidth(100);
+     		     table.getColumnModel().getColumn(6).setMinWidth(100);
+      		     table.getColumnModel().getColumn(6).setMaxWidth(100);
       		     
                 // Close the database connection
                 resultSet.close();
@@ -371,6 +371,9 @@ public class AdminManagePatronPanel extends JPanel {
     });
 	btnAdd.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
+    		int forQuery =  1;
+    		SignUpPanel sign = new SignUpPanel(forQuery);
+    		showDialog(sign);
     	}
     });
 		
@@ -446,4 +449,30 @@ public String searchQuery(String search) {
          e.printStackTrace();
      }
  }
+//showDialog to show signup
+public void showDialog(SignUpPanel panel) {
+		
+		panel.getBtnBack().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	            closeDialog(e);
+	    	}
+	    });
+	    
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+
+	}
+
+//Method used by showDialog to close the JDialog containing the alert panels
+	private void closeDialog(ActionEvent e) {
+    Component component = (Component) e.getSource();
+    Window window = SwingUtilities.getWindowAncestor(component);
+    if (window != null) {
+        window.dispose();
+    }
+}
 }

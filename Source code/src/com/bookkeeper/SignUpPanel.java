@@ -109,7 +109,7 @@ public class SignUpPanel extends JPanel {
 
 	
 
-public  SignUpPanel() {
+public  SignUpPanel(int forQuery) {
 	setBackground(new Color(250, 251, 255));
     setBorder(new EmptyBorder(10, 10, 10, 10));
     setLayout(new BorderLayout(0, 0));
@@ -510,16 +510,14 @@ public  SignUpPanel() {
 				showDialog(mal);
 				return;
 			}
-
-			// Check contact input
-			if (userContact.isBlank() || userContact.length() != 11 || userContact.equals("00000000000") || !isNumeric(userContact)) {
-				MalfunctionPanel mal = new MalfunctionPanel("SignUp Error", "Invalid input for Contact number");
+			
+			if(checkEmailExistence(userEmail, forQuery)) {
+				MalfunctionPanel mal = new MalfunctionPanel("SignUp Error", "Email Already taken");
 				showDialog(mal);
 				return;
 			}
-
-			// Check address input
 			
+			// Check address input
 			if (house.isBlank() || house.length() < 3 || house.equals("Home No.") || street.isBlank() || street.length() < 3 || street.equals("Street") ||
 				barangay.isBlank() || barangay.length() < 3 || barangay.equals("Barangay") || city.isBlank() || city.length() < 3 || city.equals("City")) {
 				MalfunctionPanel mal = new MalfunctionPanel("SignUp Error", "Invalid input for Address");
@@ -527,10 +525,17 @@ public  SignUpPanel() {
 				return;
 			}
 			
+			// Check contact input
+			if (userContact.isBlank() || userContact.length() != 11 || userContact.equals("00000000000") || !isNumeric(userContact)) {
+				MalfunctionPanel mal = new MalfunctionPanel("SignUp Error", "Invalid input for Contact number");
+				showDialog(mal);
+				return;
+			}
+			
 			try {
 				
 				//Call signup method from the MainFrame
-				signUp(fname, lname, userEmail, userContact, userAddress, 2);
+				signUp(fname, lname, userEmail, userContact, userAddress, forQuery);
 				closeDialog(e);
 				
 			} catch (Exception e1) {
@@ -541,6 +546,7 @@ public  SignUpPanel() {
     });
    
 }
+	//METHODS--
 	@Override
 	protected void paintComponent(Graphics g) {
 	   super.paintComponent(g);
@@ -582,63 +588,57 @@ public  SignUpPanel() {
 	  	      	 Class.forName("com.mysql.cj.jdbc.Driver");
 	  	         conn = DriverManager.getConnection(url, user, password);
 	  	         
-	  	         //Check email Existence
-	  	         condition = checkEmailExistence(userEmail, forQuery);
-	  	         if(condition) {
-	  	        	MalfunctionPanel mal = new MalfunctionPanel("SignUp Error", "Email Already taken");
-					showDialog(mal);
-	  	         }else {
-	  	        	 if(forQuery == 1) {
-	  	        		encrypted = AuthenticationFrame.encryption(pass);
-		  	        	//prepare query
-	  	  
-			  	         String query = "INSERT INTO patron (patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_password, patron_status, penalty)"
-			  	         		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-			  	         stmt = conn.prepareStatement(query);
-						 stmt.setString(1, fName);
-						 stmt.setString(2, lName); 
-						 stmt.setString(3, userEmail); 
-						 stmt.setString(4, userContact); 
-						 stmt.setString(5, userAddress); 
-						 stmt.setString(6, encrypted); 
-						 stmt.setString(7, status); 
-						 stmt.setInt(8, penalty);
-			  	         stmt.executeUpdate();
-			  	         
-			  	         // Show alert message
-			  	         SuccessPanel success = new SuccessPanel("READ BEFORE CLOSING", "Please take note of the info that will be given before closing this pop-up\n"
-			  	         		+ "After closing this pop-up no copy of the information that will be given will be saved\n"
-			  	         		+ "Employee "+ fName +" has been added\n"
-			  	         		+ "Employee Email: " + userEmail
-			  	         		+ "\nEmployee Password: " + pass);
-			  	         showDialog(success);
-	  	        	 }
-	  	        	 else{
-	  	        		 encrypted = AuthenticationFrame.encryption(pass);
-	  	        		 //prepare query
-	  	        		 String query = "INSERT INTO admin (admin_fname, admin_lname, admin_email, admin_position, admin_password, admin_status, admin_contact, admin_address)" 
-	  	        		 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-			  	         stmt = conn.prepareStatement(query);
-						 stmt.setString(1, fName);
-						 stmt.setString(2, lName); 
-						 stmt.setString(3, userEmail); 
-						 stmt.setString(4, position); 
-						 stmt.setString(5, encrypted); 
-						 stmt.setString(6, status); 
-						 stmt.setString(7, userContact); 
-						 stmt.setString(8, userAddress); 
-			  	         stmt.executeUpdate();
-			  	         
-			  	         // Show alert message
-			  	         SuccessPanel success = new SuccessPanel("READ BEFORE CLOSING", "Please take note of the info that will be given before closing this pop-up\n"
-			  	         		+ "After closing this pop-up no copy of the information that will be given will be saved\n"
-			  	         		+ "Employee "+ fName +" has been added\n"
-			  	         		+ "Employee Email: " + userEmail
-			  	         		+ "\nEmployee Password: " + pass);
-			  	         showDialog(success);
+  	        	 if(forQuery == 1) {
+  	        		encrypted = AuthenticationFrame.encryption(pass);
+	  	        	//prepare query
+  	  
+		  	         String query = "INSERT INTO patron (patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_password, patron_status, penalty)"
+		  	         		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		  	         stmt = conn.prepareStatement(query);
+					 stmt.setString(1, fName);
+					 stmt.setString(2, lName); 
+					 stmt.setString(3, userEmail); 
+					 stmt.setString(4, userContact); 
+					 stmt.setString(5, userAddress); 
+					 stmt.setString(6, encrypted); 
+					 stmt.setString(7, status); 
+					 stmt.setInt(8, penalty);
+		  	         stmt.executeUpdate();
+		  	         
+		  	         // Show alert message
+		  	         SuccessPanel success = new SuccessPanel("READ BEFORE CLOSING", "Please take note of the info that will be given before closing this pop-up\n"
+		  	         		+ "After closing this pop-up no copy of the information that will be given will be saved\n"
+		  	         		+ "Patron "+ fName +" has been added\n"
+		  	         		+ "Patron Email: " + userEmail
+		  	         		+ "\nPatron Password: " + pass);
+		  	         showDialog(success);
+  	        	 }
+  	        	 else{
+  	        		 encrypted = AuthenticationFrame.encryption(pass);
+  	        		 //prepare query
+  	        		 String query = "INSERT INTO admin (admin_fname, admin_lname, admin_email, admin_position, admin_password, admin_status, admin_contact, admin_address)" 
+  	        		 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		  	         stmt = conn.prepareStatement(query);
+					 stmt.setString(1, fName);
+					 stmt.setString(2, lName); 
+					 stmt.setString(3, userEmail); 
+					 stmt.setString(4, position); 
+					 stmt.setString(5, encrypted); 
+					 stmt.setString(6, status); 
+					 stmt.setString(7, userContact); 
+					 stmt.setString(8, userAddress); 
+		  	         stmt.executeUpdate();
+		  	         
+		  	         // Show alert message
+		  	         SuccessPanel success = new SuccessPanel("READ BEFORE CLOSING", "Please take note of the info that will be given before closing this pop-up\n"
+		  	         		+ "After closing this pop-up no copy of the information that will be given will be saved\n"
+		  	         		+ "Employee "+ fName +" has been added\n"
+		  	         		+ "Employee Email: " + userEmail
+		  	         		+ "\nEmployee Password: " + pass);
+		  	         showDialog(success);
 
-	  	        	 }
-	  	         }  
+  	        	 }
+	  	          
 	        } catch (ClassNotFoundException | SQLException e) {
 	        	e.printStackTrace();
 	        } finally {
