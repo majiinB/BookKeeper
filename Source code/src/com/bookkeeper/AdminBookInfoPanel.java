@@ -122,7 +122,7 @@ public class AdminBookInfoPanel extends JPanel{
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
-	public AdminBookInfoPanel(Book selectedBook) {
+	public AdminBookInfoPanel(Book selectedBook, Setting setting) {
 		setBackground(new Color(250, 251, 255));
 	    setBorder(new EmptyBorder(10, 10, 10, 10));
 	    setLayout(new BorderLayout(0, 0));
@@ -658,6 +658,12 @@ public class AdminBookInfoPanel extends JPanel{
 	    		showDialog(panel);
 	    	}
 	    });
+	    btnBorrow.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		AdminBookBorrowPanel panel = new AdminBookBorrowPanel(selectedBook, setting);
+	    		showDialog(panel);
+	    	}
+	    });
 
 	}
 	@Override
@@ -720,7 +726,7 @@ public User getRecentBorrowedPatron(int bookId) {
         conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
 
         // Query to retrieve the most recent record from borrowed_book table for the given bookId
-        String query1 = "SELECT patron_id FROM borrowed_book WHERE book_id = ? ORDER BY borrowed_date DESC, borrow_time DESC LIMIT 1";
+        String query1 = "SELECT patron_id FROM borrowed_book WHERE book_id = ? AND borrow_status = 'out' ORDER BY borrowed_date DESC, borrow_time DESC LIMIT 1";
 
         // Create a prepared statement with the query
         stmt1 = conn.prepareStatement(query1);
@@ -1079,6 +1085,22 @@ public void insertBorrowedBook(int bookId, String patronId) {
   		dialog.setVisible(true);
 
   	}
+     public void showDialog(AdminBookBorrowPanel panel) {
+   		
+   		panel.getBtnBack().addActionListener(new ActionListener() {
+   	    	public void actionPerformed(ActionEvent e) {
+   	            closeDialog(e);
+   	    	}
+   	    });
+   	    
+   		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
+   		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+   		dialog.getContentPane().add(panel);
+   		dialog.pack();
+   		dialog.setLocationRelativeTo(null);
+   		dialog.setVisible(true);
+
+   	}
      
      //Method used by showDialog to close the JDialog containing the alert panels
  	private void closeDialog(ActionEvent e) {

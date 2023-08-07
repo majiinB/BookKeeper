@@ -5,6 +5,14 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class AdminBookBorrowPanel extends JPanel{
@@ -49,8 +57,9 @@ public class AdminBookBorrowPanel extends JPanel{
 	private  Color darkplainColor = new Color(14, 14, 15);//black
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
+	private int selectedValue;
 
-	public AdminBookBorrowPanel() {
+	public AdminBookBorrowPanel(Book selectedBook, Setting setting) {
 		setBackground(new Color(250, 251, 255));
 	    setBorder(new EmptyBorder(10, 10, 10, 10));
 	    setLayout(new BorderLayout(0, 0));
@@ -63,7 +72,7 @@ public class AdminBookBorrowPanel extends JPanel{
 		// Set panel properties
 	    mainPanel.setBorder(null);
 	    mainPanel.setOpaque(false);
-	    lblPatronID.setOpaque(false);
+	    
 	    borrowPanel.setOpaque(false);
 	    cancelPanel.setOpaque(false);
 	    
@@ -84,6 +93,7 @@ public class AdminBookBorrowPanel extends JPanel{
 	    lblPatronID = new JLabel("Patron ID"); 
 	    lblPatronID.setHorizontalAlignment(SwingConstants.LEFT);
 	    lblPatronID.setBorder(null);
+	    lblPatronID.setOpaque(false);
 	    lblPatronID.setForeground(darkplainColor);
 	
 	    txtPatronID = new PlaceholderTextField("Patron ID");
@@ -200,6 +210,51 @@ public class AdminBookBorrowPanel extends JPanel{
 	          }
 	      });
 	 // Action Listener
+    btnBorrow.addActionListener(new ActionListener() {
+    	public void actionPerformed(ActionEvent e) {
+    		String patronID = txtPatronID.getText();
+			int bookID = selectedBook.getBook_id();
+			
+			//Check if the user ID entered exists
+			if(checkUserExistence(patronID)) {
+				//Check if the book is Available 
+				if(isBookAvailable(bookID)) {
+					User withReservation = getFirstPatronForBookReservation(selectedBook.getBook_id());
+					int flag = -1;
+					
+					if(withReservation!=null) {
+						if(!withReservation.getUser_id().equals(patronID)) {
+							ConfirmationPanel mal = new ConfirmationPanel("Warning Book is Reserved", "Are you sure you want this book to be borrowed\nBook is currently reserved by:\n"
+									+ "Patron ID: "+ withReservation.getUser_id() +"\nPatron Name: " + withReservation.getUser_fname() + " " + withReservation.getUser_lname());
+							flag = showDialog(mal);
+						}
+						
+					}
+					
+					if(flag == 2) {
+						MalfunctionPanel mal = new MalfunctionPanel("Action Canceled", "Action has been canceled");
+						showDialog(mal);
+						return;
+					}else {
+						insertBorrowedBook(bookID, patronID, setting);
+						
+						//Check if there is a reservation 
+						if(isReservationExisting(bookID, patronID)) {
+							updateReservationStatus(bookID, patronID);
+						}
+					}
+					
+				}
+				else {
+					MalfunctionPanel mal = new MalfunctionPanel("Book Borrow Error", "Sorry but the book cannot be borrowed");
+					showDialog(mal);
+				}
+			}else {
+				MalfunctionPanel mal = new MalfunctionPanel("Book Borrow Error", "Sorry but the Patron ID you have entered may be invalid or does not exist");
+				showDialog(mal);
+			}
+    	}
+    });
 	}
 	@Override
 	 protected void paintComponent(Graphics g) {
@@ -209,4 +264,292 @@ public class AdminBookBorrowPanel extends JPanel{
 		    * of components 
 		*/
 	 }
+	public JButton getBtnBack() {
+		return btnCancel;
+	}
+	public boolean checkUserExistence(String patronId) {
+	    boolean userExists = false;
+
+	    try {
+	        // Establish database connection
+	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+	        // Prepare the SQL statement
+	        String query = "SELECT COUNT(*) FROM patron WHERE BINARY formatted_id = ?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, patronId);
+
+	        // Execute the query and check the result
+	        ResultSet resultSet = statement.executeQuery();
+	        if (resultSet.next()) {
+	            int count = resultSet.getInt(1);
+	            userExists = (count > 0);
+	        }
+
+	        // Close the database connection
+	        resultSet.close();
+	        statement.close();
+	        connection.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return userExists;
+	}
+	public static User getFirstPatronForBookReservation(int bookId) {
+        User user = null;
+
+        // Database connection objects
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Establish database connection
+        	connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+            // SQL query to retrieve the first patron for the given bookId
+            String sqlQuery = "SELECT p.formatted_id, p.patron_fname, p.patron_lname, p.patron_email, p.patron_contact, p.patron_address, p.patron_password, p.patron_status, p.penalty " +
+                    "FROM patron p " +
+                    "JOIN reserved_book r ON p.formatted_id = r.patron_id " +
+                    "WHERE r.book_id = ? AND r.reservation_status = 'in que' " +
+                    "ORDER BY r.reservation_date ASC " +
+                    "LIMIT 1";
+
+            // Prepare the SQL statement
+            preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setInt(1, bookId);
+
+            // Execute the query and get the result set
+            resultSet = preparedStatement.executeQuery();
+
+            // If there's a result, create a User object with the retrieved data
+            if (resultSet.next()) {
+            	String formattedId = resultSet.getString("formatted_id");
+                String patronFirstName = resultSet.getString("patron_fname");
+                String patronLastName = resultSet.getString("patron_lname");
+                String email = resultSet.getString("patron_email");
+                String contact = resultSet.getString("patron_contact");
+                String address = resultSet.getString("patron_address");
+                String patronPass = resultSet.getString("patron_password");
+                String status = resultSet.getString("patron_status");
+                int penalty = resultSet.getInt("penalty");
+
+                user = new User(formattedId, patronFirstName,patronLastName, email, contact, address, patronPass, status, penalty);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close the database resources
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return user;
+    }
+	public boolean isReservationExisting(int bookId, String patronId) {
+		boolean isExisting = false;
+	    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "")) {
+	        String query = "SELECT COUNT(*) AS count FROM reserved_book WHERE book_id = ? AND patron_id = ? AND reservation_status ='in que'";
+	        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+	            stmt.setInt(1, bookId);
+	            stmt.setString(2, patronId);
+	            ResultSet rs = stmt.executeQuery();
+
+	            if (rs.next()) {
+	                int count = rs.getInt("count");
+	                if (count > 0) {
+	                    isExisting = true;
+	                }
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return isExisting;
+	}
+	
+	//Method to insert the borrowed books info in the database
+	public void insertBorrowedBook(int bookId, String patronId, Setting setting) {
+	    try {
+	        // Establish database connection
+	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+	        // Prepare the SQL statement for inserting the borrowed book
+	        String insertQuery = "INSERT INTO borrowed_book (book_id, patron_id, borrowed_date, borrowed_due_date, borrow_status, borrow_time) VALUES (?, ?, ?, ?, ?, CURRENT_TIME)";
+	        PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+	        insertStatement.setInt(1, bookId); 
+	        insertStatement.setString(2, patronId);
+	        
+	        // Get the current date
+	        LocalDate currentDate = LocalDate.now();
+	        insertStatement.setDate(3, java.sql.Date.valueOf(currentDate));
+
+	        // Calculate the due date (current date + 3 weeks)
+	        LocalDate dueDate = currentDate.plusDays(setting.getBorrow_duration_lim());
+	        insertStatement.setDate(4, java.sql.Date.valueOf(dueDate));
+	        
+	        // Set status
+	        insertStatement.setString(5, "out");
+
+	        // Execute the insert query
+	        insertStatement.executeUpdate();
+
+	        // Prepare the SQL statement for updating the book status
+	        String updateQuery = "UPDATE book SET book_status = 'Borrowed' WHERE book_id = ?";
+	        PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+	        updateStatement.setInt(1, bookId);
+
+	        // Execute the update query
+	        updateStatement.executeUpdate();
+	        
+	        // Prompt success
+	        SuccessPanel success = new SuccessPanel("Book Borrow Success", "Book has been successfuly borrowed\nBook must be returned on the given date: "+ dueDate);
+	        showDialog(success);
+	        
+	        // Close the database connection and statements
+	        updateStatement.close();
+	        insertStatement.close();
+	        connection.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	//Book status checker method
+	    public boolean isBookAvailable(int bookId) {
+	        boolean isAvailable = false;
+	        
+	        try {
+	            // Establish the database connection
+	            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+	            
+	            // Create the SQL query
+	            String query = "SELECT book_status FROM book WHERE book_id = ?";
+	            
+	            // Prepare the statement
+	            PreparedStatement statement = conn.prepareStatement(query);
+	            
+	            // Set the parameter
+	            statement.setInt(1, bookId);
+	            
+	            // Execute the query
+	            ResultSet resultSet = statement.executeQuery();
+	            
+	            // Check if the book status is "Available"
+	            if (resultSet.next()) {
+	                String bookStatus = resultSet.getString("book_status");
+	                if (bookStatus.equals("Available")) {
+	                    isAvailable = true;
+	                }
+	            }
+	            
+	            // Close the resources
+	            resultSet.close();
+	            statement.close();
+	            conn.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        
+	        return isAvailable;
+	    }
+	    public void updateReservationStatus(int bookId, String patronId) {
+	        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "")) {
+	            // Check if the reservation exists
+	            String selectQuery = "SELECT reservation_id FROM reserved_book WHERE book_id = ? AND patron_id = ?";
+	            try (PreparedStatement selectStmt = conn.prepareStatement(selectQuery)) {
+	                selectStmt.setInt(1, bookId);
+	                selectStmt.setString(2, patronId);
+	                ResultSet rs = selectStmt.executeQuery();
+
+	                if (rs.next()) {
+	                    int reservationId = rs.getInt("reservation_id");
+
+	                    // Update the reservation status to 'done'
+	                    String updateQuery = "UPDATE reserved_book SET reservation_status = 'done' WHERE reservation_id = ?";
+	                    try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
+	                        updateStmt.setInt(1, reservationId);
+	                        updateStmt.executeUpdate();
+	                    }
+	                }
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	 // OVERLOADED METHOD -> showDialog()
+	 	//Method to show alert panel (Success Panel)
+	 	public void showDialog(SuccessPanel panel) {
+	 		
+	 		panel.getBtnConfirm().addActionListener(new ActionListener() {
+	 	    	public void actionPerformed(ActionEvent e) {
+	 	            closeDialog(e);
+	 	    	}
+	 	    });
+	 	    
+	 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
+	 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	 		dialog.getContentPane().add(panel);
+	 		dialog.pack();
+	 		dialog.setLocationRelativeTo(null);
+	 		dialog.setVisible(true);
+
+	 	}
+	 	
+	 	//Method to show alert panel (Malfunction Panel)
+	     public void showDialog(MalfunctionPanel panel) {
+	 		
+	 		panel.getBtnConfirm().addActionListener(new ActionListener() {
+	 	    	public void actionPerformed(ActionEvent e) {
+	 	            closeDialog(e);
+	 	    	}
+	 	    });
+	 	    
+	 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Error", true);
+	         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	         dialog.getContentPane().add(panel);
+	         dialog.pack();
+	         dialog.setLocationRelativeTo(null);
+	         dialog.setVisible(true);
+	 	}
+	     public int showDialog(ConfirmationPanel panel) {
+	 		selectedValue = 0;
+	 		
+	 		panel.getBtnConfirm().addActionListener(new ActionListener() {
+	 	    	public void actionPerformed(ActionEvent e) {
+	 	    		selectedValue = 1; // Set selectedValue to 1 when "OK" is clicked
+	 	            closeDialog(e);
+	 	    	}
+	 	    });
+	 	    panel.getBtnCancel().addActionListener(new ActionListener() {
+	 	    	public void actionPerformed(ActionEvent e) {
+	 	            selectedValue = 2; // Set selectedValue to2 when "Cancel" is clicked
+	 	            closeDialog(e);
+	 	    	}
+	 	    });
+	 	    
+	 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Confirm Log Out", true);
+	         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	         dialog.add(panel);
+	         dialog.pack();
+	         dialog.setLocationRelativeTo(null);
+	         dialog.setVisible(true);
+	 		
+	 		return selectedValue;
+	 	}
+	     
+	     //Method used by showDialog to close the JDialog containing the alert panels
+	 	private void closeDialog(ActionEvent e) {
+	         Component component = (Component) e.getSource();
+	         Window window = SwingUtilities.getWindowAncestor(component);
+	         if (window != null) {
+	             window.dispose();
+	         }
+	     }
 }

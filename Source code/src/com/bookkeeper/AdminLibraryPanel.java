@@ -88,7 +88,7 @@ public class AdminLibraryPanel extends JPanel {
 	//Object
 	private Book selectedBook;
 
- public AdminLibraryPanel() {
+ public AdminLibraryPanel(Setting setting) {
 	setBackground(lightplainColor);
 	setBorder(new EmptyBorder(20, 20, 20, 20));
 	setLayout(new BorderLayout(0, 0));
@@ -213,7 +213,7 @@ public class AdminLibraryPanel extends JPanel {
 		    //Use the selectedBook object as needed
 		    
 		    // Open the BookInfoFrame with the selected book
-		    AdminBookInfoPanel panel = new AdminBookInfoPanel(selectedBook);
+		    AdminBookInfoPanel panel = new AdminBookInfoPanel(selectedBook, setting);
 		    showDialog(panel);
 		    } 
 		}

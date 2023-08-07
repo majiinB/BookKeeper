@@ -829,10 +829,10 @@ public class PatronSettingsPanel extends JPanel {
 	         // Establish database connection
 	     	//Rekta na kasi tinamad mag assign pa ng variables same lang naman kasi db na gagamitin HAHAHAHAA
 	         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
-	         String getQuery = "SELECT b.book_title, bb.borrowed_date, bb.borrow_status" +
+	         String getQuery = "SELECT b.book_title, bb.borrowed_date, bb.borrow_status, bb.borrowed_due_date" +
 	                 " FROM book AS b " +
 	                 "JOIN borrowed_book AS bb ON b.book_id = bb.book_id" +
-	                 " WHERE bb.patron_id = '" + id + "' AND (bb.borrow_status = 'borrowed' OR bb.borrow_status = 'overdue') ORDER BY bb.borrowed_date";
+	                 " WHERE bb.patron_id = '" + id + "' AND (bb.borrow_status = 'out' OR bb.borrow_status = 'overdue') ORDER BY bb.borrowed_date";
 	
 	         // Execute the SQL query
 	         Statement statement = connection.createStatement();
@@ -843,7 +843,7 @@ public class PatronSettingsPanel extends JPanel {
 	         int columnCount = metaData.getColumnCount();
 	
 	         // Create an array to store column names
-	         String[] columnNames ={"Book title", "Date Borrowed", "Status"};
+	         String[] columnNames ={"Book title", "Date Borrowed", "Status", "Due Date"};
 	         
 	
 	         // Set the column names in the table model

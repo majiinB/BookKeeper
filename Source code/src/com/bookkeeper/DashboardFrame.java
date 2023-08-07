@@ -81,7 +81,7 @@ public class DashboardFrame extends JFrame {
 		AdminMenuPanel = new AdminMenuPanel();//menu bar for admin and employees
 
 		//dashboard panels
-		AdminLibraryPanel = new AdminLibraryPanel();//panel for  book-related operations 
+		AdminLibraryPanel = new AdminLibraryPanel(setting);//panel for  book-related operations 
 		AdminReportPanel  = new AdminReportPanel();//panel for showcasing reports regarding the library
 		AdminManagePatronPanel  = new AdminManagePatronPanel();//panel for managing patrons
 		AdminManageEmployeePanel  = new AdminManageEmployeePanel();//panel for managing employees
@@ -125,7 +125,7 @@ public class DashboardFrame extends JFrame {
     	//Action Listeners for admin
     	AdminMenuPanel.getBtnLibrary().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		cardLayout1.show(ContentPanel,"panel1");        		AdminMenuPanel.setBtnLibrary();
+        		cardLayout1.show(ContentPanel,"panel1");      
         		AdminMenuPanel.setBtnLibrary();
         	}
         });
