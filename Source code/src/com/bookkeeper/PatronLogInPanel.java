@@ -293,7 +293,7 @@ public  PatronLogInPanel() {
 					String colStatus ="patron_status";
 					char[] pass = txtPassword.getPassword();
 					String password = new String(pass);
-					String status = "active";
+					String status = "Active";
 					newUser = AuthenticationFrame.loginMethod(trimed, password, table, colemail, colpass, colStatus, status);
 					if (newUser == null && numTries<=3) {
 						// Shield

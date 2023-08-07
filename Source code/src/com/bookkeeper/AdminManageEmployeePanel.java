@@ -181,27 +181,27 @@ public class AdminManageEmployeePanel extends JPanel {
     table.addMouseListener(new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
-//       	 int selectedRow = table.getSelectedRow();
-//            if (selectedRow != -1) {
-//            // Get the values from the selected row
-//            String userID =  (String) table.getValueAt(selectedRow, 0);
-//            String userFname = (String) table.getValueAt(selectedRow, 1);
-//            String userLname = (String) table.getValueAt(selectedRow, 2);
-//            String userEmail = (String) table.getValueAt(selectedRow, 3);
-//            String userContact = (String) table.getValueAt(selectedRow, 4);
-//            String userAddress = (String) table.getValueAt(selectedRow, 5);
-//            String userStatus = (String) table.getValueAt(selectedRow, 6);
-//           
-//            //Create a Book object with the retrieved values
-//            selectedEmployee = new Employee(userID, userFname, userLname,"Employee", userEmail, "N/A", userStatus, userContact, userAddress );
-//           
-//            //Use the selectedBook object as needed
-//            // ...
-//
-//            // Open the BookInfoFrame with the selected book
-//            UserInfoFrame frame = new UserInfoFrame(selectedEmployee);
-//            frame.setVisible(true);
-//            } 
+       	 int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+            // Get the values from the selected row
+            String userID =  (String) table.getValueAt(selectedRow, 0);
+            String userFname = (String) table.getValueAt(selectedRow, 1);
+            String userLname = (String) table.getValueAt(selectedRow, 2);
+            String userEmail = (String) table.getValueAt(selectedRow, 3);
+            String userContact = (String) table.getValueAt(selectedRow, 4);
+            String userAddress = (String) table.getValueAt(selectedRow, 5);
+            String userStatus = (String) table.getValueAt(selectedRow, 6);
+           
+            //Create a Book object with the retrieved values
+            Employee selectedEmployee = new Employee(userID, userFname, userLname,"Employee", userEmail, "Employee", userStatus, userContact, userAddress );
+           
+            //Use the selectedBook object as needed
+            // ...
+
+            // Open the BookInfoFrame with the selected book
+            AdminUserInfoPanel panel = new AdminUserInfoPanel(selectedEmployee);
+            showDialog(panel);
+            } 
         }
     });
     // Create the scroll pane and add the table to it
@@ -459,6 +459,22 @@ protected void paintComponent(Graphics g) {
 
   // showDialog to show signup
   public void showDialog(SignUpPanel panel) {
+		
+		panel.getBtnBack().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	            closeDialog(e);
+	    	}
+	    });
+	    
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+
+	}
+  public void showDialog(AdminUserInfoPanel panel) {
 		
 		panel.getBtnBack().addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {

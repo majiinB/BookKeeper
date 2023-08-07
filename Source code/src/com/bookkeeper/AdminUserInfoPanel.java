@@ -8,6 +8,12 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AdminUserInfoPanel extends JPanel{
 		//panel
@@ -90,12 +96,13 @@ public class AdminUserInfoPanel extends JPanel{
 		private  int subtitleTextSize;
 		private  int headerTextSize;
 		private  int plainTextsize;
+		private int selectedValue;
 		private  Color headerColor = new Color(23, 21, 147);//blue
 		private  Color darkplainColor = new Color(14, 14, 15);//black
 		private  Color lightplainColor = new Color(250, 251, 255);//white
 		private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
-		public AdminUserInfoPanel() {
+		public AdminUserInfoPanel(Employee selectedEmployee) {
 			setBackground(new Color(250, 251, 255));
 		    setBorder(new EmptyBorder(10, 10, 10, 10));
 		    setLayout(new BorderLayout(0, 0));
@@ -170,7 +177,7 @@ public class AdminUserInfoPanel extends JPanel{
 			txtDescription.setDragEnabled(false);
 			txtDescription.setAutoscrolls(false);
 			
-			txtFirstName = new PlaceholderTextField("First Name");
+			txtFirstName = new PlaceholderTextField(selectedEmployee.getFname());
 			txtFirstName.setHorizontalAlignment(SwingConstants.LEFT);
 			txtFirstName.setForeground(darkplainColor);
 			txtFirstName.setBackground(middleplainColor);
@@ -180,7 +187,7 @@ public class AdminUserInfoPanel extends JPanel{
 			txtFirstName.setEditable(false);
 			txtFirstName.setDragEnabled(false);
 			
-			txtLastName = new PlaceholderTextField("Last Name");
+			txtLastName = new PlaceholderTextField(selectedEmployee.getLname());
 			txtLastName.setHorizontalAlignment(SwingConstants.LEFT);
 			txtLastName.setForeground(darkplainColor);
 			txtLastName.setBackground(middleplainColor);
@@ -190,7 +197,7 @@ public class AdminUserInfoPanel extends JPanel{
 			txtLastName.setEditable(false);
 			txtLastName.setDragEnabled(false);
 			
-			txtPatronID = new PlaceholderTextField("AAAAAAAAAAA");
+			txtPatronID = new PlaceholderTextField(selectedEmployee.getEmployee_id());
 			txtPatronID.setBorder(new EmptyBorder(10, 10, 10, 10));
 			txtPatronID.setHorizontalAlignment(SwingConstants.LEFT);
 			txtPatronID.setForeground(darkplainColor);
@@ -200,7 +207,7 @@ public class AdminUserInfoPanel extends JPanel{
 			txtPatronID.setEditable(false);
 			txtPatronID.setDragEnabled(false);
 			
-			txtContactNumber = new PlaceholderTextField("000000000000");
+			txtContactNumber = new PlaceholderTextField(selectedEmployee.getContactNum());
 			txtContactNumber.setHorizontalAlignment(SwingConstants.LEFT);
 			txtContactNumber.setForeground(darkplainColor);
 			txtContactNumber.setBackground(middleplainColor);
@@ -210,7 +217,7 @@ public class AdminUserInfoPanel extends JPanel{
 			txtContactNumber.setEditable(false);
 			txtContactNumber.setDragEnabled(false);
 			
-			txtEmailAdd = new PlaceholderTextField("sample@gmail.com");
+			txtEmailAdd = new PlaceholderTextField(selectedEmployee.getEmail());
 			txtEmailAdd.setHorizontalAlignment(SwingConstants.LEFT);
 			txtEmailAdd.setForeground(darkplainColor);
 			txtEmailAdd.setBackground(middleplainColor);
@@ -220,7 +227,7 @@ public class AdminUserInfoPanel extends JPanel{
 			txtEmailAdd.setEditable(false);
 			txtEmailAdd.setDragEnabled(false);
 			
-			txtAddress = new PlaceholderTextField("House No. / Block No / Street / Brgy. / City");
+			txtAddress = new PlaceholderTextField(selectedEmployee.getAddress());
 			txtAddress.setHorizontalAlignment(SwingConstants.LEFT);
 			txtAddress.setForeground(darkplainColor);
 			txtAddress.setBackground(middleplainColor);
@@ -251,7 +258,7 @@ public class AdminUserInfoPanel extends JPanel{
 			txtSecurityDescription.setAutoscrolls(false);
 
 		
-			lblDisable = new JLabel("Disable User");
+			lblDisable = new JLabel("Disable/Enable User");
 			lblDisable.setEnabled(false);
 			lblDisable.setHorizontalAlignment(SwingConstants.LEFT);
 			lblDisable.setForeground(darkplainColor);
@@ -447,6 +454,30 @@ public class AdminUserInfoPanel extends JPanel{
 
 		          }
 		      });
+		    btnDisable.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String status = selectedEmployee.getStatus();
+					String employeeId = selectedEmployee.getEmployee_id();
+					
+					ConfirmationPanel panel = new ConfirmationPanel("Confirm Change Status","Are you sure you want to change the status of employee " + selectedEmployee.getFname());
+					int flag = showDialog(panel);
+					
+					//Shield
+					if(flag == 2) return;
+					
+					//Else execute
+					if(status.equals("Active")) {
+						updateAdminStatus(employeeId, "Inactive");
+						selectedEmployee.setStatus("Inactive");
+						closeDialog(e);
+					}
+					else {
+						updateAdminStatus(employeeId, "Active");
+						selectedEmployee.setStatus("Active");
+						closeDialog(e);
+					}
+				}
+			});
 		}
 
 		@Override
@@ -467,4 +498,121 @@ public class AdminUserInfoPanel extends JPanel{
 			btnDisable.setIcon(new ImageIcon(buttonscaledImage));
 
 		 }
+		public JButton getBtnBack() {
+			return btnBack;
+		}
+		public void updateAdminStatus(String adminId, String status) {
+	        Connection conn = null;
+	        PreparedStatement stmt = null;
+	        String DB_URL = "jdbc:mysql://localhost/book_keeper";
+	        String USERNAME = "root";
+	        String PASSWORD = "";
+
+	        try {
+	            // Establish the database connection
+	            conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+
+	            String sql = "UPDATE admin SET admin_status = ? WHERE admin_formatted_id = ?";
+
+	            // Prepare the statement
+	            stmt = conn.prepareStatement(sql);
+	            stmt.setString(1, status);
+	            stmt.setString(2, adminId);
+
+	            // Execute the update
+	            int rowsUpdated = stmt.executeUpdate();
+
+	            if (rowsUpdated > 0) {
+	            	SuccessPanel success = new SuccessPanel("Status Update successful","Employee status has been updated");
+	            	showDialog(success);
+	            } else {
+	            	MalfunctionPanel mal = new MalfunctionPanel("Status Update unsuccessful", "Employee status has not been updated");
+	            	showDialog(mal);
+	            }
+
+	        } catch (SQLException e) {
+	            System.err.println("Error updating patron status: " + e.getMessage());
+	        } finally {
+	            // Close the statement and connection
+	            try {
+	                if (stmt != null) {
+	                    stmt.close();
+	                }
+	                if (conn != null) {
+	                    conn.close();
+	                }
+	            } catch (SQLException e) {
+	                System.err.println("Error closing resources: " + e.getMessage());
+	            }
+	        }
+	    }
+		// OVERLOADED METHOD -> showDialog()
+		//Method to show alert panel (Success Panel)
+		public void showDialog(SuccessPanel panel) {
+			
+			panel.getBtnConfirm().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            closeDialog(e);
+		    	}
+		    });
+		    
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.pack();
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
+
+		}
+		
+		//Method to show alert panel (Malfunction Panel)
+	    public void showDialog(MalfunctionPanel panel) {
+			
+			panel.getBtnConfirm().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            closeDialog(e);
+		    	}
+		    });
+		    
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this),"Error", true);
+	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	        dialog.getContentPane().add(panel);
+	        dialog.pack();
+	        dialog.setLocationRelativeTo(null);
+	        dialog.setVisible(true);
+		}
+	    public int showDialog(ConfirmationPanel panel) {
+			selectedValue = 0;
+			
+			panel.getBtnConfirm().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		    		selectedValue = 1; // Set selectedValue to 1 when "OK" is clicked
+		            closeDialog(e);
+		    	}
+		    });
+		    panel.getBtnCancel().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            selectedValue = 2; // Set selectedValue to2 when "Cancel" is clicked
+		            closeDialog(e);
+		    	}
+		    });
+		    
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Confirm Log Out", true);
+	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	        dialog.add(panel);
+	        dialog.pack();
+	        dialog.setLocationRelativeTo(null);
+	        dialog.setVisible(true);
+			
+			return selectedValue;
+		}
+	    
+	    //Method used by showDialog to close the JDialog containing the alert panels
+		private void closeDialog(ActionEvent e) {
+	        Component component = (Component) e.getSource();
+	        Window window = SwingUtilities.getWindowAncestor(component);
+	        if (window != null) {
+	            window.dispose();
+	        }
+	    }
 	}
