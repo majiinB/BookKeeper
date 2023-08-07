@@ -644,6 +644,12 @@ public class AdminUpdateBookPanel extends JPanel{
 					return;
 				}
 				
+				if(selectedBook.getBook_status().equals("Borrowed")) {
+					MalfunctionPanel mal = new MalfunctionPanel("Book Info Update Error", "Cannot change status of a borrowed book");
+					showDialog(mal);
+					return;
+				}
+				
 				
 	            try {
 	            	//Parse aisle and shelf number
