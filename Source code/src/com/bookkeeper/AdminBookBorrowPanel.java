@@ -330,8 +330,9 @@ public class AdminBookBorrowPanel extends JPanel{
                     "FROM patron p " +
                     "JOIN reserved_book r ON p.formatted_id = r.patron_id " +
                     "WHERE r.book_id = ? AND r.reservation_status = 'in que' " +
-                    "ORDER BY r.reservation_date ASC " +
+                    "ORDER BY r.reservation_date, r.reservation_time ASC " +
                     "LIMIT 1";
+            
 
             // Prepare the SQL statement
             preparedStatement = connection.prepareStatement(sqlQuery);
