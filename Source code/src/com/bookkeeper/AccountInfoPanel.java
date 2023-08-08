@@ -115,8 +115,21 @@ public class AccountInfoPanel extends JPanel{
 	private  Color darkplainColor = new Color(14, 14, 15);//black
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
+	private int whoAccessed;
+	Employee employee;
+	User patron;
 	
-	public AccountInfoPanel(User patron, JFrame parent) {
+	public AccountInfoPanel(Object user, JFrame parent) {
+		
+		//Check what object was passed
+		if (user instanceof Employee) {
+            employee = (Employee) user;
+            whoAccessed = 1;
+        } else if (user instanceof User) {
+            patron = (User) user;
+            whoAccessed = 2;
+        }
+		
 		setBackground(new Color(250, 251, 255));
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		setLayout(new BorderLayout(0, 0));
@@ -578,29 +591,52 @@ public class AccountInfoPanel extends JPanel{
 	   	});
 	   	btnName.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		ChangeNamePanel panel = new ChangeNamePanel(patron);
-	    		showDialog(panel);
+		    	if(whoAccessed == 2) {
+		    		ChangeNamePanel panel = new ChangeNamePanel(patron);
+		    		showDialog(panel);
+		    	}else {
+		    		ChangeNamePanel panel = new ChangeNamePanel(employee);
+		    		showDialog(panel);
+		    	}
 	    	}
 	    });
 	   	btnChangePass.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		ChangePassPanel panel = new ChangePassPanel(patron);
-	    		showDialog(panel);
+	    		if(whoAccessed == 2) {
+	    			ChangePassPanel panel = new ChangePassPanel(patron);
+		    		showDialog(panel);
+	    		}else {
+	    			ChangePassPanel panel = new ChangePassPanel(employee);
+		    		showDialog(panel);
+	    		}
 	    	}
 	    });
 	   	btnContactNum.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		ChangeNumPanel panel = new ChangeNumPanel(patron);
-	    		showDialog(panel);
+	    		if(whoAccessed == 2) {
+	    			ChangeNumPanel panel = new ChangeNumPanel(patron);
+		    		showDialog(panel);
+	    		}else {
+	    			ChangeNumPanel panel = new ChangeNumPanel(employee);
+	    			showDialog(panel);
+	    		}
 	    	}
 	    });
 	   	btnAddress.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		ChangeAddPanel panel = new ChangeAddPanel(patron);
-	    		showDialog(panel);
+	    		if(whoAccessed == 2) {
+	    			ChangeAddPanel panel = new ChangeAddPanel(patron);
+		    		showDialog(panel);
+	    		}else{
+	    			ChangeAddPanel panel = new ChangeAddPanel(employee);
+		    		showDialog(panel);
+	    		}
 	    	}
 	    });
 	}
+	
+	//constructor for admin
+	
 	// Methods
 	@Override
 	protected void paintComponent(Graphics g) {

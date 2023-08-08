@@ -924,10 +924,12 @@ public class AdminSettingsPanel extends JPanel {
 	           + btnOptionDetail.getBounds().height);
 	    }
 	});
-	detailPopupMenu.addMouseListener(new MouseAdapter() {
+	optionDetailItem.addMouseListener(new MouseAdapter() {
 	    public void mousePressed(MouseEvent e) {
-	    	//punta info display frame, Account Information
-	    	System.out.println("Clicked UwU");
+	    	JFrame parentFrame = (JFrame) SwingUtilities.windowForComponent(optionDetailItem);
+
+	    	AccountInfoPanel panel = new AccountInfoPanel(employee, parentFrame);
+	    	showDialog(panel);
 	    }
 	});
 	
@@ -937,11 +939,35 @@ public class AdminSettingsPanel extends JPanel {
 	           + btnOptionSystem.getBounds().height);
 	    }
 	});
-	systemPopupMenu.addMouseListener(new MouseAdapter() {
+	optionSystemItem.addMouseListener(new MouseAdapter() {
 	    public void mousePressed(MouseEvent e) {
 	    	//punta info display frame, System Information
 	    	System.out.println("Clicked UwU");
 	    }
 	});
  }
+ public void showDialog(AccountInfoPanel panel) {
+		
+	 panel.getBtnSave().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	            closeDialog(e);
+	    	}
+	    });
+	    
+	JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Change Information", true);
+	dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	dialog.getContentPane().add(panel);
+	dialog.pack();
+	dialog.setLocationRelativeTo(null);
+	dialog.setVisible(true);
+ }
+    
+//Method used by showDialog to close the JDialog containing the alert panels
+private void closeDialog(ActionEvent e) {
+    Component component = (Component) e.getSource();
+    Window window = SwingUtilities.getWindowAncestor(component);
+    if (window != null) {
+        window.dispose();
+    }
+}
 }

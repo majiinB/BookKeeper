@@ -23,6 +23,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class AdminManagePatronPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//panel
 	private JPanel mainPanel;
 	private JPanel contentPanel;
@@ -190,15 +194,13 @@ public class AdminManagePatronPanel extends JPanel {
             String userAddress = (String) table.getValueAt(selectedRow, 5);
             String userStatus = (String) table.getValueAt(selectedRow, 6);
            
-//            //Create a Book object with the retrieved values
-//            selectedUser = new User(userID, userFname, userLname, userEmail, userContact, userAddress, "n/a", userStatus);
-//           
-//            //Use the selectedBook object as needed
-//            // ...
-//
-//            // Open the BookInfoFrame with the selected book
-//            UserInfoFrame frame = new UserInfoFrame(1, selectedUser);
-//            frame.setVisible(true);
+            //Create a Book object with the retrieved values
+            User selectedUser = new User(userID, userFname, userLname, userEmail, userContact, userAddress, "", userStatus, 0, 0, 0) ;
+           
+            // Open the AdminUserInfoPanel with the selected book
+            AdminUserInfoPanel panel = new AdminUserInfoPanel(selectedUser);
+            showDialog(panel);
+            
             }
 		}
 	});
@@ -449,8 +451,25 @@ public String searchQuery(String search) {
          e.printStackTrace();
      }
  }
-//showDialog to show signup
-public void showDialog(SignUpPanel panel) {
+	//showDialog to show signup
+	public void showDialog(SignUpPanel panel) {
+			
+			panel.getBtnBack().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            closeDialog(e);
+		    	}
+		    });
+		    
+			JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.pack();
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
+	
+		}
+	
+	public void showDialog(AdminUserInfoPanel panel) {
 		
 		panel.getBtnBack().addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
@@ -464,15 +483,15 @@ public void showDialog(SignUpPanel panel) {
 		dialog.pack();
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
-
+	
 	}
-
-//Method used by showDialog to close the JDialog containing the alert panels
+	
+	//Method used by showDialog to close the JDialog containing the alert panels
 	private void closeDialog(ActionEvent e) {
-    Component component = (Component) e.getSource();
-    Window window = SwingUtilities.getWindowAncestor(component);
-    if (window != null) {
-        window.dispose();
-    }
+	  Component component = (Component) e.getSource();
+	  Window window = SwingUtilities.getWindowAncestor(component);
+	  if (window != null) {
+	      window.dispose();
+	  }
 }
 }
