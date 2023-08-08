@@ -2,24 +2,31 @@ package com.bookkeeper;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Window;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class SystemInfoPanel extends JPanel{
 	//panel
@@ -116,7 +123,7 @@ public class SystemInfoPanel extends JPanel{
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
-	public SystemInfoPanel() {
+	public SystemInfoPanel(Employee employee, Setting setting) {
 		setBackground(new Color(250, 251, 255));
 	    setBorder(new EmptyBorder(10, 10, 10, 10));
 	    setLayout(new BorderLayout(0, 0));
@@ -511,8 +518,37 @@ public class SystemInfoPanel extends JPanel{
 	  	            lbloverdue.setFont(plainFont);	  	        
 	          }
 	      });
+	    //Action listeners
+	    btnCapacity.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Borrow limit
+				ChangeBorrowLimitPanel panel = new ChangeBorrowLimitPanel(employee, setting);
+				showDialog(panel);
+			}
+		});
+	    btnDuration.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Borrow duration limit
+				ChangeBorrowDurationPanel panel = new ChangeBorrowDurationPanel(employee, setting);
+				showDialog(panel);
+			}
+		});
+	    btnReservation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//No. of reservation limit
+				ChangeReserveLimitPanel panel = new ChangeReserveLimitPanel(employee, setting);
+				showDialog(panel);
+			}
+		});
+	    btnOverdue.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//No. of penalty before disable
+				ChangeOverduePenaltyPanel panel = new ChangeOverduePenaltyPanel(employee, setting);
+				showDialog(panel);
+			}
+		});
 	}
-
+	//Methods
 	@Override
 	 protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
@@ -534,4 +570,76 @@ public class SystemInfoPanel extends JPanel{
 	    btnOverdue.setIcon(new ImageIcon(buttonscaledImage));
 
 	 }
+	public JButton getBtnSave() {
+		return btnSave;
+	}
+	public void showDialog(ChangeBorrowLimitPanel panel) {
+		
+		 panel.getBtnUpdate().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            closeDialog(e);
+		    	}
+		    });
+		    
+		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+	 }
+	public void showDialog(ChangeBorrowDurationPanel panel) {
+		
+		 panel.getBtnUpdate().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            closeDialog(e);
+		    	}
+		    });
+		    
+		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+	 }
+	public void showDialog(ChangeReserveLimitPanel panel) {
+		
+		 panel.getBtnUpdate().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            closeDialog(e);
+		    	}
+		    });
+		    
+		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+	 }
+	public void showDialog(ChangeOverduePenaltyPanel panel) {
+		
+		panel.getBtnUpdate().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		    		closeDialog(e);
+		    	}
+		});
+		    
+		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+	 }
+	    
+	//Method used by showDialog to close the JDialog containing the alert panels
+	private void closeDialog(ActionEvent e) {
+	    Component component = (Component) e.getSource();
+	    Window window = SwingUtilities.getWindowAncestor(component);
+	    if (window != null) {
+	        window.dispose();
+	    }
+	}
 }

@@ -5,9 +5,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class ChangeReserveLimitPanel extends JPanel{
 	//panel
@@ -70,7 +76,7 @@ public class ChangeReserveLimitPanel extends JPanel{
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
-	public ChangeReserveLimitPanel() {
+	public ChangeReserveLimitPanel(Employee employee, Setting setting) {
 		setBackground(new Color(250, 251, 255));
 	    setBorder(new EmptyBorder(10, 10, 10, 10));
 	    setLayout(new BorderLayout(0, 0));
@@ -133,12 +139,15 @@ public class ChangeReserveLimitPanel extends JPanel{
 	    lblReserve.setBorder(null);
 	    lblReserve.setForeground(darkplainColor);
 	    
-	    spinnerReserve = new PlaceholderSpinner(0, 0, 100, 1);
+	    spinnerReserve = new PlaceholderSpinner(setting.getReserve_lim(), 1, 100, 1);
 	    spinnerReserve.setBackground(middleplainColor);
 	    spinnerReserve.setOpaque(true);
 	    spinnerReserve.setFocusable(false);
 	    spinnerReserve.setBorder(null);
 	    spinnerReserve.setBorder(new EmptyBorder(10, 10, 10, 10));
+	    //Disable text edit
+	    JFormattedTextField textField = ((JSpinner.DefaultEditor) spinnerReserve.getEditor()).getTextField();
+        textField.setEditable(false);
 
 //	    PASSWORD
 	    lblCurrentPass = new JLabel("Password");
@@ -306,6 +315,80 @@ public class ChangeReserveLimitPanel extends JPanel{
 	  	        
 	          }
 	      });
+	    btnUpdate.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		String DB_URL = "jdbc:mysql://localhost:3306/book_keeper";
+		        String DB_USERNAME = "root";
+		        String DB_PASSWORD = "";
+		        int reserveLim = (int) spinnerReserve.getValue();
+		        
+		        //Get pass input
+		        char[] currentPass = txtCurrentPass.getPassword();
+		        String CURRENTPASS = new String(currentPass);
+		        
+		        //Encrypt input
+		        String EncryptedCurrent = null;
+		        try {
+					EncryptedCurrent = AuthenticationFrame.encryption(CURRENTPASS);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		        
+		        if(reserveLim == setting.getReserve_lim()) {
+		        	MalfunctionPanel mal = new MalfunctionPanel("Setting Update Error", "This is already the current setting");
+		            showDialog(mal);
+		    		return;
+		        }
+		        if(CURRENTPASS.isBlank() || CURRENTPASS.equals("Password")) {
+		        	MalfunctionPanel mal = new MalfunctionPanel("Setting Update Error", "Password cannot be blank");
+		            showDialog(mal);
+		    		return;
+		        }
+		        if(!EncryptedCurrent.equals(employee.getEmployee_pass())) {
+		        	MalfunctionPanel mal = new MalfunctionPanel("Setting Update Error", "Incorrect Password");
+		            showDialog(mal);
+		    		return;
+		        }
+		        
+		        Connection conn = null;
+		        PreparedStatement stmt = null;
+
+		        try {
+		            conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+		            
+		            //Prepare query
+		            String sql = "UPDATE setting SET reserve_limit = ? WHERE setting_id = 1";
+		            
+		            //Execute update
+		            stmt = conn.prepareStatement(sql);
+		            stmt.setInt(1, reserveLim);
+		            stmt.executeUpdate();
+		            //Update Object
+		            setting.setReserve_lim(reserveLim);
+		            
+		            //Prompt successful update
+		            SuccessPanel success = new SuccessPanel("Setting Change", "Reservation Limit Change Successful");
+		            showDialog(success);
+		            
+		            //Close Frame after update
+		            closeDialog(e);
+		        } catch (SQLException e1) {
+		            e1.printStackTrace();
+		        } finally {
+		            try {
+		                if (stmt != null) {
+		                    stmt.close();
+		                }
+		                if (conn != null) {
+		                    conn.close();
+		                }
+		            } catch (SQLException e2) {
+		                e2.printStackTrace();
+		            }
+		        }
+	    	}
+	    });
 	}
 	@Override
 	 protected void paintComponent(Graphics g) {
@@ -316,4 +399,51 @@ public class ChangeReserveLimitPanel extends JPanel{
 		*/
 
 	 }
+	public JButton getBtnUpdate() {
+		return btnUpdate;
+	}
+	// OVERLOADED METHOD -> showDialog()
+		//Method to show alert panel (Success Panel)
+		public void showDialog(SuccessPanel panel) {
+			
+			panel.getBtnConfirm().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            closeDialog(e);
+		    	}
+		    });
+		    
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.pack();
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
+
+		}
+		
+		//Method to show alert panel (Malfunction Panel)
+	    public void showDialog(MalfunctionPanel panel) {
+			
+			panel.getBtnConfirm().addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		            closeDialog(e);
+		    	}
+		    });
+		    
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this),"Error", true);
+	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	        dialog.getContentPane().add(panel);
+	        dialog.pack();
+	        dialog.setLocationRelativeTo(null);
+	        dialog.setVisible(true);
+		}
+	    
+	    //Method used by showDialog to close the JDialog containing the alert panels
+		private void closeDialog(ActionEvent e) {
+	        Component component = (Component) e.getSource();
+	        Window window = SwingUtilities.getWindowAncestor(component);
+	        if (window != null) {
+	            window.dispose();
+	        }
+	    }
 }

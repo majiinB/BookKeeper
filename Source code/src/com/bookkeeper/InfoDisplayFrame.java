@@ -137,7 +137,7 @@ public class InfoDisplayFrame extends JDialog {
     	mainPanel = new JPanel();//panel to hold all panels
     	//AdminUserInfoPanel = new AdminUserInfoPanel();
     	//AccountInfoPanel = new AccountInfoPanel(patron);
-    	SystemInfoPanel = new SystemInfoPanel();
+    	//SystemInfoPanel = new SystemInfoPanel();
 
 		// Set the layout of panels
 		cardLayout = new CardLayout();

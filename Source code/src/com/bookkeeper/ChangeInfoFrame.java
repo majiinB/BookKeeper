@@ -15,7 +15,7 @@ public class ChangeInfoFrame extends JDialog {
 	private ChangeAddPanel ChangeAddPanel;
 	private ChangeStatPanel ChangeStatPanel;
 	private ChangeAccessPanel ChangeAccessPanel;
-	private ChangeBorowLimitPanel ChangeBorowLimitPanel;
+	//private ChangeBorowLimitPanel ChangeBorowLimitPanel;
 	private ChangeReserveLimitPanel ChangeReserveLimitPanel;
 	private ChangeOverduePenaltyPanel ChangeOverduePenaltyPanel;
 	
