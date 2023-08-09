@@ -514,7 +514,26 @@ protected void paintComponent(Graphics g) {
 	            }
 	            tableModel.addRow(rowData);
 	        }
-	        
+	        table.getColumnModel().getColumn(0).setMinWidth(100);
+ 		    table.getColumnModel().getColumn(0).setMaxWidth(100);
+ 		     
+ 		    table.getColumnModel().getColumn(1).setMinWidth(130);
+ 		    table.getColumnModel().getColumn(1).setMaxWidth(145);
+ 		     
+ 		    table.getColumnModel().getColumn(4).setMinWidth(120);
+ 		    table.getColumnModel().getColumn(4).setMaxWidth(120); 
+ 		     
+ 		    table.getColumnModel().getColumn(6).setMinWidth(140);
+ 		    table.getColumnModel().getColumn(6).setMaxWidth(140); 
+ 		     
+ 		    table.getColumnModel().getColumn(7).setMinWidth(100);
+ 		    table.getColumnModel().getColumn(7).setMaxWidth(100); 
+ 		     
+ 		    table.getColumnModel().getColumn(8).setMinWidth(80);
+ 		    table.getColumnModel().getColumn(8).setMaxWidth(80); 
+ 		     
+ 		    table.getColumnModel().getColumn(9).setMinWidth(80);
+ 		    table.getColumnModel().getColumn(9).setMaxWidth(80);
 
 	        // Close the database connection
 	        resultSet.close();

@@ -389,7 +389,6 @@ public class PatronSettingsPanel extends JPanel {
 	
 	// Setting up history loan table
 
-	
 	historyLoanTableModel = new DefaultTableModel();
 	historyLoanTable = new JTable(historyLoanTableModel) {
     	/**

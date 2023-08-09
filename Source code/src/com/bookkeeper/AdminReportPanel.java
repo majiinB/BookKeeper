@@ -7,6 +7,15 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -334,7 +343,7 @@ public class AdminReportPanel extends JPanel {
 	    lblActiveUser = new JLabel("Active Users");
 		lblActiveUser.setOpaque(false);
 
-		txtActiveUser = new PlaceholderTextField("000");
+		txtActiveUser = new PlaceholderTextField(Integer.toString(getCountOfUser()));
 		txtActiveUser.setFocusable(false);
 		txtActiveUser.setEditable(false);
 		txtActiveUser.setOpaque(false);
@@ -345,7 +354,7 @@ public class AdminReportPanel extends JPanel {
 		lblReserveBook = new JLabel("Books Reserved");
 		lblReserveBook.setOpaque(false);
 
-		txtReserveBook = new PlaceholderTextField("000");
+		txtReserveBook = new PlaceholderTextField(Integer.toString(getCountOfReserved()));
 		txtReserveBook.setFocusable(false);
 		txtReserveBook.setEditable(false);
 		txtReserveBook.setOpaque(false);
@@ -356,7 +365,7 @@ public class AdminReportPanel extends JPanel {
 		lblLoan = new JLabel("Books Loaned");
 		lblLoan.setOpaque(false);
 
-		txtLoan = new PlaceholderTextField("000");
+		txtLoan = new PlaceholderTextField(Integer.toString(getCountOfBorrowed()));
 		txtLoan.setFocusable(false);
 		txtLoan.setEditable(false);
 		txtLoan.setOpaque(false);
@@ -367,7 +376,7 @@ public class AdminReportPanel extends JPanel {
 		lblReturnBook = new JLabel("Books Returned");
 		lblReturnBook.setOpaque(false);
 
-		txtReturnBook = new PlaceholderTextField("000");
+		txtReturnBook = new PlaceholderTextField(Integer.toString(getCountOfReturned()));
 		txtReturnBook.setFocusable(false);
 		txtReturnBook.setEditable(false);
 		txtReturnBook.setOpaque(false);
@@ -378,7 +387,7 @@ public class AdminReportPanel extends JPanel {
 		lblBookCopy = new JLabel("Book Copies");
 		lblBookCopy.setOpaque(false);
 
-		txtBookCopy = new PlaceholderTextField("000");
+		txtBookCopy = new PlaceholderTextField(Integer.toString(getCountOfBooks()));
 		txtBookCopy.setFocusable(false);
 		txtBookCopy.setEditable(false);
 		txtBookCopy.setOpaque(false);
@@ -392,10 +401,28 @@ public class AdminReportPanel extends JPanel {
 		//create line chart 
 	    createLineChart = new CreateLineChart("","Months","Number of Books");
 	    
-	    // fixed values for now 
-	    int[] reserved = {0,5,0,3,0,2,0,3,0,4,0,2};
-	    int[] borrowed = {0,0,0,0,0,0,0,0,0,0,0,0};
-	    int[] returned = {0,0,6,0,1,0,0,0,9,0,0,0};
+	    // Values for line chart
+	    //loop for reserved
+	    int[] reserved = new int[12];
+
+	    for (int month = 1; month <= 12; month++) {
+	        reserved[month - 1] = getCountOfReservedLine(month);
+	    }
+	    
+	    //loop for borrowed
+	    int[] borrowed = new int[12];
+
+	    for (int month = 1; month <= 12; month++) {
+	        borrowed[month - 1] = getCountOfBorrowedLine(month);
+	    }
+	    
+	    //loop for returned
+	    int[] returned = new int[12];
+
+	    for (int month = 1; month <= 12; month++) {
+	        returned[month - 1] = getCountOfReturnedLine(month);
+	    }
+
 	    String[] monthsArray = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 	    String[] seriesArray = {"Reserved","Borrowed","Returned"};
 	    Color linecolor[] = { new Color(182, 32, 68), new Color(11, 130, 87), new Color(23, 21, 147)};
@@ -496,18 +523,46 @@ public class AdminReportPanel extends JPanel {
 		//create line chart 
 	    createPieChart = new CreatePieChart("");
 
-	    // fixed values for now 
-		int[] copyArrray = {11,51,60,3,10,21,31,13,10,41,20,22,14,10,30};
+	    // Values for pie chart
+	    //Names of genre
 		String[] genresArray = {"Classic", "Dystopian", "Epic Poetry", "Fantasy", "Fiction", "Gothic Fiction", 
-				"Historical Fiction", "Horror", "Mystery", "Novel", "Science", "Science Fiction", "Survival", 
+				"Historical Fiction", "Horror", "Mystery", "Novel","Non-Fiction", "Romance", "Science", "Science Fiction", "Survival", 
 				"Thriller", "Young Adult"};
-		Color piecolor[] = {new Color(11, 130, 87), new Color(182, 32, 68), new Color(23, 21, 147),
-				new Color(245, 143, 26), new Color(184, 124, 19),new Color(118, 61, 25),new Color(5, 92, 136),
-				new Color(118, 19, 107),new Color(235, 59, 146), new Color(183, 134, 132),new Color(184, 43, 83),
-				new Color(88, 89, 128),new Color(5, 81, 26),new Color(146, 25, 5),new Color(80, 150, 142)};
+		
+		//Initialize copy array 
+		int[] copyArray = new int[genresArray.length];
+		
+		//loop to assign the values
+		for (int i = 0; i < genresArray.length; i++) {
+	        String genre = genresArray[i];
+	        int count = countGenreInTable(genre); // Call the method to get the count
+	        copyArray[i] = count; // Assign the count to the corresponding index
+	    }
+		
+		Color piecolor[] = {
+			    new Color(11, 130, 87),
+			    new Color(182, 32, 68),
+			    new Color(23, 21, 147),
+			    new Color(245, 143, 26),
+			    new Color(184, 124, 19),
+			    new Color(118, 61, 25),
+			    new Color(5, 92, 136),
+			    new Color(118, 19, 107),
+			    new Color(235, 59, 146),
+			    new Color(183, 134, 132),
+			    new Color(184, 43, 83),
+			    new Color(88, 89, 128),
+			    new Color(5, 81, 26),
+			    new Color(146, 25, 5),
+			    new Color(80, 150, 142),
+			    new Color(100, 200, 50),   
+			    new Color(70, 110, 190)   
+		};
+;
 		   
-	    //add datas into line chart
-	    createPieChart.addData(genresArray, copyArrray);
+	    
+		//add datas into line chart
+	    createPieChart.addData(genresArray, copyArray);
 
 	    //set chart properties 
 	    createPieChart.setSectionPaint(genresArray, piecolor);
@@ -540,7 +595,7 @@ public class AdminReportPanel extends JPanel {
 	        legendItemPanel.setOpaque(false);
 	        legendItemPanel.setLayout(new BorderLayout(10,0));
 	        
-	        lblLegend = new JLabel(genresArray[i] + " - " + copyArrray[i] + " copies");
+	        lblLegend = new JLabel(genresArray[i] + " - " + copyArray[i] + " copies");
 	        lblLegend.setFont(legendFont);
 	        
 	        square = new JPanel();
@@ -612,6 +667,9 @@ public class AdminReportPanel extends JPanel {
 		bookLoanedScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		bookLoanedScrollPane.setViewportView(bookLoanTable);
 	    
+		//call method to display loaned books
+		displayLoanedBooks();
+		
 		//overdue book table
 		lblBookOverdue = new JLabel("Books Overdue");
 		lblBookOverdue.setOpaque(false);
@@ -644,6 +702,8 @@ public class AdminReportPanel extends JPanel {
 		overdueScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		overdueScrollPane.setViewportView(overdueTable);
 		
+		//Call method to display overdue 
+		displayOverdueBooks();
 	    //gridbag layouts 
 		
 		gbl_mainPanel = new GridBagLayout();
@@ -1026,5 +1086,400 @@ public class AdminReportPanel extends JPanel {
 			return label;
 		}
 	}
-	
+	//Methods for table
+	private void displayLoanedBooks() {
+	    try {
+	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+	        String getQuery = "SELECT b.book_id, b.book_title, p.formatted_id, CONCAT(p.patron_fname, ' ', p.patron_lname) AS patron_name, bb.borrowed_date, bb.borrowed_due_date " +
+	                          "FROM book AS b " +
+	                          "JOIN borrowed_book AS bb ON b.book_id = bb.book_id " +
+	                          "JOIN patron AS p ON bb.patron_id = p.formatted_id " +
+	                          "WHERE bb.borrow_status = 'out' ORDER BY bb.borrowed_date, borrow_time DESC";
+
+	        Statement statement = connection.createStatement();
+	        ResultSet resultSet = statement.executeQuery(getQuery);
+
+	        ResultSetMetaData metaData = resultSet.getMetaData();
+	        int columnCount = metaData.getColumnCount();
+
+	        String[] columnNames = {"Book ID", "Book Title", "Patron ID", "Patron Name", "Date Borrowed", "Due Date"};
+
+	        bookLoanTableModel.setColumnIdentifiers(columnNames);
+
+	        while (resultSet.next()) {
+	            Object[] rowData = new Object[columnCount];
+	            for (int i = 1; i <= columnCount; i++) {
+	                rowData[i - 1] = resultSet.getObject(i);
+	            }
+	            bookLoanTableModel.addRow(rowData);
+	        }
+
+	        resultSet.close();
+	        statement.close();
+	        connection.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	private void displayOverdueBooks() {
+	    try {
+	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+	        String getQuery = "SELECT b.book_id, b.book_title, p.formatted_id, CONCAT(p.patron_fname, ' ', p.patron_lname) AS patron_name, bb.borrowed_date, bb.borrowed_due_date " +
+	                          "FROM book AS b " +
+	                          "JOIN borrowed_book AS bb ON b.book_id = bb.book_id " +
+	                          "JOIN patron AS p ON bb.patron_id = p.formatted_id " +
+	                          "WHERE bb.borrow_status = 'overdue' ORDER BY bb.borrowed_date, borrow_time DESC";
+
+	        Statement statement = connection.createStatement();
+	        ResultSet resultSet = statement.executeQuery(getQuery);
+
+	        ResultSetMetaData metaData = resultSet.getMetaData();
+	        int columnCount = metaData.getColumnCount();
+
+	        String[] columnNames = {"Book ID", "Book Title", "Patron ID", "Patron Name", "Date Borrowed", "Due Date"};
+
+	        overdueTableModel.setColumnIdentifiers(columnNames);
+
+	        while (resultSet.next()) {
+	            Object[] rowData = new Object[columnCount];
+	            for (int i = 1; i <= columnCount; i++) {
+	                rowData[i - 1] = resultSet.getObject(i);
+	            }
+	            overdueTableModel.addRow(rowData);
+	        }
+
+	        resultSet.close();
+	        statement.close();
+	        connection.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	//Method for line chart
+	public static int getCountOfReturnedLine(int month) {
+	    Connection conn = null;
+	    int count = 0;
+	    try {
+	        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+	        // Get the current year
+	        int year = YearMonth.now().getYear();
+
+	        // Prepare the SQL query
+	        String query = "SELECT COUNT(*) FROM borrowed_book WHERE MONTH(borrowed_date) = ? AND YEAR(borrowed_date) = ? AND borrow_status = 'returned' ";
+	        PreparedStatement stmt = conn.prepareStatement(query);
+	        stmt.setInt(1, month);
+	        stmt.setInt(2, year);
+
+	        // Execute the query and get the count
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            count = rs.getInt(1);
+	        }
+
+	        // Close the resources
+	        rs.close();
+	        stmt.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        if (conn != null) {
+	            try {
+	                conn.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	    
+	    return count;
+	}
+	public static int getCountOfBorrowedLine(int month) {
+	    Connection conn = null;
+	    int count = 0;
+	    try {
+	        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+	        // Get the current year
+	        int year = YearMonth.now().getYear();
+
+	        // Prepare the SQL query
+	        String query = "SELECT COUNT(*) FROM borrowed_book WHERE MONTH(borrowed_date) = ? AND YEAR(borrowed_date) = ?";
+	        PreparedStatement stmt = conn.prepareStatement(query);
+	        stmt.setInt(1, month);
+	        stmt.setInt(2, year);
+
+	        // Execute the query and get the count
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            count = rs.getInt(1);
+	        }
+
+	        // Close the resources
+	        rs.close();
+	        stmt.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        if (conn != null) {
+	            try {
+	                conn.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	    
+	    return count;
+	}
+	public static int getCountOfReservedLine(int month) {
+	    Connection conn = null;
+	    int count = 0;
+	    try {
+	        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+	        // Get the current year
+	        int year = LocalDate.now().getYear();
+
+	        // Prepare the SQL query
+	        String query = "SELECT COUNT(*) FROM reserved_book WHERE MONTH(reservation_date) = ? AND YEAR(reservation_date) = ? ";
+	        PreparedStatement stmt = conn.prepareStatement(query);
+	        stmt.setInt(1, month);
+	        stmt.setInt(2, year);
+
+	        // Execute the query and get the count
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            count = rs.getInt(1);
+	        }
+
+	        // Close the resources
+	        rs.close();
+	        stmt.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        if (conn != null) {
+	            try {
+	                conn.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	    
+	    return count;
+	}
+		// Method to count borrowed books for the month
+		public int getCountOfBorrowed() {
+	        Connection conn = null;
+	        int count = 0;
+	        try {
+	            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+	            
+	            // Get the current month and year
+	            YearMonth currentMonth = YearMonth.now();
+	            int year = currentMonth.getYear();
+	            int month = currentMonth.getMonthValue();
+
+	            // Prepare the SQL query
+	            String query = "SELECT COUNT(*) FROM borrowed_book WHERE MONTH(borrowed_date) = ? AND YEAR(borrowed_date) = ?";
+	            PreparedStatement stmt = conn.prepareStatement(query);
+	            stmt.setInt(1, month);
+	            stmt.setInt(2, year);
+
+	            // Execute the query and get the count
+	            ResultSet rs = stmt.executeQuery();
+	            if (rs.next()) {
+	                count = rs.getInt(1);
+	            }
+
+	            // Close the resources
+	            rs.close();
+	            stmt.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (conn != null) {
+	                try {
+	                    conn.close();
+	                } catch (SQLException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        }
+	        
+	        return count;
+	    }
+		// Method that counts the number of books
+		public static int getCountOfBooks() {
+	        Connection conn = null;
+	        int count = 0;
+	        try {
+	            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+	            
+	            // Prepare the SQL query
+	            String query = "SELECT COUNT(*) FROM book";
+	            PreparedStatement stmt = conn.prepareStatement(query);
+
+	            // Execute the query and get the count
+	            ResultSet rs = stmt.executeQuery();
+	            if (rs.next()) {
+	                count = rs.getInt(1);
+	            }
+
+	            // Close the resources
+	            rs.close();
+	            stmt.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (conn != null) {
+	                try {
+	                    conn.close();
+	                } catch (SQLException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        }
+	        
+	        return count;
+	    }
+		// Method that counts the number of books
+			public static int getCountOfUser() {
+		        Connection conn = null;
+		        int count = 0;
+		        try {
+		            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+		            
+		            // Prepare the SQL query
+		            String query = "SELECT COUNT(*) FROM patron WHERE patron_status = 'Active'";
+		            PreparedStatement stmt = conn.prepareStatement(query);
+
+		            // Execute the query and get the count
+		            ResultSet rs = stmt.executeQuery();
+		            if (rs.next()) {
+		                count = rs.getInt(1);
+		            }
+
+		            // Close the resources
+		            rs.close();
+		            stmt.close();
+		        } catch (SQLException e) {
+		            e.printStackTrace();
+		        } finally {
+		            if (conn != null) {
+		                try {
+		                    conn.close();
+		                } catch (SQLException e) {
+		                    e.printStackTrace();
+		                }
+		            }
+		        }
+		        
+		        return count;
+		    }
+	    public static int countGenreInTable(String genre) {
+	        // SQL query
+	        String query = "SELECT COUNT(*) AS genre_count " +
+	                "FROM book" +
+	                " WHERE genre_name LIKE ?";
+
+	        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+	             PreparedStatement statement = connection.prepareStatement(query)) {
+
+	            statement.setString(1, genre); // Set the genre as a parameter in the query
+	            ResultSet resultSet = statement.executeQuery();
+
+	            if (resultSet.next()) {
+	                return resultSet.getInt("genre_count");
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return 0; // Return 0 if an error occurs or no result is found
+	    }
+	    public static int getCountOfReserved() {
+	        Connection conn = null;
+	        int count = 0;
+	        try {
+	        	
+	        	YearMonth currentMonth = YearMonth.now();
+	            int year = currentMonth.getYear();
+	            int month = currentMonth.getMonthValue();
+	            
+	            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+	            
+	            // Prepare the SQL query
+	            String query = "SELECT COUNT(*) FROM reserved_book WHERE MONTH(reservation_date) = ? AND YEAR(reservation_date) = ?";
+	            PreparedStatement stmt = conn.prepareStatement(query);
+	            stmt.setInt(1, month);
+	            stmt.setInt(2, year);
+
+	            // Execute the query and get the count
+	            ResultSet rs = stmt.executeQuery();
+	            if (rs.next()) {
+	                count = rs.getInt(1);
+	            }
+
+	            // Close the resources
+	            rs.close();
+	            stmt.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (conn != null) {
+	                try {
+	                    conn.close();
+	                } catch (SQLException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        }
+	        
+	        return count;
+	    }
+	    public static int getCountOfReturned() {
+	    	Connection conn = null;
+	        int count = 0;
+	        try {
+	            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+	            
+	            // Get the current month and year
+	            YearMonth currentMonth = YearMonth.now();
+	            int year = currentMonth.getYear();
+	            int month = currentMonth.getMonthValue();
+
+	            // Prepare the SQL query
+	            String query = "SELECT COUNT(*) FROM borrowed_book WHERE MONTH(returned_date) = ? AND YEAR(returned_date) = ? AND borrow_status = 'returned'";
+	            PreparedStatement stmt = conn.prepareStatement(query);
+	            stmt.setInt(1, month);
+	            stmt.setInt(2, year);
+
+	            // Execute the query and get the count
+	            ResultSet rs = stmt.executeQuery();
+	            if (rs.next()) {
+	                count = rs.getInt(1);
+	            }
+
+	            // Close the resources
+	            rs.close();
+	            stmt.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (conn != null) {
+	                try {
+	                    conn.close();
+	                } catch (SQLException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        }
+	        
+	        return count;
+	    }
+	    
 }
