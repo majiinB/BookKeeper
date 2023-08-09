@@ -697,7 +697,7 @@ public void updateBookStatusAndBorrowStatus(int bookId) {
         updateBookStatusStmt.executeUpdate();
 
         // Update borrow_status and returned_date in the borrowed_book table for the latest borrowed record with the given book_id
-        String updateBorrowStatusQuery = "UPDATE borrowed_book SET borrow_status = 'returned', returned_date = ? WHERE book_id = ? " +
+        String updateBorrowStatusQuery = "UPDATE borrowed_book SET borrow_status = 'Returned', returned_date = ? WHERE book_id = ? " +
                                          "AND borrow_id = (SELECT borrow_id FROM borrowed_book WHERE book_id = ? ORDER BY borrowed_date DESC LIMIT 1)";
         PreparedStatement updateBorrowStatusStmt = conn.prepareStatement(updateBorrowStatusQuery);
 

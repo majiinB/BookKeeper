@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
@@ -58,19 +59,13 @@ public class AuthenticationFrame extends JFrame {
 	private int selectedValue;
 	
 	public static void main(String[] args) {
-		/*updateOverdueBooks();*/
+		updateOverdueBooksAndPenalties();
+		checkPenaltyLimits();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					@SuppressWarnings("unused")
 					AuthenticationFrame frame = new AuthenticationFrame();	
-					
-					//need ko lng makita marun ung frame mehe
-//					AlertFrame frame = new AlertFrame();	
-//					DashboardFrame frame = new DashboardFrame();	
-//					InfoDisplayFrame frame = new InfoDisplayFrame();	
-//					ChangeInfoFrame frame = new ChangeInfoFrame();	
-
 				} catch (Exception e) {
 					e.printStackTrace(); 
 				}
@@ -294,41 +289,120 @@ public class AuthenticationFrame extends JFrame {
   		     
   			return null;
   		}
-  		
-  		public static void updateOverdueBooks() {
-  	        try {
-  	            // Establish database connection
-  	            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+  		public static void checkPenaltyLimits() {
+  		    try {
+  		        // Establish database connection
+  		        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
 
-  	            // Get the current date
-  	            LocalDate currentDate = LocalDate.now();
+  		        // Prepare the SQL query to retrieve patron IDs, penalties, and penalty limits
+  		        String query = "SELECT formatted_id, penalty, penalty_limit " +
+  		                       "FROM patron " +
+  		                       "JOIN setting ON penalty >= penalty_limit";
 
-  	            // Prepare the SQL statement
-  	            String query = "UPDATE book " +
-  	                           "SET book_status = 'Overdue' " +
-  	                           "WHERE book_status = 'Checked out' " +
-  	                           "AND book_id IN ( " +
-  	                           "    SELECT book_id " +
-  	                           "    FROM borrowed_book " +
-  	                           "    WHERE borrowed_due_date < ? " +
-  	                           ")";
+  		        // Prepare the statement
+  		        PreparedStatement statement = connection.prepareStatement(query);
 
-  	            // Prepare the statement
-  	            PreparedStatement statement = connection.prepareStatement(query);
-  	            statement.setDate(1, java.sql.Date.valueOf(currentDate));
+  		        // Execute the query and get the result
+  		        ResultSet resultSet = statement.executeQuery();
+  		        
+  		        // Iterate through the results and update patron_status
+  		        while (resultSet.next()) {
+  		            String patronId = resultSet.getString("formatted_id");
+  		            int patronPenalty = resultSet.getInt("penalty");
+  		            int penaltyLimit = resultSet.getInt("penalty_limit");
+  		            
+  		            if (patronPenalty >= penaltyLimit) {
+  		                // Update the patron_status to "inactive"
+  		                String updateQuery = "UPDATE patron " +
+  		                                    "SET patron_status = 'Inactive' " +
+  		                                    "WHERE formatted_id = ? AND patron_status = 'Active'";
+  		                
+  		                PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+  		                updateStatement.setString(1, patronId);
+  		                updateStatement.executeUpdate();
+  		                
+  		                // Close the update statement
+  		                updateStatement.close();
+  		            }
+  		        }
+  		        System.out.println("Checking penalties done");
 
-  	            // Execute the query
-  	            statement.executeUpdate();
+  		        // Close the resources
+  		        resultSet.close();
+  		        statement.close();
+  		        connection.close();
+  		        
+  		    } catch (SQLException e) {
+  		        e.printStackTrace();
+  		    }
+  		}
 
-  	            // Close the database connection
-  	            statement.close();
-  	            connection.close();
+  		public static void updateOverdueBooksAndPenalties() {
+  		    try {
+  		        // Establish database connection
+  		        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
 
-  	            System.out.println("Updated overdue books successfully.");
-  	        } catch (SQLException e) {
-  	            e.printStackTrace();
-  	        }
-  	    }
+  		        // Get the current date
+  		        LocalDate currentDate = LocalDate.now();
+
+  		        // Prepare the SQL statement to update borrowed_book
+  		        String updateBorrowedBookQuery = "UPDATE borrowed_book " +
+  		                                         "SET borrow_status = 'Overdue' " +
+  		                                         "WHERE borrow_status = 'Out' " +
+  		                                         "AND borrowed_due_date < ? ";
+
+  		        // Prepare the statement for borrowed_book
+  		        PreparedStatement updateBorrowedBookStatement = connection.prepareStatement(updateBorrowedBookQuery);
+  		        updateBorrowedBookStatement.setDate(1, java.sql.Date.valueOf(currentDate));
+  		        
+  		        // Execute the update for borrowed_book
+  		        int updatedRows = updateBorrowedBookStatement.executeUpdate();
+  		        
+  		        // Update patron penalties for overdue books
+  		        if (updatedRows > 0) {
+  		        	String updatePatronPenaltyQuery = "UPDATE patron SET penalty = penalty + 1 "
+  		        			+ "WHERE formatted_id IN ( SELECT DISTINCT patron_id FROM borrowed_book "
+  		        			+ "WHERE borrow_status = 'Overdue' AND penalizedOrNot = 'No' AND "
+  		        			+ "borrowed_due_date < ? )";
+            
+  		            // Prepare the statement for updating patron penalties
+  		            PreparedStatement updatePatronPenaltyStatement = connection.prepareStatement(updatePatronPenaltyQuery);
+  		            updatePatronPenaltyStatement.setDate(1, java.sql.Date.valueOf(currentDate));
+  		            
+  		            // Execute the update for patron penalties
+  		            int updatedRows2 = updatePatronPenaltyStatement.executeUpdate();
+  		            
+  		            if(updatedRows2 > 0) {
+  		            	String updateBorrowedBookQueryAgain = "UPDATE borrowed_book " +
+                                  "SET penalizedOrNot = 'Yes' " +
+                                  "WHERE penalizedOrNot = 'No' " +
+                                  "AND borrowed_due_date < ? ";
+  		            	
+  		            	PreparedStatement updateBorrowedBookStatementAgain = connection.prepareStatement(updateBorrowedBookQueryAgain);
+  		            	updateBorrowedBookStatementAgain.setDate(1, java.sql.Date.valueOf(currentDate));
+  	  		            
+  	  		            //Execute Update
+  	  		            updateBorrowedBookStatementAgain.executeUpdate();
+  	  		            
+  	  		            //Close connection
+  	  		            updateBorrowedBookStatementAgain.close();
+  		            }
+  		            
+  		            //Close connection
+  		            updatePatronPenaltyStatement.close();
+  		        }
+  		        
+  		        // Close the database connection
+  		        updateBorrowedBookStatement.close();
+  		        connection.close();
+
+  		        System.out.println("Updated overdue books and patron penalties successfully.");
+  		    } catch (SQLException e) {
+  		        e.printStackTrace();
+  		    }
+  		}
+
+
   	//Methods to get layout and panel
   	public CardLayout getLayout() {
   		return cardLayout;

@@ -494,7 +494,7 @@ public class AdminBookBorrowPanel extends JPanel{
 	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
 
 	        // Prepare the SQL statement for inserting the borrowed book
-	        String insertQuery = "INSERT INTO borrowed_book (book_id, patron_id, borrowed_date, borrowed_due_date, borrow_status, borrow_time) VALUES (?, ?, ?, ?, ?, CURRENT_TIME)";
+	        String insertQuery = "INSERT INTO borrowed_book (book_id, patron_id, borrowed_date, borrowed_due_date, borrow_status, borrow_time, penalizedOrNot) VALUES (?, ?, ?, ?, ?, CURRENT_TIME, ?)";
 	        PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
 	        insertStatement.setInt(1, bookId); 
 	        insertStatement.setString(2, patronId);
@@ -508,7 +508,8 @@ public class AdminBookBorrowPanel extends JPanel{
 	        insertStatement.setDate(4, java.sql.Date.valueOf(dueDate));
 	        
 	        // Set status
-	        insertStatement.setString(5, "out");
+	        insertStatement.setString(5, "Out");
+	        insertStatement.setString(6, "No");
 
 	        // Execute the insert query
 	        insertStatement.executeUpdate();

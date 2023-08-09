@@ -838,7 +838,7 @@ public class AdminUserInfoPanel extends JPanel{
 					String status = selectedPatron.getUser_status();
 					String patronId = selectedPatron.getUser_id();
 					
-					ConfirmationPanel panel = new ConfirmationPanel("Confirm Change Status","Are you sure you want to change the status of patron " + selectedPatron.getUser_fname());
+					ConfirmationPanel panel = new ConfirmationPanel("Confirm Change Status","Are you sure you want to change the status of this patron\nNOTE:Enabling ang account of patron will reset their penalty count to ZERO " + selectedPatron.getUser_fname());
 					int flag = showDialog(panel);
 					
 					//Shield
@@ -852,6 +852,8 @@ public class AdminUserInfoPanel extends JPanel{
 					}
 					else {
 						updateAdminAndPatronStatus(patronId, "Active", "patron", "patron_status", "formatted_id");
+						resetPenalty(patronId);
+						selectedPatron.setUser_penalty(0);
 						selectedPatron.setUser_status("Active");
 						closeDialog(e);
 					}
@@ -926,6 +928,38 @@ public class AdminUserInfoPanel extends JPanel{
 	            }
 	        }
 	    }
+		public static void resetPenalty(String patronId) {
+		    try {
+		        // Establish database connection
+		        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
+
+		        // Prepare the SQL query to update penalty
+		        String query = "UPDATE patron " +
+		                       "SET penalty = 0 " +
+		                       "WHERE formatted_id = ?";
+
+		        // Prepare the statement
+		        PreparedStatement statement = connection.prepareStatement(query);
+		        statement.setString(1, patronId);
+
+		        // Execute the update query
+		        int rowsUpdated = statement.executeUpdate();
+
+		        if (rowsUpdated > 0) {
+		            System.out.println("Penalty for patron " + patronId + " has been reset to zero.");
+		        } else {
+		            System.out.println("No patron with ID " + patronId + " found.");
+		        }
+
+		        // Close the resources
+		        statement.close();
+		        connection.close();
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		}
+
 		// OVERLOADED METHOD -> showDialog()
 		//Method to show alert panel (Success Panel)
 		public void showDialog(SuccessPanel panel) {

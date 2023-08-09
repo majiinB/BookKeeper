@@ -525,9 +525,25 @@ public class AdminReportPanel extends JPanel {
 
 	    // Values for pie chart
 	    //Names of genre
-		String[] genresArray = {"Classic", "Dystopian", "Epic Poetry", "Fantasy", "Fiction", "Gothic Fiction", 
-				"Historical Fiction", "Horror", "Mystery", "Novel","Non-Fiction", "Romance", "Science", "Science Fiction", "Survival", 
-				"Thriller", "Young Adult"};
+		String[] genresArray = {
+				"Classic", 
+				"Dystopian", 
+				"Epic Poetry", 
+				"Fantasy", 
+				"Fiction", 
+				"Gothic Fiction", 
+				"Historical Fiction", 
+				"Horror", 
+				"Mystery", 
+				"Novel",
+				"Non-Fiction", 
+				"Romance", 
+				"Science", 
+				"Science Fiction", 
+				"Survival", 
+				"Thriller", 
+				"Young Adult"
+				};
 		
 		//Initialize copy array 
 		int[] copyArray = new int[genresArray.length];
@@ -555,12 +571,10 @@ public class AdminReportPanel extends JPanel {
 			    new Color(5, 81, 26),
 			    new Color(146, 25, 5),
 			    new Color(80, 150, 142),
-			    new Color(100, 200, 50),   
-			    new Color(70, 110, 190)   
+			    new Color(100, 200, 50),  
+			    new Color(70, 110, 190)
 		};
-;
-		   
-	    
+		  
 		//add datas into line chart
 	    createPieChart.addData(genresArray, copyArray);
 
@@ -1128,7 +1142,7 @@ public class AdminReportPanel extends JPanel {
 	                          "FROM book AS b " +
 	                          "JOIN borrowed_book AS bb ON b.book_id = bb.book_id " +
 	                          "JOIN patron AS p ON bb.patron_id = p.formatted_id " +
-	                          "WHERE bb.borrow_status = 'overdue' ORDER BY bb.borrowed_date, borrow_time DESC";
+	                          "WHERE bb.borrow_status = 'Overdue' ORDER BY bb.borrowed_date, borrow_time DESC";
 
 	        Statement statement = connection.createStatement();
 	        ResultSet resultSet = statement.executeQuery(getQuery);

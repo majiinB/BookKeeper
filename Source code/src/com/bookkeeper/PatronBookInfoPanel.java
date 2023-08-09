@@ -495,7 +495,7 @@ public class PatronBookInfoPanel extends JPanel{
 		
 				
 				// Check if user is already at limit
-				if(patron.getUser_num_reserved() == setting.getReserve_lim()) {
+				if(patron.getUser_num_reserved() >= setting.getReserve_lim()) {
 					MalfunctionPanel mal = new MalfunctionPanel("Reservation Error", "Apologies, but you have already reached the maximum limit for reserving books");
 					showDialog(mal);
 					return;
