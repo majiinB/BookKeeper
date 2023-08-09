@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 09, 2023 at 04:23 AM
+-- Generation Time: Aug 06, 2023 at 06:52 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -36,7 +36,7 @@ CREATE TABLE `admin` (
   `admin_password` varchar(50) NOT NULL,
   `admin_status` varchar(20) NOT NULL,
   `admin_contact` varchar(11) NOT NULL,
-  `admin_address` varchar(200) NOT NULL,
+  `admin_address` varchar(50) NOT NULL,
   `admin_formatted_id` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -45,14 +45,10 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`admin_id`, `admin_fname`, `admin_lname`, `admin_email`, `admin_position`, `admin_password`, `admin_status`, `admin_contact`, `admin_address`, `admin_formatted_id`) VALUES
-(11, 'Arthur', 'Artugue', 'arthur@gmail.com', 'Admin', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', '09953653123', 'Blk 8 lot 6a, Gladiola St., Barangay Cuyab, San Pedro City', 'bkad-00000011'),
+(11, 'Arthur', 'Artugue', 'arthur@gmail.com', 'Admin', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', '09150980561', 'San Pedro Laguna', 'bkad-00000011'),
 (16, 'Leila', 'Montemayor', 'leila@gmail.com', 'Admin', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', '09150980561', 'Barangay Rizal Taguig City', 'bkad-00000016'),
 (17, 'Claire', 'Estoque', 'claire@gmail.com', 'Admin', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', '09150780562', 'Barangay Rizal Taguig City', 'bkad-00000017'),
-(18, 'Elgin', 'Sales', 'elgin@gmail.com', 'Admin', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', '09150780562', 'Pasig City', 'bkad-00000018'),
-(19, 'Pole Andrei', 'Buendia', 'pole@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD5cEDXsZDOStTXb1jOkCy/A=', 'Active', '09338945633', '143, Dafodil, Pembo, Makati City', 'bkad-00000019'),
-(20, 'Jude Mikel', 'Rey', 'jude@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD3D4/+hx/HkQHsSknnJVtkY=', 'Active', '09384756794', '134, Dafodil, Pembo, Makati City', 'bkad-00000020'),
-(21, 'Mark Anthony', 'Toralde', 'mark@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0ODxsdQ9SDgR/j4Hg3fgjIZ5k=', 'Active', '09823123192', '456, di ko alam, di ko din alam, Taguig City', 'bkad-00000021'),
-(22, 'Aaron', 'Villamento', 'aaron@gmail.com', 'Employee', 'AAECAwQFBgcICQoLDA0OD2d3suUgC6YiYY2FgB9ZN4U=', 'Active', '09348732891', '323, Di ko alam, di ko din alam, Taguig City', 'bkad-00000022');
+(18, 'Elgin', 'Sales', 'elgin@gmail.com', 'Admin', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', '09150780562', 'Pasig City', 'bkad-00000018');
 
 --
 -- Triggers `admin`
@@ -99,7 +95,7 @@ CREATE TABLE `book` (
 INSERT INTO `book` (`book_id`, `book_title`, `author_name`, `genre_name`, `book_publication_date`, `book_publisher`, `book_status`, `ISBN`, `aisle_number`, `shelf_number`) VALUES
 (4, 'Harry Potter and the Chamber of Secrets', 'J.K. Rowling', 'Fantasy', '1998-07-02', 'Bloomsbury Publishing', 'Available', '9780747532743', 0, 0),
 (5, 'Harry Potter and the Prisoner of Azkaban', 'J.K. Rowling', 'Fantasy', '1999-07-08', 'Bloomsbury Publishing', 'Available', '9780747538493', 0, 0),
-(6, 'Harry Potter and the Goblet of Fire', 'J.K. Rowling', 'Fantasy', '2000-07-08', 'Bloomsbury Publishing', 'Available', '9780747542155', 3, 4),
+(6, 'Harry Potter and the Goblet of Fire', 'J.K. Rowling', 'Fantasy', '2000-07-08', 'Bloomsbury Publishing', 'Unavailable', '9780747542155', 0, 0),
 (7, 'To Kill a Mockingbird', 'Harper Lee', 'Classic', '1960-07-11', 'J. B. Lippincott & Co.', 'Available', '9780061120084', 0, 0),
 (8, 'The Great Gatsby', 'F. Scott Fitzgerald', 'Classic', '1925-04-10', 'Charles Scribner\'s Sons', 'Available', '9780743273565', 0, 0),
 (9, 'Pride and Prejudice', 'Jane Austen', 'Classic', '1813-01-28', 'T. Egerton, Whitehall', 'Available', '9780141439518', 0, 0),
@@ -126,7 +122,7 @@ INSERT INTO `book` (`book_id`, `book_title`, `author_name`, `genre_name`, `book_
 (30, 'The Shining', 'Stephen King', 'Horror', '1977-01-28', 'Doubleday', 'Available', '9780385121675', 0, 0),
 (31, 'IT', 'Stephen King', 'Horror', '1986-09-15', 'Viking Press', 'Available', '9780670813025', 0, 0),
 (32, 'Test 4', 'Arthur', 'Classic', '2020-05-05', 'the publisher', 'Available', '9780000000001', 0, 0),
-(33, 'How to survive Second Sem', 'Leila Montemayor', 'Survival', '2023-05-25', 'Umak4', 'Available', '9780000000002', 10, 5),
+(33, 'How to survive Second Sem', 'Leila Montemayor', 'Survival', '2023-05-25', 'Umak4', 'Available', '9780000000002', 0, 0),
 (34, 'Test 3', 'claire', 'Classic', '1998-07-02', 'ewan', 'Available', '9780000000003', 0, 0),
 (35, 'Snells', 'Efraem', 'Science', '2023-05-23', 'Efraem', 'Available', '9780000000004', 0, 0),
 (36, 'Test 6', 'Elgin', 'Fantasy', '2023-05-06', 'kahit sino', 'Available', '9780000000005', 0, 0),
@@ -135,20 +131,7 @@ INSERT INTO `book` (`book_id`, `book_title`, `author_name`, `genre_name`, `book_
 (39, 'Test 11', 'Faith', 'Classic', '2023-05-05', 'kahit sino', 'Available', '9780000000008', 0, 0),
 (40, 'Test 12', 'Arthur', 'Survival', '2023-05-25', 'jan lang', 'Available', '9780000000009', 0, 0),
 (41, 'Test 13', 'Test 13', 'Fiction', '2023-04-23', 'kahit sino', 'Available', '9780000000010', 0, 0),
-(42, 'test 14', 'Aaron ', 'Classic', '2003-05-05', 'Rekto', 'Available', '9780000000011', 0, 0),
-(43, 'Test 30', 'Arthur Artugue', 'Science Fiction', '2023-01-01', 'kahit sino', 'Available', '1234568907', 1, 3),
-(44, 'Test 31', 'Arthur', 'Fiction', '2025-01-01', 'kahit sino ulit', 'Available', '0984733621', 1, 1),
-(45, 'test 32', 'Leila', 'Fiction', '2025-01-01', 'Kahit sino nanaman', 'Available', '094873291828', 4, 5),
-(46, 'Test 33', 'Claire', 'Fiction', '2025-01-01', 'Kahit sino', 'Available', '192039458493', 4, 4),
-(47, 'Test 33', 'Claire', 'Fiction', '2021-01-01', 'Kahit sino', 'Available', '192039458493', 4, 4),
-(48, 'Test 33', 'Claire', 'Fiction', '2021-01-01', 'Kahit sino', 'Available', '1920394584931', 4, 4),
-(49, 'Test 33', 'Claire', 'Fiction', '2021-01-01', 'Kahit sino', 'Available', '19203945849311', 4, 4),
-(50, 'Test 33', 'Claire', 'Fiction', '2021-01-01', 'Kahit sino', 'Available', '192039458', 4, 4),
-(51, 'Test 34', 'Elgin', 'Fiction', '2025-01-01', 'Kahit sino', 'Available', '12345', 3, 3),
-(52, 'Test 34', 'Elgin', 'Fiction', '2022-01-01', 'Kahit sino', 'Available', '9450394739', 1, 9),
-(53, 'Test 35', 'Arthur', 'Fiction', '2025-01-01', 'Kahit sino', 'Available', '1234534321321a', 1, 2),
-(54, 'Test 36', 'Leila', 'Fiction', '2021-10-01', 'kahit sino', 'Available', '1234567890', 1, 1),
-(55, 'Title of the Book', 'Claire', 'Science Fiction', '2022-09-01', 'kahit sino', 'Available', '1234567891234', 1, 1);
+(42, 'test 14', 'Aaron ', 'Classic', '2003-05-05', 'Rekto', 'Available', '9780000000011', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -167,48 +150,6 @@ CREATE TABLE `borrowed_book` (
   `borrow_time` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `borrowed_book`
---
-
-INSERT INTO `borrowed_book` (`borrow_id`, `book_id`, `borrowed_date`, `borrowed_due_date`, `borrow_status`, `returned_date`, `patron_id`, `borrow_time`) VALUES
-(26, 6, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '14:02:31'),
-(28, 6, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '15:40:34'),
-(29, 6, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000014', '15:46:42'),
-(30, 6, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000013', '15:49:11'),
-(31, 27, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000014', '15:52:42'),
-(32, 4, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '16:03:13'),
-(33, 52, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '16:06:13'),
-(34, 21, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:15:33'),
-(35, 11, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:16:16'),
-(36, 19, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:16:27'),
-(37, 18, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:19:40'),
-(38, 27, '2023-08-07', '2023-08-28', 'out', NULL, 'bkpa-00000012', '21:19:57'),
-(39, 4, '2023-08-07', '2023-08-28', 'out', NULL, 'bkpa-00000012', '21:20:45'),
-(40, 6, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:20:55'),
-(41, 5, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:21:09'),
-(42, 33, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:22:03'),
-(43, 31, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:22:19'),
-(44, 21, '2023-08-07', '2023-08-28', 'out', NULL, 'bkpa-00000012', '21:31:45'),
-(45, 11, '2023-08-07', '2023-08-28', 'out', NULL, 'bkpa-00000012', '21:31:54'),
-(46, 19, '2023-08-07', '2023-08-28', 'out', NULL, 'bkpa-00000012', '21:32:03'),
-(47, 18, '2023-08-07', '2023-08-28', 'out', NULL, 'bkpa-00000012', '21:32:11'),
-(48, 27, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:32:22'),
-(49, 4, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:32:31'),
-(50, 5, '2023-08-07', '2023-08-28', 'out', NULL, 'bkpa-00000012', '21:32:48'),
-(53, 11, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:37:03'),
-(54, 19, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:37:10'),
-(55, 18, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:37:20'),
-(56, 27, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:37:26'),
-(57, 4, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:37:35'),
-(58, 6, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:37:45'),
-(59, 5, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:38:10'),
-(60, 21, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:49:58'),
-(61, 11, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000012', '21:51:58'),
-(62, 21, '2023-08-07', '2023-08-28', 'returned', '2023-08-07', 'bkpa-00000013', '22:00:48'),
-(63, 33, '2023-08-08', '2023-08-29', 'returned', '2023-08-08', 'bkpa-00000012', '20:45:43'),
-(64, 33, '2023-08-08', '2023-08-29', 'returned', '2023-08-08', 'bkpa-00000013', '21:12:29');
-
 -- --------------------------------------------------------
 
 --
@@ -225,21 +166,18 @@ CREATE TABLE `patron` (
   `patron_address` varchar(200) NOT NULL,
   `patron_password` varchar(300) NOT NULL,
   `patron_status` varchar(20) NOT NULL,
-  `penalty` int(1) NOT NULL,
-  `num_of_reserved` int(1) NOT NULL,
-  `num_of_borrowed` int(1) NOT NULL
+  `penalty` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `patron`
 --
 
-INSERT INTO `patron` (`patron_id`, `formatted_id`, `patron_fname`, `patron_lname`, `patron_email`, `patron_contact`, `patron_address`, `patron_password`, `patron_status`, `penalty`, `num_of_reserved`, `num_of_borrowed`) VALUES
-(12, 'bkpa-00000012', 'Arthur', 'Artugue', 'arthur@gmail.com', '09953653123', 'Blk 8 lot 6a, Gladiola, Cuyab, San Pedro City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Inactive', 0, 0, 0),
-(13, 'bkpa-00000013', 'Leila', 'Montemayor', 'leila@gmail.com', '09150980561', 'Rizal Taguig City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', 0, 7, 0),
-(14, 'bkpa-00000014', 'Claire', 'Estoque', 'claire@gmail.com', '09150780562', 'Barangay Rizal Taguig City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', 0, 1, 0),
-(15, 'bkpa-00000015', 'Elgin', 'Sales', 'elgin@gmail.com', '09150780562', 'Pasig City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', 0, 0, 0),
-(16, 'bkpa-00000016', 'Faith', 'Del Rosario', 'faith@gmail.com', '09345678912', '678, di ko alam, di ko din alam, San Pedro City', 'AAECAwQFBgcICQoLDA0ODwbYhT1TZ5mM8J/eztGx49g=', 'Active', 0, 0, 0);
+INSERT INTO `patron` (`patron_id`, `formatted_id`, `patron_fname`, `patron_lname`, `patron_email`, `patron_contact`, `patron_address`, `patron_password`, `patron_status`, `penalty`) VALUES
+(12, 'bkpa-00000012', 'Arthur', 'Artugue', 'arthur@gmail.com', '09953653123', 'Blk 8 Lot 6a, Gladiola St., Cuyab, San Pedro', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active', 0),
+(13, 'bkpa-00000013', 'Leila', 'Montemayor', 'leila@gmail.com', '09150980561', 'Rizal Taguig City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active', 0),
+(14, 'bkpa-00000014', 'Claire', 'Estoque', 'claire@gmail.com', '09150780562', 'Barangay Rizal Taguig City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active', 0),
+(15, 'bkpa-00000015', 'Elgin', 'Sales', 'elgin@gmail.com', '09150780562', 'Pasig City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'active', 0);
 
 --
 -- Triggers `patron`
@@ -272,20 +210,9 @@ CREATE TABLE `reserved_book` (
 --
 
 INSERT INTO `reserved_book` (`reservation_id`, `book_id`, `reservation_date`, `reservation_status`, `patron_id`, `reservation_time`) VALUES
-(23, 6, '2023-08-04', 'done', 'bkpa-00000012', '23:33:42'),
-(24, 6, '2023-08-05', 'done', 'bkpa-00000013', '00:26:24'),
-(25, 6, '2023-08-05', 'done', 'bkpa-00000014', '23:53:29'),
-(26, 52, '2023-08-07', 'done', 'bkpa-00000012', '15:51:41'),
-(27, 21, '2023-08-07', 'done', 'bkpa-00000013', '21:43:49'),
-(28, 11, '2023-08-07', 'in que', 'bkpa-00000013', '21:43:54'),
-(29, 19, '2023-08-07', 'in que', 'bkpa-00000013', '21:44:00'),
-(30, 18, '2023-08-07', 'in que', 'bkpa-00000013', '21:44:06'),
-(31, 27, '2023-08-07', 'in que', 'bkpa-00000013', '21:44:16'),
-(32, 4, '2023-08-07', 'in que', 'bkpa-00000013', '21:44:21'),
-(33, 6, '2023-08-07', 'in que', 'bkpa-00000013', '21:44:27'),
-(34, 5, '2023-08-07', 'in que', 'bkpa-00000013', '21:44:33'),
-(35, 33, '2023-08-08', 'done', 'bkpa-00000013', '20:39:11'),
-(36, 33, '2023-08-08', 'in que', 'bkpa-00000014', '20:41:34');
+(23, 6, '2023-08-04', 'in que', 'bkpa-00000012', '23:33:42'),
+(24, 6, '2023-08-05', 'in que', 'bkpa-00000013', '00:26:24'),
+(25, 6, '2023-08-05', 'in que', 'bkpa-00000014', '23:53:29');
 
 -- --------------------------------------------------------
 
@@ -306,7 +233,7 @@ CREATE TABLE `setting` (
 --
 
 INSERT INTO `setting` (`setting_id`, `borrow_limit`, `reserve_limit`, `borrow_duration`, `penalty_limit`) VALUES
-(1, 9, 9, 22, 4);
+(1, 8, 8, 21, 3);
 
 --
 -- Indexes for dumped tables
@@ -361,31 +288,31 @@ ALTER TABLE `setting`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `book`
 --
 ALTER TABLE `book`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `borrowed_book`
 --
 ALTER TABLE `borrowed_book`
-  MODIFY `borrow_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `borrow_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `patron`
 --
 ALTER TABLE `patron`
-  MODIFY `patron_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `patron_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `reserved_book`
 --
 ALTER TABLE `reserved_book`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `setting`

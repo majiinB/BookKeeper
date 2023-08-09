@@ -370,7 +370,7 @@ public class ChangeBorrowLimitPanel extends JPanel{
 		            SuccessPanel success = new SuccessPanel("Setting Change", "Borrow Limit Change Successful");
 		            showDialog(success);
 		            
-		            //Close Frame after update
+		            //Close Frame after update 
 		            closeDialog(e);
 		        } catch (SQLException e1) {
 		            e1.printStackTrace();
