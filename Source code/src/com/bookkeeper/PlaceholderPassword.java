@@ -1,7 +1,5 @@
 package com.bookkeeper;
 import java.awt.*;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
@@ -11,6 +9,7 @@ import javax.swing.*;
 import javax.swing.BorderFactory;
 import javax.swing.JPasswordField;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 public class PlaceholderPassword extends JPasswordField {
@@ -70,12 +69,13 @@ public class PlaceholderPassword extends JPasswordField {
         btnShowPass.setBorderPainted(false);
         btnShowPass.setFocusPainted(false);
         btnShowPass.setContentAreaFilled(false);
+        btnShowPass.setPreferredSize(new Dimension(29, 29));
 
-        iconHeight = (int) (btnShowPass.getPreferredSize().getHeight()-0.2);
-        iconWidth = (int) (btnShowPass.getPreferredSize().getHeight()-0.6);
+        iconHeight = (int) (btnShowPass.getPreferredSize().getHeight()-9);
+        iconWidth = (int) (btnShowPass.getPreferredSize().getHeight()-2);
         hideIcon = new ImageIcon(hideIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
         showIcon = new ImageIcon(showIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
-        
+        btnShowPass.setBorder(new EmptyBorder(5,5,5,5));
         btnShowPass.setIcon(hideIcon);
 
         

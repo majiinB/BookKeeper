@@ -84,7 +84,11 @@ public class AdminLogInPanel extends JPanel {
 	private  Color darkplainColor = new Color(14, 14, 15);
 	private  Color lightplainColor = new Color(250, 251, 255);
 	private  Color middleplainColor = new Color(243, 243, 247);
-
+	
+	private GraphicsEnvironment environment;	
+	private GraphicsDevice device;
+	private int width;
+	private int height;
 	
 public  AdminLogInPanel() {
 	setBackground(new Color(250, 251, 255));
@@ -136,6 +140,7 @@ public  AdminLogInPanel() {
     btnBack.setBorderPainted(false);
     btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
     btnBack.setOpaque(false);
+    btnBack.setContentAreaFilled(false);
 
     lblTitle = new JLabel("ADMIN LOGIN");
     lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
@@ -300,13 +305,18 @@ public  AdminLogInPanel() {
 						// Shield
 						if(numTries==3) {
 							
-							malfunction = new MalfunctionPanel("Limit Reached", "You have reached the limit for the number of login attempts.\nThe program will now close");
+							malfunction = new MalfunctionPanel("Limit Reached", 
+								"Oops! It seems you have reached the limit for the number \n"
+								+ "of login attempts. The program will now close");
 							showDialog(malfunction);
 							System.exit(0);
 						}
 						
 						// Show error message if login failed
-						malfunction = new MalfunctionPanel("Login Error", "Invalid email or password\n"+"Remaining Attempts:" + remain);
+						malfunction = new MalfunctionPanel("Failed to Log In!", 
+								"Oops! It seems like an error occurred. Please check the \n"
+								+ "information you provided and try again. Ensure that \n"
+								+ "all fields are correctly filled. Only " + remain + " tries left.");
 						showDialog(malfunction);
 						numTries++;
 						
@@ -315,8 +325,8 @@ public  AdminLogInPanel() {
 						
 						Setting setting = retrieveSettingFromDatabase(); //Instantiate the setting object to be used by admin
 						employee =  (Employee) newUser; //Create the employee that logged in
-						String title = "Login Success!";
-					    String message = "Welcome " + employee.getFname() + " " + employee.getLname();
+						String title = "Log In Successful!";
+					    String message = "Welcome Back, " + employee.getFname() + " " + employee.getLname() + "! Happy Browsing!";
 					    System.out.println(employee.getEmail()	+ " LoginPanel");
 					    System.out.println(employee.getPosition() + " LoginPanel");
 					    // Prompt
@@ -333,7 +343,8 @@ public  AdminLogInPanel() {
 		                
 					}
 				} catch (Exception e1) {
-					malfunction = new MalfunctionPanel("Login Error", "An unknown error has occured!");
+					malfunction = new MalfunctionPanel("An Error Occurred!", 
+							"Oops! It seems like an error occurred. Please try again.");
 					showDialog(malfunction);
 					e1.printStackTrace();
 				}
@@ -373,11 +384,16 @@ public  AdminLogInPanel() {
 	            closeDialog(e);
 	    	}
 	    });
-	    
-		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+		environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    	device = environment.getDefaultScreenDevice();
+       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+    	
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+		dialog.setUndecorated(true);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.getContentPane().add(panel);
-		dialog.pack();
+		dialog.setSize(width, height);
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 
@@ -391,13 +407,19 @@ public  AdminLogInPanel() {
 	            closeDialog(e);
 	    	}
 	    });
-	    
-		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Error", true);
-        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        dialog.getContentPane().add(panel);
-        dialog.pack();
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
+
+		environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    	device = environment.getDefaultScreenDevice();
+       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+    	
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+		dialog.setUndecorated(true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.setSize(width, height);
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
 	}
     
     //Method used by showDialog to close the JDialog containing the alert panels

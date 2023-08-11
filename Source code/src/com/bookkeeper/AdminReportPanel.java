@@ -211,7 +211,7 @@ public class AdminReportPanel extends JPanel {
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 	public AdminReportPanel() {
 		setBackground(lightplainColor);
-		setBorder(new EmptyBorder(20, 20, 20, 0));
+		setBorder(new EmptyBorder(10, 20, 10, 20));
 		setLayout(new BorderLayout(0, 0));
 		
 		//CREATE PANELS
@@ -267,10 +267,10 @@ public class AdminReportPanel extends JPanel {
 		legendItemPanel2.setOpaque(false);
 			
 		mainPanel.setBorder(new EmptyBorder(0, 0, 0, 30));
-		headingPanel.setBorder(new EmptyBorder(20, 25, 0, 45));
+		headingPanel.setBorder(new EmptyBorder(10, 25, 10, 45));
 		overviewPanel.setBorder(new EmptyBorder(10, 0, 15, 0));
 		bookLoanedPanel.setBorder(new EmptyBorder(10, 10, 15, 10));
-		overduePanel.setBorder(new EmptyBorder(10, 10, 15, 10));
+		overduePanel.setBorder(new EmptyBorder(10, 5, 15, 5));
 			
 		activeUserPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 		reserveBookPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -307,7 +307,7 @@ public class AdminReportPanel extends JPanel {
 		reportScrollPane.getViewport().setOpaque(false);
 		reportScrollPane.setBackground(new Color(255, 255, 255));
 		reportScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
-		reportScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		reportScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		reportScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		    
 		//heading
@@ -443,21 +443,22 @@ public class AdminReportPanel extends JPanel {
 
 	    // get  line chart to be displayed	   
 	    lineChart = createLineChart.getLineChart();
-	    
+
 	    // create chart panel to hold the line chart
 	    lineChartPanel = new ChartPanel(lineChart);
 	    lineChartPanel.setEnforceFileExtensions(false);
-	    lineChartPanel.setZoomTriggerDistance(0);
-	    lineChartPanel.setZoomOutFactor(0.0);
-	    lineChartPanel.setZoomInFactor(0.0);
+	    lineChartPanel.setZoomTriggerDistance(1);
+	    lineChartPanel.setZoomOutFactor(1);
+	    lineChartPanel.setZoomInFactor(1);
 	    lineChartPanel.setRangeZoomable(false);
 	    lineChartPanel.setMouseZoomable(false);
 	    lineChartPanel.setFillZoomRectangle(false);
-	    lineChartPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+	    lineChartPanel.setBorder(new EmptyBorder(0, 0, 0, 20));
 	    lineChartPanel.setFocusable(false);
 	    lineChartPanel.setOpaque(false);
 	    lineChartPanel.setDisplayToolTips(false);
-	    
+	    lineChartPanel.setPreferredSize(new Dimension(500,500));
+
 	    //legend item of line chart
 	    lblLegend1 = new JLabel("Legends");
 	    lblLegend1.setOpaque(false);
@@ -474,7 +475,6 @@ public class AdminReportPanel extends JPanel {
 	    	legendItemPanel = new JPanel();
 	        legendItemPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	        legendItemPanel.setOpaque(false);
-//	        legendItemPanel.setLayout(gbl_legendItemPanel);
 	        legendItemPanel.setLayout(new BorderLayout(10,0));
 
 	        lblLegend = new JLabel(seriesArray[i]);
@@ -486,27 +486,6 @@ public class AdminReportPanel extends JPanel {
 	        square.setOpaque(true);
 	        square.setBackground(linecolor[i]);
 	        
-	        //legend Item layout
-//	        gbl_legendItemPanel = new GridBagLayout();
-//	        gbl_legendItemPanel.columnWidths = new int[]{20,50};
-//	        gbl_legendItemPanel.rowHeights = new int[]{0};
-//	        gbl_legendItemPanel.columnWeights = new double[]{0.0, 1.0};
-//	        gbl_legendItemPanel.rowWeights = new double[]{0.0};
-//				
-//	        gbc_lbl = new GridBagConstraints();
-//	        gbc_lbl.fill = GridBagConstraints.HORIZONTAL;
-//	        gbc_lbl.anchor = GridBagConstraints.EAST;
-//		    gbc_lbl.gridx = 1;
-//	        gbc_lbl.gridy = 0;
-//	        gbc_lbl.insets = new Insets(5, 5, 5,5);
-//
-//		    gbc_pnl = new GridBagConstraints();
-//		    gbc_pnl.fill = GridBagConstraints.BOTH;
-//	        gbc_lbl.anchor = GridBagConstraints.WEST;
-//		    gbc_pnl.gridx = 0;
-//		    gbc_pnl.gridy = 0;
-//		    gbc_pnl.insets = new Insets(5, 5, 5,5);
-
 	        //add components to panel
 	        legendItemPanel.add(square,BorderLayout.WEST);
 	        legendItemPanel.add(lblLegend,BorderLayout.CENTER);
@@ -586,12 +565,13 @@ public class AdminReportPanel extends JPanel {
 	    
 	    // create chart panel to hold the line chart
 	    pieChartPanel = new ChartPanel(pieChart);
-	    pieChartPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+	    pieChartPanel.setBorder(new EmptyBorder(0, 0, 0, 20));
 	    pieChartPanel.setOpaque(false);
 	    pieChartPanel.setDisplayToolTips(false);
 	    pieLegendPanel.revalidate();
 	    pieLegendPanel.repaint();
-	    
+	    pieChartPanel.setPreferredSize(new Dimension(500,500));
+
 	    //legend item of line chart
 	    lblLegend2 = new JLabel("Legends");
 	    lblLegend2.setOpaque(false);
@@ -618,27 +598,6 @@ public class AdminReportPanel extends JPanel {
 	        square.setOpaque(true);
 	        square.setBackground(piecolor[i]);
 	        
-	        //legend Item layout
-//	        gbl_legendItemPanel = new GridBagLayout();
-//	        gbl_legendItemPanel.columnWidths = new int[]{25,50};
-//	        gbl_legendItemPanel.rowHeights = new int[]{0};
-//	        gbl_legendItemPanel.columnWeights = new double[]{0.0, 1.0};
-//	        gbl_legendItemPanel.rowWeights = new double[]{0.0};
-//	        
-//	        gbc_lbl = new GridBagConstraints();
-//	        gbc_lbl.fill = GridBagConstraints.HORIZONTAL;
-//	        gbc_lbl.anchor = GridBagConstraints.EAST;
-//		    gbc_lbl.gridx = 1;
-//	        gbc_lbl.gridy = 0;
-//	        gbc_lbl.insets = new Insets(5, 5, 5,5);
-//
-//		    gbc_pnl = new GridBagConstraints();
-//		    gbc_pnl.fill = GridBagConstraints.BOTH;
-//	        gbc_lbl.anchor = GridBagConstraints.WEST;
-//		    gbc_pnl.gridx = 0;
-//		    gbc_pnl.gridy = 0;
-//		    gbc_pnl.insets = new Insets(5, 5, 5,5);
-
 	        //add components to panel
 	        legendItemPanel.add(square,BorderLayout.WEST);
 	        legendItemPanel.add(lblLegend,BorderLayout.CENTER);
@@ -648,7 +607,6 @@ public class AdminReportPanel extends JPanel {
 	    	legendItemPanel2.add(legendItemPanel);
 	    }
 
-	    
 	    //books loan table
 		lblBookLoan = new JLabel("Books Loaned");
 		lblBookLoan.setOpaque(false);
@@ -676,7 +634,7 @@ public class AdminReportPanel extends JPanel {
 		bookLoanedScrollPane.setOpaque(false);
 		bookLoanedScrollPane.getViewport().setOpaque(false);
 		bookLoanedScrollPane.setBackground(new Color(255, 255, 255));
-		bookLoanedScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
+		bookLoanedScrollPane.setBorder(new EmptyBorder(0, 5, 0, 0));
 		bookLoanedScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		bookLoanedScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		bookLoanedScrollPane.setViewportView(bookLoanTable);
@@ -696,6 +654,7 @@ public class AdminReportPanel extends JPanel {
 			      return false;
 			}
 		};
+		
 		//set table properties
 		overdueTable.setBackground(lightplainColor);;
 		overdueTable.setFillsViewportHeight(true);
@@ -711,7 +670,7 @@ public class AdminReportPanel extends JPanel {
 		overdueScrollPane.setOpaque(false);
 		overdueScrollPane.getViewport().setOpaque(false);
 		overdueScrollPane.setBackground(new Color(255, 255, 255));
-		overdueScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
+		overdueScrollPane.setBorder(new EmptyBorder(0, 5, 0, 0));
 		overdueScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		overdueScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		overdueScrollPane.setViewportView(overdueTable);
@@ -746,10 +705,10 @@ public class AdminReportPanel extends JPanel {
 		
 		//Overview panel Layout
 		gbl_overviewPanel = new GridBagLayout();
-		gbl_overviewPanel.columnWidths = new int[]{0,0,0, 0};
-		gbl_overviewPanel.rowHeights = new int[]{0, 0, 0};
-		gbl_overviewPanel.columnWeights = new double[]{1.0, 1.0,1.0,1.0,Double.MIN_VALUE};
-		gbl_overviewPanel.rowWeights = new double[]{0.0, 0.0, 0.0};
+		gbl_overviewPanel.columnWidths = new int[]{0,0,0,0,0};
+		gbl_overviewPanel.rowHeights = new int[]{0, 0, 0,0};
+		gbl_overviewPanel.columnWeights = new double[]{1.0, 1.0,1.0,1.0,1.0};
+		gbl_overviewPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
 			
 		gbc_lblMonthOverview = new GridBagConstraints();
 		gbc_lblMonthOverview.fill = GridBagConstraints.HORIZONTAL;
@@ -892,8 +851,8 @@ public class AdminReportPanel extends JPanel {
 		gbl_genreGraphPanel.rowWeights = new double[]{0.0, 0.0};
 
 		gbc_pieChartPanel = new GridBagConstraints();
+		gbc_pieChartPanel.fill = GridBagConstraints.BOTH;
 		gbc_pieChartPanel.gridheight = 2;
-		gbc_pieChartPanel.anchor = GridBagConstraints.WEST;
 		gbc_pieChartPanel.insets = new Insets(0, 20, 0,0);
 		gbc_pieChartPanel.gridx = 0;
 		gbc_pieChartPanel.gridy = 0;
@@ -1043,12 +1002,12 @@ public class AdminReportPanel extends JPanel {
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
-				titleTextSize = Math.min(getHeight() / 12, getWidth()/ 14) ;
-				subtitleTextSize =  Math.min(getHeight() / 40, getWidth()/ 40);
-				buttonTextSize = Math.min(getHeight() / 60, getWidth()/ 60);
-				headerTextSize =   Math.min(getHeight() / 30, getWidth()/ 35);
-				plainTextsize=   Math.min(getHeight() / 60, getWidth()/ 60);
-				
+		      	titleTextSize = Math.min(getHeight() / 8, getWidth()/ 8) ;
+		        subtitleTextSize =  Math.min(getHeight() / 36, getWidth()/ 36);
+		        buttonTextSize =  Math.min(getHeight() / 50, getWidth()/ 50);
+		        headerTextSize =   Math.min(getHeight() / 20, getWidth()/ 20);
+		        plainTextsize=   Math.min(getHeight() / 60, getWidth()/ 60);
+		            
 				titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
 				subtitleFont = new Font("Montserrat", Font.BOLD, subtitleTextSize);
 				buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
@@ -1071,20 +1030,7 @@ public class AdminReportPanel extends JPanel {
 				lblBookOverdue.setFont(subtitleFont);
 				
 			}
-		    });	
-		//action Listeners
-		btnOptionDetail.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent ev) {
-		    	detailPopupMenu.show(btnOptionDetail, btnOptionDetail.getBounds().x, btnOptionDetail.getBounds().y
-		           + btnOptionDetail.getBounds().height);
-		    }
-		});
-		detailPopupMenu.addMouseListener(new MouseAdapter() {
-		    public void mousePressed(MouseEvent e) {
-		    	//punta info display frmae Account Information
-		    	System.out.println("Clicked UwU");
-		    }
-		});
+		    });		
 			
 	 }
 	public class headerRenderer implements TableCellRenderer {

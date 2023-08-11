@@ -118,9 +118,10 @@ public  RoleSelectionPanel() {
     btnBack.setBorderPainted(false);
     btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
     btnBack.setOpaque(false);
+    btnBack.setContentAreaFilled(false);
     
     btnPatron = new JButton();
-    btnPatron.setIconTextGap(20);
+    btnPatron.setIconTextGap(40);
     btnPatron.setBorder(null);
     btnPatron.setBorderPainted(false);
     btnPatron.setText("Patron");
@@ -129,7 +130,7 @@ public  RoleSelectionPanel() {
     btnPatron.setContentAreaFilled(false);
 
 	btnAdmin = new JButton();
-	btnAdmin.setIconTextGap(20);
+	btnAdmin.setIconTextGap(40);
 	btnAdmin.setBorder(null);
 	btnAdmin.setBorderPainted(false);
 	btnAdmin.setText("Admin");

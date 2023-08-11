@@ -137,10 +137,11 @@ public class PatronLibraryPanel extends JPanel {
     btnSearch.setBorderPainted(false);
     btnSearch.setFocusPainted(false);
     btnSearch.setContentAreaFilled(false);
-    
+    btnSearch.setPreferredSize(new Dimension(29, 29));
+
     searchIcon = new ImageIcon("img/DashboardFrame/Search.png");    
-    iconHeight = (int) (btnSearch.getPreferredSize().getHeight() * 0.5);
-    iconWidth = (int) (btnSearch.getPreferredSize().getHeight() * 0.5);
+    iconHeight = (int) (btnSearch.getPreferredSize().getHeight());
+    iconWidth = (int) (btnSearch.getPreferredSize().getHeight());
     searchIcon = new ImageIcon(searchIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
     btnSearch.setIcon(searchIcon);
 

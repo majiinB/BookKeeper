@@ -84,6 +84,11 @@ public class PatronLogInPanel extends JPanel {
 	private  Color middleplainColor = new Color(243, 243, 247);
 
 	
+	private GraphicsEnvironment environment;	
+	private GraphicsDevice device;
+	private int width;
+	private int height;
+	
 public  PatronLogInPanel() {
 	setBackground(new Color(250, 251, 255));
     setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -251,21 +256,20 @@ public  PatronLogInPanel() {
     addComponentListener(new ComponentAdapter() {
   	  @Override
         public void componentResized(ComponentEvent e) {
-        	
-	        	titleTextSize = Math.min(getHeight() / 7, getWidth()/ 10) ;
-	            subtitleTextSize =  Math.min(getHeight() / 20, getWidth()/ 45);
-	            buttonTextSize =  Math.min(getHeight() / 40, getWidth()/ 58);
-	           	headerTextSize =   Math.min(getHeight() / 50, getWidth()/ 65);
-	           	plainTextsize=   Math.min(getHeight() / 20, getWidth()/ 60);
+	  		titleTextSize = Math.min(getHeight() / 7, getWidth()/ 10) ;
+	        subtitleTextSize =  Math.min(getHeight() / 20, getWidth()/ 45);
+	        buttonTextSize =  Math.min(getHeight() / 40, getWidth()/ 58);
+	       	headerTextSize =   Math.min(getHeight() / 50, getWidth()/ 65);
+	       	plainTextsize=   Math.min(getHeight() / 20, getWidth()/ 60);
+        
+	       	titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
+	       	lblTitle.setFont(titleFont);
 	            
-	            titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
-	            lblTitle.setFont(titleFont);
+	       	subtitleFont = new Font("Montserrat", Font.ITALIC, subtitleTextSize);
+	       	lblSubTitle.setFont(subtitleFont);
 	            
-	            subtitleFont = new Font("Montserrat", Font.ITALIC, subtitleTextSize);
-	            lblSubTitle.setFont(subtitleFont);
-	            
-	            buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
-	            btnLogIn.setFont(buttonFont);
+	       	buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
+	       	btnLogIn.setFont(buttonFont);
 	            
 	            headerFont = new Font("Montserrat", Font.PLAIN, headerTextSize);
 	            btnBack.setFont(headerFont);
@@ -305,7 +309,10 @@ public  PatronLogInPanel() {
 						}
 						
 						// Show error message if login failed
-						malfunction = new MalfunctionPanel("Login Error", "Invalid email or password\n"+"Remaining Attempts:" + remain);
+						malfunction = new MalfunctionPanel("Failed to Log In!", 
+								"Oops! It seems like an error occurred. Please check the \n"
+								+ "information you provided and try again. Ensure that \n"
+								+ "all fields are correctly filled. Only " + remain + " tries left.");
 						showDialog(malfunction);
 						numTries++;
 						
@@ -313,8 +320,8 @@ public  PatronLogInPanel() {
 						
 						// Cast newUser to User object
 					    user = (User) newUser;
-					    String title = "Login Success!";
-					    String message = "Welcome " + user.getUser_fname() + " " + user.getUser_lname();
+					    String title = "Log In Successful!";
+					    String message = "Welcome Back, " + user.getUser_fname() + " " + user.getUser_lname() + "! Happy Browsing!";
 
 					    // Prompt
 					    SuccessPanel success = new SuccessPanel(title, message);
@@ -331,7 +338,8 @@ public  PatronLogInPanel() {
 					   
 					}
 				} catch (Exception e1) {
-					malfunction = new MalfunctionPanel("Login Error", "An unknown error has occured!");
+					malfunction = new MalfunctionPanel("An Error Occurred!", 
+							"Oops! It seems like an error occurred. Please try again.");
 					showDialog(malfunction);
 					e1.printStackTrace();
 				}
@@ -373,14 +381,18 @@ public  PatronLogInPanel() {
 	            closeDialog(e);
 	    	}
 	    });
-	    
-		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
+		environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    	device = environment.getDefaultScreenDevice();
+       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+    	
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+		dialog.setUndecorated(true);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.getContentPane().add(panel);
-		dialog.pack();
+		dialog.setSize(width, height);
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
-
 	}
 	
 	//Method to show alert panel (Malfunction Panel)
@@ -391,13 +403,18 @@ public  PatronLogInPanel() {
 	            closeDialog(e);
 	    	}
 	    });
-	    
-		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),"Error", true);
-        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        dialog.getContentPane().add(panel);
-        dialog.pack();
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
+		environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    	device = environment.getDefaultScreenDevice();
+       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+    	
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+		dialog.setUndecorated(true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.setSize(width, height);
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
 	}
     
     //Method used by showDialog to close the JDialog containing the alert panels

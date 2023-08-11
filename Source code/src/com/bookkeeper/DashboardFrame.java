@@ -9,6 +9,9 @@ import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -66,12 +69,15 @@ public class DashboardFrame extends JFrame {
     	setResizable(false); 
 
     	// Set the frame size based on the screen dimensions
-    	GraphicsDevice[] devices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
-    	GraphicsDevice device = devices[0]; // Choose the appropriate device index if there are multiple
-    	GraphicsConfiguration config = device.getDefaultConfiguration();
-    	setUndecorated(true);
-    	//device.setFullScreenWindow(this);
-    	setSize(config.getBounds().getSize());
+    	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gd = ge.getDefaultScreenDevice();
+        Rectangle screenBounds = gd.getDefaultConfiguration().getBounds();
+        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(gd.getDefaultConfiguration());
+        int width = screenBounds.width - screenInsets.left - screenInsets.right;
+        int height = screenBounds.height - screenInsets.top - screenInsets.bottom;
+
+        //device.setFullScreenWindow(this);
+    	setSize(width,height);
 
 	    //create panels
 		mainPanel = new JPanel();//panel to hold all panels
@@ -133,8 +139,10 @@ public class DashboardFrame extends JFrame {
         	public void actionPerformed(ActionEvent e) {
         		//Shield
         		if(employee.getPosition().equals("Employee")) {
-        			MalfunctionPanel mal = new MalfunctionPanel("Access Denied", "Only administrators have access to reports");
-					showDialog(mal);
+        			MalfunctionPanel mal = new MalfunctionPanel("Access Denied", 
+        				"Oops! It appears you’re trying to access a page that is \n"
+       					+ "restricted to administrators only.");
+        			showDialog(mal);
 					return;
         		}
         		cardLayout1.show(ContentPanel,"panel2");
@@ -152,7 +160,9 @@ public class DashboardFrame extends JFrame {
         	public void actionPerformed(ActionEvent e) {
         		//Shield
         		if(employee.getPosition().equals("Employee")) {
-        			MalfunctionPanel mal = new MalfunctionPanel("Access Denied", "The management of employees is restricted to administrators only");
+        			MalfunctionPanel mal = new MalfunctionPanel("Access Denied", 
+        				"Oops! It appears you’re trying to access a page that is \n"
+        				+ "restricted to administrators only.");
 					showDialog(mal);
 					return;
         		}

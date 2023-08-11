@@ -7,7 +7,12 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 public class ConfirmationPanel extends JPanel {
 	//panel
@@ -17,12 +22,12 @@ public class ConfirmationPanel extends JPanel {
 	private JPanel alertPanel;
 	
 	//label
-	private JLabel lblTitle;
+	private JLabel txtTitle;
 	private JLabel lblLogo;
 	
+	private JTextPane txtDescription;
+
 	//textarea
-	private JTextArea txtDescription;
-	private JTextArea txtTitle;
 
 	//button
 	private JButton btnConfirm;
@@ -62,7 +67,7 @@ public class ConfirmationPanel extends JPanel {
 	public ConfirmationPanel(String title, String message) {
 		
 	setBackground(new Color(250, 251, 255));
-	setBorder(new EmptyBorder(20, 20, 20, 20));
+	setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
 	setLayout(new BorderLayout(0, 0));
 	
     //create panels
@@ -86,37 +91,53 @@ public class ConfirmationPanel extends JPanel {
     lblLogo = new JLabel();
     lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
    
-	txtTitle = new JTextArea(title);
+	txtTitle = new JLabel(title);
 	txtTitle.setForeground(headerColor);
-	txtTitle.setLineWrap(true);
 	txtTitle.setOpaque(false);
-	txtTitle.setWrapStyleWord(true);
 	txtTitle.setFocusable(false);
-	txtTitle.setEditable(false);
-	txtTitle.setDragEnabled(false);
 	txtTitle.setAutoscrolls(false);
 	txtTitle.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-	
-	txtDescription = new JTextArea(message);
-	txtDescription.setForeground(darkplainColor);
-	txtDescription.setLineWrap(true);
+	txtTitle.setHorizontalAlignment(SwingConstants.RIGHT);
+
+
+    txtDescription = new JTextPane();
+    txtDescription.setText(message);
+    txtDescription.setEditable(false);
+    txtDescription.setFocusable(false);
+    txtDescription.setAutoscrolls(false);
 	txtDescription.setOpaque(false);
-	txtDescription.setWrapStyleWord(true);
-	txtDescription.setFocusable(false);
-	txtDescription.setEditable(false);
-	txtDescription.setDragEnabled(false);
-	txtDescription.setAutoscrolls(false);
-	txtDescription.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+
+    StyledDocument doc = txtDescription.getStyledDocument();
+    SimpleAttributeSet rightAlign = new SimpleAttributeSet();
+    StyleConstants.setAlignment(rightAlign, StyleConstants.ALIGN_RIGHT);
+    doc.setParagraphAttributes(0, doc.getLength(), rightAlign, false);
+
+//	txtDescription = new JTextArea(message);
+//	txtDescription.setForeground(darkplainColor);
+//	txtDescription.setLineWrap(true);
+//	txtDescription.setOpaque(false);
+//	txtDescription.setWrapStyleWord(true);
+//	txtDescription.setFocusable(false);
+//	txtDescription.setEditable(false);
+//	txtDescription.setDragEnabled(false);
+//	txtDescription.setAutoscrolls(false);
+//	txtDescription.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
 	btnConfirm = new JButton("Confirm");
+	btnConfirm.setBorder(new CompoundBorder(new LineBorder(new Color(14, 14, 15,50), 2), new EmptyBorder(10, 25, 10, 25)));
 	btnConfirm.setForeground(darkplainColor);
 	btnConfirm.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 	btnConfirm.setFocusPainted(false);
+	btnConfirm.setContentAreaFilled(false);
+	btnConfirm.setOpaque(false);
 
 	btnCancel = new JButton("Cancel");
+	btnConfirm.setBorder(new CompoundBorder(new LineBorder(new Color(14, 14, 15,50), 2), new EmptyBorder(10, 25, 10, 25)));
 	btnCancel.setForeground(darkplainColor);
 	btnCancel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 	btnCancel.setFocusPainted(false);
+	btnCancel.setContentAreaFilled(false);
+	btnCancel.setOpaque(false);
 	/*
      * gamit ka ng gridbag layout for more control sa placement ng components  sa panel
      * ung gbc or grid bag constraints is para madetermine mo ung positioning ng mga components sa gridbag layout
@@ -171,7 +192,7 @@ public class ConfirmationPanel extends JPanel {
     // Set panel layouts 
 	mainPanel.setLayout(gbl_mainPanel);
 	alertPanel.setLayout(gbl_alertPanel);
-	buttonPanel.setLayout(new GridLayout(0, 2, 0, 0));
+	buttonPanel.setLayout(new GridLayout(0, 2, 20, 0));
 	logoPanel.setLayout(new BorderLayout(0, 0));
 	
 	//add components to each panel
@@ -187,41 +208,40 @@ public class ConfirmationPanel extends JPanel {
 	mainPanel.add(alertPanel, gbc_alertPanel);
 		
     add(mainPanel); 
-    
     addComponentListener(new ComponentAdapter() {
-    	  @Override
-          public void componentResized(ComponentEvent e) {
-          	
-  	        	titleTextSize = Math.min(getHeight() / 7, getWidth()/ 10) ;
-  	            subtitleTextSize =  Math.min(getHeight() / 17, getWidth()/ 35);
-  	            buttonTextSize =  Math.min(getHeight() / 20, getWidth()/ 38);
-  	            
-  	            
-  	            titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
-  	            txtTitle.setFont(titleFont);
-  	            
-  	            subtitleFont = new Font("Montserrat", Font.ITALIC, subtitleTextSize);
-  	            txtDescription.setFont(subtitleFont);
-  	            
-  	            buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
-  	            btnConfirm.setFont(buttonFont);
-  	            btnCancel.setFont(buttonFont);
-          }
-      });
-  }
-  	 @Override
-  	 protected void paintComponent(Graphics g) {
-  	    super.paintComponent(g);
-  	    /*
-  		    * use super.paintComponent(g) for proper rendering 
-  		    * ng mga components
-  		*/
-  	    iconWidth = (int) (getWidth() * 0.27);
-  	    iconHeight = (int) (getHeight() * 0.6);
-  	    scaledImage = image.getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
-  	    lblLogo.setIcon(new ImageIcon(scaledImage));
+  	  @Override
+        public void componentResized(ComponentEvent e) {
+        	
+	        	titleTextSize = Math.min(getHeight() / 6, getWidth()/ 6) ;
+	            subtitleTextSize =  Math.min(getHeight() / 13, getWidth()/ 25);
+	            buttonTextSize =  Math.min(getHeight() / 15, getWidth()/ 25);
+	            
+	            
+	            titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
+	            txtTitle.setFont(titleFont);
+	            
+	            subtitleFont = new Font("Montserrat", Font.ITALIC, subtitleTextSize);
+	            txtDescription.setFont(subtitleFont);
+	            
+	            buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
+	            btnConfirm.setFont(buttonFont);
 
-  	 }
+        }
+    });
+}
+	 @Override
+	 protected void paintComponent(Graphics g) {
+	    super.paintComponent(g);
+	    /*
+		    * use super.paintComponent(g) for proper rendering 
+		    * ng mga components 
+		*/
+	    iconWidth = (int) (getWidth() * 0.25);
+	    iconHeight = (int) (getHeight() * 0.6);
+	    scaledImage = image.getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
+	    lblLogo.setIcon(new ImageIcon(scaledImage));
+
+	 }
   	public JButton getBtnConfirm() {
   		return btnConfirm;
   	}

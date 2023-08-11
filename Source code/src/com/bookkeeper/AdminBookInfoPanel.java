@@ -593,14 +593,15 @@ public class AdminBookInfoPanel extends JPanel{
 	  	           	plainTextsize=   Math.min(getHeight() / 20, getWidth()/ 50);
 	  	            
 	  	            titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);	  	            
-	  	            subtitleFont = new Font("Montserrat", Font.ITALIC, subtitleTextSize); 	          
+	  	            subtitleFont = new Font("Montserrat", Font.BOLD, subtitleTextSize); 	          
 	  	            buttonFont = new Font("Montserrat", Font.BOLD, buttonTextSize);	  	          
 	  	            headerFont = new Font("Montserrat", Font.PLAIN, headerTextSize);	  	         
 	  	            plainFont = new Font("Montserrat", Font.PLAIN, plainTextsize);
 	  	            
 	  	            lblBookTitle.setFont(subtitleFont);
 	  	            txtBookTitle.setFont(subtitleFont);
-	  	            lblBorrowerInfo.setFont(subtitleFont);	  	            
+	  	            lblBorrowerInfo.setFont(subtitleFont);
+	  	            
 	  	            btnBorrow.setFont(buttonFont);
 	  	            btnReturn.setFont(buttonFont);
 	  	            btnEdit.setFont(buttonFont);	  	            
