@@ -294,11 +294,9 @@ public  PatronLogInPanel() {
 					String table = "patron";
 					String colemail = "patron_email";
 					String colpass = "patron_password";
-					String colStatus ="patron_status";
 					char[] pass = txtPassword.getPassword();
 					String password = new String(pass);
-					String status = "Active";
-					newUser = AuthenticationFrame.loginMethod(trimed, password, table, colemail, colpass, colStatus, status);
+					newUser = AuthenticationFrame.loginMethod(trimed, password, table, colemail, colpass);
 					if (newUser == null && numTries<=3) {
 						// Shield
 						if(numTries==3) {
@@ -309,7 +307,7 @@ public  PatronLogInPanel() {
 						}
 						
 						// Show error message if login failed
-						malfunction = new MalfunctionPanel("Failed to Log In!", 
+						malfunction = new MalfunctionPanel("Failed Log In!", 
 								"Oops! It seems like an error occurred. Please check the \n"
 								+ "information you provided and try again. Ensure that \n"
 								+ "all fields are correctly filled. Only " + remain + " tries left.");
@@ -320,6 +318,12 @@ public  PatronLogInPanel() {
 						
 						// Cast newUser to User object
 					    user = (User) newUser;
+					    
+					    if(user.getUser_status().equals("Inactive")) {
+					    	MalfunctionPanel mal = new MalfunctionPanel("Failed Log In", "Your account has been disabled.");
+					    	showDialog(mal);
+					    	return;
+					    }
 					    String title = "Log In Successful!";
 					    String message = "Welcome Back, " + user.getUser_fname() + " " + user.getUser_lname() + "! Happy Browsing!";
 

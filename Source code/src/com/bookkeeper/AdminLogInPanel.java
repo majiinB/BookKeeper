@@ -296,11 +296,9 @@ public  AdminLogInPanel() {
 					String table = "admin";
 					String colemail = "admin_email";
 					String colpass = "admin_password";
-					String colStatus ="admin_status";
 					char[] pass = txtPassword.getPassword();
 					String password = new String(pass);
-					String status = "Active";
-					newUser = AuthenticationFrame.loginMethod(trimed, password, table, colemail, colpass, colStatus, status);
+					newUser = AuthenticationFrame.loginMethod(trimed, password, table, colemail, colpass);
 					if (newUser == null && numTries<=3) {
 						// Shield
 						if(numTries==3) {
@@ -325,6 +323,13 @@ public  AdminLogInPanel() {
 						
 						Setting setting = retrieveSettingFromDatabase(); //Instantiate the setting object to be used by admin
 						employee =  (Employee) newUser; //Create the employee that logged in
+						
+						if(employee.getStatus().equals("Inactive")) {
+					    	MalfunctionPanel mal = new MalfunctionPanel("Failed Log In", "Your account has been disabled.");
+					    	showDialog(mal);
+					    	return;
+					    }
+						
 						String title = "Log In Successful!";
 					    String message = "Welcome Back, " + employee.getFname() + " " + employee.getLname() + "! Happy Browsing!";
 					    System.out.println(employee.getEmail()	+ " LoginPanel");

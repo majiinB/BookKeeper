@@ -202,7 +202,7 @@ public class AuthenticationFrame extends JFrame {
   		}
   		
   		//LoginMethod
-  		public static Object loginMethod(String email, String pass, String table, String colEmail, String colPass, String colStatus, String status) throws Exception{
+  		public static Object loginMethod(String email, String pass, String table, String colEmail, String colPass) throws Exception{
   			 //Declare variables
   			 Connection conn = null;
   		     String url = "jdbc:mysql://localhost/book_keeper";
@@ -224,20 +224,15 @@ public class AuthenticationFrame extends JFrame {
   		   	         pwd = pass;
   		   	         encryptedpass = encryption(pwd);
   		   	         //prepare query
-  		   	         String query = "SELECT * FROM " + table + " WHERE BINARY " + colEmail +"=? AND BINARY " + colPass + "=? AND " + colStatus + "=?";
+  		   	         String query = "SELECT * FROM " + table + " WHERE BINARY " + colEmail +"=? AND BINARY " + colPass + "=? ";
   		   	         PreparedStatement stmt = conn.prepareStatement(query);
   		   	         stmt.setString(1, userEmail);
   		   	         stmt.setString(2, encryptedpass);
-  		   	         stmt.setString(3, status);
   		   	         ResultSet rs = stmt.executeQuery();
   		   	         
   		   	         //Condition for return and loop continuation
   		   	         if (rs.next()) {
-   	 	            	// Show alert message
-   	         			/* 
-   	         			 * Alert Title: Log In Successful
-   	         			 * Alert Description: Welcome Back, <name> ! Happy Browsing!
-   	         			 */
+   	 	            	
   		   	             System.out.println("Login successful!");
   		   	             if(table.equals("patron")) {
   		   	            	 String userID = rs.getString("formatted_id");
