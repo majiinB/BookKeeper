@@ -685,7 +685,7 @@ public  SignUpPanel(int forQuery) {
 			return forReturn;
 		}
 	public static String generateRandomPass() {
-    	final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    	final String CHARACTERS = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789";
 	    final int ID_LENGTH = 8;
     	StringBuilder sb = new StringBuilder();
         Random random = new Random();
