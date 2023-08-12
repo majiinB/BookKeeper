@@ -401,6 +401,9 @@ public class ChangeOverduePenaltyPanel extends JPanel{
 	public JButton getBtnUpdate() {
 		return btnUpdate;
 	}
+	public JButton getBtnCancel() {
+		return btnCancel;
+	}
 	// OVERLOADED METHOD -> showDialog()
 		//Method to show alert panel (Success Panel)
 		public void showDialog(SuccessPanel panel) {
@@ -414,6 +417,8 @@ public class ChangeOverduePenaltyPanel extends JPanel{
 			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.getContentPane().add(panel);
+			dialog.setUndecorated(true);
+		    dialog.setResizable(false);
 			dialog.pack();
 			dialog.setLocationRelativeTo(null);
 			dialog.setVisible(true);
@@ -432,6 +437,8 @@ public class ChangeOverduePenaltyPanel extends JPanel{
 			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this),"Error", true);
 	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	        dialog.getContentPane().add(panel);
+	        dialog.setUndecorated(true);
+		    dialog.setResizable(false);
 	        dialog.pack();
 	        dialog.setLocationRelativeTo(null);
 	        dialog.setVisible(true);

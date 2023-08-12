@@ -957,7 +957,9 @@ public class AdminSettingsPanel extends JPanel {
 	JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Change Information", true);
 	dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	dialog.getContentPane().add(panel);
-	dialog.pack();
+	dialog.setUndecorated(true);
+    dialog.setResizable(false);
+	dialog.setSize(855, 770);
 	dialog.setLocationRelativeTo(null);
 	dialog.setVisible(true);
  }
@@ -972,7 +974,9 @@ public class AdminSettingsPanel extends JPanel {
 		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Change Information", true);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.getContentPane().add(panel);
-		dialog.pack();
+		dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+		dialog.setSize(855, 700);
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 	 }

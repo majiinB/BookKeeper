@@ -124,7 +124,7 @@ public class ConfirmationPanel extends JPanel {
 //	txtDescription.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
 	btnConfirm = new JButton("Confirm");
-	btnConfirm.setBorder(new CompoundBorder(new LineBorder(new Color(14, 14, 15,50), 2), new EmptyBorder(10, 25, 10, 25)));
+	btnConfirm.setBorder(new EmptyBorder(0, 0, 0, 0));
 	btnConfirm.setForeground(darkplainColor);
 	btnConfirm.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 	btnConfirm.setFocusPainted(false);
@@ -138,6 +138,7 @@ public class ConfirmationPanel extends JPanel {
 	btnCancel.setFocusPainted(false);
 	btnCancel.setContentAreaFilled(false);
 	btnCancel.setOpaque(false);
+
 	/*
      * gamit ka ng gridbag layout for more control sa placement ng components  sa panel
      * ung gbc or grid bag constraints is para madetermine mo ung positioning ng mga components sa gridbag layout

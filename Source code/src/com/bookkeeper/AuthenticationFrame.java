@@ -84,10 +84,10 @@ public class AuthenticationFrame extends JFrame {
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	
     	// Remove window decorations (title bar, borders)
-    	setUndecorated(false); 
+    	setUndecorated(true); 
     	
     	// Prevent resizing
-    	setResizable(true); 
+    	setResizable(false); 
 
     	// Set the frame size based on the screen dimensions
     	environment = GraphicsEnvironment.getLocalGraphicsEnvironment();

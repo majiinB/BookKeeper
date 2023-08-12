@@ -671,7 +671,9 @@ public class AccountInfoPanel extends JPanel{
 	    JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
 	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	    dialog.getContentPane().add(panel);
-	    dialog.pack();
+	    dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+	    dialog.setSize(400,500);
 	    dialog.setLocationRelativeTo(null);
 	    dialog.setVisible(true);
 	}
@@ -685,7 +687,9 @@ public class AccountInfoPanel extends JPanel{
 	    JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
 	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	    dialog.getContentPane().add(panel);
-	    dialog.pack();
+	    dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+	    dialog.setSize(400,550);
 	    dialog.setLocationRelativeTo(null);
 	    dialog.setVisible(true);
 	}
@@ -699,7 +703,9 @@ public class AccountInfoPanel extends JPanel{
 	    JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
 	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	    dialog.getContentPane().add(panel);
-	    dialog.pack();
+	    dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+	    dialog.setSize(400,500);
 	    dialog.setLocationRelativeTo(null);
 	    dialog.setVisible(true);
 	}
@@ -713,7 +719,9 @@ public class AccountInfoPanel extends JPanel{
 	    JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
 	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	    dialog.getContentPane().add(panel);
-	    dialog.pack();
+	    dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+	    dialog.setSize(450,500);
 	    dialog.setLocationRelativeTo(null);
 	    dialog.setVisible(true);
 	}    

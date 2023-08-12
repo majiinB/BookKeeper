@@ -460,11 +460,9 @@ protected void paintComponent(Graphics g) {
 		dialog.setUndecorated(false);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.getContentPane().add(panel);
-		dialog.setSize(width, height);
-//		dialog.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-
-//		dialog.pack();
-
+		dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+		dialog.setSize(855, 770);
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 		
@@ -487,10 +485,9 @@ protected void paintComponent(Graphics g) {
 		dialog.setUndecorated(false);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.getContentPane().add(panel);
-		dialog.setSize(width, height);
-	
-//		dialog.pack();
-
+		dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+		dialog.setSize(855, 770);
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 	}

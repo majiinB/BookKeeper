@@ -457,7 +457,9 @@ public class BackgroundPanel extends JPanel {
 		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.getContentPane().add(panel);
-		dialog.pack();
+		dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+		dialog.setSize(855, 770);
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 	

@@ -469,7 +469,9 @@ protected void paintComponent(Graphics g) {
 		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.getContentPane().add(panel);
-		dialog.pack();
+		dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+		dialog.setSize(855, 600);
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 
@@ -485,7 +487,9 @@ protected void paintComponent(Graphics g) {
 		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Success", true);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.getContentPane().add(panel);
-		dialog.pack();
+		dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+		dialog.setSize(855, 740);
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 

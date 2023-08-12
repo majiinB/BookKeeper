@@ -712,6 +712,8 @@ public class ChangeNumPanel extends JPanel{
 			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.getContentPane().add(panel);
+			dialog.setUndecorated(true);
+		    dialog.setResizable(false);
 			dialog.pack();
 			dialog.setLocationRelativeTo(null);
 			dialog.setVisible(true);
@@ -730,6 +732,8 @@ public class ChangeNumPanel extends JPanel{
 			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this),"Error", true);
 	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	        dialog.getContentPane().add(panel);
+	        dialog.setUndecorated(true);
+		    dialog.setResizable(false);
 	        dialog.pack();
 	        dialog.setLocationRelativeTo(null);
 	        dialog.setVisible(true);

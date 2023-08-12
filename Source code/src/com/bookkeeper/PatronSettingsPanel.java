@@ -874,7 +874,9 @@ public class PatronSettingsPanel extends JPanel {
 		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Change Information", true);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.getContentPane().add(panel);
-		dialog.pack();
+		dialog.setSize(855, 770);
+		dialog.setUndecorated(true);
+		dialog.setResizable(false);
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 	 }

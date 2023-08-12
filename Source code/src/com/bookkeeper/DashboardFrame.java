@@ -346,6 +346,8 @@ public class DashboardFrame extends JFrame {
 		JDialog dialog = new JDialog(this, "Confirm Log Out", true);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.add(panel);
+        dialog.setUndecorated(true);
+        dialog.setResizable(false);
         dialog.pack();
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);

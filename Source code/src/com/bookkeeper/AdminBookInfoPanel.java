@@ -1070,6 +1070,8 @@ public void insertBorrowedBook(int bookId, String patronId) {
  		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
  		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
  		dialog.getContentPane().add(panel);
+ 		dialog.setUndecorated(true);
+	    dialog.setResizable(false);
  		dialog.pack();
  		dialog.setLocationRelativeTo(null);
  		dialog.setVisible(true);
@@ -1088,6 +1090,8 @@ public void insertBorrowedBook(int bookId, String patronId) {
  		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Error", true);
          dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
          dialog.getContentPane().add(panel);
+         dialog.setUndecorated(true);
+ 	     dialog.setResizable(false);
          dialog.pack();
          dialog.setLocationRelativeTo(null);
          dialog.setVisible(true);
@@ -1104,7 +1108,9 @@ public void insertBorrowedBook(int bookId, String patronId) {
   		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
   		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
   		dialog.getContentPane().add(panel);
-  		dialog.pack();
+  		dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+		dialog.setSize(855, 770);
   		dialog.setLocationRelativeTo(null);
   		dialog.setVisible(true);
 
@@ -1120,7 +1126,9 @@ public void insertBorrowedBook(int bookId, String patronId) {
    		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
    		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
    		dialog.getContentPane().add(panel);
-   		dialog.pack();
+   		dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+		dialog.setSize(400, 500);
    		dialog.setLocationRelativeTo(null);
    		dialog.setVisible(true);
 

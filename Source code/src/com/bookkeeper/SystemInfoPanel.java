@@ -575,7 +575,7 @@ public class SystemInfoPanel extends JPanel{
 	}
 	public void showDialog(ChangeBorrowLimitPanel panel) {
 		
-		 panel.getBtnUpdate().addActionListener(new ActionListener() {
+		 panel.getBtnCancel().addActionListener(new ActionListener() {
 		    	public void actionPerformed(ActionEvent e) {
 		            closeDialog(e);
 		    	}
@@ -584,13 +584,15 @@ public class SystemInfoPanel extends JPanel{
 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.getContentPane().add(panel);
-		dialog.pack();
+		dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+	    dialog.setSize(400,500);
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 	 }
 	public void showDialog(ChangeBorrowDurationPanel panel) {
 		
-		 panel.getBtnUpdate().addActionListener(new ActionListener() {
+		 panel.getBtnCancel().addActionListener(new ActionListener() {
 		    	public void actionPerformed(ActionEvent e) {
 		            closeDialog(e);
 		    	}
@@ -599,13 +601,15 @@ public class SystemInfoPanel extends JPanel{
 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.getContentPane().add(panel);
-		dialog.pack();
+		dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+	    dialog.setSize(400,500);
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 	 }
 	public void showDialog(ChangeReserveLimitPanel panel) {
 		
-		 panel.getBtnUpdate().addActionListener(new ActionListener() {
+		 panel.getBtnCancel().addActionListener(new ActionListener() {
 		    	public void actionPerformed(ActionEvent e) {
 		            closeDialog(e);
 		    	}
@@ -614,13 +618,15 @@ public class SystemInfoPanel extends JPanel{
 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.getContentPane().add(panel);
-		dialog.pack();
+		dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+	    dialog.setSize(400,500);
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 	 }
 	public void showDialog(ChangeOverduePenaltyPanel panel) {
 		
-		panel.getBtnUpdate().addActionListener(new ActionListener() {
+		panel.getBtnCancel().addActionListener(new ActionListener() {
 		    	public void actionPerformed(ActionEvent e) {
 		    		closeDialog(e);
 		    	}
@@ -629,7 +635,9 @@ public class SystemInfoPanel extends JPanel{
 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Change Information", true);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.getContentPane().add(panel);
-		dialog.pack();
+		dialog.setUndecorated(true);
+	    dialog.setResizable(false);
+	    dialog.setSize(400,500);
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 	 }
