@@ -211,7 +211,7 @@ public class AdminReportPanel extends JPanel {
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 	public AdminReportPanel() {
 		setBackground(lightplainColor);
-		setBorder(new EmptyBorder(20, 20, 0, 0));
+		setBorder(new EmptyBorder(10, 20, 10, 0));
 		setLayout(new BorderLayout(0, 0));
 		
 		//CREATE PANELS
@@ -267,10 +267,10 @@ public class AdminReportPanel extends JPanel {
 		legendItemPanel2.setOpaque(false);
 			
 		mainPanel.setBorder(new EmptyBorder(0, 0, 0, 30));
-		headingPanel.setBorder(new EmptyBorder(10, 25, 10, 45));
+		headingPanel.setBorder(new EmptyBorder(10, 25, 10, 25));
 		overviewPanel.setBorder(new EmptyBorder(10, 0, 15, 0));
-		bookLoanedPanel.setBorder(new EmptyBorder(10, 10, 15, 10));
-		overduePanel.setBorder(new EmptyBorder(10, 5, 15, 5));
+		bookLoanedPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+		overduePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 			
 		activeUserPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 		reserveBookPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -609,6 +609,7 @@ public class AdminReportPanel extends JPanel {
 
 	    //books loan table
 		lblBookLoan = new JLabel("Books Loaned");
+		lblBookLoan.setBorder(new EmptyBorder(20, 20, 0, 0));
 		lblBookLoan.setOpaque(false);
 
 		bookLoanTableModel = new DefaultTableModel();
@@ -620,7 +621,7 @@ public class AdminReportPanel extends JPanel {
 			}
 		};
 		//set table properties
-		bookLoanTable.setBackground(lightplainColor);;
+		bookLoanTable.setBackground(new Color(0, 0, 0, 0));;
 		bookLoanTable.setFillsViewportHeight(true);
 		bookLoanTable.setOpaque(false);
 		bookLoanTable.setShowVerticalLines(false);
@@ -629,12 +630,14 @@ public class AdminReportPanel extends JPanel {
 		bookLoanTable.setGridColor(darkplainColor);
 		bookLoanTable.getTableHeader().setDefaultRenderer(new headerRenderer());
 		bookLoanTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	
+		bookLoanTable.setSelectionBackground(new Color(125, 147, 194));
+		bookLoanTable.setSelectionForeground(lightplainColor);
+		
 		bookLoanedScrollPane  = new JScrollPane();
 		bookLoanedScrollPane.setOpaque(false);
 		bookLoanedScrollPane.getViewport().setOpaque(false);
 		bookLoanedScrollPane.setBackground(new Color(255, 255, 255));
-		bookLoanedScrollPane.setBorder(new EmptyBorder(0, 5, 0, 0));
+		bookLoanedScrollPane.setBorder(new EmptyBorder(0, 5, 5, 5));
 		bookLoanedScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		bookLoanedScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		bookLoanedScrollPane.setViewportView(bookLoanTable);
@@ -644,6 +647,7 @@ public class AdminReportPanel extends JPanel {
 		
 		//overdue book table
 		lblBookOverdue = new JLabel("Books Overdue");
+		lblBookOverdue.setBorder(new EmptyBorder(20, 20, 0, 0));
 		lblBookOverdue.setOpaque(false);
 
 		overdueTableModel = new DefaultTableModel();
@@ -656,7 +660,7 @@ public class AdminReportPanel extends JPanel {
 		};
 		
 		//set table properties
-		overdueTable.setBackground(lightplainColor);;
+		overdueTable.setBackground(new Color(0, 0, 0, 0));;
 		overdueTable.setFillsViewportHeight(true);
 		overdueTable.setOpaque(false);
 		overdueTable.setShowVerticalLines(false);
@@ -665,12 +669,14 @@ public class AdminReportPanel extends JPanel {
 		overdueTable.setGridColor(darkplainColor);
 		overdueTable.getTableHeader().setDefaultRenderer(new headerRenderer());
 		overdueTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+		overdueTable.setSelectionBackground(new Color(125, 147, 194));
+		overdueTable.setSelectionForeground(lightplainColor);
+		
 		overdueScrollPane  = new JScrollPane();
 		overdueScrollPane.setOpaque(false);
 		overdueScrollPane.getViewport().setOpaque(false);
 		overdueScrollPane.setBackground(new Color(255, 255, 255));
-		overdueScrollPane.setBorder(new EmptyBorder(0, 5, 0, 0));
+		overdueScrollPane.setBorder(new EmptyBorder(0, 5, 5, 5));
 		overdueScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		overdueScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		overdueScrollPane.setViewportView(overdueTable);
@@ -1028,7 +1034,13 @@ public class AdminReportPanel extends JPanel {
 				lblMonthOverview.setFont(subtitleFont);
 				lblBookLoan.setFont(subtitleFont);
 				lblBookOverdue.setFont(subtitleFont);
-				
+				overdueTable.setFont(plainFont);
+				overdueTable.getTableHeader().setFont(new Font("Montserrat", Font.ITALIC  | Font.BOLD, plainTextsize));	            
+				overdueTable.getTableHeader().setForeground(headerColor);
+				bookLoanTable.setFont(plainFont);
+				bookLoanTable.getTableHeader().setFont(new Font("Montserrat", Font.ITALIC  | Font.BOLD, plainTextsize));	            
+				bookLoanTable.getTableHeader().setForeground(headerColor);
+	            
 			}
 		    });		
 			

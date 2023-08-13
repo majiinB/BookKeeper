@@ -180,7 +180,7 @@ public class DashboardFrame extends JFrame {
         });
     	AdminMenuPanel.getBtnLogOut().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		ConfirmationPanel confirm = new ConfirmationPanel("Confirm Logout", "Are you sure you want to log out?");
+        		ConfirmationPanel confirm = new ConfirmationPanel("Confirm Log Out", "Are you sure you want to log out?");
         		int option = showDialog(confirm);
 			    
         		if(option == 1) {
@@ -288,7 +288,7 @@ public class DashboardFrame extends JFrame {
         });
     	PatronMenuPanel.getBtnLogOut().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		ConfirmationPanel confirm = new ConfirmationPanel("Confirm Logout", "Are you sure you want to log out?");
+        		ConfirmationPanel confirm = new ConfirmationPanel("Confirm Log Out", "Are you sure you want to log out?");
         		int option = showDialog(confirm);
 			    
         		if(option == 1) {
@@ -311,14 +311,18 @@ public class DashboardFrame extends JFrame {
 	 	            closeDialog(e);
 	 	    	}
 	 	    });
-	 	    
-	 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
-	 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	 		dialog.getContentPane().add(panel);
-	 		dialog.pack();
-	 		dialog.setLocationRelativeTo(null);
-	 		dialog.setVisible(true);
-
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.setSize(width, height);
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
 	 	}
 		 	
 	 	//Method to show alert panel (Malfunction Panel)
@@ -329,13 +333,18 @@ public class DashboardFrame extends JFrame {
 	 	            closeDialog(e);
 	 	    	}
 	 	    });
-	 	    
-	 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Error", true);
-	         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	         dialog.getContentPane().add(panel);
-	         dialog.pack();
-	         dialog.setLocationRelativeTo(null);
-	         dialog.setVisible(true);
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.setSize(width, height);
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
 	 	}
 	//Method to show alert panel (Confirmation Panel)
 	public int showDialog(ConfirmationPanel panel) {
@@ -354,14 +363,18 @@ public class DashboardFrame extends JFrame {
 	    	}
 	    });
 	    
-		JDialog dialog = new JDialog(this, "Confirm Log Out", true);
-        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        dialog.add(panel);
-        dialog.setUndecorated(true);
-        dialog.setResizable(false);
-        dialog.pack();
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
+		environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    	device = environment.getDefaultScreenDevice();
+       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+    	
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+		dialog.setUndecorated(true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.setSize(width, height);
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
 		
 		return selectedValue;
 	}

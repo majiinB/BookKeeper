@@ -184,12 +184,11 @@ public class AdminSettingsPanel extends JPanel {
 
  public AdminSettingsPanel(Employee employee, Setting setting) {
 	setBackground(lightplainColor);
-	setBorder(new EmptyBorder(20, 20, 0, 0));
+	setBorder(new EmptyBorder(10, 20, 10, 20));
 	setLayout(new BorderLayout(0, 0));
 	 
 	//create panels
 	mainPanel = new JPanel();
-//	mainPanel = new BackgroundPanel();
 	contentPanel = new JPanel();
 	headingPanel = new JPanel();
     accDetailPanel =  new RoundedPanel(20);
@@ -228,10 +227,10 @@ public class AdminSettingsPanel extends JPanel {
 	homeAddressPanel.setOpaque(false);
 	emailPanel.setOpaque(false);
 	
-    accDetailPanel.setBorder(new EmptyBorder(10, 10, 15, 10));
+    accDetailPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
     systemPanel.setBorder(new EmptyBorder(10, 10, 15, 10));
 	mainPanel.setBorder(new EmptyBorder(0, 0, 0, 30));
-	headingPanel.setBorder(new EmptyBorder(20, 25, 0, 45));
+	headingPanel.setBorder(new EmptyBorder(10, 25, 10, 25));
 	contentPanel.setBorder(null);
     genreListPanel.setBorder(new EmptyBorder(5, 10, 0, 10));
    
@@ -245,7 +244,7 @@ public class AdminSettingsPanel extends JPanel {
     settingScrollPane.setBackground(new Color(255, 255, 255));
     settingScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
     settingScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-    settingScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+    settingScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     
 	lblHeading1 = new JLabel("Dashboard ");
 	lblHeading1.setOpaque(false);
@@ -258,13 +257,21 @@ public class AdminSettingsPanel extends JPanel {
 
 	
 	btnOptionDetail = new JButton();
+	btnOptionDetail.setBorder(null);
 	btnOptionDetail.setFocusPainted(false);
 	btnOptionDetail.setBorderPainted(false);
-	
+	btnOptionDetail.setContentAreaFilled(false);
+	btnOptionDetail.setOpaque(false);
+	btnOptionDetail.setPreferredSize(new Dimension(5, 20));
+
     btnOptionSystem  = new JButton();
+    btnOptionSystem.setBorder(null);
     btnOptionSystem.setFocusPainted(false);
     btnOptionSystem.setBorderPainted(false);
-    
+    btnOptionSystem.setContentAreaFilled(false);
+    btnOptionSystem.setOpaque(false);
+    btnOptionSystem.setPreferredSize(new Dimension(5, 20));
+
 	optionDetailItem = new JMenuItem("Edit Information");
 	optionSystemItem = new JMenuItem("Edit Information");
 
@@ -276,16 +283,13 @@ public class AdminSettingsPanel extends JPanel {
 
 
 	optionIcon = new ImageIcon("img/DashboardFrame/Option.png");    
-	iconHeight = (int) (btnOptionDetail.getPreferredSize().getHeight() * 0.5);
-    iconWidth = (int) (btnOptionDetail.getPreferredSize().getHeight() * 0.2);
+	iconHeight = (int) (btnOptionDetail.getPreferredSize().getHeight());
+    iconWidth = (int) (btnOptionDetail.getPreferredSize().getHeight());
     
     optionIcon = new ImageIcon(optionIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
     
     btnOptionDetail.setIcon(optionIcon);
-    btnOptionDetail.setOpaque(false);
-    
     btnOptionSystem.setIcon(optionIcon);
-    btnOptionSystem.setOpaque(false);
     
 	lblaccDetail = new JLabel("My Details");
 	lblaccDetail.setOpaque(false);
@@ -459,10 +463,10 @@ public class AdminSettingsPanel extends JPanel {
     
     //gridbag layouts
 	gbl_contentPanel = new GridBagLayout();
-	gbl_contentPanel.columnWidths = new int[]{0, 0};
-	gbl_contentPanel.rowHeights = new int[]{30};
-	gbl_contentPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-	gbl_contentPanel.rowWeights = new double[]{0.0};
+	gbl_contentPanel.columnWidths = new int[]{0};
+	gbl_contentPanel.rowHeights = new int[]{0,0};
+	gbl_contentPanel.columnWeights = new double[]{1.0};
+	gbl_contentPanel.rowWeights = new double[]{0.0,0.0};
     
 	gbc_accDetailPanel = new GridBagConstraints();
     gbc_accDetailPanel.fill = GridBagConstraints.BOTH;
@@ -493,7 +497,7 @@ public class AdminSettingsPanel extends JPanel {
 	
     gbc_btnOptionDetail = new GridBagConstraints();
     gbc_btnOptionDetail.anchor = GridBagConstraints.EAST;
-    gbc_btnOptionDetail.insets = new Insets(0, 5, 5, 0);
+    gbc_btnOptionDetail.insets = new Insets(0, 0, 0, 0);
     gbc_btnOptionDetail.gridx = 1;
     gbc_btnOptionDetail.gridy = 0;
 
@@ -670,7 +674,7 @@ public class AdminSettingsPanel extends JPanel {
 	
     gbc_btnOptionSystem = new GridBagConstraints();
     gbc_btnOptionSystem.anchor = GridBagConstraints.EAST;
-    gbc_btnOptionSystem.insets = new Insets(0, 5, 5, 0);
+    gbc_btnOptionSystem.insets = new Insets(0, 0, 0, 0);
     gbc_btnOptionSystem.gridx = 1;
     gbc_btnOptionSystem.gridy = 0;
 
@@ -886,12 +890,12 @@ public class AdminSettingsPanel extends JPanel {
 	addComponentListener(new ComponentAdapter() {
   	  @Override
         public void componentResized(ComponentEvent e) {
-	      	titleTextSize = Math.min(getHeight() / 12, getWidth()/ 14) ;
-	        subtitleTextSize =  Math.min(getHeight() / 40, getWidth()/ 40);
-	        buttonTextSize =  Math.min(getHeight() / 80, getWidth()/ 80);
-	        headerTextSize =   Math.min(getHeight() / 30, getWidth()/ 35);
-	        plainTextsize=   Math.min(getHeight() / 70, getWidth()/ 70);
-	            
+	  		titleTextSize = Math.min(getHeight() / 8, getWidth()/ 8) ;
+	        subtitleTextSize =  Math.min(getHeight() / 36, getWidth()/ 36);
+	        buttonTextSize =  Math.min(getHeight() / 50, getWidth()/ 50);
+	        headerTextSize =   Math.min(getHeight() / 20, getWidth()/ 20);
+	        plainTextsize=   Math.min(getHeight() / 60, getWidth()/ 60);
+            
 	        titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
 			subtitleFont = new Font("Montserrat", Font.BOLD, subtitleTextSize);
 	        buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);

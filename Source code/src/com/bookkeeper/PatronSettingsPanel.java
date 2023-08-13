@@ -150,7 +150,7 @@ public class PatronSettingsPanel extends JPanel {
 
  public PatronSettingsPanel(User user) {
 	setBackground(lightplainColor);
-	setBorder(new EmptyBorder(20, 20, 0, 0));
+	setBorder(new EmptyBorder(10, 20, 10, 20));
 	setLayout(new BorderLayout(0, 0));
 	 
 	//create panels
@@ -186,11 +186,11 @@ public class PatronSettingsPanel extends JPanel {
 	emailPanel.setOpaque(false);
 	mainPanel.setBorder(new EmptyBorder(0, 0, 0, 30));
 	
-    accDetailPanel.setBorder(new EmptyBorder(10, 10, 15, 10));
-    reserveBookPanel.setBorder(new EmptyBorder(10, 10, 15, 10));
-    activeLoanPanel.setBorder(new EmptyBorder(10, 10, 15, 10));
-    historyLoanPanel.setBorder(new EmptyBorder(10, 10, 15, 10));
-	headingPanel.setBorder(new EmptyBorder(10, 25, 10, 45));
+    accDetailPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+    reserveBookPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+    activeLoanPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+    historyLoanPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+	headingPanel.setBorder(new EmptyBorder(00, 25, 10, 45));
 
     accDetailPanel.setBorderWidth(2);
     activeLoanPanel.setBorderWidth(2);
@@ -221,7 +221,9 @@ public class PatronSettingsPanel extends JPanel {
 	btnOptionDetail = new JButton();
 	btnOptionDetail.setFocusPainted(false);
 	btnOptionDetail.setBorderPainted(false);
-	
+	btnOptionDetail.setContentAreaFilled(false);
+	btnOptionDetail.setOpaque(false);
+    
 	option1 = new JMenuItem("Edit Information");
 
     detailPopupMenu = new JPopupMenu();
@@ -307,6 +309,7 @@ public class PatronSettingsPanel extends JPanel {
 
 
 	lblreserveBook = new JLabel("Reserved Books");
+	lblreserveBook.setBorder(new EmptyBorder(20, 20, 0, 0));
 	lblreserveBook.setOpaque(false);
 	lblreserveBook.setForeground(darkplainColor);
 	
@@ -339,12 +342,13 @@ public class PatronSettingsPanel extends JPanel {
 	reserveScrollPane.setOpaque(false);
 	reserveScrollPane.getViewport().setOpaque(false);
 	reserveScrollPane.setBackground(new Color(255, 255, 255));
-	reserveScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
+	reserveScrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	reserveScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	reserveScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     reserveScrollPane.setViewportView(reserveTable);
     
 	lblactiveLoan = new JLabel("Active Book Loans");
+	lblactiveLoan.setBorder(new EmptyBorder(20, 20, 0, 0));
 	lblactiveLoan.setOpaque(false);
 	lblactiveLoan.setForeground(darkplainColor);
 	
@@ -378,12 +382,13 @@ public class PatronSettingsPanel extends JPanel {
 	activeLoanScrollPane.setOpaque(false);
 	activeLoanScrollPane.getViewport().setOpaque(false);
 	activeLoanScrollPane.setBackground(new Color(255, 255, 255));
-	activeLoanScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
+	activeLoanScrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	activeLoanScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	activeLoanScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     activeLoanScrollPane.setViewportView(activeLoanTable);
 	
 	lblhistoryLoan = new JLabel("Book Loan History");
+	lblhistoryLoan.setBorder(new EmptyBorder(20, 20, 0, 0));
 	lblhistoryLoan.setOpaque(false);
 	lblhistoryLoan.setForeground(darkplainColor);
 	
@@ -417,7 +422,7 @@ public class PatronSettingsPanel extends JPanel {
 	historyLoanScrollPane.setOpaque(false);
 	historyLoanScrollPane.getViewport().setOpaque(false);
 	historyLoanScrollPane.setBackground(new Color(255, 255, 255));
-	historyLoanScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
+	historyLoanScrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	historyLoanScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	historyLoanScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     historyLoanScrollPane.setViewportView(historyLoanTable);
@@ -681,11 +686,11 @@ public class PatronSettingsPanel extends JPanel {
 			
 			activeLoanTable.setFont(plainFont);
 			activeLoanTable.getTableHeader().setFont(new Font("Montserrat", Font.ITALIC  | Font.BOLD, plainTextsize));	            
-			activeLoanTable.getTableHeader().setForeground(darkplainColor);
+			activeLoanTable.getTableHeader().setForeground(headerColor);
 			
 			historyLoanTable.setFont(plainFont);
 			historyLoanTable.getTableHeader().setFont(new Font("Montserrat", Font.ITALIC  | Font.BOLD, plainTextsize));	            
-			historyLoanTable.getTableHeader().setForeground(darkplainColor);
+			historyLoanTable.getTableHeader().setForeground(headerColor);
 	     		     	
 	     	
 		}

@@ -112,17 +112,6 @@ public class ConfirmationPanel extends JPanel {
     StyleConstants.setAlignment(rightAlign, StyleConstants.ALIGN_RIGHT);
     doc.setParagraphAttributes(0, doc.getLength(), rightAlign, false);
 
-//	txtDescription = new JTextArea(message);
-//	txtDescription.setForeground(darkplainColor);
-//	txtDescription.setLineWrap(true);
-//	txtDescription.setOpaque(false);
-//	txtDescription.setWrapStyleWord(true);
-//	txtDescription.setFocusable(false);
-//	txtDescription.setEditable(false);
-//	txtDescription.setDragEnabled(false);
-//	txtDescription.setAutoscrolls(false);
-//	txtDescription.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-
 	btnConfirm = new JButton("Confirm");
 	btnConfirm.setBorder(new CompoundBorder(new LineBorder(new Color(14, 14, 15,50), 2), new EmptyBorder(10, 25, 10, 25)));
 	btnConfirm.setForeground(darkplainColor);
@@ -168,9 +157,9 @@ public class ConfirmationPanel extends JPanel {
 	
 	gbl_alertPanel = new GridBagLayout();
 	gbl_alertPanel.columnWidths = new int[]{361, 0};
-	gbl_alertPanel.rowHeights = new int[]{68, 80, 40, 0};
+	gbl_alertPanel.rowHeights = new int[]{68, 80, 40};
 	gbl_alertPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-	gbl_alertPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+	gbl_alertPanel.rowWeights = new double[]{0.0, 0.0, 0.0};
 	
 	gbc_txtTitle = new GridBagConstraints();
 	gbc_txtTitle.fill = GridBagConstraints.BOTH;
