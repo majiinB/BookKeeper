@@ -184,7 +184,7 @@ public class AdminSettingsPanel extends JPanel {
 
  public AdminSettingsPanel(Employee employee, Setting setting) {
 	setBackground(lightplainColor);
-	setBorder(new EmptyBorder(10, 20, 10, 20));
+	setBorder(new EmptyBorder(10, 20, 10, 0));
 	setLayout(new BorderLayout(0, 0));
 	 
 	//create panels
@@ -228,7 +228,7 @@ public class AdminSettingsPanel extends JPanel {
 	emailPanel.setOpaque(false);
 	
     accDetailPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
-    systemPanel.setBorder(new EmptyBorder(10, 10, 15, 10));
+    systemPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 	mainPanel.setBorder(new EmptyBorder(0, 0, 0, 30));
 	headingPanel.setBorder(new EmptyBorder(10, 25, 10, 25));
 	contentPanel.setBorder(null);

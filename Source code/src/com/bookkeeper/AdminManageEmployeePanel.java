@@ -144,7 +144,8 @@ public class AdminManageEmployeePanel extends JPanel {
     btnSearch.setBorderPainted(false);
     btnSearch.setFocusPainted(false);
     btnSearch.setContentAreaFilled(false);
-    
+    btnSearch.setPreferredSize(new Dimension(25, 25));
+
     searchIcon = new ImageIcon("img/DashboardFrame/Search.png");    
     iconHeight = (int) (btnSearch.getPreferredSize().getHeight()-5);
     iconWidth = (int) (btnSearch.getPreferredSize().getHeight()-5);

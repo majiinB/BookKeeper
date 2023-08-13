@@ -256,7 +256,7 @@ public class SystemInfoPanel extends JPanel{
 		btnOverdue.setBackground(new Color(0, 0, 0, 0));
 		
 		btnSave = new JButton();
-		btnSave.setText("Save Changes");
+		btnSave.setText("Done");
 		btnSave.setMnemonic(KeyEvent.VK_ENTER);
 		btnSave.setForeground(lightplainColor);
 		btnSave.setBorder(new EmptyBorder(10, 10, 10, 10));

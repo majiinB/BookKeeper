@@ -61,6 +61,11 @@ public class AdminBookBorrowPanel extends JPanel{
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 	private int selectedValue;
 
+	private GraphicsEnvironment environment;	
+	private GraphicsDevice device;
+	private int width;
+	private int height;
+	
 	public AdminBookBorrowPanel(Book selectedBook, Setting setting) {
 		setBackground(new Color(250, 251, 255));
 		setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
@@ -106,20 +111,21 @@ public class AdminBookBorrowPanel extends JPanel{
 	    txtPatronID.setEditable(true);
 	    txtPatronID.setDragEnabled(false);
 	
-	    btnBorrow = new JButton();
-	    btnBorrow.setText("Borrow");
-	    btnBorrow.setForeground(darkplainColor);
+	    btnBorrow = new JButton("Borrow");
+	    btnBorrow.setForeground(lightplainColor);
 	    btnBorrow.setBorder(new EmptyBorder(10, 10, 10, 10));
-	    btnBorrow.setOpaque(false);
+	    btnBorrow.setOpaque(true);
 	    btnBorrow.setFocusPainted(false);
 	    btnBorrow.setBorderPainted(false);
-	    
+	    btnBorrow.setBackground(headerColor);
+
 	    btnCancel = new JButton("Cancel");
-	    btnCancel.setFocusPainted(false);
-	    btnCancel.setForeground(darkplainColor);
-	    btnCancel.setBorderPainted(false);
+	    btnCancel.setForeground(lightplainColor);
 	    btnCancel.setBorder(new EmptyBorder(10, 10, 10, 10));
-	    btnCancel.setOpaque(false);
+	    btnCancel.setOpaque(true);
+	    btnCancel.setFocusPainted(false);
+	    btnCancel.setBorderPainted(false);
+	    btnCancel.setBackground(headerColor);
 
 	    
 	    /*
@@ -193,11 +199,11 @@ public class AdminBookBorrowPanel extends JPanel{
 	    addComponentListener(new ComponentAdapter() {
 	    	  @Override
 	          public void componentResized(ComponentEvent e) {
-	  	        	titleTextSize = Math.min(getHeight() / 7, getWidth()/ 10) ;
+	  	        	titleTextSize = Math.min(getHeight() / 10, getWidth()/ 10) ;
 	  	            subtitleTextSize =  Math.min(getHeight() / 20, getWidth()/ 25);
-	  	            buttonTextSize =  Math.min(getHeight() / 30, getWidth()/ 30);
+	  	            buttonTextSize =  Math.min(getHeight() / 20, getWidth()/ 20);
 	  	           	headerTextSize =   Math.min(getHeight() / 20, getWidth()/ 30);
-	  	           	plainTextsize=   Math.min(getHeight() / 25, getWidth()/ 25);
+	  	           	plainTextsize=   Math.min(getHeight() / 20, getWidth()/ 20);
 	  	          
 	  	          titleFont = new Font("Montserrat", Font.ITALIC|Font.BOLD, titleTextSize);
 	  	            buttonFont = new Font("Montserrat", Font.BOLD, buttonTextSize);
@@ -233,7 +239,8 @@ public class AdminBookBorrowPanel extends JPanel{
 					//Shield to check if the one borrowing is not the same with the one who has a reservation with the book
 					if(withReservation!=null) {
 						if(!withReservation.getUser_id().equals(patronID)) {
-							ConfirmationPanel mal = new ConfirmationPanel("Warning Book is Reserved", "Are you sure you want this book to be borrowed\nBook is currently reserved by:\n"
+							ConfirmationPanel mal = new ConfirmationPanel("Warning Book is Reserved", 
+									"Are you sure you want this book to be borrowed\nBook is currently reserved by:\n"
 									+ "Patron ID: "+ withReservation.getUser_id() +"\nPatron Name: " + withReservation.getUser_fname() + " " + withReservation.getUser_lname());
 							flag = showDialog(mal);
 						}
@@ -247,6 +254,7 @@ public class AdminBookBorrowPanel extends JPanel{
 					}else {
 						//Execute query to borrow book
 						insertBorrowedBook(bookID, patronID, setting);
+						selectedBook.setBook_status("Borrowed");
 						
 						//Increment the object
 						borrowerPatron.setUser_num_borrowed(borrowerPatron.getUser_num_borrowed() + 1);
@@ -525,7 +533,8 @@ public class AdminBookBorrowPanel extends JPanel{
 	        updateStatement.executeUpdate();
 	        
 	        // Prompt success
-	        SuccessPanel success = new SuccessPanel("Book Borrow Success", "Book has been successfuly borrowed\nBook must be returned on the given date: "+ dueDate);
+	        SuccessPanel success = new SuccessPanel("Book Borrow Success", 
+	        		"Book has been successfuly borrowed\nBook must be returned on the given date: "+ dueDate);
 	        showDialog(success);
 	        updateNumOfBorrowed(patronId);
 	        
@@ -610,14 +619,19 @@ public class AdminBookBorrowPanel extends JPanel{
 	 	    	}
 	 	    });
 	 	    
-	 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
-	 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	 		dialog.getContentPane().add(panel);
-	 		dialog.setUndecorated(true);
-		    dialog.setResizable(false);
-	 		dialog.pack();
-	 		dialog.setLocationRelativeTo(null);
-	 		dialog.setVisible(true);
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.setSize(width, height);
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
+
 
 	 	}
 	 	
@@ -629,15 +643,25 @@ public class AdminBookBorrowPanel extends JPanel{
 	 	            closeDialog(e);
 	 	    	}
 	 	    });
-	 	    
-	 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Error", true);
-	         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	         dialog.getContentPane().add(panel);
-	         dialog.setUndecorated(true);
-	 	     dialog.setResizable(false);
-	         dialog.pack();
-	         dialog.setLocationRelativeTo(null);
-	         dialog.setVisible(true);
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.setSize(width, height);
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
+
+
 	 	}
 	     public int showDialog(ConfirmationPanel panel) {
 	 		selectedValue = 0;

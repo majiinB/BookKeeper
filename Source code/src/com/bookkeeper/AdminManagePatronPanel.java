@@ -141,19 +141,19 @@ public class AdminManagePatronPanel extends JPanel {
     btnAdd.setBorderPainted(false);
     btnAdd.setFocusPainted(false);
     btnAdd.setContentAreaFilled(false);
-
+    
     btnSearch = new JButton();
+    btnSearch.setPreferredSize(new Dimension(25, 25));
     btnSearch.setMnemonic(KeyEvent.VK_ENTER);
     btnSearch.setBorderPainted(false);
     btnSearch.setFocusPainted(false);
     btnSearch.setContentAreaFilled(false);
     
     searchIcon = new ImageIcon("img/DashboardFrame/Search.png");    
-    iconHeight = (int) (btnSearch.getPreferredSize().getHeight() * 0.5);
-    iconWidth = (int) (btnSearch.getPreferredSize().getHeight() * 0.5);
+    iconHeight = (int) (btnSearch.getPreferredSize().getHeight()-5);
+    iconWidth = (int) (btnSearch.getPreferredSize().getHeight()-5);
     searchIcon = new ImageIcon(searchIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
     btnSearch.setIcon(searchIcon);
-
     
     txtSearchBar = new PlaceholderTextField("Search User");
     txtSearchBar.setBorder(null);

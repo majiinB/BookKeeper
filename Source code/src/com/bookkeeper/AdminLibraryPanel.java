@@ -451,11 +451,6 @@ protected void paintComponent(Graphics g) {
 	    	}
 	    });
 		
-		environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-    	device = environment.getDefaultScreenDevice();
-       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
-    	height = (int) (device.getDisplayMode().getHeight() * 0.5);  
-
 		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
 		dialog.setUndecorated(false);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -475,11 +470,6 @@ protected void paintComponent(Graphics g) {
 	            closeDialog(e);
 	    	}
 	    });
-
-		environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-    	device = environment.getDefaultScreenDevice();
-       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
-    	height = (int) (device.getDisplayMode().getHeight() * 0.5);  
 
 		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
 		dialog.setUndecorated(false);

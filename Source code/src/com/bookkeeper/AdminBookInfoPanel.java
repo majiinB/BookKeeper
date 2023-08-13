@@ -122,6 +122,11 @@ public class AdminBookInfoPanel extends JPanel{
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
+	private GraphicsEnvironment environment;	
+	private GraphicsDevice device;
+	private int width;
+	private int height;
+	
 	public AdminBookInfoPanel(Book selectedBook, Setting setting) {
 		setBackground(new Color(250, 251, 255));
 		setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
@@ -190,6 +195,7 @@ public class AdminBookInfoPanel extends JPanel{
 	    btnBack.setBorderPainted(false);
 	    btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    btnBack.setOpaque(false);
+	    btnBack.setContentAreaFilled(false);
 
 	    lblBookTitle = new JLabel("Title:");
 	    lblBookTitle.setHorizontalAlignment(SwingConstants.LEFT);
@@ -643,13 +649,18 @@ public class AdminBookInfoPanel extends JPanel{
 					updateBookStatusAndBorrowStatus(selectedBook.getBook_id());
 					selectedBook.setBook_status("Available");
 					updateNumOfBorrowed(patron.getUser_id());
-					SuccessPanel success = new SuccessPanel("Returned","Book has been returned Successfuly");
+					SuccessPanel success = new SuccessPanel("Returned Successfully",
+							"The book has been sucessfully returned and is now available for\n"
+							+ "others to borrow. Don't forget to re-shelve it properly.");
 					showDialog(success);
 				}else if (selectedBook.getBook_status().equals("Available")){
-					MalfunctionPanel mal = new MalfunctionPanel("Return Error", "Book is still available");
+					MalfunctionPanel mal = new MalfunctionPanel("Book Is Available", 
+							"Oops! The book is currently marked as available for borrowing.\n"
+							+ " Please verify and ensure proper return.");
 					showDialog(mal);
 				}else if (selectedBook.getBook_status().equals("Unavailable")){
-					MalfunctionPanel mal = new MalfunctionPanel("Return Error", "Book is unavailable");
+					MalfunctionPanel mal = new MalfunctionPanel("Book Is Unavailable", 
+							"Oops! The book is currently marked as unavailable for borrowing.");
 					showDialog(mal);
 				}
 				
@@ -663,6 +674,15 @@ public class AdminBookInfoPanel extends JPanel{
 	    });
 	    btnBorrow.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
+	    		
+	    		String bookStatus = selectedBook.getBook_status();
+	    		
+				if(bookStatus.equals("Borrowed") || bookStatus.equals("Unavailable")) {
+					MalfunctionPanel mal = new MalfunctionPanel("Borrow Error", "Sorry but the book cannot be borrowed");
+					showDialog(mal);
+					return;
+				}
+				
 	    		AdminBookBorrowPanel panel = new AdminBookBorrowPanel(selectedBook, setting);
 	    		showDialog(panel);
 	    	}
@@ -1066,15 +1086,18 @@ public void insertBorrowedBook(int bookId, String patronId) {
  	            closeDialog(e);
  	    	}
  	    });
- 	    
- 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
- 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
- 		dialog.getContentPane().add(panel);
- 		dialog.setUndecorated(true);
-	    dialog.setResizable(false);
- 		dialog.pack();
- 		dialog.setLocationRelativeTo(null);
- 		dialog.setVisible(true);
+		environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    	device = environment.getDefaultScreenDevice();
+       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+    	
+		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+		dialog.setUndecorated(true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.setSize(width, height);
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
 
  	}
  	
@@ -1085,16 +1108,21 @@ public void insertBorrowedBook(int bookId, String patronId) {
  	    	public void actionPerformed(ActionEvent e) {
  	            closeDialog(e);
  	    	}
- 	    });
- 	    
- 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Error", true);
-         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-         dialog.getContentPane().add(panel);
-         dialog.setUndecorated(true);
- 	     dialog.setResizable(false);
-         dialog.pack();
-         dialog.setLocationRelativeTo(null);
-         dialog.setVisible(true);
+  	    });
+
+ 			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+ 	    	device = environment.getDefaultScreenDevice();
+ 	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+ 	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+ 	    	
+ 			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+ 			dialog.setUndecorated(true);
+ 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+ 			dialog.getContentPane().add(panel);
+ 			dialog.setSize(width, height);
+ 			dialog.setLocationRelativeTo(null);
+ 			dialog.setVisible(true);
+
  	}
      // showDialog to show adminUpdate
      public void showDialog(AdminUpdateBookPanel panel) {
@@ -1105,6 +1133,7 @@ public void insertBorrowedBook(int bookId, String patronId) {
   	    	}
   	    });
   	    
+  		
   		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
   		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
   		dialog.getContentPane().add(panel);
@@ -1123,14 +1152,19 @@ public void insertBorrowedBook(int bookId, String patronId) {
    	    	}
    	    });
    	    
-   		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
-   		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-   		dialog.getContentPane().add(panel);
-   		dialog.setUndecorated(true);
-	    dialog.setResizable(false);
-		dialog.setSize(400, 500);
-   		dialog.setLocationRelativeTo(null);
-   		dialog.setVisible(true);
+		environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    	device = environment.getDefaultScreenDevice();
+       	width = (int) (device.getDisplayMode().getWidth() * 0.3);    	
+    	height = (int) (device.getDisplayMode().getHeight() * 0.25); 
+    	
+		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+		dialog.setUndecorated(true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.setSize(width, height);
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+
 
    	}
      

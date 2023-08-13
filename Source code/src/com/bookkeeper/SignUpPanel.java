@@ -107,7 +107,10 @@ public class SignUpPanel extends JPanel {
 	private  Color lightplainColor = new Color(250, 251, 255);
 	private  Color middleplainColor = new Color(243, 243, 247);
 
-	
+	private GraphicsEnvironment environment;	
+	private GraphicsDevice device;
+	private int width;
+	private int height;
 
 public  SignUpPanel(int forQuery) {
 	setBackground(new Color(250, 251, 255));
@@ -130,8 +133,8 @@ public  SignUpPanel(int forQuery) {
 
     // Set panel properties
     mainPanel.setBorder(null);
-    titlePanel.setBorder(new EmptyBorder(15, 100, 0, 100));
-    subtitlePanel.setBorder(new EmptyBorder(0, 100, 10, 100));
+    titlePanel.setBorder(new EmptyBorder(25, 0, 25, 0));
+    subtitlePanel.setBorder(new EmptyBorder(25, 0, 25, 0));
     inputPanel.setBorder(new EmptyBorder(20, 100, 5, 100));
     buttonPanel.setBorder(new EmptyBorder(25, 0, 25, 0));
 
@@ -165,7 +168,8 @@ public  SignUpPanel(int forQuery) {
     btnBack.setBorderPainted(false);
     btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
     btnBack.setOpaque(false);
-
+    btnBack.setContentAreaFilled(false);
+    
     lblTitle = new JLabel("SIGN UP");
     lblTitle.setBorder(null);
     lblTitle.setForeground(headerColor);
@@ -435,7 +439,7 @@ public  SignUpPanel(int forQuery) {
   	            subtitleFont = new Font("Montserrat", Font.ITALIC, subtitleTextSize);
   	            lblSubTitle.setFont(subtitleFont);
   	            
-  	            buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
+  	            buttonFont = new Font("Montserrat", Font.BOLD, buttonTextSize);
   	            btnSignUp.setFont(buttonFont);
   	            btnClear.setFont(buttonFont);
   	            
@@ -708,12 +712,16 @@ public  SignUpPanel(int forQuery) {
 		    	}
 		    });
 		    
-			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.getContentPane().add(panel);
-			dialog.setUndecorated(true);
-		    dialog.setResizable(false);
-			dialog.pack();
+			dialog.setSize(width, height);
 			dialog.setLocationRelativeTo(null);
 			dialog.setVisible(true);
 
@@ -727,15 +735,18 @@ public  SignUpPanel(int forQuery) {
 		            closeDialog(e);
 		    	}
 		    });
-		    
-			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Error", true);
-	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	        dialog.getContentPane().add(panel);
-	        dialog.setUndecorated(true);
-		    dialog.setResizable(false);
-	        dialog.pack();
-	        dialog.setLocationRelativeTo(null);
-	        dialog.setVisible(true);
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.setSize(width, height);
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
 		}
 	    
 	    //Method used by showDialog to close the JDialog containing the alert panels

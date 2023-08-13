@@ -102,6 +102,11 @@ public class AdminUserInfoPanel extends JPanel{
 		private  Color lightplainColor = new Color(250, 251, 255);//white
 		private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
+		private GraphicsEnvironment environment;	
+		private GraphicsDevice device;
+		private int width;
+		private int height;
+		
 		public AdminUserInfoPanel(Employee selectedEmployee) {
 			setBackground(new Color(250, 251, 255));
 			setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
@@ -156,6 +161,7 @@ public class AdminUserInfoPanel extends JPanel{
 		    btnBack.setBorderPainted(false);
 		    btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
 		    btnBack.setOpaque(false);
+		    btnBack.setContentAreaFilled(false);
 
 		    txtTitle = new JTextArea("User Details");
 		    txtTitle.setForeground(headerColor);
@@ -274,7 +280,8 @@ public class AdminUserInfoPanel extends JPanel{
 			btnDisable.setOpaque(false);
 			btnDisable.setFocusPainted(false);
 			btnDisable.setBorderPainted(false);
-		    
+			btnDisable.setContentAreaFilled(false);
+
 		    /*
 		     * gamit ka ng gridbag layout for more control sa placement ng components  sa panel
 		     * ung gbc or grid bag constraints is para madetermine mo ung positioning ng mga components sa gridbag layout
@@ -535,6 +542,7 @@ public class AdminUserInfoPanel extends JPanel{
 		    btnBack.setBorderPainted(false);
 		    btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
 		    btnBack.setOpaque(false);
+		    btnBack.setContentAreaFilled(false);
 
 		    txtTitle = new JTextArea("User Details");
 		    txtTitle.setForeground(headerColor);
@@ -653,7 +661,8 @@ public class AdminUserInfoPanel extends JPanel{
 			btnDisable.setOpaque(false);
 			btnDisable.setFocusPainted(false);
 			btnDisable.setBorderPainted(false);
-		    
+			btnDisable.setContentAreaFilled(false);
+
 		    /*
 		     * gamit ka ng gridbag layout for more control sa placement ng components  sa panel
 		     * ung gbc or grid bag constraints is para madetermine mo ung positioning ng mga components sa gridbag layout
@@ -970,12 +979,16 @@ public class AdminUserInfoPanel extends JPanel{
 		    	}
 		    });
 		    
-			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.getContentPane().add(panel);
-			dialog.setUndecorated(true);
-		    dialog.setResizable(false);
-			dialog.pack();
+			dialog.setSize(width, height);
 			dialog.setLocationRelativeTo(null);
 			dialog.setVisible(true);
 
@@ -990,14 +1003,18 @@ public class AdminUserInfoPanel extends JPanel{
 		    	}
 		    });
 		    
-			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this),"Error", true);
-	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	        dialog.getContentPane().add(panel);
-	        dialog.setUndecorated(true);
-		    dialog.setResizable(false);
-	        dialog.pack();
-	        dialog.setLocationRelativeTo(null);
-	        dialog.setVisible(true);
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.setSize(width, height);
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
 		}
 	    public int showDialog(ConfirmationPanel panel) {
 			selectedValue = 0;

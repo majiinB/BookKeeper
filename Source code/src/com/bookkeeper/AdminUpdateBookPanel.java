@@ -117,6 +117,11 @@ public class AdminUpdateBookPanel extends JPanel{
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
+	private GraphicsEnvironment environment;	
+	private GraphicsDevice device;
+	private int width;
+	private int height;
+	
 	public AdminUpdateBookPanel(Book selectedBook) {
 		setBackground(new Color(250, 251, 255));
 		setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
@@ -152,6 +157,7 @@ public class AdminUpdateBookPanel extends JPanel{
 	    btnBack.setBorderPainted(false);
 	    btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    btnBack.setOpaque(false);
+	    btnBack.setContentAreaFilled(false);
 
 	    txtTitle = new JTextArea("Update Book Information");
 	    txtTitle.setForeground(headerColor);
@@ -817,14 +823,19 @@ public class AdminUpdateBookPanel extends JPanel{
  	    	}
  	    });
  	    
- 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
- 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
- 		dialog.getContentPane().add(panel);
- 		dialog.setUndecorated(true);
-	    dialog.setResizable(false);
- 		dialog.pack();
- 		dialog.setLocationRelativeTo(null);
- 		dialog.setVisible(true);
+
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.setSize(width, height);
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
 
  	}
 	 	
@@ -836,15 +847,20 @@ public class AdminUpdateBookPanel extends JPanel{
  	            closeDialog(e);
  	    	}
  	    });
- 	    
- 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Error", true);
-         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-         dialog.getContentPane().add(panel);
-         dialog.setUndecorated(true);
- 	     dialog.setResizable(false);
-         dialog.pack();
-         dialog.setLocationRelativeTo(null);
-         dialog.setVisible(true);
+
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.setSize(width, height);
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
+
  	}
      
      //Method used by showDialog to close the JDialog containing the alert panels
