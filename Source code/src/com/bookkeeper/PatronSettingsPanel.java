@@ -150,7 +150,7 @@ public class PatronSettingsPanel extends JPanel {
 
  public PatronSettingsPanel(User user) {
 	setBackground(lightplainColor);
-	setBorder(new EmptyBorder(20, 20, 20, 0));
+	setBorder(new EmptyBorder(20, 20, 0, 0));
 	setLayout(new BorderLayout(0, 0));
 	 
 	//create panels
@@ -184,13 +184,13 @@ public class PatronSettingsPanel extends JPanel {
 	contactNumberPanel.setOpaque(false);
 	homeAddressPanel.setOpaque(false);
 	emailPanel.setOpaque(false);
-	mainPanel.setBorder(null);
-	mainPanel.setBackground(new Color(237, 238, 237));
+	mainPanel.setBorder(new EmptyBorder(0, 0, 0, 30));
+	
     accDetailPanel.setBorder(new EmptyBorder(10, 10, 15, 10));
-    reserveBookPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-    activeLoanPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-    historyLoanPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-	headingPanel.setBorder(new EmptyBorder(20, 25, 0, 45));
+    reserveBookPanel.setBorder(new EmptyBorder(10, 10, 15, 10));
+    activeLoanPanel.setBorder(new EmptyBorder(10, 10, 15, 10));
+    historyLoanPanel.setBorder(new EmptyBorder(10, 10, 15, 10));
+	headingPanel.setBorder(new EmptyBorder(10, 25, 10, 45));
 
     accDetailPanel.setBorderWidth(2);
     activeLoanPanel.setBorderWidth(2);
@@ -645,11 +645,11 @@ public class PatronSettingsPanel extends JPanel {
 	addComponentListener(new ComponentAdapter() {
   	  @Override
         public void componentResized(ComponentEvent e) {
-	      	titleTextSize = Math.min(getHeight() / 12, getWidth()/ 14) ;//Size after search button is pressed
-	        subtitleTextSize =  Math.min(getHeight() / 40, getWidth()/ 40);
-	        buttonTextSize =  Math.min(getHeight() / 40, getWidth()/ 58);
-	        headerTextSize =   Math.min(getHeight() / 30, getWidth()/ 35);
-			plainTextsize=   Math.min(getHeight() / 70, getWidth()/ 70);
+	      	titleTextSize = Math.min(getHeight() / 8, getWidth()/ 8) ;
+	        subtitleTextSize =  Math.min(getHeight() / 36, getWidth()/ 36);
+	        buttonTextSize =  Math.min(getHeight() / 50, getWidth()/ 50);
+	        headerTextSize =   Math.min(getHeight() / 20, getWidth()/ 20);
+	        plainTextsize=   Math.min(getHeight() / 60, getWidth()/ 60);
 	            
 	        titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
 //	        txtTitle.setFont(titleFont);

@@ -195,8 +195,7 @@ public class AdminSettingsPanel extends JPanel {
     accDetailPanel =  new RoundedPanel(20);
     systemPanel =  new RoundedPanel(20);
     genreListPanel =  new RoundedPanel(20);
-    genreListPanel.setBorder(new EmptyBorder(5, 10, 0, 10));
-    genreListPanel.setBorderWidth(1);
+
     firstNamePanel = new JPanel();
 	lastNamePanel = new JPanel();
 	userIDPanel = new JPanel();
@@ -234,6 +233,9 @@ public class AdminSettingsPanel extends JPanel {
 	mainPanel.setBorder(new EmptyBorder(0, 0, 0, 30));
 	headingPanel.setBorder(new EmptyBorder(20, 25, 0, 45));
 	contentPanel.setBorder(null);
+    genreListPanel.setBorder(new EmptyBorder(5, 10, 0, 10));
+   
+    genreListPanel.setBorderWidth(1);
     accDetailPanel.setBorderWidth(2);
     systemPanel.setBorderWidth(2);
 
@@ -243,7 +245,7 @@ public class AdminSettingsPanel extends JPanel {
     settingScrollPane.setBackground(new Color(255, 255, 255));
     settingScrollPane.setBorder(new EmptyBorder(0, 25, 0, 0));
     settingScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-    settingScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    settingScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
     
 	lblHeading1 = new JLabel("Dashboard ");
 	lblHeading1.setOpaque(false);

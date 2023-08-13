@@ -211,7 +211,7 @@ public class AdminReportPanel extends JPanel {
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 	public AdminReportPanel() {
 		setBackground(lightplainColor);
-		setBorder(new EmptyBorder(10, 20, 10, 20));
+		setBorder(new EmptyBorder(20, 20, 0, 0));
 		setLayout(new BorderLayout(0, 0));
 		
 		//CREATE PANELS

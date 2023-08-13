@@ -1,6 +1,8 @@
 package com.bookkeeper;
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -61,7 +63,7 @@ public class AdminBookBorrowPanel extends JPanel{
 
 	public AdminBookBorrowPanel(Book selectedBook, Setting setting) {
 		setBackground(new Color(250, 251, 255));
-	    setBorder(new EmptyBorder(10, 10, 10, 10));
+		setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
 	    setLayout(new BorderLayout(0, 0));
 		
 	    //create panels

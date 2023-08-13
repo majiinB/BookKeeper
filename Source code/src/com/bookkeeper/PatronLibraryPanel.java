@@ -10,6 +10,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
+import com.bookkeeper.AdminLibraryPanel.headerRenderer;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -84,7 +86,7 @@ public class PatronLibraryPanel extends JPanel {
 
 	public PatronLibraryPanel(User patron, Setting setting) {
 	setBackground(lightplainColor);
-	setBorder(new EmptyBorder(20, 20, 20, 20));
+	setBorder(new EmptyBorder(10, 20, 10, 20));
 	setLayout(new BorderLayout(0, 0));
 	 
 	//create panels
@@ -95,7 +97,6 @@ public class PatronLibraryPanel extends JPanel {
     titlePanel = new JPanel();
     searchBarPanel =  new RoundedPanel(20);
     searchResultsPanel =  new RoundedPanel(20);
-    searchResultsPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
 
 
     // Set panel properties
@@ -105,12 +106,14 @@ public class PatronLibraryPanel extends JPanel {
     titlePanel.setOpaque(false);
     searchBarPanel.setOpaque(true);
     searchResultsPanel.setOpaque(true);
-	mainPanel.setBorder(new EmptyBorder(5, 25, 20, 25));
+	mainPanel.setBorder(new EmptyBorder(15, 25, 10, 25));
     searchBarPanel.setBorder(new EmptyBorder(10, 10, 10, 15));
-	headingPanel.setBorder(new EmptyBorder(20, 25, 0, 25));
+	headingPanel.setBorder(new EmptyBorder(10, 25, 10, 25));
+    searchResultsPanel.setBorder(new EmptyBorder(10, 0, 10, 5));
 
     searchBarPanel.setBorderWidth(2);
     searchResultsPanel.setBorderWidth(2);
+    
     searchBarPanel.setForeground(darkplainColor);
     searchResultsPanel.setForeground(darkplainColor);
     searchBarPanel.setBackground(lightplainColor);
@@ -137,14 +140,13 @@ public class PatronLibraryPanel extends JPanel {
     btnSearch.setBorderPainted(false);
     btnSearch.setFocusPainted(false);
     btnSearch.setContentAreaFilled(false);
-    btnSearch.setPreferredSize(new Dimension(29, 29));
+    btnSearch.setPreferredSize(new Dimension(25, 25));
 
     searchIcon = new ImageIcon("img/DashboardFrame/Search.png");    
-    iconHeight = (int) (btnSearch.getPreferredSize().getHeight());
-    iconWidth = (int) (btnSearch.getPreferredSize().getHeight());
+    iconHeight = (int) (btnSearch.getPreferredSize().getHeight()-5);
+    iconWidth = (int) (btnSearch.getPreferredSize().getHeight()-5);
     searchIcon = new ImageIcon(searchIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
     btnSearch.setIcon(searchIcon);
-
     
     txtSearchBar = new PlaceholderTextField("Search Book");
     txtSearchBar.setBorder(null);
@@ -154,8 +156,9 @@ public class PatronLibraryPanel extends JPanel {
     // Create the scroll pane and add the table to it
     searchScrollPane = new JScrollPane(table);
     searchScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-    searchScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);    searchScrollPane.setOpaque(false);
-    searchScrollPane.setBorder(new EmptyBorder(15, 10, 0, 10));
+    searchScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    searchScrollPane.setBackground(new Color(0,0,0,0));
+    searchScrollPane.setBorder(new EmptyBorder(5, 10, 0, 0));
     searchScrollPane.setOpaque(false);
     searchScrollPane.getViewport().setOpaque(false);
     
@@ -170,18 +173,20 @@ public class PatronLibraryPanel extends JPanel {
 		      return false;
 		}
      };
-     table.setBackground(lightplainColor);;
+     table.setBackground(new Color(0, 0, 0, 0));;
      table.setFillsViewportHeight(true);
      table.setOpaque(false);
      table.setShowVerticalLines(false);
      table.setRowHeight(45);
      table.getTableHeader().setOpaque(false);
      table.setGridColor(darkplainColor);
-  	table.getTableHeader().setOpaque(false);
-  	table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
      table.getTableHeader().setDefaultRenderer(new headerRenderer());
-    //listener for clicking cells in table  
-	table.addMouseListener(new MouseAdapter() {
+     table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+     table.setSelectionBackground(new Color(125, 147, 194));
+     table.setSelectionForeground(lightplainColor);
+     //listener for clicking cells in table  
+     
+     table.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) { 
 			int selectedRow = table.getSelectedRow();
@@ -277,13 +282,12 @@ public class PatronLibraryPanel extends JPanel {
 	addComponentListener(new ComponentAdapter() {
   	  @Override
         public void componentResized(ComponentEvent e) {
-	      	titleTextSize = Math.min(getHeight() / 8, getWidth()/ 11) ;
-	        buttonTextSize =  Math.min(getHeight() / 80, getWidth()/ 80);
-	        headerTextSize =   Math.min(getHeight() / 30, getWidth()/ 35);
-	        plainTextsize=   Math.min(getHeight() / 80, getWidth()/ 80);
-	            
+	  		titleTextSize = Math.min(getHeight() / 8, getWidth()/ 8) ;
+	        buttonTextSize =  Math.min(getHeight() / 50, getWidth()/ 50);
+	        headerTextSize =   Math.min(getHeight() / 20, getWidth()/ 20);
+	        plainTextsize=   Math.min(getHeight() / 60, getWidth()/ 60);
+              
 	        titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
-	        txtTitle.setFont(titleFont);
 	            	            
 	        buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
 	     	headerFont = new Font("Montserrat", Font.PLAIN, headerTextSize);
@@ -291,10 +295,10 @@ public class PatronLibraryPanel extends JPanel {
 			
 	     	lblHeading1.setFont(new Font("Montserrat", Font.BOLD, headerTextSize));
 	     	lblHeading2.setFont(new Font("Montserrat", Font.PLAIN, headerTextSize));
-	            
+	        txtTitle.setFont(titleFont);
 	     	table.setFont(plainFont);
 	     	table.getTableHeader().setFont(new Font("Montserrat", Font.ITALIC  | Font.BOLD, plainTextsize));	            
-	     	table.getTableHeader().setForeground(darkplainColor);
+	     	table.getTableHeader().setForeground(headerColor);
                }
     });
 	
@@ -393,19 +397,20 @@ public class PatronLibraryPanel extends JPanel {
     	}
     });
  }
-public class headerRenderer implements TableCellRenderer {
-	@Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column) {
-	        JTableHeader header = table.getTableHeader();
-	        JLabel label = new JLabel(value.toString());
-	        label.setOpaque(false);
-	        label.setFont(header.getFont());
-	        label.setBackground(new Color(0, 0, 0, 0)); 
-	        label.setForeground(header.getForeground());
-	        label.setBorder(UIManager.getBorder("TableHeader.cellBorder"));
-	        return label;
-	    }
-	}
+	public class headerRenderer implements TableCellRenderer {
+		@Override
+	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column) {
+		        JTableHeader header = table.getTableHeader();
+		        JLabel label = new JLabel(value.toString());
+		        label.setOpaque(false);
+		        label.setFont(header.getFont());
+		        label.setBackground(new Color(0, 0, 0, 0)); 
+		        label.setForeground(header.getForeground());
+		        label.setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+		        return label;
+		    }
+		}
+
 
 public class BackgroundPanel extends JPanel {
 	//background

@@ -124,7 +124,7 @@ public class AdminBookInfoPanel extends JPanel{
 
 	public AdminBookInfoPanel(Book selectedBook, Setting setting) {
 		setBackground(new Color(250, 251, 255));
-	    setBorder(new EmptyBorder(10, 10, 10, 10));
+		setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
 	    setLayout(new BorderLayout(0, 0));
 		
 	    //create panels

@@ -69,10 +69,10 @@ public class DashboardFrame extends JFrame {
     	setResizable(false); 
 
     	// Set the frame size based on the screen dimensions
-    	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice gd = ge.getDefaultScreenDevice();
-        Rectangle screenBounds = gd.getDefaultConfiguration().getBounds();
-        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(gd.getDefaultConfiguration());
+    	GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice device = environment.getDefaultScreenDevice();
+        Rectangle screenBounds = device.getDefaultConfiguration().getBounds();
+        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(device.getDefaultConfiguration());
         int width = screenBounds.width - screenInsets.left - screenInsets.right;
         int height = screenBounds.height - screenInsets.top - screenInsets.bottom;
 
@@ -212,13 +212,24 @@ public class DashboardFrame extends JFrame {
     	setResizable(false); 
 
     	// Set the frame size based on the screen dimensions
-    	GraphicsDevice[] devices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
-    	GraphicsDevice device = devices[0]; // Choose the appropriate device index if there are multiple
-    	GraphicsConfiguration config = device.getDefaultConfiguration();
-    	setUndecorated(true);
-    	//device.setFullScreenWindow(this);
-    	setSize(config.getBounds().getSize());
+//    	GraphicsDevice[] devices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+//    	GraphicsDevice device = devices[0]; // Choose the appropriate device index if there are multiple
+//    	GraphicsConfiguration config = device.getDefaultConfiguration();
+//    	setUndecorated(true);
+//    	//device.setFullScreenWindow(this);
+//    	setSize(config.getBounds().getSize());
 
+    	GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice device = environment.getDefaultScreenDevice();
+        Rectangle screenBounds = device.getDefaultConfiguration().getBounds();
+        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(device.getDefaultConfiguration());
+        int width = screenBounds.width - screenInsets.left - screenInsets.right;
+        int height = screenBounds.height - screenInsets.top - screenInsets.bottom;
+
+        //device.setFullScreenWindow(this);
+    	setSize(width,height);
+
+	 
 	    //create panels
 		mainPanel = new JPanel();//panel to hold all panels
 		menuBarPanel = new JPanel();// panel to hold menu bar

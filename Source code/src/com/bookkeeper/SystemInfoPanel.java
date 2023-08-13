@@ -24,7 +24,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -70,8 +73,6 @@ public class SystemInfoPanel extends JPanel{
 	private JButton btnReservation;
 	private JButton btnOverdue;
 	private JButton btnSave;
-	private JButton btnBack;
-
 	//layout
 	private GridBagLayout gbl_mainPanel; 
 	private GridBagConstraints gbc_headingPanel;
@@ -125,7 +126,7 @@ public class SystemInfoPanel extends JPanel{
 
 	public SystemInfoPanel(Employee employee, Setting setting) {
 		setBackground(new Color(250, 251, 255));
-	    setBorder(new EmptyBorder(10, 10, 10, 10));
+		setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
 	    setLayout(new BorderLayout(0, 0));
 		
 	    //create panels
@@ -164,13 +165,7 @@ public class SystemInfoPanel extends JPanel{
 	    lblHeading.setForeground(headerColor);
 	    lblHeading.setText("Book Keeper");
 	    lblHeading.setHorizontalAlignment(SwingConstants.CENTER);
-	  
-	    btnBack = new JButton("Back");
-	    btnBack.setFocusPainted(false);
-	    btnBack.setForeground(new Color(23, 21, 147));
-	    btnBack.setBorderPainted(false);
-	    btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
-	    btnBack.setOpaque(false);
+	 
 
 	    txtTitle = new JTextArea("System Details");
 	    txtTitle.setForeground(headerColor);
@@ -462,7 +457,6 @@ public class SystemInfoPanel extends JPanel{
 	    
 	    //Add all to main panel
 	    headingPanel.add(lblHeading, BorderLayout.WEST);
-	    headingPanel.add(btnBack, BorderLayout.EAST);
 	    
 	    titlePanel.add(txtTitle,gbc_txtTitle);
 	    titlePanel.add(txtDescription,gbc_txtDescription);
@@ -510,7 +504,6 @@ public class SystemInfoPanel extends JPanel{
 	  	            txtTitle.setFont(titleFont);
 	  	            txtDescription.setFont(subtitleFont);
 	  	            btnSave.setFont(buttonFont);
-	  	            btnBack.setFont(headerFont);
 	  	            lblHeading.setFont(headerFont);
 	  	            lblcapacity.setFont(plainFont);
 	  	            lblduration.setFont(plainFont);

@@ -86,7 +86,7 @@ public class AdminManageEmployeePanel extends JPanel {
 
  public AdminManageEmployeePanel() {
 	setBackground(lightplainColor);
-	setBorder(new EmptyBorder(20, 20, 20, 20));
+	setBorder(new EmptyBorder(10, 20, 10, 20));
 	setLayout(new BorderLayout(0, 0));
 	 
 	//create panels
@@ -108,16 +108,16 @@ public class AdminManageEmployeePanel extends JPanel {
     addBookPanel.setOpaque(true);
     searchResultsPanel.setOpaque(true);
 	topPanel.setOpaque(false);
-	topPanel.setBorder(new EmptyBorder(20, 25, 0, 25));
-	contentPanel.setBorder(new EmptyBorder(15, 25, 20, 25));
-    searchBarPanel.setBorder(new EmptyBorder(5, 5, 5, 15));
-    searchResultsPanel.setBorder(new EmptyBorder(10, 25, 10, 5));
-    addBookPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+	topPanel.setBorder(new EmptyBorder(10, 25, 10, 25));
+	mainPanel.setBorder(new EmptyBorder(15, 25, 10, 25));
+    searchBarPanel.setBorder(new EmptyBorder(10, 10, 10, 15));
+    searchResultsPanel.setBorder(new EmptyBorder(10, 0, 10, 5));
+    addBookPanel.setBorder(new EmptyBorder(5, 10, 5, 10));
 	headingPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 
-    searchBarPanel.setBorderWidth(1);
+    searchBarPanel.setBorderWidth(2);
     searchResultsPanel.setBorderWidth(2);
-    addBookPanel.setBorderWidth(1);
+    addBookPanel.setBorderWidth(2);
     
     addBookPanel.setForeground(darkplainColor);
     searchBarPanel.setForeground(darkplainColor);
@@ -137,6 +137,7 @@ public class AdminManageEmployeePanel extends JPanel {
     btnAdd.setBorderPainted(false);
     btnAdd.setFocusPainted(false);
     btnAdd.setContentAreaFilled(false);
+    btnAdd.setOpaque(false);
 
     btnSearch = new JButton();
     btnSearch.setMnemonic(KeyEvent.VK_ENTER);
@@ -145,11 +146,10 @@ public class AdminManageEmployeePanel extends JPanel {
     btnSearch.setContentAreaFilled(false);
     
     searchIcon = new ImageIcon("img/DashboardFrame/Search.png");    
-    iconHeight = (int) (btnSearch.getPreferredSize().getHeight() * 0.5);
-    iconWidth = (int) (btnSearch.getPreferredSize().getHeight() * 0.5);
+    iconHeight = (int) (btnSearch.getPreferredSize().getHeight()-5);
+    iconWidth = (int) (btnSearch.getPreferredSize().getHeight()-5);
     searchIcon = new ImageIcon(searchIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
     btnSearch.setIcon(searchIcon);
-
     
     txtSearchBar = new PlaceholderTextField("Search Employee");
     txtSearchBar.setBorder(null);
@@ -166,18 +166,19 @@ public class AdminManageEmployeePanel extends JPanel {
             return false; 
         }
     };
-    table.setBackground(lightplainColor);;
+    table.setBackground(new Color(0, 0, 0, 0));;
     table.setFillsViewportHeight(true);
     table.setOpaque(false);
     table.setShowVerticalLines(false);
     table.setRowHeight(45);
     table.getTableHeader().setOpaque(false);
     table.setGridColor(darkplainColor);
- 	table.getTableHeader().setOpaque(false);
-  	table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
     table.getTableHeader().setDefaultRenderer(new headerRenderer());
-   //listener for clicking cells in table
+  	table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    table.setSelectionBackground(new Color(125, 147, 194));
+    table.setSelectionForeground(lightplainColor);
+
+    //listener for clicking cells in table
     table.addMouseListener(new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -227,24 +228,26 @@ public class AdminManageEmployeePanel extends JPanel {
     //gridbag layouts
     
     gbl_topPanel = new GridBagLayout();
-    gbl_topPanel.columnWidths = new int[]{30, 30, 0};
-    gbl_topPanel.rowHeights = new int[]{30, 0};
+    gbl_topPanel.columnWidths = new int[]{0, 0, 0};
+    gbl_topPanel.rowHeights = new int[]{0};
     gbl_topPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-    gbl_topPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+    gbl_topPanel.rowWeights = new double[]{0.0};
 
     gbc_headingPanel = new GridBagConstraints();
-    gbc_headingPanel.anchor = GridBagConstraints.SOUTHWEST;
+    gbc_headingPanel.fill = GridBagConstraints.VERTICAL;
+    gbc_headingPanel.anchor = GridBagConstraints.WEST;
     gbc_headingPanel.insets = new Insets(0, 0, 0, 0);
 	gbc_headingPanel.gridx = 0;
 	gbc_headingPanel.gridy = 0;
 
 	gbc_searchBarPanel = new GridBagConstraints();
-	gbc_searchBarPanel.fill = GridBagConstraints.HORIZONTAL;
+	gbc_searchBarPanel.fill = GridBagConstraints.BOTH;
 	gbc_searchBarPanel.insets = new Insets(0, 40, 0, 10);
 	gbc_searchBarPanel.gridx = 1;
 	gbc_searchBarPanel.gridy = 0;
 
 	gbc_addBookPanel = new GridBagConstraints();
+	gbc_addBookPanel.fill = GridBagConstraints.VERTICAL;
 	gbc_addBookPanel.anchor = GridBagConstraints.EAST;
 	gbc_addBookPanel.insets = new Insets(0, 15, 0, 0);
     gbc_addBookPanel.gridx = 2;
@@ -257,7 +260,8 @@ public class AdminManageEmployeePanel extends JPanel {
     searchBarPanel.setLayout(new BorderLayout(0, 0));
     headingPanel.setLayout(new BoxLayout(headingPanel, BoxLayout.X_AXIS));
     topPanel.setLayout(gbl_topPanel);
-    
+    searchResultsPanel.setLayout(new BorderLayout(0, 0));
+    addBookPanel.setLayout(new BorderLayout(0, 0));
     //Add all to main panel
     headingPanel.add(lblHeading1);
     headingPanel.add(lblHeading2);
@@ -266,11 +270,9 @@ public class AdminManageEmployeePanel extends JPanel {
     searchBarPanel.add(txtSearchBar,BorderLayout.CENTER);
 
     contentPanel.add(searchResultsPanel);
-    searchResultsPanel.setLayout(new BorderLayout(0, 0));
 
     // Add the scroll pane to the searchResultsPanel
     searchResultsPanel.add(searchScrollPane);
-    addBookPanel.setLayout(new BorderLayout(0, 0));
     
    
 	displayAllEmployee();
@@ -288,11 +290,11 @@ public class AdminManageEmployeePanel extends JPanel {
 	addComponentListener(new ComponentAdapter() {
   	  @Override
         public void componentResized(ComponentEvent e) {
-	      	titleTextSize = Math.min(getHeight() / 12, getWidth()/ 14) ;
-	        subtitleTextSize =  Math.min(getHeight() / 40, getWidth()/ 40);
-	        buttonTextSize =  Math.min(getHeight() / 80, getWidth()/ 80);
-	        headerTextSize =   Math.min(getHeight() / 30, getWidth()/ 35);
-	        plainTextsize=   Math.min(getHeight() / 75, getWidth()/ 75);
+	      	titleTextSize = Math.min(getHeight() / 8, getWidth()/ 8) ;
+	        subtitleTextSize =  Math.min(getHeight() / 36, getWidth()/ 36);
+	        buttonTextSize =  Math.min(getHeight() / 50, getWidth()/ 50);
+	        headerTextSize =   Math.min(getHeight() / 20, getWidth()/ 20);
+	        plainTextsize=   Math.min(getHeight() / 60, getWidth()/ 60);
 	            
 	        titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
 			subtitleFont = new Font("Montserrat", Font.BOLD, subtitleTextSize);
@@ -353,12 +355,11 @@ public class AdminManageEmployeePanel extends JPanel {
                     }
                     tableModel.addRow(rowData);
                 }
-
-     		     table.getColumnModel().getColumn(0).setMinWidth(100);
-      		     table.getColumnModel().getColumn(0).setMaxWidth(100);
-      		     
-     		     table.getColumnModel().getColumn(6).setMinWidth(100);
-      		     table.getColumnModel().getColumn(6).setMaxWidth(100);
+   		     table.getColumnModel().getColumn(0).setMinWidth(150);
+  		     table.getColumnModel().getColumn(0).setMaxWidth(150);
+  		     
+ 		     table.getColumnModel().getColumn(6).setMinWidth(90);
+  		     table.getColumnModel().getColumn(6).setMaxWidth(90);
       		     
       		     
                 // Close the database connection
@@ -445,8 +446,8 @@ protected void paintComponent(Graphics g) {
          table.getColumnModel().getColumn(0).setMinWidth(100);
 	     table.getColumnModel().getColumn(0).setMaxWidth(100);
 	     
-	     table.getColumnModel().getColumn(6).setMinWidth(100);
-	     table.getColumnModel().getColumn(6).setMaxWidth(100);
+		     table.getColumnModel().getColumn(6).setMinWidth(70);
+  		     table.getColumnModel().getColumn(6).setMaxWidth(70);
 
           // Close the database connection
           resultSet.close();

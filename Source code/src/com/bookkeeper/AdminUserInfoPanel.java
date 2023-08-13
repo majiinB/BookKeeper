@@ -104,7 +104,7 @@ public class AdminUserInfoPanel extends JPanel{
 
 		public AdminUserInfoPanel(Employee selectedEmployee) {
 			setBackground(new Color(250, 251, 255));
-		    setBorder(new EmptyBorder(10, 10, 10, 10));
+			setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
 		    setLayout(new BorderLayout(0, 0));
 			
 		    //create panels
@@ -483,7 +483,7 @@ public class AdminUserInfoPanel extends JPanel{
 		//Constructor for Patron
 		public AdminUserInfoPanel(User selectedPatron) {
 			setBackground(new Color(250, 251, 255));
-		    setBorder(new EmptyBorder(10, 10, 10, 10));
+			setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
 		    setLayout(new BorderLayout(0, 0));
 			
 		    //create panels

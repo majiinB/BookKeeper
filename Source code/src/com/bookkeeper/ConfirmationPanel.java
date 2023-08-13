@@ -124,7 +124,7 @@ public class ConfirmationPanel extends JPanel {
 //	txtDescription.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
 	btnConfirm = new JButton("Confirm");
-	btnConfirm.setBorder(new EmptyBorder(0, 0, 0, 0));
+	btnConfirm.setBorder(new CompoundBorder(new LineBorder(new Color(14, 14, 15,50), 2), new EmptyBorder(10, 25, 10, 25)));
 	btnConfirm.setForeground(darkplainColor);
 	btnConfirm.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 	btnConfirm.setFocusPainted(false);
@@ -132,7 +132,7 @@ public class ConfirmationPanel extends JPanel {
 	btnConfirm.setOpaque(false);
 
 	btnCancel = new JButton("Cancel");
-	btnConfirm.setBorder(new CompoundBorder(new LineBorder(new Color(14, 14, 15,50), 2), new EmptyBorder(10, 25, 10, 25)));
+	btnCancel.setBorder(new CompoundBorder(new LineBorder(new Color(14, 14, 15,50), 2), new EmptyBorder(10, 25, 10, 25)));
 	btnCancel.setForeground(darkplainColor);
 	btnCancel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 	btnCancel.setFocusPainted(false);
@@ -226,6 +226,7 @@ public class ConfirmationPanel extends JPanel {
 	            
 	            buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
 	            btnConfirm.setFont(buttonFont);
+	            btnCancel.setFont(buttonFont);
 
         }
     });
