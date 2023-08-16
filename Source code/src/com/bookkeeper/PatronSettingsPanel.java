@@ -119,6 +119,30 @@ public class PatronSettingsPanel extends JPanel {
 	private GridBagConstraints gbc_emailPanel;
 	private GridBagConstraints gbc_btnOptionDetail;
 
+	private GridBagLayout gbl_firstNamePanel;
+	private GridBagConstraints gbc_lblFirstName;
+	private GridBagConstraints gbc_txtFirstName;
+	
+	private GridBagLayout gbl_lastNamePanel;
+	private GridBagConstraints gbc_lblLastName;
+	private GridBagConstraints gbc_txtLastName;
+	
+	private GridBagLayout gbl_userIDPanel;
+	private GridBagConstraints gbc_lblUserID;
+	private GridBagConstraints gbc_txtUserID;
+	
+	private GridBagLayout gbl_contactNumberPanel;
+	private GridBagConstraints gbc_lblContactNumber;
+	private GridBagConstraints gbc_txtContactNumber;
+	
+	private GridBagLayout gbl_homeAddressPanel;
+	private GridBagConstraints gbc_lblHomeAddress;
+	private GridBagConstraints gbc_txtHomeAddress;
+	
+	private GridBagLayout gbl_emailPanel;
+	private GridBagConstraints gbc_lblEmailAddress;
+	private GridBagConstraints gbc_txtEmailAddress;
+	
 	private GridBagLayout gbl_reserveBookPanel;
 	private GridBagConstraints gbc_reserveTable;
 	private GridBagConstraints gbc_lblreserveBook;
@@ -150,7 +174,7 @@ public class PatronSettingsPanel extends JPanel {
 
  public PatronSettingsPanel(User user) {
 	setBackground(lightplainColor);
-	setBorder(new EmptyBorder(10, 20, 10, 20));
+	setBorder(new EmptyBorder(10, 20, 10, 0));
 	setLayout(new BorderLayout(0, 0));
 	 
 	//create panels
@@ -184,13 +208,13 @@ public class PatronSettingsPanel extends JPanel {
 	contactNumberPanel.setOpaque(false);
 	homeAddressPanel.setOpaque(false);
 	emailPanel.setOpaque(false);
-	mainPanel.setBorder(new EmptyBorder(0, 0, 0, 30));
 	
+	mainPanel.setBorder(new EmptyBorder(0, 0, 0, 30));
     accDetailPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
     reserveBookPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
     activeLoanPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
     historyLoanPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-	headingPanel.setBorder(new EmptyBorder(00, 25, 10, 45));
+	headingPanel.setBorder(new EmptyBorder(10, 25, 10, 25));
 
     accDetailPanel.setBorderWidth(2);
     activeLoanPanel.setBorderWidth(2);
@@ -223,22 +247,21 @@ public class PatronSettingsPanel extends JPanel {
 	btnOptionDetail.setBorderPainted(false);
 	btnOptionDetail.setContentAreaFilled(false);
 	btnOptionDetail.setOpaque(false);
-    
+	btnOptionDetail.setPreferredSize(new Dimension(5, 20));
+
 	option1 = new JMenuItem("Edit Information");
 
     detailPopupMenu = new JPopupMenu();
 	
 	detailPopupMenu.add(option1);
 
-
 	optionIcon = new ImageIcon("img/DashboardFrame/Option.png");    
-	iconHeight = (int) (btnOptionDetail.getPreferredSize().getHeight() * 0.5);
-    iconWidth = (int) (btnOptionDetail.getPreferredSize().getHeight() * 0.2);
+	iconHeight = (int) (btnOptionDetail.getPreferredSize().getHeight());
+    iconWidth = (int) (btnOptionDetail.getPreferredSize().getHeight());
+    
     optionIcon = new ImageIcon(optionIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
     btnOptionDetail.setIcon(optionIcon);
     btnOptionDetail.setOpaque(false);
-    
-    
     
 	lblFirstName = new JLabel("First Name");
 	lblFirstName.setOpaque(false);
@@ -440,87 +463,205 @@ public class PatronSettingsPanel extends JPanel {
     //gridbag layouts
 	gbl_mainPanel = new GridBagLayout();
 	gbl_mainPanel.columnWidths = new int[]{380, 0};
-	gbl_mainPanel.rowHeights = new int[]{33, 30, 46, 0};
+	gbl_mainPanel.rowHeights = new int[]{30, 46, 0};
 	gbl_mainPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-	gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
+	gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 0.0};
     
 	gbc_accDetailPanel = new GridBagConstraints();
     gbc_accDetailPanel.fill = GridBagConstraints.BOTH;
     gbc_accDetailPanel.insets = new Insets(15, 0, 25, 0);
     gbc_accDetailPanel.gridx = 0;
-    gbc_accDetailPanel.gridy = 1;  	
+    gbc_accDetailPanel.gridy = 0;  	
     
 
     gbc_reserveBookPanel = new GridBagConstraints();
     gbc_reserveBookPanel.fill = GridBagConstraints.BOTH;
     gbc_reserveBookPanel.insets = new Insets(15, 0, 25, 0);
     gbc_reserveBookPanel.gridx = 0;
-    gbc_reserveBookPanel.gridy = 2; 
+    gbc_reserveBookPanel.gridy = 1; 
     
     gbc_activeLoanPanel = new GridBagConstraints();
     gbc_activeLoanPanel.fill = GridBagConstraints.BOTH;
     gbc_activeLoanPanel.insets = new Insets(15, 0, 25, 0);
     gbc_activeLoanPanel.gridx = 0;
-    gbc_activeLoanPanel.gridy = 3; 
+    gbc_activeLoanPanel.gridy = 2; 
     
     //
     gbl_accDetailPanel = new GridBagLayout();
-    gbl_accDetailPanel.columnWidths = new int[]{332, 68, 0};
+    gbl_accDetailPanel.columnWidths = new int[]{0, 0, 0};
     gbl_accDetailPanel.rowHeights = new int[]{66, 0};
     gbl_accDetailPanel.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-    gbl_accDetailPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+    gbl_accDetailPanel.rowWeights = new double[]{0.0, 0.0};
     
     gbc_lblaccDetail = new GridBagConstraints();
     gbc_lblaccDetail.fill = GridBagConstraints.HORIZONTAL;
-	gbc_lblaccDetail.insets = new Insets(0, 0, 5, 5);
-	gbc_lblaccDetail.gridx = 0;
-	gbc_lblaccDetail.gridy = 0;
+    gbc_lblaccDetail.insets = new Insets(0, 0, 5, 0);
+    gbc_lblaccDetail.gridx = 0;
+    gbc_lblaccDetail.gridy = 0;
 	
     gbc_btnOptionDetail = new GridBagConstraints();
     gbc_btnOptionDetail.anchor = GridBagConstraints.EAST;
-    gbc_btnOptionDetail.insets = new Insets(0, 5, 5, 0);
+    gbc_btnOptionDetail.insets = new Insets(0, 0, 0, 0);
     gbc_btnOptionDetail.gridx = 1;
     gbc_btnOptionDetail.gridy = 0;
-	
+
     gbc_firstNamePanel = new GridBagConstraints();
-    gbc_firstNamePanel.fill = GridBagConstraints.BOTH;
-    gbc_firstNamePanel.insets = new Insets(0, 0, 5, 5);
+    gbc_firstNamePanel.fill = GridBagConstraints.HORIZONTAL;
+    gbc_firstNamePanel.anchor = GridBagConstraints.NORTH;
+    gbc_firstNamePanel.insets = new Insets(0, 0, 5, 0);
     gbc_firstNamePanel.gridx = 0;
-    gbc_firstNamePanel.gridy = 1;
+    gbc_firstNamePanel.gridy = 1; 
     
-	gbc_lastNamePanel = new GridBagConstraints();
-	gbc_lastNamePanel.fill = GridBagConstraints.HORIZONTAL;
-	gbc_lastNamePanel.anchor = GridBagConstraints.NORTH;
-	gbc_lastNamePanel.insets = new Insets(0, 5, 5, 0);
-	gbc_lastNamePanel.gridx = 1;
-	gbc_lastNamePanel.gridy = 1;
-	
-	gbc_userIDPanel = new GridBagConstraints();
-	gbc_userIDPanel.fill = GridBagConstraints.HORIZONTAL;
-	gbc_userIDPanel.anchor = GridBagConstraints.NORTH;
-	gbc_userIDPanel.insets = new Insets(0, 0, 5, 5);
-	gbc_userIDPanel.gridx = 0;
-	gbc_userIDPanel.gridy = 2;
-	
-	gbc_contactNumberPanel = new GridBagConstraints();
-	gbc_contactNumberPanel.fill = GridBagConstraints.HORIZONTAL;
-	gbc_contactNumberPanel.anchor = GridBagConstraints.NORTH;
-	gbc_contactNumberPanel.insets = new Insets(0, 5, 0, 0);
-	gbc_contactNumberPanel.gridx = 1;
-	gbc_contactNumberPanel.gridy = 2;
-	
-	gbc_homeAddressPanel = new GridBagConstraints();
-	gbc_homeAddressPanel.fill = GridBagConstraints.BOTH;
-	gbc_homeAddressPanel.insets = new Insets(0, 0, 0, 5);
-	gbc_homeAddressPanel.gridx = 0;
-	gbc_homeAddressPanel.gridy = 3;
-	
-	gbc_emailPanel = new GridBagConstraints();
-	gbc_emailPanel.fill = GridBagConstraints.HORIZONTAL;
-	gbc_emailPanel.insets = new Insets(0, 5, 0, 0);
-	gbc_emailPanel.gridx = 1;
-	gbc_emailPanel.gridy = 3;
+    gbc_lastNamePanel = new GridBagConstraints();
+    gbc_lastNamePanel.fill = GridBagConstraints.HORIZONTAL;
+    gbc_lastNamePanel.anchor = GridBagConstraints.NORTH;
+    gbc_lastNamePanel.insets = new Insets(0, 5, 5, 0);
+    gbc_lastNamePanel.gridx = 1;
+    gbc_lastNamePanel.gridy = 1 ;
     
+    gbc_userIDPanel = new GridBagConstraints();
+    gbc_userIDPanel.fill = GridBagConstraints.HORIZONTAL;
+    gbc_userIDPanel.anchor = GridBagConstraints.NORTH;
+    gbc_userIDPanel.insets = new Insets(0, 0, 5, 0);
+    gbc_userIDPanel.gridx = 0;
+    gbc_userIDPanel.gridy = 2; 
+    
+    gbc_contactNumberPanel = new GridBagConstraints();
+    gbc_contactNumberPanel.fill = GridBagConstraints.HORIZONTAL;
+    gbc_contactNumberPanel.anchor = GridBagConstraints.NORTH;
+    gbc_contactNumberPanel.insets = new Insets(0, 5, 5, 0);
+    gbc_contactNumberPanel.gridx = 1;
+    gbc_contactNumberPanel.gridy = 2; 
+    
+    gbc_homeAddressPanel = new GridBagConstraints();
+    gbc_homeAddressPanel.fill = GridBagConstraints.HORIZONTAL;
+    gbc_homeAddressPanel.anchor = GridBagConstraints.NORTH;
+    gbc_homeAddressPanel.insets = new Insets(0, 0, 5, 0);
+    gbc_homeAddressPanel.gridx = 0;
+    gbc_homeAddressPanel.gridy = 3; 
+    
+    gbc_emailPanel = new GridBagConstraints();
+    gbc_emailPanel.fill = GridBagConstraints.HORIZONTAL;
+    gbc_emailPanel.anchor = GridBagConstraints.NORTH;
+    gbc_emailPanel.insets = new Insets(0, 5, 5, 0);
+    gbc_emailPanel.gridx = 1;
+    gbc_emailPanel.gridy = 3; 
+    
+    //
+    gbl_firstNamePanel = new GridBagLayout();
+    gbl_firstNamePanel.columnWidths = new int[]{491, 0};
+    gbl_firstNamePanel.rowHeights = new int[]{30, 30};
+    gbl_firstNamePanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+    gbl_firstNamePanel.rowWeights = new double[]{0.0, 0.0};
+    
+    gbc_lblFirstName = new GridBagConstraints();
+    gbc_lblFirstName.fill = GridBagConstraints.BOTH;
+    gbc_lblFirstName.insets = new Insets(0, 0, 0, 0);
+	gbc_lblFirstName.gridx = 0;
+	gbc_lblFirstName.gridy = 0; 
+	
+	gbc_txtFirstName = new GridBagConstraints();
+	gbc_txtFirstName.fill = GridBagConstraints.BOTH;
+	gbc_txtFirstName.insets = new Insets(0, 0, 0, 0);
+	gbc_txtFirstName.gridx = 0;
+	gbc_txtFirstName.gridy = 1; 
+    
+    //
+
+	gbl_lastNamePanel = new GridBagLayout();
+	gbl_lastNamePanel.columnWidths = new int[]{491, 0};
+	gbl_lastNamePanel.rowHeights = new int[]{30, 30};
+	gbl_lastNamePanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+	gbl_lastNamePanel.rowWeights = new double[]{0.0, 0.0};
+    
+	gbc_lblLastName = new GridBagConstraints();
+	gbc_lblLastName.fill = GridBagConstraints.BOTH;
+	gbc_lblLastName.insets = new Insets(0, 0, 0, 0);
+	gbc_lblLastName.gridx = 0;
+	gbc_lblLastName.gridy = 0; 
+	
+	gbc_txtLastName = new GridBagConstraints();
+	gbc_txtLastName.fill = GridBagConstraints.BOTH;
+	gbc_txtLastName.insets = new Insets(0, 0, 0, 0);
+	gbc_txtLastName.gridx = 0;
+	gbc_txtLastName.gridy = 1; 
+    
+    //
+	
+	gbl_userIDPanel = new GridBagLayout();
+	gbl_userIDPanel.columnWidths = new int[]{491, 0};
+	gbl_userIDPanel.rowHeights = new int[]{30, 30};
+	gbl_userIDPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+	gbl_userIDPanel.rowWeights = new double[]{0.0, 0.0};
+    
+	gbc_lblUserID = new GridBagConstraints();
+	gbc_lblUserID.fill = GridBagConstraints.BOTH;
+	gbc_lblUserID.insets = new Insets(0, 0, 0, 0);
+	gbc_lblUserID.gridx = 0;
+	gbc_lblUserID.gridy = 0; 
+	
+	gbc_txtUserID = new GridBagConstraints();
+	gbc_txtUserID.fill = GridBagConstraints.BOTH;
+	gbc_txtUserID.insets = new Insets(0, 0, 0, 0);
+	gbc_txtUserID.gridx = 0;
+	gbc_txtUserID.gridy = 1; 
+    
+    //
+	gbl_contactNumberPanel = new GridBagLayout();
+	gbl_contactNumberPanel.columnWidths = new int[]{491, 0};
+	gbl_contactNumberPanel.rowHeights = new int[]{30, 30};
+	gbl_contactNumberPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+	gbl_contactNumberPanel.rowWeights = new double[]{0.0, 0.0};
+    
+	gbc_lblContactNumber = new GridBagConstraints();
+	gbc_lblContactNumber.fill = GridBagConstraints.BOTH;
+	gbc_lblContactNumber.insets = new Insets(0, 0, 0, 0);
+	gbc_lblContactNumber.gridx = 0;
+	gbc_lblContactNumber.gridy = 0; 
+	
+	gbc_txtContactNumber = new GridBagConstraints();
+	gbc_txtContactNumber.fill = GridBagConstraints.BOTH;
+	gbc_txtContactNumber.insets = new Insets(0, 0, 0, 0);
+	gbc_txtContactNumber.gridx = 0;
+	gbc_txtContactNumber.gridy = 1; 
+    
+    //
+	gbl_homeAddressPanel = new GridBagLayout();
+	gbl_homeAddressPanel.columnWidths = new int[]{491, 0};
+	gbl_homeAddressPanel.rowHeights = new int[]{30, 30};
+	gbl_homeAddressPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+	gbl_homeAddressPanel.rowWeights = new double[]{0.0, 0.0};
+    
+	gbc_lblHomeAddress = new GridBagConstraints();
+	gbc_lblHomeAddress.fill = GridBagConstraints.BOTH;
+	gbc_lblHomeAddress.insets = new Insets(0, 0, 0, 0);
+	gbc_lblHomeAddress.gridx = 0;
+	gbc_lblHomeAddress.gridy = 0; 
+	
+	gbc_txtHomeAddress = new GridBagConstraints();
+	gbc_txtHomeAddress.fill = GridBagConstraints.BOTH;
+	gbc_txtHomeAddress.insets = new Insets(0, 0, 0, 0);
+	gbc_txtHomeAddress.gridx = 0;
+	gbc_txtHomeAddress.gridy = 1; 
+    
+    //
+	gbl_emailPanel = new GridBagLayout();
+	gbl_emailPanel.columnWidths = new int[]{491, 0};
+	gbl_emailPanel.rowHeights = new int[]{30, 30};
+	gbl_emailPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+	gbl_emailPanel.rowWeights = new double[]{0.0, 0.0};
+    
+	gbc_lblEmailAddress = new GridBagConstraints();
+	gbc_lblEmailAddress.fill = GridBagConstraints.BOTH;
+	gbc_lblEmailAddress.insets = new Insets(0, 0, 0, 0);
+	gbc_lblEmailAddress.gridx = 0;
+	gbc_lblEmailAddress.gridy = 0; 
+	
+	gbc_txtEmailAddress = new GridBagConstraints();
+	gbc_txtEmailAddress.fill = GridBagConstraints.BOTH;
+	gbc_txtEmailAddress.insets = new Insets(0,0,0,0);
+	gbc_txtEmailAddress.gridx = 0;
+	gbc_txtEmailAddress.gridy = 1; 
     //
     gbl_reserveBookPanel = new GridBagLayout();
     gbl_reserveBookPanel.columnWidths = new int[]{316, 0};
@@ -563,7 +704,7 @@ public class PatronSettingsPanel extends JPanel {
     gbc_historyLoanPanel.fill = GridBagConstraints.BOTH;
     gbc_historyLoanPanel.insets = new Insets(15, 0, 25, 0);
     gbc_historyLoanPanel.gridx = 0;
-    gbc_historyLoanPanel.gridy = 4;
+    gbc_historyLoanPanel.gridy = 3;
     
     gbl_historyLoanPanel = new GridBagLayout();
     gbl_historyLoanPanel.columnWidths = new int[]{316, 0};
@@ -584,13 +725,13 @@ public class PatronSettingsPanel extends JPanel {
     
     // Set panel layouts
     mainPanel.setLayout(gbl_mainPanel);
-    firstNamePanel.setLayout(new GridLayout(2, 1, 0, 0));
-	lastNamePanel.setLayout(new GridLayout(2, 1, 0, 0));
-	userIDPanel.setLayout(new GridLayout(2, 1, 0, 0));
-	contactNumberPanel.setLayout(new GridLayout(0, 1, 0, 0));
-	homeAddressPanel.setLayout(new GridLayout(0, 1, 0, 0));
     accDetailPanel.setLayout(gbl_accDetailPanel);
-	emailPanel.setLayout(new GridLayout(0, 1, 0, 0));
+    firstNamePanel.setLayout(gbl_firstNamePanel);
+	lastNamePanel.setLayout(gbl_lastNamePanel);
+	userIDPanel.setLayout(gbl_userIDPanel);
+	contactNumberPanel.setLayout(gbl_contactNumberPanel);
+	homeAddressPanel.setLayout(gbl_homeAddressPanel);
+	emailPanel.setLayout(gbl_emailPanel);
     headingPanel.setLayout(new BoxLayout(headingPanel, BoxLayout.X_AXIS));
     reserveBookPanel.setLayout(gbl_reserveBookPanel);
     activeLoanPanel.setLayout(gbl_activeLoanPanel);
@@ -600,18 +741,19 @@ public class PatronSettingsPanel extends JPanel {
     headingPanel.add(lblHeading1);
     headingPanel.add(lblHeading2);
     
-    firstNamePanel.add(lblFirstName);
-    firstNamePanel.add(txtFirstName);
-	lastNamePanel.add(lblLastName);
-	lastNamePanel.add(txtLastName);
-	userIDPanel.add(lblUserID);
-	userIDPanel.add(txtUserID);
-	contactNumberPanel.add(lblContactNumber);
-	contactNumberPanel.add(txtContactNumber);
-	homeAddressPanel.add(lblHomeAddress);
-	homeAddressPanel.add(txtHomeAddress);
-	emailPanel.add(lblEmailAddress);
-	emailPanel.add(txtEmailAddress);
+    firstNamePanel.add(lblFirstName,gbc_lblFirstName);
+    firstNamePanel.add(txtFirstName,gbc_txtFirstName);
+	lastNamePanel.add(lblLastName,gbc_lblLastName);
+	lastNamePanel.add(txtLastName,gbc_txtLastName);
+	userIDPanel.add(lblUserID,gbc_lblUserID);
+	userIDPanel.add(txtUserID,gbc_txtUserID);
+	contactNumberPanel.add(lblContactNumber,gbc_lblContactNumber);
+	contactNumberPanel.add(txtContactNumber,gbc_txtContactNumber);
+	homeAddressPanel.add(lblHomeAddress,gbc_lblHomeAddress);
+	homeAddressPanel.add(txtHomeAddress,gbc_txtHomeAddress);
+	emailPanel.add(lblEmailAddress,gbc_lblEmailAddress);
+	emailPanel.add(txtEmailAddress,gbc_txtEmailAddress);
+	
 	
 	accDetailPanel.add(lblaccDetail, gbc_lblaccDetail);
 	accDetailPanel.add(btnOptionDetail, gbc_btnOptionDetail);
@@ -650,29 +792,24 @@ public class PatronSettingsPanel extends JPanel {
 	addComponentListener(new ComponentAdapter() {
   	  @Override
         public void componentResized(ComponentEvent e) {
-	      	titleTextSize = Math.min(getHeight() / 8, getWidth()/ 8) ;
+	  		titleTextSize = Math.min(getHeight() / 8, getWidth()/ 8) ;
 	        subtitleTextSize =  Math.min(getHeight() / 36, getWidth()/ 36);
 	        buttonTextSize =  Math.min(getHeight() / 50, getWidth()/ 50);
 	        headerTextSize =   Math.min(getHeight() / 20, getWidth()/ 20);
 	        plainTextsize=   Math.min(getHeight() / 60, getWidth()/ 60);
-	            
+	        
 	        titleFont = new Font("Montserrat", Font.BOLD, titleTextSize);
-//	        txtTitle.setFont(titleFont);
-//			.setFont(titleFont);
-	            
 			subtitleFont = new Font("Montserrat", Font.BOLD, subtitleTextSize);
+			plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
+
 	        lblaccDetail.setFont(subtitleFont);    
 	        lblreserveBook.setFont(subtitleFont);    
 	        lblactiveLoan.setFont(subtitleFont);    
 	        lblhistoryLoan.setFont(subtitleFont);    
-//	        buttonFont = new Font("Montserrat", Font.ITALIC, buttonTextSize);
-	            
-//	     	headerFont = new Font("Montserrat", Font.PLAIN, headerTextSize);
-//			btnBack.setFont(headerFont);
+	        
 	     	lblHeading1.setFont(new Font("Montserrat", Font.BOLD, headerTextSize));
 	     	lblHeading2.setFont(new Font("Montserrat", Font.PLAIN, headerTextSize));
 	            
-			plainFont = new Font("Montserrat", Font.ITALIC | Font.BOLD, plainTextsize);
 			lblFirstName.setFont(plainFont);
 			lblLastName.setFont(plainFont);
 			lblUserID.setFont(plainFont);
@@ -682,7 +819,7 @@ public class PatronSettingsPanel extends JPanel {
 			
 			reserveTable.setFont(plainFont);
 			reserveTable.getTableHeader().setFont(new Font("Montserrat", Font.ITALIC  | Font.BOLD, plainTextsize));	            
-			reserveTable.getTableHeader().setForeground(darkplainColor);
+			reserveTable.getTableHeader().setForeground(headerColor);
 			
 			activeLoanTable.setFont(plainFont);
 			activeLoanTable.getTableHeader().setFont(new Font("Montserrat", Font.ITALIC  | Font.BOLD, plainTextsize));	            

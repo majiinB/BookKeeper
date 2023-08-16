@@ -836,6 +836,7 @@ public class AdminSettingsPanel extends JPanel {
     //add panels
     headingPanel.add(lblHeading1);
     headingPanel.add(lblHeading2);
+    
     firstNamePanel.add(lblFirstName,gbc_lblFirstName);
     firstNamePanel.add(txtFirstName,gbc_txtFirstName);
 	lastNamePanel.add(lblLastName,gbc_lblLastName);
@@ -947,6 +948,14 @@ public class AdminSettingsPanel extends JPanel {
 	});
 	optionSystemItem.addMouseListener(new MouseAdapter() {
 	    public void mousePressed(MouseEvent e) {
+	    	
+	    	if(employee.getPosition().equals("Employee")) {
+	    		MalfunctionPanel mal = new MalfunctionPanel("Access Denied", 
+        				"Oops! It appears you’re trying to access a page that is \n"
+       					+ "restricted to administrators only.");
+        		showDialog(mal);
+        		return;
+	    	}
 	    	SystemInfoPanel panel = new SystemInfoPanel(employee, setting);
 	    	showDialog(panel);
 	    }
@@ -986,7 +995,27 @@ public class AdminSettingsPanel extends JPanel {
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 	 }
-	    
+	 public void showDialog(MalfunctionPanel panel) {
+ 		panel.getBtnConfirm().addActionListener(new ActionListener() {
+ 	    	public void actionPerformed(ActionEvent e) {
+ 	            closeDialog(e);
+ 	    	}
+  	    });
+
+		GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    	GraphicsDevice device = environment.getDefaultScreenDevice();
+       	int width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+    	int height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+    	
+		JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+		dialog.setUndecorated(true);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.getContentPane().add(panel);
+		dialog.setSize(width, height);
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+
+ 	}
 	//Method used by showDialog to close the JDialog containing the alert panels
 	private void closeDialog(ActionEvent e) {
 	    Component component = (Component) e.getSource();

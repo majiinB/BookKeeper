@@ -412,7 +412,7 @@ protected void paintComponent(Graphics g) {
 public String searchQuery(String search) {
     String query = "SELECT formatted_id, patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_status "
     		+ "FROM patron "
-    		+ "WHERE formatted_id LIKE '" +search+"%' OR patron_fname LIKE '"+search+"%' OR patron_lname LIKE '"+search+"%' "
+    		+ "WHERE formatted_id LIKE '" +search+"%' OR patron_fname LIKE '"+search+"%' OR patron_lname LIKE '"+search+"%' OR patron_email LIKE '"+search+"%' "
     		+ "ORDER BY patron_lname ASC";
     return query;
  }

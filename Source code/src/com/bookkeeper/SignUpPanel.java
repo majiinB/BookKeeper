@@ -114,7 +114,7 @@ public class SignUpPanel extends JPanel {
 
 public  SignUpPanel(int forQuery) {
 	setBackground(new Color(250, 251, 255));
-	setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
+	setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(new Color(243, 243, 247), 1, true), new LineBorder(new Color(23, 21, 147), 3, true)), new EmptyBorder(20, 20, 20, 20)));
     setLayout(new BorderLayout(0, 0));
 
     //create panels
@@ -133,9 +133,9 @@ public  SignUpPanel(int forQuery) {
 
     // Set panel properties
     mainPanel.setBorder(null);
-    titlePanel.setBorder(new EmptyBorder(25, 0, 25, 0));
-    subtitlePanel.setBorder(new EmptyBorder(25, 0, 25, 0));
-    inputPanel.setBorder(new EmptyBorder(20, 100, 5, 100));
+    titlePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+    subtitlePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+    inputPanel.setBorder(new EmptyBorder(20, 0, 5, 0));
     buttonPanel.setBorder(new EmptyBorder(25, 0, 25, 0));
 
     mainPanel.setOpaque(false);
@@ -188,7 +188,6 @@ public  SignUpPanel(int forQuery) {
     txtFirstName.setBackground(middleplainColor);
     
     lblLastName = new JLabel("Last Name:");
-    lblLastName.setFont(new Font("Montserrat", Font.BOLD | Font.ITALIC, 18));
     lblLastName.setForeground(darkplainColor);
     
     txtLastName  = new PlaceholderTextField("Last name");
@@ -291,9 +290,9 @@ public  SignUpPanel(int forQuery) {
 
     gbl_inputPanel = new GridBagLayout();
     gbl_inputPanel.columnWidths = new int[]{100, 543, 543, 0};
-    gbl_inputPanel.rowHeights = new int[] {80, 80, 80, 0, 0, 0};
-    gbl_inputPanel.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
-    gbl_inputPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+    gbl_inputPanel.rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+    gbl_inputPanel.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0};
+    gbl_inputPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
     
     gbc_firstNamePanel = new GridBagConstraints();
     gbc_firstNamePanel.gridwidth = 2;
@@ -453,7 +452,7 @@ public  SignUpPanel(int forQuery) {
   	            lblEmailAddress.setFont(plainFont);
 	  	        lblHomeAddress.setFont(plainFont);
   	            lblContactNumber.setFont(plainFont);
-  	        
+
 
           }
       });
@@ -485,27 +484,34 @@ public  SignUpPanel(int forQuery) {
 			
 			// Check fname input
 			if (fname.isBlank() || fname.length() < 3 || fname.equals("First name")) {
-				MalfunctionPanel mal = new MalfunctionPanel("SignUp Error", "Invalid input for First name");
+				MalfunctionPanel mal = new MalfunctionPanel("Sign Up Failed", 
+						"Oops! It seems like you've entered an invalid Name. \n"
+					    + "Please check the information you provided and try again.");
 				showDialog(mal);
 				return;
 			}
 
 			// Check lname input
 			if (lname.isEmpty() || lname.length() < 3 || lname.equals("Last name")) {
-				MalfunctionPanel mal = new MalfunctionPanel("SignUp Error", "Invalid input for Last name");
+				MalfunctionPanel mal = new MalfunctionPanel("Sign Up Failed", 
+						"Oops! It seems like you've entered an invalid Name. \n"
+					    + "Please check the information you provided and try again.");
 				showDialog(mal);
 				return;
 			}
 
 			// Check email input
 			if (userEmail.isBlank() || userEmail.length() < 12 || userEmail.equals("sample@email.com") || !isValidEmail(userEmail)) {
-				MalfunctionPanel mal = new MalfunctionPanel("SignUp Error", "Invalid input for Email");
+				MalfunctionPanel mal = new MalfunctionPanel("Sign Up Failed", 
+						"Oops! It seems like you've entered an invalid Email Address. \n"
+				   		+ "Please check the information you provided and try again.");
 				showDialog(mal);
 				return;
 			}
 			
 			if(checkEmailExistence(userEmail, forQuery)) {
-				MalfunctionPanel mal = new MalfunctionPanel("SignUp Error", "Email Already taken");
+				MalfunctionPanel mal = new MalfunctionPanel("Sign Up Failed", 
+						"Oops! The email you provided is already taken. Please try using a different email address.");
 				showDialog(mal);
 				return;
 			}
@@ -513,14 +519,18 @@ public  SignUpPanel(int forQuery) {
 			// Check address input
 			if (house.isBlank() || house.length() < 3 || house.equals("Home No.") || street.isBlank() || street.length() < 3 || street.equals("Street") ||
 				barangay.isBlank() || barangay.length() < 3 || barangay.equals("Barangay") || city.isBlank() || city.length() < 3 || city.equals("City")) {
-				MalfunctionPanel mal = new MalfunctionPanel("SignUp Error", "Invalid input for Address");
+				MalfunctionPanel mal = new MalfunctionPanel("Sign Up Failed", 
+						"Oops! It seems like you've entered an invalid Home Address. \n"
+			      		+ "Please check the information you provided and try again.");
 				showDialog(mal);
 				return;
 			}
 			
 			// Check contact input
 			if (userContact.isBlank() || userContact.length() != 11 || userContact.equals("00000000000") || !isNumeric(userContact)) {
-				MalfunctionPanel mal = new MalfunctionPanel("SignUp Error", "Invalid input for Contact number");
+				MalfunctionPanel mal = new MalfunctionPanel("Sign Up Failed", 
+						"Oops! It seems like you've entered an invalid Contact Number  . \n"
+					    + "Please check the information you provided and try again.");
 				showDialog(mal);
 				return;
 			}
@@ -585,8 +595,8 @@ public  SignUpPanel(int forQuery) {
   	        		encrypted = AuthenticationFrame.encryption(pass);
 	  	        	//prepare query
   	  
-		  	         String query = "INSERT INTO patron (patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_password, patron_status, penalty)"
-		  	         		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		  	         String query = "INSERT INTO patron (patron_fname, patron_lname, patron_email, patron_contact, patron_address, patron_password, patron_status, penalty, num_of_reserved, num_of_borrowed)"
+		  	         		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		  	         stmt = conn.prepareStatement(query);
 					 stmt.setString(1, fName);
 					 stmt.setString(2, lName); 
@@ -596,12 +606,13 @@ public  SignUpPanel(int forQuery) {
 					 stmt.setString(6, encrypted); 
 					 stmt.setString(7, status); 
 					 stmt.setInt(8, penalty);
+					 stmt.setInt(9, 0);
+					 stmt.setInt(10, 0);
 		  	         stmt.executeUpdate();
 		  	         
 		  	         // Show alert message
-		  	         SuccessPanel success = new SuccessPanel("READ BEFORE CLOSING", "Please take note of the info that will be given before closing this pop-up\n"
-		  	         		+ "After closing this pop-up no copy of the information that will be given will be saved\n"
-		  	         		+ "Patron "+ fName +" has been added\n"
+		  	         SuccessPanel success = new SuccessPanel("Please Read Carefully", 
+		  	        		 "User Has been succesfully added! Please note that after closing this pop-up, no copy of the information given will be saved\n"
 		  	         		+ "Patron Email: " + userEmail
 		  	         		+ "\nPatron Password: " + pass);
 		  	         showDialog(success);
@@ -623,10 +634,9 @@ public  SignUpPanel(int forQuery) {
 		  	         stmt.executeUpdate();
 		  	         
 		  	         // Show alert message
-		  	         SuccessPanel success = new SuccessPanel("READ BEFORE CLOSING", "Please take note of the info that will be given before closing this pop-up\n"
-		  	         		+ "After closing this pop-up no copy of the information that will be given will be saved\n"
-		  	         		+ "Employee "+ fName +" has been added\n"
-		  	         		+ "Employee Email: " + userEmail
+		  	         SuccessPanel success = new SuccessPanel("Please Read Carefully", 
+		  	        		 "User Has been succesfully added! Please note that after closing this pop-up, no copy of the information given will be saved\n"
+		  	        		+ "Employee Email: " + userEmail
 		  	         		+ "\nEmployee Password: " + pass);
 		  	         showDialog(success);
 

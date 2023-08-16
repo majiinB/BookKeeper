@@ -678,7 +678,8 @@ public class AdminBookInfoPanel extends JPanel{
 	    		String bookStatus = selectedBook.getBook_status();
 	    		
 				if(bookStatus.equals("Borrowed") || bookStatus.equals("Unavailable")) {
-					MalfunctionPanel mal = new MalfunctionPanel("Borrow Error", "Sorry but the book cannot be borrowed");
+					MalfunctionPanel mal = new MalfunctionPanel("An Error Occurred", 
+							"Oops! It seems like the book is currently not available for borrowing.");
 					showDialog(mal);
 					return;
 				}

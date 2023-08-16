@@ -157,12 +157,11 @@ public class AccountInfoPanel extends JPanel{
 		detailPanel.setOpaque(false);
 		profilePanel.setOpaque(false);
 		passwordSecurityPanel.setOpaque(false);
-		
-		namePanel.setOpaque(false);
-		contactPanel.setOpaque(false);
-		addressPanel.setOpaque(false);
-		passwordSecurityPanel.setOpaque(false);
-		changePassPanel.setOpaque(false);
+
+		namePanel.setBackground(middleplainColor);
+		contactPanel.setBackground(middleplainColor);
+		addressPanel.setBackground(middleplainColor);
+		changePassPanel.setBackground(middleplainColor);
 		
 		//added an arrow icon for the disable button
 		icon = new ImageIcon("img/Logo_Blue.png");

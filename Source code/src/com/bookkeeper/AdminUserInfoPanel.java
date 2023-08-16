@@ -466,8 +466,9 @@ public class AdminUserInfoPanel extends JPanel{
 					String status = selectedEmployee.getStatus();
 					String employeeId = selectedEmployee.getEmployee_id();
 					
-					ConfirmationPanel panel = new ConfirmationPanel("Confirm Change Status","Are you sure you want to change the status of employee " + selectedEmployee.getFname());
-					int flag = showDialog(panel);
+					ConfirmationPanel panel = new ConfirmationPanel("Change Status?",
+							"Are you sure you want to change the status of " + selectedEmployee.getFname() +"? "
+							+ "Changing the status will automatically reset their penalty count to ZERO." );int flag = showDialog(panel);
 					
 					//Shield
 					if(flag == 2) return;
@@ -847,7 +848,9 @@ public class AdminUserInfoPanel extends JPanel{
 					String status = selectedPatron.getUser_status();
 					String patronId = selectedPatron.getUser_id();
 					
-					ConfirmationPanel panel = new ConfirmationPanel("Confirm Change Status","Are you sure you want to change the status of this patron\nNOTE:Enabling ang account of patron will reset their penalty count to ZERO " + selectedPatron.getUser_fname());
+					ConfirmationPanel panel = new ConfirmationPanel("Change Status?",
+							"Are you sure you want to change the status of " + selectedPatron.getUser_fname() +"? "
+							+ "Changing the status will automatically reset their penalty count to ZERO." );
 					int flag = showDialog(panel);
 					
 					//Shield
@@ -914,10 +917,12 @@ public class AdminUserInfoPanel extends JPanel{
 	            int rowsUpdated = stmt.executeUpdate();
 
 	            if (rowsUpdated > 0) {
-	            	SuccessPanel success = new SuccessPanel("Status Update successful","Employee status has been updated");
+	            	SuccessPanel success = new SuccessPanel("Update Success",
+	            			"User Information is successfully updated! Please refresh interface to see new updates.");
 	            	showDialog(success);
 	            } else {
-	            	MalfunctionPanel mal = new MalfunctionPanel("Status Update unsuccessful", "Employee status has not been updated");
+	            	MalfunctionPanel mal = new MalfunctionPanel("Update Failed", 
+	            			"Oops! Update has failed! Please try again.");
 	            	showDialog(mal);
 	            }
 
@@ -1032,14 +1037,18 @@ public class AdminUserInfoPanel extends JPanel{
 		    	}
 		    });
 		    
-			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Confirm Log Out", true);
-	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	        dialog.add(panel);
-	        dialog.setUndecorated(true);
-		    dialog.setResizable(false);
-	        dialog.pack();
-	        dialog.setLocationRelativeTo(null);
-	        dialog.setVisible(true);
+		    environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.setSize(width, height);
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
 			
 			return selectedValue;
 		}

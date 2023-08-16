@@ -75,11 +75,17 @@ public class ChangePassPanel extends JPanel{
 	private  int subtitleTextSize;
 	private  int headerTextSize;
 	private  int plainTextsize;
+	
 	private  Color headerColor = new Color(23, 21, 147);//blue
 	private  Color darkplainColor = new Color(14, 14, 15);//black
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
-
+	
+	private GraphicsEnvironment environment;	
+	private GraphicsDevice device;
+	private int width;
+	private int height;
+	
 	public ChangePassPanel(User patron) {
 		setBackground(new Color(250, 251, 255));
 		setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
@@ -114,6 +120,7 @@ public class ChangePassPanel extends JPanel{
 	    btnCancel.setBorderPainted(false);
 	    btnCancel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    btnCancel.setOpaque(false);
+	    btnCancel.setContentAreaFilled(false);
 
 	    txtTitle = new JTextArea();
 	    txtTitle.setForeground(headerColor);
@@ -210,13 +217,13 @@ public class ChangePassPanel extends JPanel{
 	    gbc_titlePanel = new GridBagConstraints();
 	    gbc_titlePanel.anchor = GridBagConstraints.SOUTH;
 	    gbc_titlePanel.fill = GridBagConstraints.BOTH;	    
-	    gbc_titlePanel.insets = new Insets(10, 20, 20, 20);
+	    gbc_titlePanel.insets = new Insets(0, 20, 10, 20);
 	    gbc_titlePanel.gridx = 0;
 	    gbc_titlePanel.gridy = 1;
 	    
 	    gbc_inputPanel = new GridBagConstraints();
 	    gbc_inputPanel.fill = GridBagConstraints.HORIZONTAL;	    
-	    gbc_inputPanel.insets = new Insets(10, 20, 20, 20);
+	    gbc_inputPanel.insets = new Insets(10, 20, 10, 20);
 	    gbc_inputPanel.gridx = 0;
 	    gbc_inputPanel.gridy = 2;	 
 	    
@@ -378,17 +385,23 @@ public class ChangePassPanel extends JPanel{
 	    	// Shield
 	    	if (CURRENTPASS.isBlank() || CURRENTPASS.equals("Password") || NEWPASS.isBlank() || NEWPASS.equals("Password") ||
 	    			CONFIRMPASS.isBlank() || CONFIRMPASS.equals("Password")) {
-	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Cannot update with blank values");
+	    		MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+	    				"Oops! It seems like an error occurred. Please check the information you provided and try again. "
+	    				+ "Ensure that all fields are correctly filled and any required details are provided.");
 	            showDialog(mal);
 	    		return;
 	    	}
 	    	if (!EncryptedCurrent.equals(patronPass)) {
-	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Wrong current password");
+	    		MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+	        			"Oops! It seems like you've entered an incorrect Password. "
+	        			+ "Please check the information you provided and try again.");
 	            showDialog(mal);
 	    		return;
 	    	}
 	    	if(!NEWPASS.equals(CONFIRMPASS)) {
-	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Passwords did not match\nPlease try again");
+	    		MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+	        			"Oops! It seems like your password confirmation doesn't match."
+	        			+ "Please check the information you provided and try again.");
 	            showDialog(mal);
 	    		return;
 	    	}
@@ -420,7 +433,9 @@ public class ChangePassPanel extends JPanel{
 	            patron.setUser_pass(ENCRYPT_NEWPASS);
 	            
 	            //Prompt successful update
-	            SuccessPanel success = new SuccessPanel("Info Change", "Password Change Successful");
+	            SuccessPanel success = new SuccessPanel("Update Success", 
+        		"User Information is successfully updated! Please Refresh application to see new updates.");
+
 	            showDialog(success);
 	            
 	            //Close Dialog after update
@@ -446,7 +461,7 @@ public class ChangePassPanel extends JPanel{
 	//Constructor for admin
 	public ChangePassPanel(Employee employee) {
 		setBackground(new Color(250, 251, 255));
-	    setBorder(new EmptyBorder(10, 10, 10, 10));
+		setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
 	    setLayout(new BorderLayout(0, 0));
 		
 	    //create panels
@@ -478,6 +493,7 @@ public class ChangePassPanel extends JPanel{
 	    btnCancel.setBorderPainted(false);
 	    btnCancel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    btnCancel.setOpaque(false);
+	    btnCancel.setContentAreaFilled(false);
 
 	    txtTitle = new JTextArea();
 	    txtTitle.setForeground(headerColor);
@@ -574,13 +590,13 @@ public class ChangePassPanel extends JPanel{
 	    gbc_titlePanel = new GridBagConstraints();
 	    gbc_titlePanel.anchor = GridBagConstraints.SOUTH;
 	    gbc_titlePanel.fill = GridBagConstraints.BOTH;	    
-	    gbc_titlePanel.insets = new Insets(10, 20, 20, 20);
+	    gbc_titlePanel.insets = new Insets(0, 20, 10, 20);
 	    gbc_titlePanel.gridx = 0;
 	    gbc_titlePanel.gridy = 1;
 	    
 	    gbc_inputPanel = new GridBagConstraints();
 	    gbc_inputPanel.fill = GridBagConstraints.HORIZONTAL;	    
-	    gbc_inputPanel.insets = new Insets(10, 20, 20, 20);
+	    gbc_inputPanel.insets = new Insets(10, 20, 10, 20);
 	    gbc_inputPanel.gridx = 0;
 	    gbc_inputPanel.gridy = 2;	 
 	    
@@ -742,18 +758,24 @@ public class ChangePassPanel extends JPanel{
 	    	// Shield
 	    	if (CURRENTPASS.isBlank() || CURRENTPASS.equals("Password") || NEWPASS.isBlank() || NEWPASS.equals("Password") ||
 	    			CONFIRMPASS.isBlank() || CONFIRMPASS.equals("Password")) {
-	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Cannot update with blank values");
+	    		MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+	    				"Oops! It seems like an error occurred. Please check the information you provided and try again. "
+	    				+ "Ensure that all fields are correctly filled and any required details are provided.");
 	            showDialog(mal);
 	    		return;
 	    	}
 	    	if (!EncryptedCurrent.equals(EmployeePass)) {
-	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Wrong current password");
+	    		MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+	        			"Oops! It seems like you've entered an incorrect Password. "
+	        			+ "Please check the information you provided and try again.");
 	            showDialog(mal);
 	    		return;
 	    	}
 	    	if(!NEWPASS.equals(CONFIRMPASS)) {
-	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Passwords did not match\nPlease try again");
-	            showDialog(mal);
+	    		MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+	        			"Oops! It seems like your password confirmation doesn't match."
+	        			+ "Please check the information you provided and try again.");
+	    		showDialog(mal);
 	    		return;
 	    	}
 	    
@@ -784,7 +806,9 @@ public class ChangePassPanel extends JPanel{
 	            employee.setEmployee_pass(ENCRYPT_NEWPASS);
 	            
 	            //Prompt successful update
-	            SuccessPanel success = new SuccessPanel("Info Change", "Password Change Successful");
+	            SuccessPanel success = new SuccessPanel("Update Success", 
+	            		"User Information is successfully updated! Please Refresh application to see new updates.");
+ 
 	            showDialog(success);
 	            
 	            //Close Dialog after update
@@ -828,12 +852,16 @@ public class ChangePassPanel extends JPanel{
 		    	}
 		    });
 		    
-			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.getContentPane().add(panel);
-			dialog.setUndecorated(true);
-		    dialog.setResizable(false);
-			dialog.pack();
+			dialog.setSize(width, height);
 			dialog.setLocationRelativeTo(null);
 			dialog.setVisible(true);
 	
@@ -847,15 +875,18 @@ public class ChangePassPanel extends JPanel{
 		            closeDialog(e);
 		    	}
 		    });
-		    
-			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this),"Error", true);
-	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	        dialog.getContentPane().add(panel);
-	        dialog.setUndecorated(true);
-		    dialog.setResizable(false);
-	        dialog.pack();
-	        dialog.setLocationRelativeTo(null);
-	        dialog.setVisible(true);
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.setSize(width, height);
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
 		}
 	    
 	    //Method used by showDialog to close the JDialog containing the alert panels

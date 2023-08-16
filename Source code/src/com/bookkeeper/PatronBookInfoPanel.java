@@ -103,6 +103,11 @@ public class PatronBookInfoPanel extends JPanel{
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 	private int selectedValue;
 
+	private GraphicsEnvironment environment;	
+	private GraphicsDevice device;
+	private int width;
+	private int height;
+	
 	public PatronBookInfoPanel(Book selectedBook, User patron, Setting setting) {
 		setBackground(new Color(250, 251, 255));
 		setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
@@ -157,6 +162,7 @@ public class PatronBookInfoPanel extends JPanel{
 	    btnBack.setBorderPainted(false);
 	    btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    btnBack.setOpaque(false);
+	    btnBack.setContentAreaFilled(false);
 
 	    
 	    txtTitle = new JTextArea("Book Information");
@@ -496,7 +502,8 @@ public class PatronBookInfoPanel extends JPanel{
 				
 				// Check if user is already at limit
 				if(patron.getUser_num_reserved() >= setting.getReserve_lim()) {
-					MalfunctionPanel mal = new MalfunctionPanel("Reservation Error", "Apologies, but you have already reached the maximum limit for reserving books");
+					MalfunctionPanel mal = new MalfunctionPanel("Limit Reached", 
+							"Oops! Iit seems you have already reached the maximum limit for reserving books");
 					showDialog(mal);
 					return;
 				}
@@ -504,7 +511,8 @@ public class PatronBookInfoPanel extends JPanel{
 				//Check if reservation already exists
 				if(isReservationExisting(bookID, patronID)) {
 					// Prompt a malfunction dialog
-					MalfunctionPanel mal = new MalfunctionPanel("Reservation Error", "Reservation already exists!");
+					MalfunctionPanel mal = new MalfunctionPanel("Reservation Error", 
+							"It seems you have already reserved this book");
 					showDialog(mal);
 					return;
 				}
@@ -512,7 +520,8 @@ public class PatronBookInfoPanel extends JPanel{
 				// Check if reservation is necessary
 				if(selectedBook.getBook_status().equals("Borrowed") || selectedBook.getBook_status().equals("Unavailable")) {
 					// Prompt cofirmation panel
-			    	ConfirmationPanel confirm =  new ConfirmationPanel("Confirm Reservation?", "You cannot cancel this after\nthe reservation has been made.");
+			    	ConfirmationPanel confirm =  new ConfirmationPanel("Reserve Book?", 
+			    			"Please note that you cannot cancel this after the reservation has been made.");
 			    	int con = showDialog(confirm);
 			    	
 			    	//Condition
@@ -524,7 +533,8 @@ public class PatronBookInfoPanel extends JPanel{
 			    	}
 				}
 				else {
-					MalfunctionPanel mal = new MalfunctionPanel("Reservation Error", "This book is still available");
+					MalfunctionPanel mal = new MalfunctionPanel("Book Is Available", 
+							"Oops! The book is currently marked as available for borrowing.");
 					showDialog(mal);
 				}
 	    	}
@@ -617,12 +627,17 @@ public class PatronBookInfoPanel extends JPanel{
 		    	}
 		    });
 		    
-			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
+	 	    
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.getContentPane().add(panel);
-			dialog.setUndecorated(true);
-		    dialog.setResizable(false);
-			dialog.pack();
+			dialog.setSize(width, height);
 			dialog.setLocationRelativeTo(null);
 			dialog.setVisible(true);
 
@@ -637,14 +652,19 @@ public class PatronBookInfoPanel extends JPanel{
 		    	}
 		    });
 		    
-			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this),"Error", true);
-	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	        dialog.getContentPane().add(panel);
-	        dialog.setUndecorated(true);
-		    dialog.setResizable(false);
-	        dialog.pack();
-	        dialog.setLocationRelativeTo(null);
-	        dialog.setVisible(true);
+	 	    
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.setSize(width, height);
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
 		}
 	  //Method to show alert panel (Confirmation Panel)
 		public int showDialog(ConfirmationPanel panel) {
@@ -663,14 +683,19 @@ public class PatronBookInfoPanel extends JPanel{
 		    	}
 		    });
 		    
-			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this),"Confirm Reservation", true);
-	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	        dialog.add(panel);
-	        dialog.setUndecorated(true);
-		    dialog.setResizable(false);
-	        dialog.pack();
-	        dialog.setLocationRelativeTo(null);
-	        dialog.setVisible(true);
+	 	    
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.setSize(width, height);
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
 			
 			return selectedValue;
 		}

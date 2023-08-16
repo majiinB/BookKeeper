@@ -228,7 +228,9 @@ public class AdminBookBorrowPanel extends JPanel{
 			if(checkUserExistence(patronID)) {
 				//Check if the book is Available 
 				if(borrowerPatron.getUser_num_borrowed() >= setting.getBorrow_lim()) {
-					MalfunctionPanel mal = new MalfunctionPanel("User Reached Borrow Limit", "Apologies, but "+ borrowerPatron.getUser_fname()+" "+borrowerPatron.getUser_lname()+" have already reached the maximum limit for reserving books");
+					MalfunctionPanel mal = new MalfunctionPanel("Limit Reached", 
+							"Oops! Iit seems like "+ borrowerPatron.getUser_fname()+" "+borrowerPatron.getUser_lname()+
+							" has reached the maximum limit for borrowing books");
 					showDialog(mal);
 					return;
 				}
@@ -239,16 +241,19 @@ public class AdminBookBorrowPanel extends JPanel{
 					//Shield to check if the one borrowing is not the same with the one who has a reservation with the book
 					if(withReservation!=null) {
 						if(!withReservation.getUser_id().equals(patronID)) {
-							ConfirmationPanel mal = new ConfirmationPanel("Warning Book is Reserved", 
-									"Are you sure you want this book to be borrowed\nBook is currently reserved by:\n"
-									+ "Patron ID: "+ withReservation.getUser_id() +"\nPatron Name: " + withReservation.getUser_fname() + " " + withReservation.getUser_lname());
+							ConfirmationPanel mal = new ConfirmationPanel("Borrow Book?", 
+									"Are you sure you want this book to be borrowed?\n"
+									+ "Book is currently reserved by:\n"
+									+ "Patron ID: "+ withReservation.getUser_id() +
+									"\nPatron Name: " + withReservation.getUser_fname() + " " + withReservation.getUser_lname());
 							flag = showDialog(mal);
 						}
 						
 					}
 					// Action canceled when flag returns 2
 					if(flag == 2) {
-						MalfunctionPanel mal = new MalfunctionPanel("Action Canceled", "Action has been canceled");
+						MalfunctionPanel mal = new MalfunctionPanel("Action Cancelled", 
+								"Book has not been borrowed.");
 						showDialog(mal);
 						return;
 					}else {
@@ -273,12 +278,15 @@ public class AdminBookBorrowPanel extends JPanel{
 					
 				}
 				else {
-					MalfunctionPanel mal = new MalfunctionPanel("Book Borrow Error", "Sorry but the book cannot be borrowed");
+					MalfunctionPanel mal = new MalfunctionPanel("An Error Occurred"
+							, "Oops! It seems like the book can not be borrowed.");
 					showDialog(mal);
 				}
 			}else {
-				MalfunctionPanel mal = new MalfunctionPanel("Book Borrow Error", "Sorry but the Patron ID you have entered may be invalid or does not exist");
-				showDialog(mal);
+				MalfunctionPanel mal = new MalfunctionPanel("Book Borrow Error", 
+						"Oops! It seems like you've entered an incorrect Patron ID. \n"
+			       		+ "Please check the information you provided and try again.");
+						showDialog(mal);
 			}
     	}
     });
@@ -533,8 +541,10 @@ public class AdminBookBorrowPanel extends JPanel{
 	        updateStatement.executeUpdate();
 	        
 	        // Prompt success
-	        SuccessPanel success = new SuccessPanel("Book Borrow Success", 
-	        		"Book has been successfuly borrowed\nBook must be returned on the given date: "+ dueDate);
+	        SuccessPanel success = new SuccessPanel("Borrowed Successfully", 
+	        		"Book has been successfuly borrowed\n"
+	        		+ "Book must be returned on the given date: "+ dueDate
+	        		+ "\nHappy reading!");
 	        showDialog(success);
 	        updateNumOfBorrowed(patronId);
 	        
@@ -643,11 +653,7 @@ public class AdminBookBorrowPanel extends JPanel{
 	 	            closeDialog(e);
 	 	    	}
 	 	    });
-			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-	    	device = environment.getDefaultScreenDevice();
-	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
-	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
-	    	
+		
 			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
 	    	device = environment.getDefaultScreenDevice();
 	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
@@ -660,7 +666,6 @@ public class AdminBookBorrowPanel extends JPanel{
 			dialog.setSize(width, height);
 			dialog.setLocationRelativeTo(null);
 			dialog.setVisible(true);
-
 
 	 	}
 	     public int showDialog(ConfirmationPanel panel) {
@@ -678,15 +683,19 @@ public class AdminBookBorrowPanel extends JPanel{
 	 	            closeDialog(e);
 	 	    	}
 	 	    });
-	 	    
-	 		JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Confirm Log Out", true);
-	         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	         dialog.add(panel);
-	         dialog.setUndecorated(true);
-	 	     dialog.setResizable(false);
-	         dialog.pack();
-	         dialog.setLocationRelativeTo(null);
-	         dialog.setVisible(true);
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.setSize(width, height);
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
+
 	 		
 	 		return selectedValue;
 	 	}

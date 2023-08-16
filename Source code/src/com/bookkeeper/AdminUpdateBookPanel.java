@@ -187,7 +187,6 @@ public class AdminUpdateBookPanel extends JPanel{
 	    
 	    txtBookTitle = new PlaceholderTextField(selectedBook.getBook_title());
 	    txtBookTitle.setHorizontalAlignment(SwingConstants.RIGHT);
-	    txtBookTitle.setForeground(darkplainColor);
 	    txtBookTitle.setBackground(middleplainColor);
 	    txtBookTitle.setBorder(new EmptyBorder(10, 10, 10, 10));
 	    txtBookTitle.setOpaque(true);
@@ -201,7 +200,6 @@ public class AdminUpdateBookPanel extends JPanel{
 	    
 	    txtBookAuthor = new PlaceholderTextField(selectedBook.getBook_author());
 	    txtBookAuthor.setHorizontalAlignment(SwingConstants.RIGHT);
-	    txtBookAuthor.setForeground(darkplainColor);
 	    txtBookAuthor.setBackground(middleplainColor);
 	    txtBookAuthor.setBorder(new EmptyBorder(10, 10, 10, 10));
 	    txtBookAuthor.setOpaque(true);
@@ -215,7 +213,6 @@ public class AdminUpdateBookPanel extends JPanel{
 	    
 	    txtBookISBN = new PlaceholderTextField(selectedBook.getISBN());
 	    txtBookISBN.setHorizontalAlignment(SwingConstants.RIGHT);
-	    txtBookISBN.setForeground(darkplainColor);
 	    txtBookISBN.setBackground(middleplainColor);
 	    txtBookISBN.setBorder(new EmptyBorder(10, 10, 10, 10));
 	    txtBookISBN.setOpaque(true);
@@ -229,7 +226,6 @@ public class AdminUpdateBookPanel extends JPanel{
 	    
 	    txtBookPublisher = new PlaceholderTextField(selectedBook.getBook_publisher());
 	    txtBookPublisher.setHorizontalAlignment(SwingConstants.RIGHT);
-	    txtBookPublisher.setForeground(darkplainColor);
 	    txtBookPublisher.setBackground(middleplainColor);
 	    txtBookPublisher.setBorder(new EmptyBorder(10, 10, 10, 10));
 	    txtBookPublisher.setOpaque(true);
@@ -239,7 +235,6 @@ public class AdminUpdateBookPanel extends JPanel{
 	    
 	    lblBookGenre = new JLabel("Genre:");
 	    lblBookGenre.setHorizontalAlignment(SwingConstants.LEFT);
-	    lblBookGenre.setForeground(darkplainColor);
 	    lblBookGenre.setBorder(new EmptyBorder(10, 10, 10, 10));
 	    lblBookGenre = new JLabel("Genre:");
 	    lblBookGenre.setHorizontalAlignment(SwingConstants.LEFT);
@@ -618,40 +613,52 @@ public class AdminUpdateBookPanel extends JPanel{
 		            || publisher.isBlank() || publisher.equals("Name") || ISBN.isBlank() || ISBN.equals("ISBN Number")) {
 		        		
 	        		//Prompt error
-	        		MalfunctionPanel mal = new MalfunctionPanel("Book Info Update Error", "Cannot accept blank values");
+	        		MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+		    				"Oops! It seems like an error occurred. Please check the information you provided and try again. "
+		    				+ "Ensure that all fields are correctly filled and any required details are provided.");
 	        		showDialog(mal);
 	            	return;
 		         }
 				
 				//To check if aisle and shelf is blank
 				if (shelf.equals("000") || shelf.isBlank()  || aisle.equals("000") || aisle.isBlank()) {
-					MalfunctionPanel mal = new MalfunctionPanel("Add book Error", "Shelf number and aisle number cannot be empty");
-					showDialog(mal);
+					MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+		    				"Oops! It seems like an error occurred. Please check the information you provided and try again. "
+		    				+ "Ensure that all fields are correctly filled and any required details are provided.");
+	        		showDialog(mal);
 					return;
 		        }
 				//To check if aisle and shelf is numeric
 				if(!isNumeric(shelf) || !isNumeric(aisle)) {
-					MalfunctionPanel mal = new MalfunctionPanel("Book Info Update Error", "Input for shelf and aisle number can only be numeric");
+					MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+							"Oops! The shelf and aisle numbers should only contain numeric values. "
+							+ "Please check the information you provided and try again.");
 					showDialog(mal);
 					return;
 				}
 				
 				//To check if ISBN is numeric and contains either 10 digit or 13 digits
 				if(!isNumeric(ISBN) || !(ISBN.length() == 10 || ISBN.length()==13)) {
-					MalfunctionPanel mal = new MalfunctionPanel("Book Info Update Error", "Invalid ISBN, ISBN should be a numeric value with either 10 numbers or 13");
+					MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+							"Oops! ISBN should be a numeric value with either \n10 numbers or 13. "
+							+ "Please check the information you provided and try again.");
 					showDialog(mal);
 					return;
 				}
 				
 				//To check if date is in the right format and does not exceed the current date
 				if(!isValidDateFormat(publicationDate) || !isValidDate(publicationDate)) {
-					MalfunctionPanel mal = new MalfunctionPanel("Book Info Update Error", "Invalid date or format, follow yyyy-mm-dd format and make sure the date does not exceed current date");
+					MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+							"Oops! The date is invalid or not in the correct format. "
+							+ "Please use the YYYY-MM-DD format and ensure the date "
+							+ "is no later than the current date.");
 					showDialog(mal);
 					return;
 				}
 				
 				if(selectedBook.getBook_status().equals("Borrowed")) {
-					MalfunctionPanel mal = new MalfunctionPanel("Book Info Update Error", "Cannot change info of a borrowed book");
+					MalfunctionPanel mal = new MalfunctionPanel("An Error Occured",
+							"Oops! It seems like your trying to change the information of a borrowed book.");
 					showDialog(mal);
 					return;
 				}
@@ -664,7 +671,8 @@ public class AdminUpdateBookPanel extends JPanel{
 					
 					//Shield to see if the input will have zero as value
 					if(aisleNum == 0 || shelfNum == 0) {
-						MalfunctionPanel mal = new MalfunctionPanel("Book Info Update Error", "Shelf and aisle cannot be Zero");
+						MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+								"Oops! Values cannot be Zero. Please check the information you provided and try again. ");
 						showDialog(mal);
 						return;
 					}
@@ -674,8 +682,10 @@ public class AdminUpdateBookPanel extends JPanel{
 					//Close dialog
                     closeDialog(e);
 	            } catch (NumberFormatException ex) {
-	            	MalfunctionPanel mal = new MalfunctionPanel("Book Info Update Error", "Invalid Input	");
-					showDialog(mal);
+	            	MalfunctionPanel mal = new MalfunctionPanel("An Error Occured",
+	            			"Oops! It seems like an error occurred. Please check the information you provided and try again. "
+	    		   			+ "Ensure that all fields are correctly filled and any required details are provided.");
+	            	showDialog(mal);
 	            }
 	    	
 	    	}
@@ -759,7 +769,8 @@ public class AdminUpdateBookPanel extends JPanel{
                 int rowsUpdated = stmt.executeUpdate();
             	
                 if (rowsUpdated > 0) {
-                	SuccessPanel success = new SuccessPanel("Book Info Update", "The book has been successfully updated");
+                	SuccessPanel success = new SuccessPanel("Update Success", 
+                			"Book Information is successfully updated! Please refresh library to see new updates.");
                     showDialog(success);
                 	//JOptionPane.showMessageDialog(pnlEditBookInfo.this, "Book Info Updated Successfully", "Success", JOptionPane.PLAIN_MESSAGE);
                 } else {

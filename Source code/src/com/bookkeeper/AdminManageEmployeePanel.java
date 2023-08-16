@@ -406,10 +406,11 @@ protected void paintComponent(Graphics g) {
 
 //Methods
  public String searchQuery(String search) {
-     String query = "SELECT admin_id, admin_fname, admin_lname, admin_email, admin_contact, admin_address, admin_status "
-     		+ "FROM admin "
-     		+ "WHERE (admin_fname LIKE '"+search+"%' OR admin_lname LIKE '"+search+"%') AND (admin_position = 'Employee') "
-     		+ "ORDER BY admin_lname ASC";
+     String query = "SELECT admin_formatted_id, admin_fname, admin_lname, admin_email, admin_contact, admin_address, admin_status "
+    		 + "FROM admin "
+    		 + "WHERE (admin_fname LIKE '" + search + "%' OR admin_lname LIKE '" + search + "%' OR admin_email LIKE '" + search + "%' OR admin_formatted_id LIKE '" + search + "%') AND (admin_position = 'Employee') "
+    		 + "ORDER BY admin_lname ASC";
+
      return query;
   }
 

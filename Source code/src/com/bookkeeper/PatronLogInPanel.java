@@ -139,6 +139,7 @@ public  PatronLogInPanel() {
     btnBack.setBorderPainted(false);
     btnBack.setBorder(new EmptyBorder(5, 5, 5, 5));
     btnBack.setOpaque(false);
+    btnBack.setContentAreaFilled(false);
 
     lblTitle = new JLabel("PATRON LOGIN");
     lblTitle.setHorizontalAlignment(SwingConstants.LEFT);

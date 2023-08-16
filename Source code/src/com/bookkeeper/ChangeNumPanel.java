@@ -69,11 +69,17 @@ public class ChangeNumPanel extends JPanel{
 	private  int subtitleTextSize;
 	private  int headerTextSize;
 	private  int plainTextsize;
+	
 	private  Color headerColor = new Color(23, 21, 147);//blue
 	private  Color darkplainColor = new Color(14, 14, 15);//black
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
+	private GraphicsEnvironment environment;	
+	private GraphicsDevice device;
+	private int width;
+	private int height;
+	
 	public ChangeNumPanel(User patron) {
 		setBackground(new Color(250, 251, 255));
 		setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
@@ -108,6 +114,7 @@ public class ChangeNumPanel extends JPanel{
 	    btnCancel.setBorderPainted(false);
 	    btnCancel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    btnCancel.setOpaque(false);
+	    btnCancel.setContentAreaFilled(false);
 
 	    txtTitle = new JTextArea();
 	    txtTitle.setForeground(headerColor);
@@ -140,7 +147,7 @@ public class ChangeNumPanel extends JPanel{
 	    txtCurrentContact.setBackground(middleplainColor);
 	    txtCurrentContact.setBorder(new EmptyBorder(10, 10, 10, 10));
 	    txtCurrentContact.setOpaque(true);
-	    txtCurrentContact.setFocusable(true);
+	    txtCurrentContact.setFocusable(false);
 	    txtCurrentContact.setEditable(false);
 	    txtCurrentContact.setDragEnabled(false);
 	    
@@ -323,17 +330,21 @@ public class ChangeNumPanel extends JPanel{
 	    	
 	    	// Shield
 	    	if (newContact.isBlank() || newContact.equals("E.g. 09155466982")) {
-	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Cannot update with blank values");
+	    		MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+	        			"Oops! It seems like an error occurred.\nPlease check the information you provided and try again.");
 	            showDialog(mal);
 	    		return;
 	    	}
 	    	if(newContact.equals(patron.getUser_contact())) {
-	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Your contact info is already set to the same value");
-	            showDialog(mal);
+	    		MalfunctionPanel mal = new MalfunctionPanel("An Error Occurred", 
+	    				"Oops! It seems like your contact info is already set to the same value. "
+	    				+ "Please check the information you provided and try again.");
+	    		showDialog(mal);
 	    		return;
 	    	}
 	    	if(!newContact.matches("\\d{11}")) {
-	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Invalid Input");
+	    		MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+	        			"Oops! It seems like an error occurred.\nPlease check the information you provided and try again.");
 	            showDialog(mal);
 	    		return;
 	    	}
@@ -357,7 +368,8 @@ public class ChangeNumPanel extends JPanel{
 	            patron.setUser_contact(newContact);
 	            
 	            //Prompt successful update
-	            SuccessPanel success = new SuccessPanel("Info Change", "Contact No. Change Successful");
+	            SuccessPanel success = new SuccessPanel("Update Success", 
+	            		"User Information is successfully updated! Please Refresh application to see new updates.");
 	            showDialog(success);
 	            
 	            //Close Frame after update
@@ -383,7 +395,7 @@ public class ChangeNumPanel extends JPanel{
 	//Constructor for admin of employee
 	public ChangeNumPanel(Employee employee) {
 		setBackground(new Color(250, 251, 255));
-	    setBorder(new EmptyBorder(10, 10, 10, 10));
+		setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
 	    setLayout(new BorderLayout(0, 0));
 		
 	    //create panels
@@ -415,6 +427,7 @@ public class ChangeNumPanel extends JPanel{
 	    btnCancel.setBorderPainted(false);
 	    btnCancel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    btnCancel.setOpaque(false);
+	    btnCancel.setContentAreaFilled(false);
 
 	    txtTitle = new JTextArea();
 	    txtTitle.setForeground(headerColor);
@@ -447,7 +460,7 @@ public class ChangeNumPanel extends JPanel{
 	    txtCurrentContact.setBackground(middleplainColor);
 	    txtCurrentContact.setBorder(new EmptyBorder(10, 10, 10, 10));
 	    txtCurrentContact.setOpaque(true);
-	    txtCurrentContact.setFocusable(true);
+	    txtCurrentContact.setFocusable(false);
 	    txtCurrentContact.setEditable(false);
 	    txtCurrentContact.setDragEnabled(false);
 	    
@@ -630,17 +643,22 @@ public class ChangeNumPanel extends JPanel{
 	    	
 	    	// Shield
 	    	if (newContact.isBlank() || newContact.equals("E.g. 09155466982")) {
-	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Cannot update with blank values");
+	    		MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+	        			"Oops! It seems like an error occurred.\nPlease check the information you provided and try again.");
+			     
 	            showDialog(mal);
 	    		return;
 	    	}
 	    	if(newContact.equals(employee.getContactNum())) {
-	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Your contact info is already set to the same value");
+	    		MalfunctionPanel mal = new MalfunctionPanel("An Error Occurred", 
+	    				"Oops! It seems like your contact info is already set to the same value. "
+	    				+ "Please check the information you provided and try again.");
 	            showDialog(mal);
 	    		return;
 	    	}
 	    	if(!newContact.matches("\\d{11}")) {
-	    		MalfunctionPanel mal = new MalfunctionPanel("Info Change", "Invalid Input");
+	    		MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+	        			"Oops! It seems like an error occurred.\nPlease check the information you provided and try again.");
 	            showDialog(mal);
 	    		return;
 	    	}
@@ -664,7 +682,8 @@ public class ChangeNumPanel extends JPanel{
 	            employee.setContactNum(newContact);
 	            
 	            //Prompt successful update
-	            SuccessPanel success = new SuccessPanel("Info Change", "Contact No. Change Successful");
+	            SuccessPanel success = new SuccessPanel("Update Success", 
+	            		"User Information is successfully updated! Please Refresh application to see new updates.");
 	            showDialog(success);
 	            
 	            //Close Frame after update
@@ -708,13 +727,16 @@ public class ChangeNumPanel extends JPanel{
 		            closeDialog(e);
 		    	}
 		    });
-		    
-			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.getContentPane().add(panel);
-			dialog.setUndecorated(true);
-		    dialog.setResizable(false);
-			dialog.pack();
+			dialog.setSize(width, height);
 			dialog.setLocationRelativeTo(null);
 			dialog.setVisible(true);
 	
@@ -728,15 +750,18 @@ public class ChangeNumPanel extends JPanel{
 		            closeDialog(e);
 		    	}
 		    });
-		    
-			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this),"Error", true);
-	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	        dialog.getContentPane().add(panel);
-	        dialog.setUndecorated(true);
-		    dialog.setResizable(false);
-	        dialog.pack();
-	        dialog.setLocationRelativeTo(null);
-	        dialog.setVisible(true);
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.setSize(width, height);
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
 		}
 	    
 	    //Method used by showDialog to close the JDialog containing the alert panels

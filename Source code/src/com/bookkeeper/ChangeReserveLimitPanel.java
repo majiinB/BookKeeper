@@ -76,6 +76,11 @@ public class ChangeReserveLimitPanel extends JPanel{
 	private  Color lightplainColor = new Color(250, 251, 255);//white
 	private  Color middleplainColor = new Color(243, 243, 247);//dirty white
 
+	private GraphicsEnvironment environment;	
+	private GraphicsDevice device;
+	private int width;
+	private int height;
+	
 	public ChangeReserveLimitPanel(Employee employee, Setting setting) {
 		setBackground(new Color(250, 251, 255));
 		setBorder(new CompoundBorder(new CompoundBorder(new LineBorder(middleplainColor, 1, true), new LineBorder(headerColor, 3, true)), new EmptyBorder(10, 10, 10, 10)));
@@ -110,6 +115,7 @@ public class ChangeReserveLimitPanel extends JPanel{
 	    btnCancel.setBorderPainted(false);
 	    btnCancel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    btnCancel.setOpaque(false);
+	    btnCancel.setContentAreaFilled(false);
 
 	    txtTitle = new JTextArea();
 	    txtTitle.setForeground(headerColor);
@@ -148,6 +154,7 @@ public class ChangeReserveLimitPanel extends JPanel{
 	    //Disable text edit
 	    JFormattedTextField textField = ((JSpinner.DefaultEditor) spinnerReserve.getEditor()).getTextField();
         textField.setEditable(false);
+        textField.setBackground(middleplainColor);
 
 //	    PASSWORD
 	    lblCurrentPass = new JLabel("Password");
@@ -336,17 +343,21 @@ public class ChangeReserveLimitPanel extends JPanel{
 				}
 		        
 		        if(reserveLim == setting.getReserve_lim()) {
-		        	MalfunctionPanel mal = new MalfunctionPanel("Setting Update Error", "This is already the current setting");
+		        	MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+		        			"Oops! This is already the current setting.\nPlease input a new value if you intend to make changes.");
 		            showDialog(mal);
 		    		return;
 		        }
 		        if(CURRENTPASS.isBlank() || CURRENTPASS.equals("Password")) {
-		        	MalfunctionPanel mal = new MalfunctionPanel("Setting Update Error", "Password cannot be blank");
-		            showDialog(mal);
+		        	MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+		        			"Oops! It seems like an error occurred.\nPlease check the information you provided and try again.");
+		        	showDialog(mal);
 		    		return;
 		        }
 		        if(!EncryptedCurrent.equals(employee.getEmployee_pass())) {
-		        	MalfunctionPanel mal = new MalfunctionPanel("Setting Update Error", "Incorrect Password");
+		        	MalfunctionPanel mal = new MalfunctionPanel("An Error Occured", 
+		        			"Oops! It seems like you've entered an incorrect Password. "
+		        			+ "Please check the information you provided and try again.");
 		            showDialog(mal);
 		    		return;
 		        }
@@ -368,7 +379,9 @@ public class ChangeReserveLimitPanel extends JPanel{
 		            setting.setReserve_lim(reserveLim);
 		            
 		            //Prompt successful update
-		            SuccessPanel success = new SuccessPanel("Setting Change", "Reservation Limit Change Successful");
+		            SuccessPanel success = new SuccessPanel("Update Success", 
+		            		"System Information is successfully updated! "
+		            		+ "Please Refresh application to see new updates.");
 		            showDialog(success);
 		            
 		            //Close Frame after update
@@ -414,13 +427,16 @@ public class ChangeReserveLimitPanel extends JPanel{
 		            closeDialog(e);
 		    	}
 		    });
-		    
-			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Success", true);
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.getContentPane().add(panel);
-			dialog.setUndecorated(true);
-		    dialog.setResizable(false);
-			dialog.pack();
+			dialog.setSize(width, height);
 			dialog.setLocationRelativeTo(null);
 			dialog.setVisible(true);
 
@@ -434,15 +450,18 @@ public class ChangeReserveLimitPanel extends JPanel{
 		            closeDialog(e);
 		    	}
 		    });
-		    
-			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this),"Error", true);
-	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	        dialog.getContentPane().add(panel);
-	        dialog.setUndecorated(true);
-		    dialog.setResizable(false);
-	        dialog.pack();
-	        dialog.setLocationRelativeTo(null);
-	        dialog.setVisible(true);
+			environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    	device = environment.getDefaultScreenDevice();
+	       	width = (int) (device.getDisplayMode().getWidth() * 0.4);    	
+	    	height = (int) (device.getDisplayMode().getHeight() * 0.23); 
+	    	
+			JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), "Book Keeper", true);
+			dialog.setUndecorated(true);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.getContentPane().add(panel);
+			dialog.setSize(width, height);
+			dialog.setLocationRelativeTo(null);
+			dialog.setVisible(true);
 		}
 	    
 	    //Method used by showDialog to close the JDialog containing the alert panels

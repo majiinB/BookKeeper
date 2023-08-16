@@ -102,7 +102,8 @@ public class ChangeStatPanel extends JPanel{
 	    btnCancel.setForeground(new Color(23, 21, 147));
 	    btnCancel.setBorderPainted(false);
 	    btnCancel.setBorder(new EmptyBorder(5, 5, 5, 5));
-	    
+	    btnCancel.setContentAreaFilled(false);
+
 	    txtTitle = new JTextArea();
 	    txtTitle.setForeground(headerColor);
 	    txtTitle.setLineWrap(true);
