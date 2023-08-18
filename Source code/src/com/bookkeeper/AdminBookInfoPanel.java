@@ -769,7 +769,7 @@ public User getRecentBorrowedPatron(int bookId) {
         conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_keeper", "root", "");
 
         // Query to retrieve the most recent record from borrowed_book table for the given bookId
-        String query1 = "SELECT patron_id FROM borrowed_book WHERE book_id = ? AND borrow_status = 'out' ORDER BY borrowed_date DESC, borrow_time DESC LIMIT 1";
+        String query1 = "SELECT patron_id FROM borrowed_book WHERE book_id = ? AND (borrow_status = 'Out' OR borrow_status = 'Overdue') ORDER BY borrowed_date DESC, borrow_time DESC LIMIT 1";
 
         // Create a prepared statement with the query
         stmt1 = conn.prepareStatement(query1);

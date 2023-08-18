@@ -138,13 +138,13 @@ public class DashboardFrame extends JFrame {
     	AdminMenuPanel.getBtnReport().addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		//Shield
-        		if(employee.getPosition().equals("Employee")) {
-        			MalfunctionPanel mal = new MalfunctionPanel("Access Denied", 
-        				"Oops! It appears you’re trying to access a page that is \n"
-       					+ "restricted to administrators only.");
-        			showDialog(mal);
-					return;
-        		}
+//        		if(employee.getPosition().equals("Employee")) {
+//        			MalfunctionPanel mal = new MalfunctionPanel("Access Denied", 
+//        				"Oops! It appears you’re trying to access a page that is \n"
+//       					+ "restricted to administrators only.");
+//        			showDialog(mal);
+//					return;
+//        		}
         		cardLayout1.show(ContentPanel,"panel2");
         		AdminMenuPanel.setBtnReport();
         	}
