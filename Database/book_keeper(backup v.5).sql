@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2023 at 02:33 PM
+-- Generation Time: Aug 16, 2023 at 06:08 PM
 -- Server version: 10.4.28-MariaDB
--- PHP Version: 8.1.17
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -219,6 +219,31 @@ CREATE TABLE `borrowed_book` (
   `penalizedOrNot` varchar(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `borrowed_book`
+--
+
+INSERT INTO `borrowed_book` (`borrow_id`, `book_id`, `borrowed_date`, `borrowed_due_date`, `borrow_status`, `returned_date`, `patron_id`, `borrow_time`, `penalizedOrNot`) VALUES
+(1, 21, '2023-08-13', '2023-09-04', 'Returned', '2023-08-13', 'bkpa-00000012', '20:01:28', 'No'),
+(2, 11, '2023-08-13', '2023-09-04', 'Returned', '2023-08-15', 'bkpa-00000013', '20:08:03', 'No'),
+(3, 19, '2023-08-13', '2023-09-04', 'Returned', '2023-08-13', 'bkpa-00000014', '20:11:05', 'No'),
+(4, 11, '2023-08-13', '2023-09-04', 'Out', NULL, 'bkpa-00000013', '20:49:26', 'No'),
+(5, 18, '2023-08-14', '2023-09-05', 'Returned', '2023-08-15', 'bkpa-00000013', '22:17:54', 'No'),
+(6, 33, '2023-08-14', '2023-09-05', 'Returned', '2023-08-15', 'bkpa-00000013', '22:18:24', 'No'),
+(7, 19, '2023-08-15', '2023-09-06', 'Returned', '2023-08-15', 'bkpa-00000013', '01:12:27', 'No'),
+(8, 27, '2023-08-15', '2023-09-06', 'Returned', '2023-08-15', 'bkpa-00000013', '01:18:46', 'No'),
+(9, 4, '2023-08-15', '2023-09-06', 'Returned', '2023-08-15', 'bkpa-00000013', '01:19:02', 'No'),
+(10, 5, '2023-08-15', '2023-09-06', 'Returned', '2023-08-16', 'bkpa-00000013', '01:19:22', 'No'),
+(11, 31, '2023-08-15', '2023-09-06', 'Returned', '2023-08-16', 'bkpa-00000013', '01:19:44', 'No'),
+(12, 13, '2023-08-15', '2023-09-06', 'Returned', '2023-08-16', 'bkpa-00000013', '01:19:56', 'No'),
+(13, 38, '2023-08-15', '2023-09-06', 'Returned', '2023-08-15', 'bkpa-00000013', '01:20:23', 'No'),
+(14, 39, '2023-08-15', '2023-09-06', 'Returned', '2023-08-15', 'bkpa-00000013', '01:20:36', 'No'),
+(16, 48, '2023-08-16', '2023-08-17', 'Out', NULL, 'bkpa-00000013', '19:20:07', 'No'),
+(17, 21, '2023-08-16', '2023-08-17', 'Out', NULL, 'bkpa-00000037', '23:32:26', 'No'),
+(18, 25, '2023-08-16', '2023-08-17', 'Out', NULL, 'bkpa-00000012', '23:32:49', 'No'),
+(19, 46, '2023-08-16', '2023-08-17', 'Out', NULL, 'bkpa-00000025', '23:33:40', 'No'),
+(20, 53, '2023-08-16', '2023-08-17', 'Out', NULL, 'bkpa-00000028', '23:34:14', 'No');
+
 -- --------------------------------------------------------
 
 --
@@ -246,8 +271,8 @@ CREATE TABLE `patron` (
 
 INSERT INTO `patron` (`patron_id`, `formatted_id`, `patron_fname`, `patron_lname`, `patron_email`, `patron_contact`, `patron_address`, `patron_password`, `patron_status`, `penalty`, `num_of_reserved`, `num_of_borrowed`) VALUES
 (12, 'bkpa-00000012', 'Arthur', 'Artugue', 'arthur@gmail.com', '09953653123', 'Blk 8 lot 6a, Gladiola, Cuyab, San Pedro City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', 0, 0, 0),
-(13, 'bkpa-00000013', 'Leila', 'Montemayor', 'leila@gmail.com', '09493337935', '121-b Makati Homes II, Milkweed, Rizal, Makati', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', 0, 0, 0),
-(14, 'bkpa-00000014', 'Claire', 'Estoque', 'claire@gmail.com', '09150780562', '807, Mader, Post Proper Southside, Makati', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', 0, 0, 0),
+(13, 'bkpa-00000013', 'Leila', 'Montemayor', 'leila@gmail.com', '09493337935', '121-b Makati Homes II, Milkweed, Rizal, Makati', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', 0, 0, 1),
+(14, 'bkpa-00000014', 'Claire', 'Estoque', 'claire@gmail.com', '09150780562', '807, Mader, Post Proper Southside, Makati', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', 0, 3, 0),
 (15, 'bkpa-00000015', 'Elgin Barett', 'Sales', 'elgin@gmail.com', '09155430717', 'Pasig City', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', 0, 0, 0),
 (16, 'bkpa-00000016', 'Faith', 'Del Rosario', 'faith@gmail.com', '09345678912', '678, di ko alam, di ko din alam, San Pedro City', 'AAECAwQFBgcICQoLDA0ODwbYhT1TZ5mM8J/eztGx49g=', 'Active', 0, 0, 0),
 (18, 'bkpa-00000018', 'Mark', 'Toralde', 'mark@gmail.com', '09876546329', 'Block 2 Lot 18, Molave, North Signal, Taguig', 'AAECAwQFBgcICQoLDA0OD3EwDrBfjIUlmMNGHSX1Jyo=', 'Active', 0, 0, 0),
@@ -257,10 +282,10 @@ INSERT INTO `patron` (`patron_id`, `formatted_id`, `patron_fname`, `patron_lname
 (22, 'bkpa-00000022', 'Jude Mikel', 'Rey', 'jude@gmail.com', '09957736812', '123, G.L. Jaena, West Rembo, Makati', 'AAECAwQFBgcICQoLDA0OD+Mo9/7oQ4gv6I8USvezRG0=', 'Active', 0, 0, 0),
 (23, 'bkpa-00000023', 'John Howard', 'Agustin', 'john@gmail.com', '09492831172', '123, Goldilocks, Comembo, Makati', 'AAECAwQFBgcICQoLDA0OD9bWeb5lv7Qd5OgzVHGiJ94=', 'Active', 0, 0, 0),
 (24, 'bkpa-00000024', 'Eufredo', 'Alto', 'eufredo@gmail.com', '09281235447', '123, Red Ribbon, Pembo, Makati', 'AAECAwQFBgcICQoLDA0ODyGur0h7lON8wDVhTnqSmA8=', 'Active', 0, 0, 0),
-(25, 'bkpa-00000025', 'Adam Jay', 'Balona', 'adam@gmail.com', '09784441252', '234, blueberry, Rizal, Makati', 'AAECAwQFBgcICQoLDA0OD6vlhGlXgpqAYnGM8pI01F4=', 'Active', 0, 0, 0),
+(25, 'bkpa-00000025', 'Adam Jay', 'Balona', 'adam@gmail.com', '09784441252', '234, blueberry, Rizal, Makati', 'AAECAwQFBgcICQoLDA0OD6vlhGlXgpqAYnGM8pI01F4=', 'Active', 0, 0, 1),
 (26, 'bkpa-00000026', 'Jao Nicholas', 'Benedicto', 'jao@gmail.com', '09125348765', '210-b Makati Homes II, Milkweed, Rizal, Makati', 'AAECAwQFBgcICQoLDA0ODxjyozq1Rom7r9d19sXp7eo=', 'Active', 0, 0, 0),
 (27, 'bkpa-00000027', 'Reigne Rhexell', 'Cabral', 'reign@gmail.com', '09786431121', 'Blk 10 Lot 1, Gladiola, Rizal, Makati', 'AAECAwQFBgcICQoLDA0OD1AcTkVu845NDyB3+oAAX6g=', 'Active', 0, 0, 0),
-(28, 'bkpa-00000028', 'Nicole', 'Candelaria', 'nicole@gmail.com', '09565771234', '472, Escuela, Guadalupe Nuevo, Makati', 'AAECAwQFBgcICQoLDA0OD5diVA5s7QAtqi8zMXa8BQs=', 'Inactive', 0, 0, 0),
+(28, 'bkpa-00000028', 'Nicole', 'Candelaria', 'nicole@gmail.com', '09565771234', '472, Escuela, Guadalupe Nuevo, Makati', 'AAECAwQFBgcICQoLDA0OD5diVA5s7QAtqi8zMXa8BQs=', 'Inactive', 0, 0, 1),
 (29, 'bkpa-00000029', 'Von Andrew', 'Castillo', 'von@gmail.com', '09568883456', '125, Orchid Avenue, Guadalupe Nuevo, Makati', 'AAECAwQFBgcICQoLDA0OD3D5HO2qAnuMuuqXbguBVQE=', 'Active', 0, 0, 0),
 (30, 'bkpa-00000030', 'James', 'Castro', 'james@gmail.com', '09325565789', 'Blk 7 Lot 4, Sapphire, Pio Del Pilar, Makati', 'AAECAwQFBgcICQoLDA0OD5l81g4OL1zMV8xJpIUPUvc=', 'Active', 0, 0, 0),
 (31, 'bkpa-00000031', 'Jeremiah', 'Dela Vega', 'jeremiah@gmail.com', '09673234556', '256, Emerald, San Lorenzo, Makati', 'AAECAwQFBgcICQoLDA0OD3gbyq9K7VOuESWQPRRAJIk=', 'Active', 0, 0, 0),
@@ -269,7 +294,7 @@ INSERT INTO `patron` (`patron_id`, `formatted_id`, `patron_fname`, `patron_lname
 (34, 'bkpa-00000034', 'Karl Manuel', 'Diata', 'karl@gmail.com', '09378961253', '786, Dela Rosa, Poblacion, Makati', 'AAECAwQFBgcICQoLDA0ODxgAs68ku6bxOBkQxg4Hvd0=', 'Active', 0, 0, 0),
 (35, 'bkpa-00000035', 'Jerine Carl', 'Diaz', 'jerine@gmail.com', '09568881325', '123, Sampaguita, Cembo, Makati', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', 0, 0, 0),
 (36, 'bkpa-00000036', 'Mica', 'Fuentes', 'mica@gmail.com', '09231679876', 'Blk 66 Lot 10, Acacia, Cembo, Makati', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', 0, 0, 0),
-(37, 'bkpa-00000037', 'Elcarlwen', 'Guirhem', 'elcarlwen@gmail.com', '09678537421', '977, Camia, Cembo, Makati', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', 0, 0, 0);
+(37, 'bkpa-00000037', 'Elcarlwen', 'Guirhem', 'elcarlwen@gmail.com', '09678537421', '977, Camia, Cembo, Makati', 'AAECAwQFBgcICQoLDA0ODylluTeod5rYdTb8UC8fEg0=', 'Active', 0, 0, 1);
 
 --
 -- Triggers `patron`
@@ -296,6 +321,15 @@ CREATE TABLE `reserved_book` (
   `patron_id` varchar(13) NOT NULL,
   `reservation_time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reserved_book`
+--
+
+INSERT INTO `reserved_book` (`reservation_id`, `book_id`, `reservation_date`, `reservation_status`, `patron_id`, `reservation_time`) VALUES
+(1, 11, '2023-08-14', 'in que', 'bkpa-00000014', '22:10:52'),
+(2, 18, '2023-08-14', 'in que', 'bkpa-00000014', '22:21:15'),
+(3, 33, '2023-08-14', 'in que', 'bkpa-00000014', '22:21:28');
 
 -- --------------------------------------------------------
 
@@ -383,7 +417,7 @@ ALTER TABLE `book`
 -- AUTO_INCREMENT for table `borrowed_book`
 --
 ALTER TABLE `borrowed_book`
-  MODIFY `borrow_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `borrow_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `patron`
@@ -395,7 +429,7 @@ ALTER TABLE `patron`
 -- AUTO_INCREMENT for table `reserved_book`
 --
 ALTER TABLE `reserved_book`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `setting`
