@@ -31,7 +31,7 @@ Bookkeeper is a simple and efficient library management system designed to strea
 3. Click the "Add Book" button and fill in the required information.
 4. Save the book information.
 
-#### Managing Patrons and Employees (Admin)
+#### Managing Patrons (Admin)
 1. Navigate to the "Users" section.
 2. Click the "Add User" button and enter the patron's details.
 3. Save the user information.
@@ -41,12 +41,12 @@ Bookkeeper is a simple and efficient library management system designed to strea
 2. Search for the desired book in the "Books" section.
 3. Click the "Reserve" button next to the book's entry.
 
-#### Borrowing Books (Admin and Employees)
+#### Borrowing Books (Admin)
 1. Navigate to the "Reservations" section.
 2. Select the reservation to be fulfilled.
 3. Click the "Borrow" button to complete the borrowing process.
 
-#### Tracking Activity (Admin and Patron and Employees)
+#### Tracking Activity (Admin and Patron)
 - **Admin**: Navigate to the "Activity" section to view and manage all reservations and borrows.
 - **Patron**: Navigate to the "My Activity" section to view and manage your reservations and borrowed books.
 
@@ -65,7 +65,7 @@ Bookkeeper is licensed under a custom non-commercial license. See the [LICENSE](
 
 ## Contact
 
-If you have any questions or suggestions, feel free to [open an issue](#) or contact us at support@bookkeeperapp.com.
+If you have any questions or suggestions, feel free to [open an issue](#).
 
 ---
 
